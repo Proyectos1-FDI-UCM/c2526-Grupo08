@@ -28,6 +28,8 @@ public class PlayerMovement : MonoBehaviour
     #endregion
     [SerializeField]
     private float Velocidad = 2f;
+    [SerializeField]
+    private float VelocidadDeslizar = 2f;
 
 
 
@@ -46,6 +48,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 Movimiento;
 
     private InputAction moveAction;
+
+    private bool deslizando = false;
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
@@ -83,8 +87,26 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         Movimiento = moveAction.ReadValue<Vector2>().normalized;
+        Vector2 VelocidadFinal = Movimiento * Velocidad;
+        //Rigidbody.linearVelocity = Movimiento * Velocidad;
+        if (deslizando) VelocidadFinal.y = -VelocidadDeslizar;
+        Rigidbody.linearVelocity = VelocidadFinal;
+    }
 
-        Rigidbody.linearVelocity = Movimiento * Velocidad;
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        ContactPoint2D contactPoint = collision.GetContact(0); //Detecta el punto donde la colisión ocurre
+
+        if (Mathf.Abs(contactPoint.normal.x) > 0.98f) //Si choca contra un objeto vertical
+        {
+            if ((contactPoint.normal.x > 0 && Movimiento.x < 0) || //Pared y desplazamiento a la izquierda
+                (contactPoint.normal.x < 0 && Movimiento.x > 0))   //Pared y desplazamiento a la derecha
+            {
+                deslizando = true;
+                return;
+            }
+        }
+        deslizando = false;
     }
 
     // ---- MÉTODOS PÚBLICOS ----
