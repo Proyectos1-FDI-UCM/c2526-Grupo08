@@ -1,7 +1,7 @@
 //---------------------------------------------------------
 // Componente que controla la cámara principal del juego en vista top-down.
 // Sigue al jugador con retraso configurable y añade temblor al usar habilidades mágicas.
-// Alexia Pñerez Santana
+// Alexia Pérez Santana
 // No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
