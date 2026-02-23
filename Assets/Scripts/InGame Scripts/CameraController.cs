@@ -4,7 +4,7 @@
 // Alexia Pérez Santana
 // No Way Down
 // Proyectos 1 - Curso 2025-26
-//---------------------------------------------------------
+//------------------------------------------------------
 
 using System.Collections;
 using UnityEngine;
