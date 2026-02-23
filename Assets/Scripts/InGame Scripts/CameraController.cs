@@ -1,7 +1,7 @@
 //---------------------------------------------------------
 // Componente que controla la cámara principal del juego en vista top-down.
 // Sigue al jugador con retraso configurable y añade temblor al usar habilidades mágicas.
-// Lex [Tu Apellido]
+// Alexia Pñerez Santana
 // No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
@@ -200,4 +200,4 @@ public class CameraController : MonoBehaviour
     #endregion
 
 } // class CameraController
-  // Lex [Tu Apellido]
+ 
