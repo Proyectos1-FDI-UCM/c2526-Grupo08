@@ -340,6 +340,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6006412518456422939, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+      propertyPath: SpriteUp
+      value: 
+      objectReference: {fileID: 2065258527581477341, guid: d8989d1ff67de064fac93eb70f0c600c, type: 3}
+    - target: {fileID: -6006412518456422939, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+      propertyPath: SpriteDown
+      value: 
+      objectReference: {fileID: 162082311134141700, guid: 33631fa2d7170d24d9270f1b5871d15f, type: 3}
+    - target: {fileID: -6006412518456422939, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+      propertyPath: SpriteLeft
+      value: 
+      objectReference: {fileID: -2144567476010046435, guid: 4ff38f81383b2a642bfd0eb803d25dab, type: 3}
     - target: {fileID: 3713208540947770867, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_Name
       value: Player
