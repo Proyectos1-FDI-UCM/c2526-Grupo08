@@ -2,7 +2,7 @@
 // Componente que gestiona el disparo básico del jugador.
 // Instancia balas en la dirección del cursor (teclado/ratón) 
 // o del joystick derecho (mando), con cooldown configurable.
-// Alexia y Maria
+// Alexia y Marián
 // No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
