@@ -176,3 +176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Velocidad: 2
+  VelocidadDeslizar: 2
+  SpriteUp: {fileID: 2065258527581477341, guid: d8989d1ff67de064fac93eb70f0c600c, type: 3}
+  SpriteDown: {fileID: 162082311134141700, guid: 33631fa2d7170d24d9270f1b5871d15f, type: 3}
+  SpriteLeft: {fileID: -2144567476010046435, guid: 4ff38f81383b2a642bfd0eb803d25dab, type: 3}
