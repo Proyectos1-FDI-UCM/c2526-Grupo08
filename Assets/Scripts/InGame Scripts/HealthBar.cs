@@ -6,7 +6,6 @@
 //---------------------------------------------------------
 
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 // Añadir aquí el resto de directivas using
 
@@ -15,7 +14,7 @@ using UnityEngine.UI;
 /// Antes de cada class, descripción de qué es y para qué sirve,
 /// usando todas las líneas que sean necesarias.
 /// </summary>
-public class PlayerHealth : MonoBehaviour
+public class HealthBar : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Atributos del Inspector (serialized fields)
@@ -25,14 +24,10 @@ public class PlayerHealth : MonoBehaviour
     // (palabras con primera letra mayúscula, incluida la primera letra)
     // Ejemplo: MaxHealthPoints
 
-    [SerializeField] private int BandageAmount = 0;
-    [SerializeField] private int BandageHealing = 30;
-    [SerializeField] private int Damage;
-    [SerializeField] private int PlayerMaxHealth;
-    [SerializeField] HealthBar HealthBar; //Cuando tenga daño tengo que llamarla para que se modifique
+    Slider Slider;
 
     #endregion
-
+    
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados (private fields)
     // Documentar cada atributo que aparece aquí.
@@ -42,25 +37,22 @@ public class PlayerHealth : MonoBehaviour
     // primera letra en mayúsculas)
     // Ejemplo: _maxHealthPoints
 
-    private InputAction _healing;
-    private int _playerCurrentHealth;
-
     #endregion
-
+    
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
-
+    
     // Por defecto están los típicos (Update y Start) pero:
     // - Hay que añadir todos los que sean necesarios
     // - Hay que borrar los que no se usen 
-
+    
     /// <summary>
     /// Start is called on the frame when a script is enabled just before 
     /// any of the Update methods are called the first time.
     /// </summary>
     void Start()
     {
-        _playerCurrentHealth = PlayerMaxHealth;
+        Slider = GetComponent<Slider>();
     }
 
     /// <summary>
@@ -68,12 +60,6 @@ public class PlayerHealth : MonoBehaviour
     /// </summary>
     void Update()
     {
-
-        if (Input.GetButtonDown("Healing") && BandageAmount > 0)
-        {
-            GameManager.Instance.Healing(BandageHealing);
-        }
-
         
     }
     #endregion
@@ -86,9 +72,19 @@ public class PlayerHealth : MonoBehaviour
     // mayúscula, incluida la primera letra)
     // Ejemplo: GetPlayerController
 
+    public void SetMaxValue(int maxValue)
+    {
+        Slider.maxValue = maxValue;
+        Slider.value = maxValue;
+    }
+
+    public void SetValue(int value)
+    {
+        Slider.value = value;
+    }
 
     #endregion
-
+    
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
     // Documentar cada método que aparece aquí
@@ -96,18 +92,7 @@ public class PlayerHealth : MonoBehaviour
     // se nombren en formato PascalCase (palabras con primera letra
     // mayúscula, incluida la primera letra)
 
-    private void PlayerTakesDamage()
-    {
-        HealthBar.SetValue(GameManager.Instance.Healing(Damage));
-    }
-
-    private void PlayerHeals()
-    {
-        HealthBar.SetValue(GameManager.Instance.PlayerDamage(BandageHealing));
-    }
-
-
     #endregion   
 
-} // class PlayerHealth 
+} // class HealthBar 
 // namespace

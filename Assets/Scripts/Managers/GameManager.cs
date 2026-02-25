@@ -36,18 +36,8 @@ public class GameManager : MonoBehaviour
     // Ejemplo: MaxHealthPoints
 
 
-    [Header("Cori")]
-    [SerializeField] private int CoriMaxHealth;
-
-    [Header("Basic enemy")]
-    [SerializeField] private int BasicEnemyMaxHealth;
-
-    [Header("Strong enemy")]
-    [SerializeField] private int StrongEnemyMaxHealth;
-
-    [Header("Fast enemy")]
-    [SerializeField] private int FastEnemyMaxHealth;
-
+    [SerializeField] private int PlayerMaxHealth;
+    [SerializeField] private int EnemyMaxHealth;
 
 
     #endregion
@@ -60,14 +50,10 @@ public class GameManager : MonoBehaviour
     /// Instancia única de la clase (singleton).
     /// </summary>
     private static GameManager _instance;
+    private int _playerCurrentHealth;
+    private int _enemyCurrentHealth;
 
-    private int _CoriCurrentHealth;
-    private int _basicEnemyCurrentHealth;
-    private int _strongEnemyCurrentHealth;
-    private int _fastEnemyCurrentHealth;
-
-
-
+    private GameObject _enemy;
 
     #endregion
 
@@ -126,11 +112,12 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         
+        _enemyCurrentHealth = EnemyMaxHealth;
     }
 
     private void Update()
     {
-
+        if (_enemyCurrentHealth <= 0) Destroy(_enemy);
     }
 
     #endregion
@@ -188,24 +175,26 @@ public class GameManager : MonoBehaviour
         System.GC.Collect();
     } // ChangeScene
 
-    public void Healing(int bandageHealing)
+    public int Healing(int bandageHealing)
     {
-        if (_CoriCurrentHealth < CoriMaxHealth)
+        if (_playerCurrentHealth < PlayerMaxHealth)
         {
-            _CoriCurrentHealth += bandageHealing;
+            _playerCurrentHealth += bandageHealing;
         }
-        else if (_CoriCurrentHealth >= CoriMaxHealth)
+        else if (_playerCurrentHealth >= PlayerMaxHealth)
         {
-            _CoriCurrentHealth = CoriMaxHealth;
+            _playerCurrentHealth = PlayerMaxHealth;
         }
+
+        return _playerCurrentHealth;
     }
 
-    /*
-    public void CoriDamage(int damageAmount)
+    
+    public int PlayerDamage(int damageAmount)
     { 
-        _CoriCurrentHealth -=damageAmount;
+        return _playerCurrentHealth -=damageAmount;
     }
-    */
+    
 
 
     #endregion
@@ -230,7 +219,7 @@ public class GameManager : MonoBehaviour
 
     private void UpdateGUI()
     {
-        if (_CoriCurrentHealth == 0) //Si la vida del jugador llega a 0 entonces la escena debe reiniciarse
+        if (_playerCurrentHealth == 0) //Si la vida del jugador llega a 0 entonces la escena debe reiniciarse
         {
             //TODO (en espera del resultado de la encuesta)
         }
