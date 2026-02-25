@@ -33,34 +33,31 @@ public class PlayerShoot : MonoBehaviour
     [Tooltip("Tiempo mínimo entre disparos en segundos. (GDD: 0,4 segundos)")]
     [SerializeField] private float _fireRate = 0.4f;
 
-    // ---- SOLO PARA PRUEBA - BORRAR ANTES DE ENTREGAR ----
-    [Header("TEST - Camera Shake (BORRAR ANTES DE ENTREGAR)")]
-    [Tooltip("TEST: Activar temblor de cámara al disparar para probar CameraController.")]
-    [SerializeField] private bool _testShakeOnShoot = true;
-    // ---- FIN BLOQUE DE PRUEBA ----
-
     #endregion
 
 
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados (private fields)
 
-    /// <summary>Acción de input del ataque básico.</summary>
+    /// <summary>
+    /// Acción de input del ataque básico.
+    /// </summary>
     private InputAction _attackAction;
 
-    /// <summary>Acción que devuelve la posición del cursor o el joystick derecho.</summary>
+    /// <summary>
+    /// Acción que devuelve la posición del cursor o el joystick derecho.
+    /// </summary>
     private InputAction _aimAction;
 
-    /// <summary>Tiempo en que se podrá volver a disparar.</summary>
+    /// <summary>
+    /// Tiempo en que se podrá volver a disparar.
+    /// /summary>
     private float _nextFireTime = 0f;
 
-    /// <summary>Cámara principal, necesaria para convertir posición de pantalla a mundo.</summary>
+    /// <summary>
+    /// Cámara principal, necesaria para convertir posición de pantalla a mundo.
+    /// </summary>
     private Camera _mainCamera;
-
-    // ---- SOLO PARA PRUEBA - BORRAR ANTES DE ENTREGAR ----
-    /// <summary>TEST: Referencia a la cámara para probar el shake. Borrar con el bloque de prueba.</summary>
-    private CameraController _cameraController;
-    // ---- FIN BLOQUE DE PRUEBA ----
 
     #endregion
 
@@ -106,16 +103,6 @@ public class PlayerShoot : MonoBehaviour
         {
             _shootOrigin = transform;
         }
-
-        // ---- SOLO PARA PRUEBA - BORRAR ANTES DE ENTREGAR ----
-        // Buscamos el CameraController en la escena para probar el shake
-        _cameraController = FindObjectOfType<CameraController>();
-        if (_cameraController == null)
-        {
-            Debug.LogWarning("[TEST] No se encontró CameraController en la escena. " +
-                             "Añade el script CameraController a la Main Camera para probar el shake.");
-        }
-        // ---- FIN BLOQUE DE PRUEBA ----
     }
 
     /// <summary>
@@ -164,14 +151,6 @@ public class PlayerShoot : MonoBehaviour
         {
             Debug.LogWarning("[PlayerShoot] El prefab de bala no tiene el componente Bullet.");
         }
-
-        // ---- SOLO PARA PRUEBA - BORRAR ANTES DE ENTREGAR ----
-        // Activamos el temblor de cámara al disparar para probar que CameraController funciona
-        if (_testShakeOnShoot && _cameraController != null)
-        {
-            _cameraController.TriggerShake();
-        }
-        // ---- FIN BLOQUE DE PRUEBA ----
     }
 
     /// <summary>
@@ -206,3 +185,4 @@ public class PlayerShoot : MonoBehaviour
     #endregion
 
 } // class PlayerShoot
+ 
