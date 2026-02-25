@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
     [Header("Fast enemy")]
     [SerializeField] private int FastEnemyMaxHealth;
 
-    [SerializeField] private int bangageHealing = 30;
+
 
     #endregion
 
@@ -66,7 +66,8 @@ public class GameManager : MonoBehaviour
     private int _strongEnemyCurrentHealth;
     private int _fastEnemyCurrentHealth;
 
-    private InputAction _healing;
+
+
 
     #endregion
 
@@ -124,15 +125,12 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        _healing = InputSystem.actions.FindAction("Healing");
+        
     }
 
     private void Update()
     {
-        if (Input.GetButtonDown("Healing"))
-        {
-            Healing(bangageHealing);
-        }
+
     }
 
     #endregion
@@ -202,15 +200,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /*
     public void CoriDamage(int damageAmount)
     { 
-        //TODO
+        _CoriCurrentHealth -=damageAmount;
     }
+    */
 
-    public void EnemyDamage(int damageAmaunt)
-    { 
-        //TODO    
-    }
 
     #endregion
 

@@ -55,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
 
     private InputAction _moveAction;
 
+
     private bool _sliding = false;
 
     private SpriteRenderer SpriteRenderer;
@@ -86,6 +87,7 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("Accion no encontrada, no funciona el PlayerControler");
             Destroy(this);
         }
+
     }
 
     /// <summary>

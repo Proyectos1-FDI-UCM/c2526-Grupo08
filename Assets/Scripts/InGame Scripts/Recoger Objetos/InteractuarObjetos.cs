@@ -6,7 +6,7 @@ public class InteractuarObjetos : MonoBehaviour
     [SerializeField] private LayerMask capasInteractuables;
     private void Update()
     {
-        if (Input.GetButtonDown("Interact"))
+        if (Input.GetButtonDown("Interactuar"))
         {
             Interactuar();
         }
