@@ -49,13 +49,13 @@ public class PlayerMovement : MonoBehaviour
     // Ejemplo: _maxHealthPoints
 
     #endregion
-    private Rigidbody2D Rigidbody;
+    private Rigidbody2D _rb;
 
-    private Vector2 Movimiento;
+    private Vector2 _movement;
 
-    private InputAction moveAction;
+    private InputAction _moveAction;
 
-    private bool deslizando = false;
+    private bool _sliding = false;
 
     private SpriteRenderer SpriteRenderer;
 
@@ -78,10 +78,10 @@ public class PlayerMovement : MonoBehaviour
     {
         SpriteRenderer = GetComponent<SpriteRenderer>();
 
-        Rigidbody = GetComponent<Rigidbody2D>();
+        _rb = GetComponent<Rigidbody2D>();
 
-        moveAction = InputSystem.actions.FindAction("Move");
-        if (moveAction == null)
+        _moveAction = InputSystem.actions.FindAction("Move");
+        if (_moveAction == null)
         {
             Debug.Log("Accion no encontrada, no funciona el PlayerControler");
             Destroy(this);
@@ -100,16 +100,16 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        Movimiento = moveAction.ReadValue<Vector2>().normalized;
+        _movement = _moveAction.ReadValue<Vector2>().normalized;
         
         //Calculamos la velocidad normal
-        Vector2 VelocidadFinal = Movimiento * Velocidad;
+        Vector2 VelocidadFinal = _movement * Velocidad;
         
         //Calculamos el desliz en caso de que lo haya
-        if (deslizando) VelocidadFinal.y = -VelocidadDeslizar;
+        if (_sliding) VelocidadFinal.y = -VelocidadDeslizar;
         
         //Aplicamos la velocidad
-        Rigidbody.linearVelocity = VelocidadFinal;
+        _rb.linearVelocity = VelocidadFinal;
 
         //Transformamos las coordenadas del mouse a la pantalla en la variable Mouse
         Vector3 ScreenPos = UnityEngine.InputSystem.Mouse.current.position.ReadValue();
@@ -158,14 +158,14 @@ public class PlayerMovement : MonoBehaviour
 
         if (Mathf.Abs(contactPoint.normal.x) > 0.98f) //Si choca contra un objeto vertical
         {
-            if ((contactPoint.normal.x > 0 && Movimiento.x < 0) || //Pared y desplazamiento a la izquierda
-                (contactPoint.normal.x < 0 && Movimiento.x > 0))   //Pared y desplazamiento a la derecha
+            if ((contactPoint.normal.x > 0 && _movement.x < 0) || //Pared y desplazamiento a la izquierda
+                (contactPoint.normal.x < 0 && _movement.x > 0))   //Pared y desplazamiento a la derecha
             {
-                deslizando = true;
+                _sliding = true;
                 return;
             }
         }
-        deslizando = false;
+        _sliding = false;
     }
 
     // ---- MÉTODOS PÚBLICOS ----
@@ -264,3 +264,4 @@ public class PlayerMovement : MonoBehaviour
 
 } // class Movement 
 // Adriana Fernández Luna
+//Celia García Riaza

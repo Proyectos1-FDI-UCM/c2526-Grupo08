@@ -6,7 +6,10 @@
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
+using System.Runtime.InteropServices;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using static UnityEngine.Rendering.DebugUI;
 
 
 /// <summary>
@@ -32,6 +35,21 @@ public class GameManager : MonoBehaviour
     // (palabras con primera letra mayúscula, incluida la primera letra)
     // Ejemplo: MaxHealthPoints
 
+
+    [Header("Cori")]
+    [SerializeField] private int CoriMaxHealth;
+
+    [Header("Basic enemy")]
+    [SerializeField] private int BasicEnemyMaxHealth;
+
+    [Header("Strong enemy")]
+    [SerializeField] private int StrongEnemyMaxHealth;
+
+    [Header("Fast enemy")]
+    [SerializeField] private int FastEnemyMaxHealth;
+
+    [SerializeField] private int bangageHealing = 30;
+
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
@@ -42,6 +60,13 @@ public class GameManager : MonoBehaviour
     /// Instancia única de la clase (singleton).
     /// </summary>
     private static GameManager _instance;
+
+    private int _CoriCurrentHealth;
+    private int _basicEnemyCurrentHealth;
+    private int _strongEnemyCurrentHealth;
+    private int _fastEnemyCurrentHealth;
+
+    private InputAction _healing;
 
     #endregion
 
@@ -95,6 +120,19 @@ public class GameManager : MonoBehaviour
             // Éramos la instancia de verdad, no un clon.
             _instance = null;
         } // if somos la instancia principal
+    }
+
+    private void Start()
+    {
+        _healing = InputSystem.actions.FindAction("Healing");
+    }
+
+    private void Update()
+    {
+        if (Input.GetButtonDown("Healing"))
+        {
+            Healing(bangageHealing);
+        }
     }
 
     #endregion
@@ -152,6 +190,28 @@ public class GameManager : MonoBehaviour
         System.GC.Collect();
     } // ChangeScene
 
+    public void Healing(int bandageHealing)
+    {
+        if (_CoriCurrentHealth < CoriMaxHealth)
+        {
+            _CoriCurrentHealth += bandageHealing;
+        }
+        else if (_CoriCurrentHealth >= CoriMaxHealth)
+        {
+            _CoriCurrentHealth = CoriMaxHealth;
+        }
+    }
+
+    public void CoriDamage(int damageAmount)
+    { 
+        //TODO
+    }
+
+    public void EnemyDamage(int damageAmaunt)
+    { 
+        //TODO    
+    }
+
     #endregion
 
     // ---- MÉTODOS PRIVADOS ----
@@ -170,6 +230,15 @@ public class GameManager : MonoBehaviour
     {
         // De momento no hay que transferir ningún setup
         // a otro manager
+    }
+
+    private void UpdateGUI()
+    {
+        if (_CoriCurrentHealth == 0) //Si la vida del jugador llega a 0 entonces la escena debe reiniciarse
+        {
+            //TODO (en espera del resultado de la encuesta)
+        }
+
     }
 
     #endregion
