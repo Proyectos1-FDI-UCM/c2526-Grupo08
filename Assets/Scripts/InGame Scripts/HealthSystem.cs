@@ -24,7 +24,7 @@ public class HealthSystem : MonoBehaviour
     // Ejemplo: MaxHealthPoints
 
     [Header("Cori")]
-    [SerializeField] private int CoriMaxHealth;
+    [SerializeField] private int MaxHealth;
 
     [Header("Basic enemy")]
     [SerializeField] private int BasicEnemyMaxHealth;
@@ -47,10 +47,7 @@ public class HealthSystem : MonoBehaviour
     // primera letra en mayúsculas)
     // Ejemplo: _maxHealthPoints
 
-    private int _CoriCurrentHealth;
-    private int _basicEnemyCurrentHealth;
-    private int _strongEnemyCurrentHealth;
-    private int _fastEnemyCurrentHealth;
+    private int _CurrentHealth;
 
     #endregion
 
@@ -67,7 +64,7 @@ public class HealthSystem : MonoBehaviour
     /// </summary>
     void Start()
     {
-        
+        _CurrentHealth = MaxHealth;
 
     }
 
@@ -88,18 +85,17 @@ public class HealthSystem : MonoBehaviour
     // mayúscula, incluida la primera letra)
     // Ejemplo: GetPlayerController
 
-    public void Healing(int bandageHealing)
+    public void Heal(int bandageHealing)
     {
-        if (_CoriCurrentHealth < CoriMaxHealth)
+        if (_CurrentHealth < MaxHealth)
         {
-            _CoriCurrentHealth += bandageHealing;
+            _CurrentHealth += bandageHealing;
         }
-        else if (_CoriCurrentHealth >= CoriMaxHealth)
+        else if (_CurrentHealth >= MaxHealth)
         {
-            _CoriCurrentHealth = CoriMaxHealth;
+            _CurrentHealth = MaxHealth;
         }
     }
-
 
     #endregion
     
