@@ -5,6 +5,7 @@
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
+using System.Collections;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -38,6 +39,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private Sprite SpriteLeft;
 
+    private InputAction dashAction;
+    private bool canDash = true;
+    private bool isDashing;
+    private float dashingPower = 15f;
+    private float dashingTime = 0.2f;
+    private float dashingCooldown = 1f;
+    [SerializeField] private TrailRenderer tr;
+    private Vector2 lastMoveDirection = Vector2.right;
 
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados (private fields)
@@ -59,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
 
     private SpriteRenderer SpriteRenderer;
 
-    private enum Direction {Up,Down,Right,Left}
+    private enum Direction { Up, Down, Right, Left }
     private Direction CurrentDirection = Direction.Left;
     private Direction NewDirection;
 
@@ -86,28 +95,53 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("Accion no encontrada, no funciona el PlayerControler");
             Destroy(this);
         }
+
+        dashAction = InputSystem.actions.FindAction("Dash");
+        if (dashAction == null)
+        {
+            Debug.Log("Accion Dash no encontrada");
+        }
     }
 
-    /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
-    /// </summary>
-    void Update()
+    private void Update()
     {
-
+        moveAction.Enable();
+        dashAction.Enable();
+        dashAction.performed += OnDash;
+    }
+    private void OnDisable()
+    {
+        dashAction.performed -= OnDash;
+        moveAction.Disable();
+        dashAction.Disable();
     }
 
+    private void OnDash(InputAction.CallbackContext context)
+    {
+        if (canDash && !isDashing)
+        {
+            StartCoroutine(Dash());
+        }
+    }
     #endregion
 
     void FixedUpdate()
     {
+        if (isDashing) return;
+
         Movimiento = moveAction.ReadValue<Vector2>().normalized;
-        
+
+        if (Movimiento != Vector2.zero)
+        {
+            lastMoveDirection = Movimiento;
+        }
+
         //Calculamos la velocidad normal
         Vector2 VelocidadFinal = Movimiento * Velocidad;
-        
+
         //Calculamos el desliz en caso de que lo haya
         if (deslizando) VelocidadFinal.y = -VelocidadDeslizar;
-        
+
         //Aplicamos la velocidad
         Rigidbody.linearVelocity = VelocidadFinal;
 
@@ -117,7 +151,7 @@ public class PlayerMovement : MonoBehaviour
 
         Vector2 Mouse = WorldPos - transform.position;
 
-        
+
         //Detectamos la dirección en la que se encuentra el ratón y dependiendo de esta cambiamos el sprite.
         if ((Mathf.Abs(Mouse.x) > Mathf.Abs(Mouse.y)))
         {
@@ -166,6 +200,24 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         deslizando = false;
+    }
+
+    private IEnumerator Dash()
+    {
+        canDash = false;
+        isDashing = true;
+        if (lastMoveDirection == Vector2.zero)
+        {
+            isDashing = false;
+            yield break;
+        }
+        tr.emitting = true;
+        Rigidbody.linearVelocity = lastMoveDirection * dashingPower;
+        yield return new WaitForSeconds(dashingTime);
+        tr.emitting = false;
+        isDashing = false;
+        yield return new WaitForSeconds(dashingCooldown);
+        canDash = true;
     }
 
     // ---- MÉTODOS PÚBLICOS ----
@@ -226,7 +278,7 @@ public class PlayerMovement : MonoBehaviour
                     SetScaleX(Mathf.Abs(CurrentScale.x));
 
                     break;
-                
+
                 case Direction.Down:
 
                     SpriteRenderer.sprite = SpriteDown;
@@ -257,7 +309,7 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("Sprite ha cambiadp a" + CurrentDirection);
 
         }
-            
+
     }
 
     #endregion
