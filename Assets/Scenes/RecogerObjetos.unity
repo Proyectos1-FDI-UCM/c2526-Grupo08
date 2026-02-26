@@ -158,7 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7059f633451648b49bdb49418f3a5bef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BandageAmount: 0
+  BandageAmount: 2
   BandageHealing: 30
   MaxHealth: 200
   HealthBar: {fileID: 0}

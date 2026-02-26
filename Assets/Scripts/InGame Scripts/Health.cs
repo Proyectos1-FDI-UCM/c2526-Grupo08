@@ -117,7 +117,7 @@ public class Health : MonoBehaviour
     private void Bandages()
     {
         
-        if (_pickUpBandage.Interactuar())
+        //if (_pickUpBandage.Interactuar())
         {
             BandageAmount += 1;
         }
