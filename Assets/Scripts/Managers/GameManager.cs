@@ -111,7 +111,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        
         _enemyCurrentHealth = EnemyMaxHealth;
     }
 
@@ -175,24 +174,23 @@ public class GameManager : MonoBehaviour
         System.GC.Collect();
     } // ChangeScene
 
-    public int Healing(int bandageHealing)
+    public int Healing(int currentHealth, int maxHealth, int bandageHealing)
     {
-        if (_playerCurrentHealth < PlayerMaxHealth)
+        if (currentHealth < maxHealth)
         {
-            _playerCurrentHealth += bandageHealing;
+            currentHealth += bandageHealing;
         }
-        else if (_playerCurrentHealth >= PlayerMaxHealth)
+        else if (currentHealth >= maxHealth)
         {
-            _playerCurrentHealth = PlayerMaxHealth;
+            currentHealth = maxHealth;
         }
 
-        return _playerCurrentHealth;
+        return currentHealth;
     }
 
-    
-    public int PlayerDamage(int damageAmount)
+    public int Damage(int currentHealth, int damageAmount)
     { 
-        return _playerCurrentHealth -=damageAmount;
+        return currentHealth -=damageAmount;
     }
     
 

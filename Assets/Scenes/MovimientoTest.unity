@@ -267,15 +267,15 @@ PrefabInstance:
     - target: {fileID: -6006412518456422939, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: SpriteUp
       value: 
-      objectReference: {fileID: 2065258527581477341, guid: d8989d1ff67de064fac93eb70f0c600c, type: 3}
+      objectReference: {fileID: -3529809619868476689, guid: 82029a652e94d284b91e8da42b0ca4cd, type: 3}
     - target: {fileID: -6006412518456422939, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: SpriteDown
       value: 
-      objectReference: {fileID: 162082311134141700, guid: 33631fa2d7170d24d9270f1b5871d15f, type: 3}
+      objectReference: {fileID: -6601477196304980844, guid: 92c11cfde79dec14a8e8a662b7146b9e, type: 3}
     - target: {fileID: -6006412518456422939, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: SpriteLeft
       value: 
-      objectReference: {fileID: -2144567476010046435, guid: 4ff38f81383b2a642bfd0eb803d25dab, type: 3}
+      objectReference: {fileID: -4166221654935951731, guid: 2410e3987812ba749bda081a43f2da72, type: 3}
     - target: {fileID: -6006412518456422939, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: SpriteRight
       value: 
