@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 4ff38f81383b2a642bfd0eb803d25dab
+guid: dd753b7913c29d2468f648a1075e3c8d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2144567476010046435
-    second: Player Placeholder_0
+      213: 9019151425814446708
+    second: Relleno Healthbar_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Player Placeholder_0
+      name: Relleno Healthbar_0
       rect:
         serializedVersion: 2
-        x: 195
-        y: 122
-        width: 338
-        height: 519
+        x: 51
+        y: 0
+        width: 306
+        height: 31
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d1ca0933e37fc32e0800000000000000
-      internalID: -2144567476010046435
+      spriteID: 472c02faf667a2d70800000000000000
+      internalID: 9019151425814446708
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Player Placeholder_0: -2144567476010046435
+      Relleno Healthbar_0: 9019151425814446708
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

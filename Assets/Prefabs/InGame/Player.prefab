@@ -87,7 +87,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!50 &8606187914479844977
@@ -177,6 +177,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Velocidad: 2
   VelocidadDeslizar: 2
-  SpriteUp: {fileID: 2065258527581477341, guid: d8989d1ff67de064fac93eb70f0c600c, type: 3}
-  SpriteDown: {fileID: 162082311134141700, guid: 33631fa2d7170d24d9270f1b5871d15f, type: 3}
-  SpriteLeft: {fileID: -2144567476010046435, guid: 4ff38f81383b2a642bfd0eb803d25dab, type: 3}
+  SpriteUp: {fileID: -3529809619868476689, guid: 82029a652e94d284b91e8da42b0ca4cd, type: 3}
+  SpriteDown: {fileID: -6601477196304980844, guid: 92c11cfde79dec14a8e8a662b7146b9e, type: 3}
+  SpriteLeft: {fileID: -4166221654935951731, guid: 2410e3987812ba749bda081a43f2da72, type: 3}
