@@ -87,7 +87,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!50 &8606187914479844977
@@ -176,3 +176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Velocidad: 2
+  VelocidadDeslizar: 2
+  SpriteUp: {fileID: -3529809619868476689, guid: 82029a652e94d284b91e8da42b0ca4cd, type: 3}
+  SpriteDown: {fileID: -6601477196304980844, guid: 92c11cfde79dec14a8e8a662b7146b9e, type: 3}
+  SpriteLeft: {fileID: -4166221654935951731, guid: 2410e3987812ba749bda081a43f2da72, type: 3}

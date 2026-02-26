@@ -6,7 +6,10 @@
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
+using System.Runtime.InteropServices;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using static UnityEngine.Rendering.DebugUI;
 
 
 /// <summary>
@@ -32,6 +35,11 @@ public class GameManager : MonoBehaviour
     // (palabras con primera letra mayúscula, incluida la primera letra)
     // Ejemplo: MaxHealthPoints
 
+
+    [SerializeField] private int PlayerMaxHealth;
+    [SerializeField] private int EnemyMaxHealth;
+
+
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
@@ -42,6 +50,10 @@ public class GameManager : MonoBehaviour
     /// Instancia única de la clase (singleton).
     /// </summary>
     private static GameManager _instance;
+    private int _playerCurrentHealth;
+    private int _enemyCurrentHealth;
+
+    private GameObject _enemy;
 
     #endregion
 
@@ -95,6 +107,17 @@ public class GameManager : MonoBehaviour
             // Éramos la instancia de verdad, no un clon.
             _instance = null;
         } // if somos la instancia principal
+    }
+
+    private void Start()
+    {
+        
+        _enemyCurrentHealth = EnemyMaxHealth;
+    }
+
+    private void Update()
+    {
+        if (_enemyCurrentHealth <= 0) Destroy(_enemy);
     }
 
     #endregion
@@ -152,6 +175,28 @@ public class GameManager : MonoBehaviour
         System.GC.Collect();
     } // ChangeScene
 
+    public int Healing(int bandageHealing)
+    {
+        if (_playerCurrentHealth < PlayerMaxHealth)
+        {
+            _playerCurrentHealth += bandageHealing;
+        }
+        else if (_playerCurrentHealth >= PlayerMaxHealth)
+        {
+            _playerCurrentHealth = PlayerMaxHealth;
+        }
+
+        return _playerCurrentHealth;
+    }
+
+    
+    public int PlayerDamage(int damageAmount)
+    { 
+        return _playerCurrentHealth -=damageAmount;
+    }
+    
+
+
     #endregion
 
     // ---- MÉTODOS PRIVADOS ----
@@ -170,6 +215,15 @@ public class GameManager : MonoBehaviour
     {
         // De momento no hay que transferir ningún setup
         // a otro manager
+    }
+
+    private void UpdateGUI()
+    {
+        if (_playerCurrentHealth == 0) //Si la vida del jugador llega a 0 entonces la escena debe reiniciarse
+        {
+            //TODO (en espera del resultado de la encuesta)
+        }
+
     }
 
     #endregion
