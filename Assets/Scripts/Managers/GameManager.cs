@@ -9,6 +9,7 @@
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using static UnityEngine.Rendering.DebugUI;
 
 
@@ -35,9 +36,8 @@ public class GameManager : MonoBehaviour
     // (palabras con primera letra mayúscula, incluida la primera letra)
     // Ejemplo: MaxHealthPoints
 
+    [SerializeField] private GameObject panelDeath;
 
-    [SerializeField] private int PlayerMaxHealth;
-    [SerializeField] private int EnemyMaxHealth;
 
 
     #endregion
@@ -50,10 +50,9 @@ public class GameManager : MonoBehaviour
     /// Instancia única de la clase (singleton).
     /// </summary>
     private static GameManager _instance;
-    private int _playerCurrentHealth;
-    private int _enemyCurrentHealth;
 
-    private GameObject _enemy;
+
+
 
     #endregion
 
@@ -111,13 +110,11 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        
-        _enemyCurrentHealth = EnemyMaxHealth;
+        if (panelDeath != null) panelDeath.SetActive(false);
     }
 
     private void Update()
     {
-        if (_enemyCurrentHealth <= 0) Destroy(_enemy);
     }
 
     #endregion
@@ -175,27 +172,40 @@ public class GameManager : MonoBehaviour
         System.GC.Collect();
     } // ChangeScene
 
-    public int Healing(int bandageHealing)
+    public int Healing(int currentHealth, int maxHealth, int bandageHealing)
     {
-        if (_playerCurrentHealth < PlayerMaxHealth)
+        if (currentHealth < maxHealth)
         {
-            _playerCurrentHealth += bandageHealing;
+            currentHealth += bandageHealing;
         }
-        else if (_playerCurrentHealth >= PlayerMaxHealth)
+        else if (currentHealth >= maxHealth)
         {
-            _playerCurrentHealth = PlayerMaxHealth;
+            currentHealth = maxHealth;
         }
 
-        return _playerCurrentHealth;
+        return currentHealth;
     }
 
-    
-    public int PlayerDamage(int damageAmount)
+    public int Damage(int currentHealth, int damageAmount)
     { 
-        return _playerCurrentHealth -=damageAmount;
+        return currentHealth -=damageAmount;
     }
-    
 
+    public void DestroyEnemy(int currentHealth)
+    {
+        if (currentHealth <= 0) Destroy(gameObject);
+    }
+
+    public void RestartLevelifLose()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Time.timeScale = 1;
+    }
+
+    public void ReturnToMainMenu()
+    {
+        SceneManager.LoadScene("Main menu");
+    }
 
     #endregion
 
@@ -217,11 +227,12 @@ public class GameManager : MonoBehaviour
         // a otro manager
     }
 
-    private void UpdateGUI()
+    private void UpdateGUI(int currentHealth)
     {
-        if (_playerCurrentHealth == 0) //Si la vida del jugador llega a 0 entonces la escena debe reiniciarse
+        if (currentHealth <= 0) //Si la vida del jugador llega a 0 entonces la escena debe reiniciarse
         {
-            //TODO (en espera del resultado de la encuesta)
+            panelDeath.SetActive(true);
+            Time.timeScale = 0; //Para detener la escena
         }
 
     }
