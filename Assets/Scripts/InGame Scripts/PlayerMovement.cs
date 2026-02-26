@@ -38,14 +38,9 @@ public class PlayerMovement : MonoBehaviour
     private Sprite SpriteDown;
     [SerializeField]
     private Sprite SpriteLeft;
+    [SerializeField] 
+    private TrailRenderer Trail;
 
-    private InputAction dashAction;
-    private bool canDash = true;
-    private bool isDashing;
-    private float dashingPower = 15f;
-    private float dashingTime = 0.2f;
-    private float dashingCooldown = 1f;
-    [SerializeField] private TrailRenderer tr;
     private Vector2 lastMoveDirection = Vector2.right;
 
     // ---- ATRIBUTOS PRIVADOS ----
@@ -60,14 +55,19 @@ public class PlayerMovement : MonoBehaviour
     #endregion
     private Rigidbody2D _rb;
 
-    private Vector2 _movement;
+    private Vector2 Movement;
+    private bool Sliding = false;
 
-    private InputAction _moveAction;
-
-
-    private bool _sliding = false;
+    private InputAction MoveAction;
+    private InputAction DashAction;
 
     private SpriteRenderer SpriteRenderer;
+
+    private bool CanDash = true;
+    private bool IsDashing;
+    private float DashingPower = 15f;
+    private float DashingTime = 0.2f;
+    private float DashingCooldown = 1f;
 
     private enum Direction { Up, Down, Right, Left }
     private Direction CurrentDirection = Direction.Left;
@@ -90,15 +90,15 @@ public class PlayerMovement : MonoBehaviour
 
         _rb = GetComponent<Rigidbody2D>();
 
-        _moveAction = InputSystem.actions.FindAction("Move");
-        if (_moveAction == null)
+        MoveAction = InputSystem.actions.FindAction("Move");
+        if (MoveAction == null)
         {
             Debug.Log("Accion no encontrada, no funciona el PlayerControler");
             Destroy(this);
         }
 
-        dashAction = InputSystem.actions.FindAction("Dash");
-        if (dashAction == null)
+        DashAction = InputSystem.actions.FindAction("Dash");
+        if (DashAction == null)
         {
             Debug.Log("Accion Dash no encontrada");
         }
@@ -106,20 +106,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        _moveAction.Enable();
-        dashAction.Enable();
-        dashAction.performed += OnDash;
+        MoveAction.Enable();
+        DashAction.Enable();
+        DashAction.performed += OnDash;
     }
     private void OnDisable()
     {
-        dashAction.performed -= OnDash;
-        _moveAction.Disable();
-        dashAction.Disable();
+        MoveAction.Disable();
+        DashAction.Disable();
+        DashAction.performed -= OnDash;
     }
 
     private void OnDash(InputAction.CallbackContext context)
     {
-        if (canDash && !isDashing)
+        if (CanDash && !IsDashing)
         {
             StartCoroutine(Dash());
         }
@@ -128,20 +128,20 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isDashing) return;
+        if (IsDashing) return;
 
-        _movement = _moveAction.ReadValue<Vector2>().normalized;
+        Movement = MoveAction.ReadValue<Vector2>().normalized;
         
-        if (_movement != Vector2.zero)
+        if (Movement != Vector2.zero)
         {
-            lastMoveDirection = _movement;
+            lastMoveDirection = Movement;
         }
 
         //Calculamos la velocidad normal
-        Vector2 VelocidadFinal = _movement * Velocidad;
+        Vector2 VelocidadFinal = Movement * Velocidad;
         
         //Calculamos el desliz en caso de que lo haya
-        if (_sliding) VelocidadFinal.y = -VelocidadDeslizar;
+        if (Sliding) VelocidadFinal.y = -VelocidadDeslizar;
         
         //Aplicamos la velocidad
         _rb.linearVelocity = VelocidadFinal;
@@ -193,32 +193,32 @@ public class PlayerMovement : MonoBehaviour
 
         if (Mathf.Abs(contactPoint.normal.x) > 0.98f) //Si choca contra un objeto vertical
         {
-            if ((contactPoint.normal.x > 0 && _movement.x < 0) || //Pared y desplazamiento a la izquierda
-                (contactPoint.normal.x < 0 && _movement.x > 0))   //Pared y desplazamiento a la derecha
+            if ((contactPoint.normal.x > 0 && Movement.x < 0) || //Pared y desplazamiento a la izquierda
+                (contactPoint.normal.x < 0 && Movement.x > 0))   //Pared y desplazamiento a la derecha
             {
-                _sliding = true;
+                Sliding = true;
                 return;
             }
         }
-        _sliding = false;
+        Sliding = false;
     }
 
     private IEnumerator Dash()
     {
-        canDash = false;
-        isDashing = true;
+        CanDash = false;
+        IsDashing = true;
         if (lastMoveDirection == Vector2.zero)
         {
-            isDashing = false;
+            IsDashing = false;
             yield break;
         }
-        tr.emitting = true;
-        _rb.linearVelocity = lastMoveDirection * dashingPower;
-        yield return new WaitForSeconds(dashingTime);
-        tr.emitting = false;
-        isDashing = false;
-        yield return new WaitForSeconds(dashingCooldown);
-        canDash = true;
+        Trail.emitting = true;
+        _rb.linearVelocity = lastMoveDirection * DashingPower;
+        yield return new WaitForSeconds(DashingTime);
+        Trail.emitting = false;
+        IsDashing = false;
+        yield return new WaitForSeconds(DashingCooldown);
+        CanDash = true;
     }
 
     // ---- MÉTODOS PÚBLICOS ----
