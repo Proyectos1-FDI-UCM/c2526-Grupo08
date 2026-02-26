@@ -106,14 +106,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        moveAction.Enable();
+        _moveAction.Enable();
         dashAction.Enable();
         dashAction.performed += OnDash;
     }
     private void OnDisable()
     {
         dashAction.performed -= OnDash;
-        moveAction.Disable();
+        _moveAction.Disable();
         dashAction.Disable();
     }
 
@@ -132,9 +132,9 @@ public class PlayerMovement : MonoBehaviour
 
         _movement = _moveAction.ReadValue<Vector2>().normalized;
         
-        if (Movimiento != Vector2.zero)
+        if (_movement != Vector2.zero)
         {
-            lastMoveDirection = Movimiento;
+            lastMoveDirection = _movement;
         }
 
         //Calculamos la velocidad normal
@@ -213,7 +213,7 @@ public class PlayerMovement : MonoBehaviour
             yield break;
         }
         tr.emitting = true;
-        Rigidbody.linearVelocity = lastMoveDirection * dashingPower;
+        _rb.linearVelocity = lastMoveDirection * dashingPower;
         yield return new WaitForSeconds(dashingTime);
         tr.emitting = false;
         isDashing = false;
