@@ -309,6 +309,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BandageAmount: 0
   BandageHealing: 30
+  Damage: 0
+  PlayerMaxHealth: 0
   HealthBar: {fileID: 1289592986}
 --- !u!1 &507245452
 GameObject:
