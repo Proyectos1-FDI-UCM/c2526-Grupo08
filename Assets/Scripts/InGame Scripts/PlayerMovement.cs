@@ -33,6 +33,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float VelocidadDeslizar = 2f;
     [SerializeField]
+    private float VelociadDeslizarDash = 6f;
+    [SerializeField]
     private Sprite SpriteUp;
     [SerializeField]
     private Sprite SpriteDown;
@@ -41,6 +43,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] 
     private TrailRenderer Trail;
 
+    private InputAction dashAction;
+    private bool canDash = true;
+    private bool isDashing;
+    private float dashingPower = 15f;
+    private float dashingTime = 0.2f;
+    private float dashingCooldown = 1.5f;
+    [SerializeField] private TrailRenderer tr;
     private Vector2 lastMoveDirection = Vector2.right;
 
     // ---- ATRIBUTOS PRIVADOS ----
@@ -60,6 +69,11 @@ public class PlayerMovement : MonoBehaviour
 
     private InputAction MoveAction;
     private InputAction DashAction;
+
+
+    private bool _sliding = false;
+
+    private bool _touchingWall = false;
 
     private SpriteRenderer SpriteRenderer;
 
@@ -84,7 +98,7 @@ public class PlayerMovement : MonoBehaviour
     /// Start is called on the frame when a script is enabled just before 
     /// any of the Update methods are called the first time.
     /// </summary>
-    void Start()
+    void Awake()
     {
         SpriteRenderer = GetComponent<SpriteRenderer>();
 
@@ -104,7 +118,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void OnEnable()
     {
         MoveAction.Enable();
         DashAction.Enable();
@@ -128,21 +142,40 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (IsDashing) return;
-
-        Movement = MoveAction.ReadValue<Vector2>().normalized;
+        _movement = _moveAction.ReadValue<Vector2>().normalized;
         
         if (Movement != Vector2.zero)
         {
             lastMoveDirection = Movement;
         }
 
-        //Calculamos la velocidad normal
-        Vector2 VelocidadFinal = Movement * Velocidad;
+        Vector2 VelocidadFinal;
+
+        if (isDashing)
+        {
+            VelocidadFinal = lastMoveDirection * dashingPower;
+            if (_touchingWall)
+            {
+                VelocidadFinal.x = 0f;
+            }
+        }
+        else
+        {
+            VelocidadFinal = _movement * Velocidad;
+        }
         
-        //Calculamos el desliz en caso de que lo haya
-        if (Sliding) VelocidadFinal.y = -VelocidadDeslizar;
-        
+        if (_touchingWall)
+        {
+            if (isDashing)
+            {
+                VelocidadFinal.y = -VelociadDeslizarDash;
+            }
+            else if (_sliding)
+            {
+                VelocidadFinal.y = -VelocidadDeslizar;
+            }
+        }
+
         //Aplicamos la velocidad
         _rb.linearVelocity = VelocidadFinal;
 
@@ -193,14 +226,22 @@ public class PlayerMovement : MonoBehaviour
 
         if (Mathf.Abs(contactPoint.normal.x) > 0.98f) //Si choca contra un objeto vertical
         {
-            if ((contactPoint.normal.x > 0 && Movement.x < 0) || //Pared y desplazamiento a la izquierda
-                (contactPoint.normal.x < 0 && Movement.x > 0))   //Pared y desplazamiento a la derecha
+            _touchingWall = true;
+
+            if ((contactPoint.normal.x > 0 && _movement.x < 0) || //Pared y desplazamiento a la izquierda
+                (contactPoint.normal.x < 0 && _movement.x > 0))   //Pared y desplazamiento a la derecha
             {
                 Sliding = true;
                 return;
             }
         }
         Sliding = false;
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        _touchingWall = false;
+        _sliding = false;
     }
 
     private IEnumerator Dash()
@@ -212,13 +253,12 @@ public class PlayerMovement : MonoBehaviour
             IsDashing = false;
             yield break;
         }
-        Trail.emitting = true;
-        _rb.linearVelocity = lastMoveDirection * DashingPower;
-        yield return new WaitForSeconds(DashingTime);
-        Trail.emitting = false;
-        IsDashing = false;
-        yield return new WaitForSeconds(DashingCooldown);
-        CanDash = true;
+        tr.emitting = true;
+        yield return new WaitForSeconds(dashingTime);
+        tr.emitting = false;
+        isDashing = false;
+        yield return new WaitForSeconds(dashingCooldown);
+        canDash = true;
     }
 
     // ---- MÉTODOS PÚBLICOS ----
