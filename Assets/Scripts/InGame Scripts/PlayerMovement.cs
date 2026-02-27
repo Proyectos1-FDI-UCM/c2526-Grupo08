@@ -33,6 +33,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float VelocidadDeslizar = 2f;
     [SerializeField]
+    private float VelociadDeslizarDash = 6f;
+    [SerializeField]
     private Sprite SpriteUp;
     [SerializeField]
     private Sprite SpriteDown;
@@ -44,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isDashing;
     private float dashingPower = 15f;
     private float dashingTime = 0.2f;
-    private float dashingCooldown = 1f;
+    private float dashingCooldown = 1.5f;
     [SerializeField] private TrailRenderer tr;
     private Vector2 lastMoveDirection = Vector2.right;
 
@@ -67,6 +69,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool _sliding = false;
 
+    private bool _touchingWall = false;
+
     private SpriteRenderer SpriteRenderer;
 
     private enum Direction { Up, Down, Right, Left }
@@ -84,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
     /// Start is called on the frame when a script is enabled just before 
     /// any of the Update methods are called the first time.
     /// </summary>
-    void Start()
+    void Awake()
     {
         SpriteRenderer = GetComponent<SpriteRenderer>();
 
@@ -104,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void OnEnable()
     {
         _moveAction.Enable();
         dashAction.Enable();
@@ -128,8 +132,6 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isDashing) return;
-
         _movement = _moveAction.ReadValue<Vector2>().normalized;
         
         if (_movement != Vector2.zero)
@@ -137,12 +139,33 @@ public class PlayerMovement : MonoBehaviour
             lastMoveDirection = _movement;
         }
 
-        //Calculamos la velocidad normal
-        Vector2 VelocidadFinal = _movement * Velocidad;
+        Vector2 VelocidadFinal;
+
+        if (isDashing)
+        {
+            VelocidadFinal = lastMoveDirection * dashingPower;
+            if (_touchingWall)
+            {
+                VelocidadFinal.x = 0f;
+            }
+        }
+        else
+        {
+            VelocidadFinal = _movement * Velocidad;
+        }
         
-        //Calculamos el desliz en caso de que lo haya
-        if (_sliding) VelocidadFinal.y = -VelocidadDeslizar;
-        
+        if (_touchingWall)
+        {
+            if (isDashing)
+            {
+                VelocidadFinal.y = -VelociadDeslizarDash;
+            }
+            else if (_sliding)
+            {
+                VelocidadFinal.y = -VelocidadDeslizar;
+            }
+        }
+
         //Aplicamos la velocidad
         _rb.linearVelocity = VelocidadFinal;
 
@@ -193,6 +216,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (Mathf.Abs(contactPoint.normal.x) > 0.98f) //Si choca contra un objeto vertical
         {
+            _touchingWall = true;
+
             if ((contactPoint.normal.x > 0 && _movement.x < 0) || //Pared y desplazamiento a la izquierda
                 (contactPoint.normal.x < 0 && _movement.x > 0))   //Pared y desplazamiento a la derecha
             {
@@ -200,6 +225,12 @@ public class PlayerMovement : MonoBehaviour
                 return;
             }
         }
+        _sliding = false;
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        _touchingWall = false;
         _sliding = false;
     }
 
@@ -213,7 +244,6 @@ public class PlayerMovement : MonoBehaviour
             yield break;
         }
         tr.emitting = true;
-        _rb.linearVelocity = lastMoveDirection * dashingPower;
         yield return new WaitForSeconds(dashingTime);
         tr.emitting = false;
         isDashing = false;
