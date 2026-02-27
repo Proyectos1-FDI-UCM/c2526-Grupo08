@@ -2,7 +2,7 @@
 // Componente que controla el movimiento y ciclo de vida de una bala.
 // Se instancia por el jugador y se desplaza en línea recta hasta
 // alcanzar su rango máximo o colisionar con algo.
-// Alexia y Maria
+// Alexia y Marián
 // No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
