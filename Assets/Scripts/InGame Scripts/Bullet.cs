@@ -88,14 +88,15 @@ public class Bullet : MonoBehaviour
     }
 
     /// <summary>
-    /// Al colisionar con cualquier objeto se destruye la bala.
-    /// Aquí se puede añadir lógica de daño cuando esté el sistema de salud.
+    /// Al colisionar con cualquier objeto aplica daño y se destruye.
+    /// No necesita guardas de tag porque la Physics2D Layer Collision Matrix
+    /// ya impide que esta bala colisione con quien la disparó u otras balas.
+    /// Capas configuradas en Project Settings → Physics 2D:
+    ///   · PlayerBullet no colisiona con: Player, PlayerBullet
+    ///   · EnemyBullet  no colisiona con: Enemy,  EnemyBullet
     /// </summary>
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Ignoramos colisiones con el propio jugador
-        if (other.CompareTag("Player")) return;
-
         // TODO: aplicar daño cuando esté implementado el sistema de vida
         // other.GetComponent<Health>()?.TakeDamage(_damage);
 

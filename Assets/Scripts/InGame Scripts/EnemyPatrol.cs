@@ -76,6 +76,12 @@ public class EnemyPatrol : MonoBehaviour
     private bool _chaseActivated = false;
 
     /// <summary>
+    /// Propiedad pública de solo lectura que indica si la persecución está activa.
+    /// La usa EnemyShoot para saber cuándo debe disparar.
+    /// </summary>
+    public bool IsChasing => _chaseActivated;
+
+    /// <summary>
     /// Enum de dirección, igual que en PlayerMovement para mantener consistencia
     /// </summary>
     private enum Direction { Up, Down, Right, Left }
