@@ -63,6 +63,9 @@ public class Bullet : MonoBehaviour
         // La bala no debe girar por físicas, solo se mueve en línea recta
         _rb.gravityScale = 0f;
         _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+        _rb.interpolation = RigidbodyInterpolation2D.None;
+        _rb.sleepMode = RigidbodySleepMode2D.NeverSleep;
     }
 
     /// <summary>
@@ -85,6 +88,7 @@ public class Bullet : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        Debug.Log(_rb.linearVelocity);
     }
 
     /// <summary>
@@ -125,6 +129,7 @@ public class Bullet : MonoBehaviour
         // Asignamos la velocidad al Rigidbody2D (necesita Rigidbody2D, NO Rigidbody 3D)
         _rb.linearVelocity = _direction * _speed;
     }
+
 
     #endregion
 
