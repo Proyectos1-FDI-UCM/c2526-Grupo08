@@ -46,6 +46,8 @@ public class Bullet : MonoBehaviour
     /// <summary>Dirección de movimiento de la bala, asignada al instanciarse.</summary>
     private Vector2 _direction;
 
+    private int _currentHealth;
+
     #endregion
 
 
@@ -60,12 +62,10 @@ public class Bullet : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
 
+
         // La bala no debe girar por físicas, solo se mueve en línea recta
         _rb.gravityScale = 0f;
         _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-
-        _rb.interpolation = RigidbodyInterpolation2D.None;
-        _rb.sleepMode = RigidbodySleepMode2D.NeverSleep;
     }
 
     /// <summary>
@@ -102,8 +102,7 @@ public class Bullet : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         // TODO: aplicar daño cuando esté implementado el sistema de vida
-        // other.GetComponent<Health>()?.TakeDamage(_damage);
-
+        other.GetComponent<Health>()?.Damage(_damage);
         Destroy(gameObject);
     }
 

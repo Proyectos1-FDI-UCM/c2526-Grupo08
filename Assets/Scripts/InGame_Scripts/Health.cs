@@ -29,6 +29,7 @@ public class Health : MonoBehaviour
     [SerializeField] private int BandageHealing = 30;
     [SerializeField] private int MaxHealth;
     [SerializeField] HealthBar HealthBar; //Cuando tenga daño tengo que llamarla para que se modifique
+    [SerializeField] GameObject EnemyGameObject;
 
     #endregion
 
@@ -42,8 +43,8 @@ public class Health : MonoBehaviour
     // Ejemplo: _maxHealthPoints
 
     private InputAction _healingAction;
-    private InteractuarObjetos _pickUpBandage;
-    private Vendas bandage;
+    //private InteractuarObjetos _pickUpBandage;
+    //private Vendas bandage;
 
     private int _currentHealth;
     private int _damage;
@@ -66,8 +67,9 @@ public class Health : MonoBehaviour
     void Start()
     {
         _currentHealth = MaxHealth;
-        _pickUpBandage = GetComponent<InteractuarObjetos>();
-        bandage = GetComponent<Vendas>();
+        Health _health = GetComponent<Health>();
+        //_pickUpBandage = GetComponent<InteractuarObjetos>();
+        //bandage = GetComponent<Vendas>();
 
         _healingAction = InputSystem.actions.FindAction("Healing");
         if (_healingAction == null)
@@ -82,7 +84,7 @@ public class Health : MonoBehaviour
     /// </summary>
     void Update()
     {
-       
+
     }
     #endregion
 
@@ -94,6 +96,24 @@ public class Health : MonoBehaviour
     // mayúscula, incluida la primera letra)
     // Ejemplo: GetPlayerController
 
+    public int Damage(int damageAmount)
+    {
+        return _currentHealth -= damageAmount;
+    }
+
+    public int Healing(int bandageHealing)
+    {
+        if (_currentHealth < MaxHealth)
+        {
+            _currentHealth += bandageHealing;
+        }
+        else if (_currentHealth >= MaxHealth)
+        {
+            _currentHealth = MaxHealth;
+        }
+
+        return _currentHealth;
+    }
 
     #endregion
 
@@ -104,19 +124,21 @@ public class Health : MonoBehaviour
     // se nombren en formato PascalCase (palabras con primera letra
     // mayúscula, incluida la primera letra)
 
-    private void TakingDamage()
+    private void HeathBarTakingDamage()
     {
-        HealthBar.SetValue(GameManager.Instance.Damage(_currentHealth, _damage));
+        //Correspondencia vida del personaje y su barra de vida
+        HealthBar.SetValue(Damage(_damage));
     }
 
-    private void PlayerHeals()
+    private void HealthBarPlayerHeals()
     {
-        HealthBar.SetValue(GameManager.Instance.Healing(_currentHealth, MaxHealth, BandageHealing));
+        //Correspondencia vida del personaje y su barra de vida
+        HealthBar.SetValue(Healing(BandageHealing));
     }
 
     private void Bandages()
     {
-        
+
         //if (_pickUpBandage.Interactuar())
         {
             BandageAmount += 1;
@@ -124,15 +146,36 @@ public class Health : MonoBehaviour
 
         if (_healingAction.IsPressed() && BandageAmount > 0)
         {
-            GameManager.Instance.Healing(_currentHealth, MaxHealth, BandageHealing);
+            Healing(BandageHealing);
             BandageAmount -= 1;
             Debug.Log("Venda usada");
-
         }
-        
-
-        #endregion
-
     }
-}// class PlayerHealth 
+
+    /// <summary>
+    /// Distintos comportamientos de muerte, diferenciando al enemigo de al jugador
+    /// </summary>
+    private void DestroyEnemy()
+    {
+        EnemyPatrol enemy = GetComponent<EnemyPatrol>();
+        if (enemy != null)
+        {
+            if (_currentHealth <= 0) Destroy(EnemyGameObject);
+            //TODO: liberar magia cuando se muera el enemigo
+        }
+    }
+
+    private void PlayerDeath()
+    { 
+        PlayerMovement player = GetComponent<PlayerMovement>();
+        if (player != null)
+        {
+            GameManager.Instance.UpdateGUI(_currentHealth);
+        }
+    }
+
+    #endregion
+
+}
+// class PlayerHealth 
 // namespace
