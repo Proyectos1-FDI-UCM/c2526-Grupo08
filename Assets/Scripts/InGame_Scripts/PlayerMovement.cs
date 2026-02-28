@@ -299,7 +299,7 @@ public class PlayerMovement : MonoBehaviour
         if (New != CurrentDirection)
         {
             Vector3 CurrentScale = gameObject.transform.localScale;
-            Debug.Log("Sprite era" + CurrentDirection);
+            //Debug.Log("Sprite era" + CurrentDirection);
 
             switch (New)
             {
@@ -338,7 +338,7 @@ public class PlayerMovement : MonoBehaviour
 
             CurrentDirection = New;
 
-            Debug.Log("Sprite ha cambiadp a" + CurrentDirection);
+            //Debug.Log("Sprite ha cambiado a " + CurrentDirection);
 
         }
 

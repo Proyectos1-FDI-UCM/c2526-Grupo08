@@ -47,7 +47,6 @@ public class Health : MonoBehaviour
     //private Vendas bandage;
 
     private int _currentHealth;
-    private int _damage;
 
     private bool _picked;
 
@@ -77,6 +76,8 @@ public class Health : MonoBehaviour
             Debug.Log("Accion no encontrada, no funciona curarse");
             Destroy(this);
         }
+
+        HealthBar.SetValue(MaxHealth);
     }
 
     /// <summary>
@@ -96,12 +97,15 @@ public class Health : MonoBehaviour
     // mayúscula, incluida la primera letra)
     // Ejemplo: GetPlayerController
 
-    public int Damage(int damageAmount)
+    public void Damage(int damageAmount)
     {
-        return _currentHealth -= damageAmount;
+        _currentHealth -= damageAmount;
+        if (HealthBar != null) HealthBar.SetValue(_currentHealth);
+        DestroyEnemy();
+        PlayerDeath();
     }
 
-    public int Healing(int bandageHealing)
+    public void Healing(int bandageHealing)
     {
         if (_currentHealth < MaxHealth)
         {
@@ -111,8 +115,7 @@ public class Health : MonoBehaviour
         {
             _currentHealth = MaxHealth;
         }
-
-        return _currentHealth;
+        if (HealthBar != null) HealthBar.SetValue(_currentHealth);
     }
 
     #endregion
@@ -123,18 +126,6 @@ public class Health : MonoBehaviour
     // El convenio de nombres de Unity recomienda que estos métodos
     // se nombren en formato PascalCase (palabras con primera letra
     // mayúscula, incluida la primera letra)
-
-    private void HeathBarTakingDamage()
-    {
-        //Correspondencia vida del personaje y su barra de vida
-        HealthBar.SetValue(Damage(_damage));
-    }
-
-    private void HealthBarPlayerHeals()
-    {
-        //Correspondencia vida del personaje y su barra de vida
-        HealthBar.SetValue(Healing(BandageHealing));
-    }
 
     private void Bandages()
     {
@@ -158,9 +149,9 @@ public class Health : MonoBehaviour
     private void DestroyEnemy()
     {
         EnemyPatrol enemy = GetComponent<EnemyPatrol>();
-        if (enemy != null)
+        if (enemy != null && _currentHealth <= 0)
         {
-            if (_currentHealth <= 0) Destroy(EnemyGameObject);
+            Destroy(EnemyGameObject);
             //TODO: liberar magia cuando se muera el enemigo
         }
     }

@@ -78,6 +78,10 @@ public class HealthBar : MonoBehaviour
         Slider.value = maxValue;
     }
 
+    /// <summary>
+    /// Se actualiza el valor de la barra de vida acorde con la vida del jugador o enemigo
+    /// </summary>
+    /// <param name="value"></param>
     public void SetValue(int value)
     {
         Slider.value = value;
