@@ -71,11 +71,11 @@ public class PlayerMovement : MonoBehaviour
 
     private bool _sliding = false;
 
-    private bool _touchingWall = false;
+    private bool TouchingWall = false;
 
     private SpriteRenderer _spriteRenderer;
 
-    private Health _health;
+    private Health Health;
     private enum Direction { Up, Down, Right, Left }
     private Direction CurrentDirection = Direction.Left;
     private Direction NewDirection;
@@ -99,10 +99,10 @@ public class PlayerMovement : MonoBehaviour
 
         MoveAction = InputSystem.actions.FindAction("Move");
         if (MoveAction == null)
-        _health = GetComponent<Health>();
+        Health = GetComponent<Health>();
 
-        _moveAction = InputSystem.actions.FindAction("Move");
-        if (_moveAction == null)
+        MoveAction = InputSystem.actions.FindAction("Move");
+        if (MoveAction == null)
         {
             Debug.Log("Accion no encontrada, no funciona el PlayerControler");
             Destroy(this);
@@ -151,7 +151,7 @@ public class PlayerMovement : MonoBehaviour
         if (_isDashing)
         {
             VelocidadFinal = _lastMoveDirection * _dashingPower;
-            if (_touchingWall)
+            if (TouchingWall)
             {
                 VelocidadFinal.x = 0f;
             }
@@ -161,7 +161,7 @@ public class PlayerMovement : MonoBehaviour
             VelocidadFinal = Movement * Velocidad;
         }
         
-        if (_touchingWall)
+        if (TouchingWall)
         {
             if (_isDashing)
             {
@@ -223,7 +223,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Mathf.Abs(contactPoint.normal.x) > 0.98f) //Si choca contra un objeto vertical
         {
-            _touchingWall = true;
+            TouchingWall = true;
 
             if ((contactPoint.normal.x > 0 && Movement.x < 0) || //Pared y desplazamiento a la izquierda
                 (contactPoint.normal.x < 0 && Movement.x > 0))   //Pared y desplazamiento a la derecha
@@ -237,7 +237,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        _touchingWall = false;
+        TouchingWall = false;
         _sliding = false;
     }
 
@@ -251,12 +251,12 @@ public class PlayerMovement : MonoBehaviour
             yield break;
         }
         tr.emitting = true;
-        if (_health != null)
-            _health.SetImmune(true);
+        if (Health != null)
+            Health.SetImmune(true);
         yield return new WaitForSeconds(_dashingTime);
         tr.emitting = false;
-        if (_health != null)
-            _health.SetImmune(false);
+        if (Health != null)
+            Health.SetImmune(false);
         _isDashing = false;
         yield return new WaitForSeconds(_dashingCooldown);
         _canDash = true;
