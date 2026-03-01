@@ -50,6 +50,8 @@ public class Health : MonoBehaviour
 
     private bool _picked;
 
+    private bool _isImmune = false;
+
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
@@ -99,6 +101,11 @@ public class Health : MonoBehaviour
 
     public void Damage(int damageAmount)
     {
+        if (_isImmune)
+        {
+            return;
+        }
+        
         _currentHealth -= damageAmount;
         if (HealthBar != null) HealthBar.SetValue(_currentHealth);
         DestroyEnemy();
@@ -119,6 +126,16 @@ public class Health : MonoBehaviour
     }
 
     #endregion
+
+    public void SetImmune(bool immune)
+    {
+        _isImmune =immune;
+    }
+
+    public bool IsImmune()
+    {
+        return _isImmune;
+    }
 
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
