@@ -75,6 +75,7 @@ public class PlayerMovement : MonoBehaviour
 
     private SpriteRenderer _spriteRenderer;
 
+    private Health _health;
     private enum Direction { Up, Down, Right, Left }
     private Direction CurrentDirection = Direction.Left;
     private Direction NewDirection;
@@ -98,6 +99,10 @@ public class PlayerMovement : MonoBehaviour
 
         MoveAction = InputSystem.actions.FindAction("Move");
         if (MoveAction == null)
+        _health = GetComponent<Health>();
+
+        _moveAction = InputSystem.actions.FindAction("Move");
+        if (_moveAction == null)
         {
             Debug.Log("Accion no encontrada, no funciona el PlayerControler");
             Destroy(this);
@@ -246,8 +251,12 @@ public class PlayerMovement : MonoBehaviour
             yield break;
         }
         tr.emitting = true;
+        if (_health != null)
+            _health.SetImmune(true);
         yield return new WaitForSeconds(_dashingTime);
         tr.emitting = false;
+        if (_health != null)
+            _health.SetImmune(false);
         _isDashing = false;
         yield return new WaitForSeconds(_dashingCooldown);
         _canDash = true;
