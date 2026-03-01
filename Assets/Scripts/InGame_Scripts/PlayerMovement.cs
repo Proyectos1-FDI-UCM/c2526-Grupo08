@@ -66,20 +66,14 @@ public class PlayerMovement : MonoBehaviour
     private float _dashingCooldown = 1.5f;
     private Vector2 _lastMoveDirection = Vector2.right;
 
-    private InputAction _moveAction;
-    private InputAction dashAction;
+    private InputAction MoveAction;
+    private InputAction DashAction;
 
     private bool _sliding = false;
 
     private bool _touchingWall = false;
 
     private SpriteRenderer _spriteRenderer;
-
-    private bool CanDash = true;
-    private bool IsDashing;
-    private float DashingPower = 15f;
-    private float DashingTime = 0.2f;
-    private float DashingCooldown = 1f;
 
     private enum Direction { Up, Down, Right, Left }
     private Direction CurrentDirection = Direction.Left;
@@ -140,11 +134,11 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        _movement = _moveAction.ReadValue<Vector2>().normalized;
+        Movement = MoveAction.ReadValue<Vector2>().normalized;
         
         if (Movement != Vector2.zero)
         {
-            _lastMoveDirection = _movement;
+            _lastMoveDirection = Movement;
         }
 
         Vector2 VelocidadFinal;
@@ -159,7 +153,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            VelocidadFinal = _movement * Velocidad;
+            VelocidadFinal = Movement * Velocidad;
         }
         
         if (_touchingWall)
@@ -226,8 +220,8 @@ public class PlayerMovement : MonoBehaviour
         {
             _touchingWall = true;
 
-            if ((contactPoint.normal.x > 0 && _movement.x < 0) || //Pared y desplazamiento a la izquierda
-                (contactPoint.normal.x < 0 && _movement.x > 0))   //Pared y desplazamiento a la derecha
+            if ((contactPoint.normal.x > 0 && Movement.x < 0) || //Pared y desplazamiento a la izquierda
+                (contactPoint.normal.x < 0 && Movement.x > 0))   //Pared y desplazamiento a la derecha
             {
                 Sliding = true;
                 return;
