@@ -103,6 +103,9 @@ public class PlayerShoot : MonoBehaviour
         {
             _shootOrigin = transform;
         }
+
+        _attackAction.Enable();
+        _aimAction.Enable();
     }
 
     /// <summary>
