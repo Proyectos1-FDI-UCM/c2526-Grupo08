@@ -64,8 +64,13 @@ public class Health : MonoBehaviour
     /// Start is called on the frame when a script is enabled just before 
     /// any of the Update methods are called the first time.
     /// </summary>
+<<<<<<< Updated upstream
 
 
+=======
+    
+    
+>>>>>>> Stashed changes
     void Start()
     {
         _currentHealth = MaxHealth;

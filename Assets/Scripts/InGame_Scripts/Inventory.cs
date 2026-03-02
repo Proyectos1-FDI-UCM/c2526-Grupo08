@@ -26,7 +26,7 @@ public class Inventory : MonoBehaviour
 
     [SerializeField]
     private int BandageHealth = 30;
-    [SerializeField]
+    [SerializeField] 
     private Health _health;
 
     #endregion
@@ -64,7 +64,7 @@ public class Inventory : MonoBehaviour
     {
         _playerHealth = GetComponent<Health>();
 
-        _health = GetComponent<Health>();
+        _health = GetComponent<Health>(); 
         if (_health == null)
         {
             Debug.LogError("No se encontró el componente Health en el jugador");
