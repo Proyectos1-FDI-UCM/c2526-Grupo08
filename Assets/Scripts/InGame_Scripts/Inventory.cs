@@ -1,7 +1,7 @@
 //---------------------------------------------------------
 // Breve descripción del contenido del archivo
-// Responsable de la creación de este archivo
-// Nombre del juego
+// Adriana Fernández Luna
+// No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
@@ -24,7 +24,7 @@ public class Inventory : MonoBehaviour
     // Ejemplo: MaxHealthPoints
 
     #endregion
-    
+
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados (private fields)
     // Documentar cada atributo que aparece aquí.
@@ -33,6 +33,10 @@ public class Inventory : MonoBehaviour
     // primera palabra en minúsculas y el resto con la 
     // primera letra en mayúsculas)
     // Ejemplo: _maxHealthPoints
+
+    private int _bandage = 0;
+    private int _key = 0;
+    private int _fusible = 0;
 
     #endregion
     
@@ -69,6 +73,29 @@ public class Inventory : MonoBehaviour
     // mayúscula, incluida la primera letra)
     // Ejemplo: GetPlayerController
 
+    public void AddItem (Objects.ObjectsType type)
+    {
+        switch (type)
+        {
+            case Objects.ObjectsType.bandage:
+                
+                _bandage += 1;
+                Debug.Log("Bandages: " + _bandage);
+                break;
+            case Objects.ObjectsType.key:
+
+                _key += 1;
+                Debug.Log("Keys: " + _key);
+                break;
+            case Objects.ObjectsType.fusible:
+
+                _fusible += 1;
+                Debug.Log("Fusibles: " + _fusible);
+                break;
+
+        }
+    }
+
     #endregion
     
     // ---- MÉTODOS PRIVADOS ----
@@ -81,4 +108,5 @@ public class Inventory : MonoBehaviour
     #endregion   
 
 } // class Inventory 
-// namespace
+// Adriana Fernández Luna
+//Laura Garay Zubiaguirre
