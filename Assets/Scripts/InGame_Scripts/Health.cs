@@ -147,11 +147,6 @@ public class Health : MonoBehaviour
     private void Bandages()
     {
 
-        //if (_pickUpBandage.Interactuar())
-        {
-            BandageAmount += 1;
-        }
-
         if (_healingAction.IsPressed() && BandageAmount > 0)
         {
             Healing(BandageHealing);
