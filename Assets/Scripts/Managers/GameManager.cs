@@ -172,29 +172,6 @@ public class GameManager : MonoBehaviour
         System.GC.Collect();
     } // ChangeScene
 
-    public int Healing(int currentHealth, int maxHealth, int bandageHealing)
-    {
-        if (currentHealth < maxHealth)
-        {
-            currentHealth += bandageHealing;
-        }
-        else if (currentHealth >= maxHealth)
-        {
-            currentHealth = maxHealth;
-        }
-
-        return currentHealth;
-    }
-
-    public int Damage(int currentHealth, int damageAmount)
-    { 
-        return currentHealth -=damageAmount;
-    }
-
-    public void DestroyEnemy(int currentHealth)
-    {
-        if (currentHealth <= 0) Destroy(gameObject);
-    }
 
     public void RestartLevelifLose()
     {
@@ -205,6 +182,16 @@ public class GameManager : MonoBehaviour
     public void ReturnToMainMenu()
     {
         SceneManager.LoadScene("Main menu");
+    }
+
+    public void UpdateGUI(int currentHealth)
+    {
+        if (currentHealth <= 0) //Si la vida del jugador llega a 0 entonces la escena debe reiniciarse
+        {
+            panelDeath.SetActive(true);
+            Time.timeScale = 0; //Para detener la escena
+        }
+
     }
 
     #endregion
@@ -227,15 +214,6 @@ public class GameManager : MonoBehaviour
         // a otro manager
     }
 
-    private void UpdateGUI(int currentHealth)
-    {
-        if (currentHealth <= 0) //Si la vida del jugador llega a 0 entonces la escena debe reiniciarse
-        {
-            panelDeath.SetActive(true);
-            Time.timeScale = 0; //Para detener la escena
-        }
-
-    }
 
     #endregion
 } // class GameManager 

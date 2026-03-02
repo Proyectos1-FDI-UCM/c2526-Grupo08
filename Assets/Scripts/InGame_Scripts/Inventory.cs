@@ -6,7 +6,6 @@
 //---------------------------------------------------------
 
 using UnityEngine;
-using UnityEngine.UI;
 // Añadir aquí el resto de directivas using
 
 
@@ -14,7 +13,7 @@ using UnityEngine.UI;
 /// Antes de cada class, descripción de qué es y para qué sirve,
 /// usando todas las líneas que sean necesarias.
 /// </summary>
-public class HealthBar : MonoBehaviour
+public class Inventory : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Atributos del Inspector (serialized fields)
@@ -23,8 +22,6 @@ public class HealthBar : MonoBehaviour
     // públicos y de inspector se nombren en formato PascalCase
     // (palabras con primera letra mayúscula, incluida la primera letra)
     // Ejemplo: MaxHealthPoints
-
-    Slider Slider;
 
     #endregion
     
@@ -52,7 +49,7 @@ public class HealthBar : MonoBehaviour
     /// </summary>
     void Start()
     {
-        Slider = GetComponent<Slider>();
+        
     }
 
     /// <summary>
@@ -72,17 +69,6 @@ public class HealthBar : MonoBehaviour
     // mayúscula, incluida la primera letra)
     // Ejemplo: GetPlayerController
 
-    public void SetMaxValue(int maxValue)
-    {
-        Slider.maxValue = maxValue;
-        Slider.value = maxValue;
-    }
-
-    public void SetValue(int value)
-    {
-        Slider.value = value;
-    }
-
     #endregion
     
     // ---- MÉTODOS PRIVADOS ----
@@ -94,5 +80,5 @@ public class HealthBar : MonoBehaviour
 
     #endregion   
 
-} // class HealthBar 
+} // class Inventory 
 // namespace

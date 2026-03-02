@@ -6,6 +6,7 @@
 //---------------------------------------------------------
 
 using UnityEngine;
+using UnityEngine.UI;
 // Añadir aquí el resto de directivas using
 
 
@@ -13,7 +14,7 @@ using UnityEngine;
 /// Antes de cada class, descripción de qué es y para qué sirve,
 /// usando todas las líneas que sean necesarias.
 /// </summary>
-public class HealthSystem : MonoBehaviour
+public class HealthBar : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Atributos del Inspector (serialized fields)
@@ -23,21 +24,10 @@ public class HealthSystem : MonoBehaviour
     // (palabras con primera letra mayúscula, incluida la primera letra)
     // Ejemplo: MaxHealthPoints
 
-    [Header("Cori")]
-    [SerializeField] private int MaxHealth;
-
-    [Header("Basic enemy")]
-    [SerializeField] private int BasicEnemyMaxHealth;
-
-    [Header("Strong enemy")]
-    [SerializeField] private int StrongEnemyMaxHealth;
-
-    [Header("Fast enemy")]
-    [SerializeField] private int FastEnemyMaxHealth;
-
+    Slider Slider;
 
     #endregion
-
+    
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados (private fields)
     // Documentar cada atributo que aparece aquí.
@@ -47,25 +37,22 @@ public class HealthSystem : MonoBehaviour
     // primera letra en mayúsculas)
     // Ejemplo: _maxHealthPoints
 
-    private int _CurrentHealth;
-
     #endregion
-
+    
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
-
+    
     // Por defecto están los típicos (Update y Start) pero:
     // - Hay que añadir todos los que sean necesarios
     // - Hay que borrar los que no se usen 
-
+    
     /// <summary>
     /// Start is called on the frame when a script is enabled just before 
     /// any of the Update methods are called the first time.
     /// </summary>
     void Start()
     {
-        _CurrentHealth = MaxHealth;
-
+        Slider = GetComponent<Slider>();
     }
 
     /// <summary>
@@ -85,16 +72,19 @@ public class HealthSystem : MonoBehaviour
     // mayúscula, incluida la primera letra)
     // Ejemplo: GetPlayerController
 
-    public void Heal(int bandageHealing)
+    public void SetMaxValue(int maxValue)
     {
-        if (_CurrentHealth < MaxHealth)
-        {
-            _CurrentHealth += bandageHealing;
-        }
-        else if (_CurrentHealth >= MaxHealth)
-        {
-            _CurrentHealth = MaxHealth;
-        }
+        Slider.maxValue = maxValue;
+        Slider.value = maxValue;
+    }
+
+    /// <summary>
+    /// Se actualiza el valor de la barra de vida acorde con la vida del jugador o enemigo
+    /// </summary>
+    /// <param name="value"></param>
+    public void SetValue(int value)
+    {
+        Slider.value = value;
     }
 
     #endregion
@@ -108,5 +98,5 @@ public class HealthSystem : MonoBehaviour
 
     #endregion   
 
-} // class HealthSystem 
+} // class HealthBar 
 // namespace

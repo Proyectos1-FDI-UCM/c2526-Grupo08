@@ -40,15 +40,8 @@ public class PlayerMovement : MonoBehaviour
     private Sprite SpriteDown;
     [SerializeField]
     private Sprite SpriteLeft;
-
-    private InputAction dashAction;
-    private bool canDash = true;
-    private bool isDashing;
-    private float dashingPower = 15f;
-    private float dashingTime = 0.2f;
-    private float dashingCooldown = 1.5f;
-    [SerializeField] private TrailRenderer tr;
-    private Vector2 lastMoveDirection = Vector2.right;
+    [SerializeField] 
+    private TrailRenderer tr;
 
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados (private fields)
@@ -62,17 +55,27 @@ public class PlayerMovement : MonoBehaviour
     #endregion
     private Rigidbody2D _rb;
 
-    private Vector2 _movement;
+    private Vector2 Movement;
+    private bool Sliding = false;
 
-    private InputAction _moveAction;
+    //Variables dash
+    private bool _canDash = true;
+    private bool _isDashing;
+    private float _dashingPower = 15f;
+    private float _dashingTime = 0.5f;
+    private float _dashingCooldown = 1.5f;
+    private Vector2 _lastMoveDirection = Vector2.right;
 
+    private InputAction MoveAction;
+    private InputAction DashAction;
 
     private bool _sliding = false;
 
-    private bool _touchingWall = false;
+    private bool TouchingWall = false;
 
-    private SpriteRenderer SpriteRenderer;
+    private SpriteRenderer _spriteRenderer;
 
+    private Health Health;
     private enum Direction { Up, Down, Right, Left }
     private Direction CurrentDirection = Direction.Left;
     private Direction NewDirection;
@@ -90,19 +93,23 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     void Awake()
     {
-        SpriteRenderer = GetComponent<SpriteRenderer>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
 
         _rb = GetComponent<Rigidbody2D>();
 
-        _moveAction = InputSystem.actions.FindAction("Move");
-        if (_moveAction == null)
+        MoveAction = InputSystem.actions.FindAction("Move");
+        if (MoveAction == null)
+        Health = GetComponent<Health>();
+
+        MoveAction = InputSystem.actions.FindAction("Move");
+        if (MoveAction == null)
         {
             Debug.Log("Accion no encontrada, no funciona el PlayerControler");
             Destroy(this);
         }
 
-        dashAction = InputSystem.actions.FindAction("Dash");
-        if (dashAction == null)
+        DashAction = InputSystem.actions.FindAction("Dash");
+        if (DashAction == null)
         {
             Debug.Log("Accion Dash no encontrada");
         }
@@ -110,20 +117,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        _moveAction.Enable();
-        dashAction.Enable();
-        dashAction.performed += OnDash;
+        MoveAction.Enable();
+        DashAction.Enable();
+        DashAction.performed += OnDash;
     }
     private void OnDisable()
     {
-        dashAction.performed -= OnDash;
-        _moveAction.Disable();
-        dashAction.Disable();
+        MoveAction.Disable();
+        DashAction.Disable();
+        DashAction.performed -= OnDash;
     }
 
     private void OnDash(InputAction.CallbackContext context)
     {
-        if (canDash && !isDashing)
+        if (_canDash && !_isDashing)
         {
             StartCoroutine(Dash());
         }
@@ -132,31 +139,31 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        _movement = _moveAction.ReadValue<Vector2>().normalized;
+        Movement = MoveAction.ReadValue<Vector2>().normalized;
         
-        if (_movement != Vector2.zero)
+        if (Movement != Vector2.zero)
         {
-            lastMoveDirection = _movement;
+            _lastMoveDirection = Movement;
         }
 
         Vector2 VelocidadFinal;
 
-        if (isDashing)
+        if (_isDashing)
         {
-            VelocidadFinal = lastMoveDirection * dashingPower;
-            if (_touchingWall)
+            VelocidadFinal = _lastMoveDirection * _dashingPower;
+            if (TouchingWall)
             {
                 VelocidadFinal.x = 0f;
             }
         }
         else
         {
-            VelocidadFinal = _movement * Velocidad;
+            VelocidadFinal = Movement * Velocidad;
         }
         
-        if (_touchingWall)
+        if (TouchingWall)
         {
-            if (isDashing)
+            if (_isDashing)
             {
                 VelocidadFinal.y = -VelociadDeslizarDash;
             }
@@ -216,39 +223,43 @@ public class PlayerMovement : MonoBehaviour
 
         if (Mathf.Abs(contactPoint.normal.x) > 0.98f) //Si choca contra un objeto vertical
         {
-            _touchingWall = true;
+            TouchingWall = true;
 
-            if ((contactPoint.normal.x > 0 && _movement.x < 0) || //Pared y desplazamiento a la izquierda
-                (contactPoint.normal.x < 0 && _movement.x > 0))   //Pared y desplazamiento a la derecha
+            if ((contactPoint.normal.x > 0 && Movement.x < 0) || //Pared y desplazamiento a la izquierda
+                (contactPoint.normal.x < 0 && Movement.x > 0))   //Pared y desplazamiento a la derecha
             {
-                _sliding = true;
+                Sliding = true;
                 return;
             }
         }
-        _sliding = false;
+        Sliding = false;
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        _touchingWall = false;
+        TouchingWall = false;
         _sliding = false;
     }
 
     private IEnumerator Dash()
     {
-        canDash = false;
-        isDashing = true;
-        if (lastMoveDirection == Vector2.zero)
+        _canDash = false;
+        _isDashing = true;
+        if (_lastMoveDirection == Vector2.zero)
         {
-            isDashing = false;
+            _isDashing = false;
             yield break;
         }
         tr.emitting = true;
-        yield return new WaitForSeconds(dashingTime);
+        if (Health != null)
+            Health.SetImmune(true);
+        yield return new WaitForSeconds(_dashingTime);
         tr.emitting = false;
-        isDashing = false;
-        yield return new WaitForSeconds(dashingCooldown);
-        canDash = true;
+        if (Health != null)
+            Health.SetImmune(false);
+        _isDashing = false;
+        yield return new WaitForSeconds(_dashingCooldown);
+        _canDash = true;
     }
 
     // ---- MÉTODOS PÚBLICOS ----
@@ -298,13 +309,13 @@ public class PlayerMovement : MonoBehaviour
         if (New != CurrentDirection)
         {
             Vector3 CurrentScale = gameObject.transform.localScale;
-            Debug.Log("Sprite era" + CurrentDirection);
+            //Debug.Log("Sprite era" + CurrentDirection);
 
             switch (New)
             {
                 case Direction.Up:
 
-                    SpriteRenderer.sprite = SpriteUp;
+                    _spriteRenderer.sprite = SpriteUp;
 
                     SetScaleX(Mathf.Abs(CurrentScale.x));
 
@@ -312,7 +323,7 @@ public class PlayerMovement : MonoBehaviour
 
                 case Direction.Down:
 
-                    SpriteRenderer.sprite = SpriteDown;
+                    _spriteRenderer.sprite = SpriteDown;
 
                     SetScaleX(Mathf.Abs(CurrentScale.x));
 
@@ -320,7 +331,7 @@ public class PlayerMovement : MonoBehaviour
 
                 case Direction.Left:
 
-                    SpriteRenderer.sprite = SpriteLeft;
+                    _spriteRenderer.sprite = SpriteLeft;
 
                     SetScaleX(Mathf.Abs(CurrentScale.x));
 
@@ -328,7 +339,7 @@ public class PlayerMovement : MonoBehaviour
 
                 case Direction.Right:
 
-                    SpriteRenderer.sprite = SpriteLeft;
+                    _spriteRenderer.sprite = SpriteLeft;
 
                     SetScaleX(-Mathf.Abs(CurrentScale.x));
 
@@ -337,7 +348,7 @@ public class PlayerMovement : MonoBehaviour
 
             CurrentDirection = New;
 
-            Debug.Log("Sprite ha cambiadp a" + CurrentDirection);
+            //Debug.Log("Sprite ha cambiado a " + CurrentDirection);
 
         }
 
@@ -348,3 +359,4 @@ public class PlayerMovement : MonoBehaviour
 } // class Movement 
 // Adriana Fernández Luna
 //Celia García Riaza
+//Carlos Mesa Torres

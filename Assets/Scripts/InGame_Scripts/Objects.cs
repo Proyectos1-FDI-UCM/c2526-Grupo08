@@ -1,13 +1,11 @@
 //---------------------------------------------------------
 // Breve descripción del contenido del archivo
-// Responsable de la creación de este archivo
-// Nombre del juego
+// Adriana Fernández Luna
+// No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
 // Añadir aquí el resto de directivas using
 
 
@@ -15,7 +13,7 @@ using UnityEngine.UI;
 /// Antes de cada class, descripción de qué es y para qué sirve,
 /// usando todas las líneas que sean necesarias.
 /// </summary>
-public class Health : MonoBehaviour
+public class Objects : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Atributos del Inspector (serialized fields)
@@ -25,13 +23,8 @@ public class Health : MonoBehaviour
     // (palabras con primera letra mayúscula, incluida la primera letra)
     // Ejemplo: MaxHealthPoints
 
-    [SerializeField] private int BandageAmount = 0;
-    [SerializeField] private int BandageHealing = 30;
-    [SerializeField] private int MaxHealth;
-    [SerializeField] HealthBar HealthBar; //Cuando tenga daño tengo que llamarla para que se modifique
-
     #endregion
-
+    
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados (private fields)
     // Documentar cada atributo que aparece aquí.
@@ -41,40 +34,22 @@ public class Health : MonoBehaviour
     // primera letra en mayúsculas)
     // Ejemplo: _maxHealthPoints
 
-    private InputAction _healingAction;
-    private InteractuarObjetos _pickUpBandage;
-    private Vendas bandage;
-
-    private int _currentHealth;
-    private int _damage;
-
-    private bool _picked;
-
     #endregion
-
+    
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
-
+    
     // Por defecto están los típicos (Update y Start) pero:
     // - Hay que añadir todos los que sean necesarios
     // - Hay que borrar los que no se usen 
-
+    
     /// <summary>
     /// Start is called on the frame when a script is enabled just before 
     /// any of the Update methods are called the first time.
     /// </summary>
     void Start()
     {
-        _currentHealth = MaxHealth;
-        _pickUpBandage = GetComponent<InteractuarObjetos>();
-        bandage = GetComponent<Vendas>();
-
-        _healingAction = InputSystem.actions.FindAction("Healing");
-        if (_healingAction == null)
-        {
-            Debug.Log("Accion no encontrada, no funciona curarse");
-            Destroy(this);
-        }
+        
     }
 
     /// <summary>
@@ -82,7 +57,7 @@ public class Health : MonoBehaviour
     /// </summary>
     void Update()
     {
-       
+        
     }
     #endregion
 
@@ -94,9 +69,8 @@ public class Health : MonoBehaviour
     // mayúscula, incluida la primera letra)
     // Ejemplo: GetPlayerController
 
-
     #endregion
-
+    
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
     // Documentar cada método que aparece aquí
@@ -104,35 +78,8 @@ public class Health : MonoBehaviour
     // se nombren en formato PascalCase (palabras con primera letra
     // mayúscula, incluida la primera letra)
 
-    private void TakingDamage()
-    {
-        HealthBar.SetValue(GameManager.Instance.Damage(_currentHealth, _damage));
-    }
+    #endregion   
 
-    private void PlayerHeals()
-    {
-        HealthBar.SetValue(GameManager.Instance.Healing(_currentHealth, MaxHealth, BandageHealing));
-    }
-
-    private void Bandages()
-    {
-        
-        //if (_pickUpBandage.Interactuar())
-        {
-            BandageAmount += 1;
-        }
-
-        if (_healingAction.IsPressed() && BandageAmount > 0)
-        {
-            GameManager.Instance.Healing(_currentHealth, MaxHealth, BandageHealing);
-            BandageAmount -= 1;
-            Debug.Log("Venda usada");
-
-        }
-        
-
-        #endregion
-
-    }
-}// class PlayerHealth 
-// namespace
+} // class Objects 
+// Adriana Fernández Luna
+// Laura Garay Zubiaguirre

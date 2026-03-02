@@ -46,6 +46,8 @@ public class Bullet : MonoBehaviour
     /// <summary>Dirección de movimiento de la bala, asignada al instanciarse.</summary>
     private Vector2 _direction;
 
+    private Health _health;
+
     #endregion
 
 
@@ -59,6 +61,7 @@ public class Bullet : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _health = GetComponent<Health>();
 
         // La bala no debe girar por físicas, solo se mueve en línea recta
         _rb.gravityScale = 0f;
@@ -88,17 +91,18 @@ public class Bullet : MonoBehaviour
     }
 
     /// <summary>
-    /// Al colisionar con cualquier objeto se destruye la bala.
-    /// Aquí se puede añadir lógica de daño cuando esté el sistema de salud.
+    /// Al colisionar con cualquier objeto aplica daño y se destruye.
+    /// No necesita guardas de tag porque la Physics2D Layer Collision Matrix
+    /// ya impide que esta bala colisione con quien la disparó u otras balas.
+    /// Capas configuradas en Project Settings → Physics 2D:
+    ///   · PlayerBullet no colisiona con: Player, PlayerBullet
+    ///   · EnemyBullet  no colisiona con: Enemy,  EnemyBullet
     /// </summary>
+    /// 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Ignoramos colisiones con el propio jugador
-        if (other.CompareTag("Player")) return;
-
-        // TODO: aplicar daño cuando esté implementado el sistema de vida
-        // other.GetComponent<Health>()?.TakeDamage(_damage);
-
+        _health = other.GetComponent<Health>();   
+        if(other != null) _health.Damage(_damage);
         Destroy(gameObject);
     }
 
@@ -124,6 +128,7 @@ public class Bullet : MonoBehaviour
         // Asignamos la velocidad al Rigidbody2D (necesita Rigidbody2D, NO Rigidbody 3D)
         _rb.linearVelocity = _direction * _speed;
     }
+
 
     #endregion
 
