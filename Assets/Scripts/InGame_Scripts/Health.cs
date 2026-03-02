@@ -25,8 +25,7 @@ public class Health : MonoBehaviour
     // (palabras con primera letra mayúscula, incluida la primera letra)
     // Ejemplo: MaxHealthPoints
 
-    [SerializeField] private int BandageAmount = 0;
-    [SerializeField] private int BandageHealing = 30;
+
     [SerializeField] private int MaxHealth;
     [SerializeField] HealthBar HealthBar; //Cuando tenga daño tengo que llamarla para que se modifique
     [SerializeField] GameObject EnemyGameObject;
@@ -65,6 +64,8 @@ public class Health : MonoBehaviour
     /// Start is called on the frame when a script is enabled just before 
     /// any of the Update methods are called the first time.
     /// </summary>
+
+
     void Start()
     {
         _currentHealth = MaxHealth;
@@ -105,7 +106,7 @@ public class Health : MonoBehaviour
         {
             return;
         }
-        
+
         _currentHealth -= damageAmount;
         if (HealthBar != null) HealthBar.SetValue(_currentHealth);
         DestroyEnemy();
@@ -129,7 +130,7 @@ public class Health : MonoBehaviour
 
     public void SetImmune(bool immune)
     {
-        _isImmune =immune;
+        _isImmune = immune;
     }
 
     public bool IsImmune()
@@ -143,17 +144,6 @@ public class Health : MonoBehaviour
     // El convenio de nombres de Unity recomienda que estos métodos
     // se nombren en formato PascalCase (palabras con primera letra
     // mayúscula, incluida la primera letra)
-
-    private void Bandages()
-    {
-
-        if (_healingAction.IsPressed() && BandageAmount > 0)
-        {
-            Healing(BandageHealing);
-            BandageAmount -= 1;
-            Debug.Log("Venda usada");
-        }
-    }
 
     /// <summary>
     /// Distintos comportamientos de muerte, diferenciando al enemigo de al jugador
@@ -169,7 +159,7 @@ public class Health : MonoBehaviour
     }
 
     private void PlayerDeath()
-    { 
+    {
         PlayerMovement player = GetComponent<PlayerMovement>();
         if (player != null)
         {

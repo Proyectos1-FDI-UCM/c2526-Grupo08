@@ -6,6 +6,7 @@
 //---------------------------------------------------------
 
 using UnityEngine;
+using UnityEngine.InputSystem;
 // Añadir aquí el resto de directivas using
 
 
@@ -23,6 +24,11 @@ public class Inventory : MonoBehaviour
     // (palabras con primera letra mayúscula, incluida la primera letra)
     // Ejemplo: MaxHealthPoints
 
+    [SerializeField]
+    private int BandageHealth = 30;
+    [SerializeField]
+    private Health _health;
+
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
@@ -38,31 +44,57 @@ public class Inventory : MonoBehaviour
     private int _key = 0;
     private int _fusible = 0;
 
+    private InputAction HealthAction;
+    private Health _playerHealth;
     #endregion
-    
+
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
-    
+
     // Por defecto están los típicos (Update y Start) pero:
     // - Hay que añadir todos los que sean necesarios
     // - Hay que borrar los que no se usen 
-    
+
     /// <summary>
     /// Start is called on the frame when a script is enabled just before 
     /// any of the Update methods are called the first time.
     /// </summary>
-    void Start()
+
+    private void Awake()
     {
-        
+        _playerHealth = GetComponent<Health>();
+
+        _health = GetComponent<Health>();
+        if (_health == null)
+        {
+            Debug.LogError("No se encontró el componente Health en el jugador");
+        }
+
+        HealthAction = InputSystem.actions.FindAction("Healing");
+        if (HealthAction == null)
+        {
+            Debug.Log("Accion no encontrada, no funciona el Inventory");
+            Destroy(this);
+        }
     }
 
-    /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
-    /// </summary>
-    void Update()
+    private void OnEnable()
     {
-        
+        HealthAction.Enable();
+        HealthAction.performed += OnUseBandage;
     }
+
+    private void OnDisable()
+    {
+        HealthAction.Disable();
+        HealthAction.performed -= OnUseBandage;
+    }
+
+    private void OnUseBandage(InputAction.CallbackContext context)
+    {
+        UseBandage();
+    }
+
     #endregion
 
     // ---- MÉTODOS PÚBLICOS ----
@@ -73,12 +105,12 @@ public class Inventory : MonoBehaviour
     // mayúscula, incluida la primera letra)
     // Ejemplo: GetPlayerController
 
-    public void AddItem (Objects.ObjectsType type)
+    public void AddItem(Objects.ObjectsType type)
     {
         switch (type)
         {
             case Objects.ObjectsType.bandage:
-                
+
                 _bandage += 1;
                 Debug.Log("Bandages: " + _bandage);
                 break;
@@ -97,13 +129,24 @@ public class Inventory : MonoBehaviour
     }
 
     #endregion
-    
+
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
     // Documentar cada método que aparece aquí
     // El convenio de nombres de Unity recomienda que estos métodos
     // se nombren en formato PascalCase (palabras con primera letra
     // mayúscula, incluida la primera letra)
+
+    private void UseBandage()
+    {
+        if (_bandage > 0)
+        {
+            _bandage--;
+            _health.Healing(BandageHealth);
+            Debug.Log("Se ha usado una venda, quedan: " + _bandage + " vendas");
+        }
+        else Debug.Log("No tienes vendas");
+    }
 
     #endregion   
 
