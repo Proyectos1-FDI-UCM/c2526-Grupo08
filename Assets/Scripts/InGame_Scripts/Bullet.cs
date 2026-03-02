@@ -101,8 +101,11 @@ public class Bullet : MonoBehaviour
     /// 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        _health = other.GetComponent<Health>();   
-        if(other != null) _health.Damage(_damage);
+        _health = other.GetComponent<Health>();
+        if (_health != null)
+        {
+            _health.Damage(_damage);
+        }
         Destroy(gameObject);
     }
 
