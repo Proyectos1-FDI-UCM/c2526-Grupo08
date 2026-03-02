@@ -188,13 +188,13 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Mouse.x > 0)
             {
-                Debug.Log("Derecha");
+                //Debug.Log("Derecha");
 
                 ChangeSprite(Direction.Right);
             }
             else
             {
-                Debug.Log("Izquierda");
+                //Debug.Log("Izquierda");
 
                 ChangeSprite(Direction.Left);
             }
@@ -203,13 +203,13 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Mouse.y > 0)
             {
-                Debug.Log("Arriba");
+                //Debug.Log("Arriba");
 
                 ChangeSprite(Direction.Up);
             }
             else
             {
-                Debug.Log("Abajo");
+                //Debug.Log("Abajo");
 
                 ChangeSprite(Direction.Down);
             }
