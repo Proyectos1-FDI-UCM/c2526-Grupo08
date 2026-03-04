@@ -56,7 +56,6 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D _rb;
 
     private Vector2 Movement;
-    private bool Sliding = false;
 
     //Variables dash
     private bool _canDash = true;
@@ -228,11 +227,11 @@ public class PlayerMovement : MonoBehaviour
             if ((contactPoint.normal.x > 0 && Movement.x < 0) || //Pared y desplazamiento a la izquierda
                 (contactPoint.normal.x < 0 && Movement.x > 0))   //Pared y desplazamiento a la derecha
             {
-                Sliding = true;
+                _sliding = true;
                 return;
             }
         }
-        Sliding = false;
+        _sliding = false;
     }
 
     private void OnCollisionExit2D(Collision2D collision)

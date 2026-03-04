@@ -24,7 +24,7 @@ public class HealthBar : MonoBehaviour
     // (palabras con primera letra mayúscula, incluida la primera letra)
     // Ejemplo: MaxHealthPoints
 
-    Slider Slider;
+    [SerializeField] Slider SliderHealthBar;
 
     #endregion
     
@@ -52,7 +52,7 @@ public class HealthBar : MonoBehaviour
     /// </summary>
     void Start()
     {
-        Slider = GetComponent<Slider>();
+        SliderHealthBar = GetComponent<Slider>();
     }
 
     /// <summary>
@@ -74,8 +74,8 @@ public class HealthBar : MonoBehaviour
 
     public void SetMaxValue(int maxValue)
     {
-        Slider.maxValue = maxValue;
-        Slider.value = maxValue;
+        SliderHealthBar.maxValue = maxValue;
+        SliderHealthBar.value = maxValue;
     }
 
     /// <summary>
@@ -84,7 +84,7 @@ public class HealthBar : MonoBehaviour
     /// <param name="value"></param>
     public void SetValue(int value)
     {
-        Slider.value = value;
+        SliderHealthBar.value = value;
     }
 
     #endregion
