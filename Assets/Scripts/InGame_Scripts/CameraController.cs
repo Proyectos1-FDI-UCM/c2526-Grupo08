@@ -27,7 +27,7 @@ public class CameraController : MonoBehaviour
 
     [Header("Follow Settings")]
     [Tooltip("Retraso en segundos que tarda la cámara en alcanzar la posición del jugador. (GDD: 1 segundo)")]
-    [SerializeField] private float _followDelay = 1f;
+    [SerializeField] private float _followDelay = 0.5f;
 
     [Header("Screen Shake")]
     [Tooltip("Duración en segundos del temblor al usar una habilidad mágica.")]
