@@ -158,7 +158,8 @@ public class GameManager : MonoBehaviour
     /// <param name="currentHealth">Vida actual del jugador.</param>
     public void UpdateGUI(int currentHealth)
     {
-        if (currentHealth <= 0)
+        PlayerMovement _player = GetComponent<PlayerMovement>();
+        if (_player != null && currentHealth <= 0)
         {
             ShowPanelDeath();
         }
@@ -202,8 +203,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void HidePanelDeath()
     {
-        PlayerMovement _player = GetComponent<PlayerMovement>();
-        if (_player != null && panelDeath != null)
+        
+        if (panelDeath != null)
         {
             panelDeath.SetActive(false);
         }
