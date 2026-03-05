@@ -904,6 +904,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 100
+  BandageHealth: 30
   HealthBar: {fileID: 1593157558}
   EnemyGameObject: {fileID: 269608014}
 --- !u!114 &269608016
@@ -2678,6 +2679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 200
+  BandageHealth: 30
   HealthBar: {fileID: 2086375915}
   EnemyGameObject: {fileID: 0}
 --- !u!4 &1057206327 stripped
@@ -5812,9 +5814,9 @@ RectTransform:
   - {fileID: 853726884}
   m_Father: {fileID: 1660457989}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.26562828, y: 0.85600007}
-  m_AnchorMax: {x: 0.26562828, y: 0.85600007}
-  m_AnchoredPosition: {x: -90, y: 25}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 194, y: -59}
   m_SizeDelta: {x: 330.8538, y: 40.9598}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2086375914
