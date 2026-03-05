@@ -5,8 +5,10 @@
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 // Añadir aquí el resto de directivas using
 
 
@@ -28,6 +30,8 @@ public class Inventory : MonoBehaviour
     private int BandageHealth = 30;
     [SerializeField] 
     private Health _health;
+    [SerializeField] private string nextSceneName = "Level_2";
+    [SerializeField] private int requiredFusibles = 3;
 
     #endregion
 
@@ -46,6 +50,7 @@ public class Inventory : MonoBehaviour
 
     private InputAction HealthAction;
     private Health _playerHealth;
+    private PlayerMovement _playerMovement;
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
@@ -94,6 +99,29 @@ public class Inventory : MonoBehaviour
     {
         UseBandage();
     }
+    private void OnTriggerEnter2D(Collider2D other) //Cambio de Marián
+    {
+        _playerMovement = other.GetComponent<PlayerMovement>();
+        if (_playerMovement != null)
+        {
+            
+            Inventory inventory = other.GetComponent<Inventory>();
+
+            if (inventory != null)
+            {
+                
+                if (inventory.GetFusibleCount() == requiredFusibles)
+                {
+                    Debug.Log("¡Ascensor activado! Cambiando de escena...");
+                    SceneManager.LoadScene(nextSceneName);
+                }
+                else
+                {
+                    Debug.Log("Te faltan fusibles para activar el ascensor.");
+                }
+            }
+        }
+    }
 
     #endregion
 
@@ -104,6 +132,11 @@ public class Inventory : MonoBehaviour
     // se nombren en formato PascalCase (palabras con primera letra
     // mayúscula, incluida la primera letra)
     // Ejemplo: GetPlayerController
+
+    public int GetFusibleCount() //Cambio de Marián
+    {
+        return _fusible;
+    }
 
     public void AddItem(Objects.ObjectsType type)
     {
@@ -127,6 +160,8 @@ public class Inventory : MonoBehaviour
 
         }
     }
+
+    
 
     #endregion
 
