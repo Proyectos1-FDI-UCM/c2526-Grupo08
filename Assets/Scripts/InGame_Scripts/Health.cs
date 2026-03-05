@@ -26,9 +26,14 @@ public class Health : MonoBehaviour
     // Ejemplo: MaxHealthPoints
 
 
-    [SerializeField] private int MaxHealth = 200;
-    [SerializeField] HealthBar HealthBar; //Cuando tenga daño tengo que llamarla para que se modifique
-    [SerializeField] GameObject EnemyGameObject;
+    [SerializeField] 
+    private int MaxHealth = 200;
+    [SerializeField]
+    private int BandageHealth = 30;
+    [SerializeField] 
+    HealthBar HealthBar; //Cuando tenga daño tengo que llamarla para que se modifique
+    [SerializeField] 
+    GameObject EnemyGameObject;
 
     #endregion
 
@@ -42,13 +47,10 @@ public class Health : MonoBehaviour
     // Ejemplo: _maxHealthPoints
 
     private InputAction _healingAction;
-    //private InteractuarObjetos _pickUpBandage;
-    //private Vendas bandage;
+    private Inventory _inventory;
 
     private int _currentHealth;
-
     private bool _picked;
-
     private bool _isImmune = false;
 
     #endregion
@@ -67,6 +69,8 @@ public class Health : MonoBehaviour
 
     void Start()
     {
+        _inventory = GetComponent<Inventory>(); 
+
         _currentHealth = MaxHealth;
         
         _healingAction = InputSystem.actions.FindAction("Healing");
@@ -77,6 +81,13 @@ public class Health : MonoBehaviour
         }
 
         HealthBar.SetValue(MaxHealth);
+        _healingAction.Enable();
+        _healingAction.performed += OnUseBandage;
+    }
+
+    private void OnUseBandage(InputAction.CallbackContext context)
+    {
+        UseBandage();
     }
 
     /// <summary>
@@ -161,6 +172,25 @@ public class Health : MonoBehaviour
         {
             GameManager.Instance.UpdateGUI(_currentHealth);
         }
+    }
+
+    private void UseBandage()
+    {
+
+        if (_inventory == null)
+        {
+            _inventory = GetComponent<Inventory>();
+            if (_inventory == null) return; 
+        }
+
+
+        if ((_inventory.GetBandageCount()) > 0)
+        {
+            _inventory.RestBandageCount();
+            Healing(BandageHealth);
+            Debug.Log("Se ha usado una venda, quedan: " + (_inventory.GetBandageCount()) + " vendas");
+        }
+        else Debug.Log("No tienes vendas");
     }
 
     #endregion

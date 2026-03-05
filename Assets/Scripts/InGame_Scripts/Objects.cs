@@ -6,6 +6,7 @@
 //---------------------------------------------------------
 
 using UnityEngine;
+using UnityEngine.InputSystem;
 // Añadir aquí el resto de directivas using
 
 
@@ -38,6 +39,9 @@ public class Objects : MonoBehaviour
     // Ejemplo: _maxHealthPoints
 
     private Inventory _interactuarObjetos;
+    private InputAction _interactAction;
+    private Inventory _playerInventory;
+    private bool PlayerInRange;
 
     #endregion
 
@@ -54,16 +58,26 @@ public class Objects : MonoBehaviour
     /// </summary>
     void Start()
     {
-        
+        _interactAction = InputSystem.actions.FindAction("Interact");
+
+        if (_interactAction == null)
+        {
+            Debug.Log("Accion Interact no encontrada");
+            Destroy(this);
+        }
+    }
+
+    private void Update()
+    {
+        if (PlayerInRange && _interactAction != null && _interactAction.WasPressedThisFrame())
+        {
+            GetObject(_playerInventory);
+        }
     }
 
     /// <summary>
     /// Update is called every frame, if the MonoBehaviour is enabled.
     /// </summary>
-    void Update()
-    {
-        
-    }
     #endregion
 
     // ---- MÉTODOS PÚBLICOS ----
@@ -80,18 +94,28 @@ public class Objects : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void OnTriggerStay2D (Collider2D other)
+    private void OnTriggerEnter2D (Collider2D other)
     {
-        if (Input.GetButtonDown("Interactuar"))
+        Inventory inv = other.GetComponent<Inventory>();
+
+        if (inv != null)
         {
-            Inventory PlayerInventory = other.GetComponent<Inventory>();
+            PlayerInRange = true;
+            _playerInventory = inv;
+         }
+    }
 
-            if (PlayerInventory != null)
-            {
-                GetObject(PlayerInventory);
-            }
+    private void OnTriggerExit2D(Collider2D other)
+    {
+
+        Inventory inv = other.GetComponent<Inventory>();
+
+        if (inv != null)
+        {
+            PlayerInRange = false;
+            _playerInventory = null;
         }
-
+        
     }
 
     #endregion
