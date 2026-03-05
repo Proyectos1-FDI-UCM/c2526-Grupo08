@@ -68,31 +68,18 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         _playerHealth = GetComponent<Health>();
-
-        _health = GetComponent<Health>(); 
-        if (_health == null)
-        {
-            Debug.LogError("No se encontró el componente Health en el jugador");
-        }
+        _health = GetComponent<Health>();
 
         HealthAction = InputSystem.actions.FindAction("Healing");
         if (HealthAction == null)
         {
-            Debug.Log("Accion no encontrada, no funciona el Inventory");
+            Debug.Log("Accion no encontrada");
             Destroy(this);
+            return;
         }
-    }
 
-    private void OnEnable()
-    {
         HealthAction.Enable();
         HealthAction.performed += OnUseBandage;
-    }
-
-    private void OnDisable()
-    {
-        HealthAction.Disable();
-        HealthAction.performed -= OnUseBandage;
     }
 
     private void OnUseBandage(InputAction.CallbackContext context)

@@ -6,12 +6,9 @@
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
-using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using static UnityEngine.Rendering.DebugUI;
-
 
 /// <summary>
 /// Componente responsable de la gestión global del juego. Es un singleton
@@ -30,15 +27,7 @@ public class GameManager : MonoBehaviour
 
     #region Atributos del Inspector (serialized fields)
 
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // públicos y de inspector se nombren en formato PascalCase
-    // (palabras con primera letra mayúscula, incluida la primera letra)
-    // Ejemplo: MaxHealthPoints
-
     [SerializeField] private GameObject panelDeath;
-
-
 
     #endregion
 
@@ -50,9 +39,6 @@ public class GameManager : MonoBehaviour
     /// Instancia única de la clase (singleton).
     /// </summary>
     private static GameManager _instance;
-
-
-
 
     #endregion
 
@@ -69,31 +55,19 @@ public class GameManager : MonoBehaviour
     {
         if (_instance != null)
         {
-            // No somos la primera instancia. Se supone que somos un
-            // GameManager de una escena que acaba de cargarse, pero
-            // ya había otro en DontDestroyOnLoad que se ha registrado
-            // como la única instancia.
-            // Si es necesario, transferimos la configuración que es
-            // dependiente de este manager al que ya existe.
-            // Esto permitirá al GameManager real mantener su estado interno
-            // pero acceder a los elementos de la nueva escena
-            // o bien olvidar los de la escena previa de la que venimos
+            // No somos la primera instancia. Transferimos la referencia al panelDeath
+            // de la nueva escena al GameManager que sobrevive.
             TransferManagerSetup();
 
-            // Y ahora nos destruímos del todo. DestroyImmediate y no Destroy para evitar
-            // que se inicialicen el resto de componentes del GameObject para luego ser
-            // destruídos. Esto es importante dependiendo de si hay o no más managers
-            // en el GameObject.
             DestroyImmediate(this.gameObject);
         }
         else
         {
             // Somos el primer GameManager.
-            // Queremos sobrevivir a cambios de escena.
             _instance = this;
             DontDestroyOnLoad(this.gameObject);
             Init();
-        } // if-else somos instancia nueva o no.
+        }
     }
 
     /// <summary>
@@ -103,14 +77,16 @@ public class GameManager : MonoBehaviour
     {
         if (this == _instance)
         {
-            // Éramos la instancia de verdad, no un clon.
             _instance = null;
-        } // if somos la instancia principal
+        }
     }
 
     private void Start()
     {
-        if (panelDeath != null) panelDeath.SetActive(false);
+        // Aseguramos que el panel esté oculto al inicio de cada escena
+        HidePanelDeath();
+        // Por si la escena anterior dejó el tiempo pausado (ej: muerte)
+        Time.timeScale = 1f;
     }
 
     private void Update()
@@ -138,11 +114,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Devuelve cierto si la instancia del singleton está creada y
     /// falso en otro caso.
-    /// Lo normal es que esté creada, pero puede ser útil durante el
-    /// cierre para evitar usar el GameManager que podría haber sido
-    /// destruído antes de tiempo.
     /// </summary>
-    /// <returns>Cierto si hay instancia creada.</returns>
     public static bool HasInstance()
     {
         return _instance != null;
@@ -151,47 +123,56 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Método que cambia la escena actual por la indicada en el parámetro.
     /// </summary>
-    /// <param name="index">Índice de la escena (en el build settings)
-    /// que se cargará.</param>
+    /// <param name="index">Índice de la escena (en el build settings) que se cargará.</param>
     public void ChangeScene(int index)
     {
-        // Antes y después de la carga fuerza la recolección de basura, por eficiencia,
-        // dado que se espera que la carga tarde un tiempo, y dado que tenemos al
-        // usuario esperando podemos aprovechar para hacer limpieza y ahorrarnos algún
-        // tirón en otro momento.
-        // De Unity Configuration Tips: Memory, Audio, and Textures
-        // https://software.intel.com/en-us/blogs/2015/02/05/fix-memory-audio-texture-issues-in-unity
-        //
-        // "Since Unity's Auto Garbage Collection is usually only called when the heap is full
-        // or there is not a large enough freeblock, consider calling (System.GC..Collect) before
-        // and after loading a level (or put it on a timer) or otherwise cleanup at transition times."
-        //
-        // En realidad... todo esto es algo antiguo por lo que lo mismo ya está resuelto)
         System.GC.Collect();
-        UnityEngine.SceneManagement.SceneManager.LoadScene(index);
+        SceneManager.LoadScene(index);
         System.GC.Collect();
-    } // ChangeScene
-
-
-    public void RestartLevelifLose()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        Time.timeScale = 1;
     }
 
+    /// <summary>
+    /// Reinicia el nivel actual. Llamado desde el botón "Reintentar" del panelDeath.
+    /// Restaura el timeScale por si el juego estaba pausado al morir.
+    /// </summary>
+    public void RestartLevelifLose()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    /// <summary>
+    /// Vuelve al menú principal. Llamado desde el botón "Menú" del panelDeath.
+    /// Restaura el timeScale por si el juego estaba pausado al morir.
+    /// </summary>
     public void ReturnToMainMenu()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene("Main menu");
     }
 
+    /// <summary>
+    /// Actualiza el estado de la GUI según la vida actual del jugador.
+    /// Si la vida llega a 0 muestra el panel de muerte y pausa el juego.
+    /// </summary>
+    /// <param name="currentHealth">Vida actual del jugador.</param>
     public void UpdateGUI(int currentHealth)
     {
-        if (currentHealth <= 0) //Si la vida del jugador llega a 0 entonces la escena debe reiniciarse
+        if (currentHealth <= 0)
         {
-            panelDeath.SetActive(true);
-            Time.timeScale = 0; //Para detener la escena
+            ShowPanelDeath();
         }
+    }
 
+    /// <summary>
+    /// Permite a otros componentes asignar el panel de muerte desde la escena activa.
+    /// Útil cuando el GameManager ya existe (DontDestroyOnLoad) y se carga una nueva escena.
+    /// </summary>
+    /// <param name="panel">El GameObject del panel de muerte de la nueva escena.</param>
+    public void SetPanelDeath(GameObject panel)
+    {
+        panelDeath = panel;
+        HidePanelDeath();
     }
 
     #endregion
@@ -201,6 +182,33 @@ public class GameManager : MonoBehaviour
     #region Métodos Privados
 
     /// <summary>
+    /// Muestra el panel de muerte y pausa el tiempo del juego.
+    /// </summary>
+    private void ShowPanelDeath()
+    {
+        if (panelDeath != null)
+        {
+            panelDeath.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("[GameManager] panelDeath es null. Asegúrate de asignarlo en el Inspector o llamar a SetPanelDeath().");
+        }
+        Time.timeScale = 0f;
+    }
+
+    /// <summary>
+    /// Oculta el panel de muerte.
+    /// </summary>
+    private void HidePanelDeath()
+    {
+        if (panelDeath != null)
+        {
+            panelDeath.SetActive(false);
+        }
+    }
+
+    /// <summary>
     /// Dispara la inicialización.
     /// </summary>
     private void Init()
@@ -208,13 +216,16 @@ public class GameManager : MonoBehaviour
         // De momento no hay nada que inicializar
     }
 
+    /// <summary>
+    /// Transfiere la referencia al panelDeath de la nueva escena al GameManager persistente.
+    /// Se llama cuando se detecta que ya existe una instancia y el nuevo GameManager
+    /// (de la escena recién cargada) contiene la referencia actualizada al panel.
+    /// </summary>
     private void TransferManagerSetup()
     {
-        // De momento no hay que transferir ningún setup
-        // a otro manager
+        _instance.panelDeath = this.panelDeath;
     }
 
-
     #endregion
-} // class GameManager 
-// namespace
+
+} // class GameManager

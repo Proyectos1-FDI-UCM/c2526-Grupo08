@@ -122,8 +122,6 @@ public class Health : MonoBehaviour
         if (HealthBar != null) HealthBar.SetValue(_currentHealth);
     }
 
-    #endregion
-
     public void SetImmune(bool immune)
     {
         _isImmune = immune;
@@ -133,6 +131,9 @@ public class Health : MonoBehaviour
     {
         return _isImmune;
     }
+
+    #endregion
+
 
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
@@ -156,8 +157,7 @@ public class Health : MonoBehaviour
 
     private void PlayerDeath()
     {
-        PlayerMovement player = GetComponent<PlayerMovement>();
-        if (player != null)
+        if (_currentHealth <= 0)
         {
             GameManager.Instance.UpdateGUI(_currentHealth);
         }
