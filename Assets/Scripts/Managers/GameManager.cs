@@ -202,7 +202,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void HidePanelDeath()
     {
-        if (panelDeath != null)
+        PlayerMovement _player = GetComponent<PlayerMovement>();
+        if (_player != null && panelDeath != null)
         {
             panelDeath.SetActive(false);
         }

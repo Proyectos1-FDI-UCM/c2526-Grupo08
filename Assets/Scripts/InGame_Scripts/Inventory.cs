@@ -26,9 +26,12 @@ public class Inventory : MonoBehaviour
     // (palabras con primera letra mayúscula, incluida la primera letra)
     // Ejemplo: MaxHealthPoints
 
+    [SerializeField]
+    private int BandageHealth = 30;
 
-   
     private Health _health;
+    [SerializeField] private string nextSceneName = "Level_2";
+    [SerializeField] private int requiredFusibles = 3;
 
     #endregion
 
@@ -45,6 +48,9 @@ public class Inventory : MonoBehaviour
     private int _key = 0;
     private int _fusible = 0;
 
+    private InputAction HealthAction;
+    private Health _playerHealth;
+    private PlayerMovement _playerMovement;
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
@@ -61,7 +67,47 @@ public class Inventory : MonoBehaviour
 
     private void Start()
     {
+        _playerHealth = GetComponent<Health>();
+        _health = GetComponent<Health>();
 
+        HealthAction = InputSystem.actions.FindAction("Healing");
+        if (HealthAction == null)
+        {
+            Debug.Log("Accion no encontrada");
+            Destroy(this);
+            return;
+        }
+
+        HealthAction.Enable();
+        HealthAction.performed += OnUseBandage;
+    }
+
+    private void OnUseBandage(InputAction.CallbackContext context)
+    {
+        UseBandage();
+    }
+    private void OnTriggerEnter2D(Collider2D other) //Cambio de Marián
+    {
+        _playerMovement = other.GetComponent<PlayerMovement>();
+        if (_playerMovement != null)
+        {
+
+            Inventory inventory = other.GetComponent<Inventory>();
+
+            if (inventory != null)
+            {
+
+                if (inventory.GetFusibleCount() == requiredFusibles)
+                {
+                    Debug.Log("¡Ascensor activado! Cambiando de escena...");
+                    SceneManager.LoadScene(nextSceneName);
+                }
+                else
+                {
+                    Debug.Log("Te faltan fusibles para activar el ascensor.");
+                }
+            }
+        }
     }
 
     #endregion
@@ -81,7 +127,7 @@ public class Inventory : MonoBehaviour
 
     public int GetBandageCount()
     {
-        return _bandage; 
+        return _bandage;
     }
 
     public int RestBandageCount()
@@ -112,6 +158,8 @@ public class Inventory : MonoBehaviour
         }
     }
 
+
+
     #endregion
 
     // ---- MÉTODOS PRIVADOS ----
@@ -121,7 +169,18 @@ public class Inventory : MonoBehaviour
     // se nombren en formato PascalCase (palabras con primera letra
     // mayúscula, incluida la primera letra)
 
-    #endregion   
+    private void UseBandage()
+    {
+        if (_bandage > 0)
+        {
+            _bandage--;
+            _health.Healing(BandageHealth);
+            Debug.Log("Se ha usado una venda, quedan: " + _bandage + " vendas");
+        }
+        else Debug.Log("No tienes vendas");
+    }
+
+    #endregion     
 
 } // class Inventory 
 // Adriana Fernández Luna
