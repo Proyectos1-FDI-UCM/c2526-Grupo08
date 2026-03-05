@@ -137,7 +137,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void RestartLevelifLose()
     {
-        Time.timeScale = 1f;
+        Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
