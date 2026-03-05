@@ -37,12 +37,13 @@ public class LevelWin : MonoBehaviour
     // Ejemplo: _maxHealthPoints
     private void OnTriggerEnter2D(Collider2D other)
     {
-        
+        Debug.Log("Player detectado ejje");
         PlayerMovement player = other.GetComponent<PlayerMovement>();
 
         if (player != null)
         {
             
+
             Inventory inv = other.GetComponent<Inventory>();
 
             if (inv != null)

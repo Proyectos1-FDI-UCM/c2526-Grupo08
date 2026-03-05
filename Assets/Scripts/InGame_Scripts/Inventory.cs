@@ -28,7 +28,7 @@ public class Inventory : MonoBehaviour
 
     [SerializeField]
     private int BandageHealth = 30;
-    [SerializeField] 
+   
     private Health _health;
     [SerializeField] private string nextSceneName = "Level_2";
     [SerializeField] private int requiredFusibles = 3;
@@ -65,7 +65,7 @@ public class Inventory : MonoBehaviour
     /// any of the Update methods are called the first time.
     /// </summary>
 
-    private void Awake()
+    private void Start()
     {
         _playerHealth = GetComponent<Health>();
 

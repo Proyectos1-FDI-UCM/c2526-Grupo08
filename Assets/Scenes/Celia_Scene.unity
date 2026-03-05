@@ -169,6 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ac3796da0b8d36448913c05bd4fe59f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SliderHealthBar: {fileID: 4510718}
 --- !u!114 &4510718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -993,7 +994,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BandageHealth: 30
-  _health: {fileID: 0}
+  nextSceneName: Level_2
+  requiredFusibles: 3
 --- !u!1 &388118549
 GameObject:
   m_ObjectHideFlags: 0
@@ -1809,6 +1811,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ac3796da0b8d36448913c05bd4fe59f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SliderHealthBar: {fileID: 0}
 --- !u!1 &1319229672
 GameObject:
   m_ObjectHideFlags: 0

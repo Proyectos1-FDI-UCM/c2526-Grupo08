@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 1332517957957864599}
   - component: {fileID: -8370202389003812274}
   - component: {fileID: -7483780444665984982}
+  - component: {fileID: -3823790945834989697}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -313,7 +314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8177949e2dee0ac4b965671a48c66177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletPrefab: {fileID: 5303907307814794885, guid: 11937ea5ec3d5b4498175fed857247e6, type: 3}
+  _bulletPrefab: {fileID: 1869822841219727020, guid: 11937ea5ec3d5b4498175fed857247e6, type: 3}
   _shootOrigin: {fileID: 5780791531641562959}
   _fireRate: 0.4
 --- !u!114 &-7483780444665984982
@@ -329,4 +330,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BandageHealth: 30
-  _health: {fileID: 0}
+  nextSceneName: Level_2
+  requiredFusibles: 3
+--- !u!114 &-3823790945834989697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3713208540947770867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7059f633451648b49bdb49418f3a5bef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHealth: 200
+  HealthBar: {fileID: 0}
+  EnemyGameObject: {fileID: 0}

@@ -26,7 +26,7 @@ public class Health : MonoBehaviour
     // Ejemplo: MaxHealthPoints
 
 
-    [SerializeField] private int MaxHealth;
+    [SerializeField] private int MaxHealth = 200;
     [SerializeField] HealthBar HealthBar; //Cuando tenga daño tengo que llamarla para que se modifique
     [SerializeField] GameObject EnemyGameObject;
 
@@ -68,10 +68,7 @@ public class Health : MonoBehaviour
     void Start()
     {
         _currentHealth = MaxHealth;
-        Health _health = GetComponent<Health>();
-        //_pickUpBandage = GetComponent<InteractuarObjetos>();
-        //bandage = GetComponent<Vendas>();
-
+        
         _healingAction = InputSystem.actions.FindAction("Healing");
         if (_healingAction == null)
         {
