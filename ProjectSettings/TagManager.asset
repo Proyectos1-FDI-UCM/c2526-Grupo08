@@ -38,13 +38,19 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Floor
+    uniqueID: 1785393891
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Objetos
+  - name: Objects
     uniqueID: 4046579005
     locked: 0
-  - name: Jugador
+  - name: Bullet
+    uniqueID: 4000259879
+    locked: 0
+  - name: Player
     uniqueID: 1435715633
     locked: 0
   m_RenderingLayers:
