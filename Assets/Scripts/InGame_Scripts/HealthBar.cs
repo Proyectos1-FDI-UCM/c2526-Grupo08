@@ -72,12 +72,6 @@ public class HealthBar : MonoBehaviour
     // mayúscula, incluida la primera letra)
     // Ejemplo: GetPlayerController
 
-    public void SetMaxValue(int maxValue)
-    {
-        SliderHealthBar.maxValue = maxValue;
-        SliderHealthBar.value = maxValue;
-    }
-
     /// <summary>
     /// Se actualiza el valor de la barra de vida acorde con la vida del jugador o enemigo
     /// </summary>
