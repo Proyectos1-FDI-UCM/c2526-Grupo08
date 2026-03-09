@@ -1,187 +1,190 @@
 //---------------------------------------------------------
-// Breve descripción del contenido del archivo
+// Gestiona el inventario del jugador: vendas, llaves y fusibles.
+// El uso de vendas se controla con la tecla E (acción "Healing").
+// La lógica del ascensor está en LevelWin, no aquí.
 // Adriana Fernández Luna
 // No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
-using Unity.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
-// Añadir aquí el resto de directivas using
-
 
 /// <summary>
-/// Antes de cada class, descripción de qué es y para qué sirve,
-/// usando todas las líneas que sean necesarias.
+/// Almacena los objetos recogidos por Cori y gestiona su uso.
+///
+/// Vendas: se consumen pulsando E y curan al jugador llamando a Health.Healing().
+/// Fusibles: se acumulan para activar el ascensor (LevelWin los consulta).
+/// Llaves: se acumulan para abrir puertas (pendiente de implementar).
+///
+/// LevelManager puede restaurar el inventario al iniciar la escena
+/// llamando a SetBandagesFromCheckpoint() y SetKeysFromCheckpoint().
 /// </summary>
 public class Inventory : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
-    #region Atributos del Inspector (serialized fields)
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // públicos y de inspector se nombren en formato PascalCase
-    // (palabras con primera letra mayúscula, incluida la primera letra)
-    // Ejemplo: MaxHealthPoints
+    #region Atributos del Inspector
 
-    [SerializeField]
-    private int BandageHealth = 30;
-
-    private Health _health;
-    [SerializeField] private string nextSceneName = "Level_2";
-    [SerializeField] private int requiredFusibles = 3;
+    [Tooltip("Puntos de vida restaurados por cada venda. (GDD: 20 puntos)")]
+    [SerializeField] private int BandageHealth = 20;
 
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
-    #region Atributos Privados (private fields)
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // privados se nombren en formato _camelCase (comienza con _, 
-    // primera palabra en minúsculas y el resto con la 
-    // primera letra en mayúsculas)
-    // Ejemplo: _maxHealthPoints
+    #region Atributos Privados
 
     private int _bandage = 0;
     private int _key = 0;
     private int _fusible = 0;
 
-    private InputAction HealthAction;
-    private Health _playerHealth;
-    private PlayerMovement _playerMovement;
+    private Health _health;
+
+    /// <summary>
+    /// Acción de input para usar vendas (tecla E).
+    /// Se inicializa en Start, no en OnEnable, para evitar NullReferenceException
+    /// ya que OnEnable se ejecuta antes que Start.
+    /// </summary>
+    private InputAction _healthAction;
+
+    /// <summary>Evita registrar el evento dos veces.</summary>
+    private bool _inputRegistered = false;
+
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
-    // Por defecto están los típicos (Update y Start) pero:
-    // - Hay que añadir todos los que sean necesarios
-    // - Hay que borrar los que no se usen 
-
-    /// <summary>
-    /// Start is called on the frame when a script is enabled just before 
-    /// any of the Update methods are called the first time.
-    /// </summary>
-
     private void Start()
     {
-        _playerHealth = GetComponent<Health>();
         _health = GetComponent<Health>();
+        if (_health == null)
+            Debug.LogError("[Inventory] No se encontró Health en el jugador.");
 
-        HealthAction = InputSystem.actions.FindAction("Healing");
-        if (HealthAction == null)
+        _healthAction = InputSystem.actions.FindAction("Healing");
+        if (_healthAction == null)
         {
-            Debug.Log("Accion no encontrada");
-            Destroy(this);
+            Debug.LogError("[Inventory] Acción 'Healing' no encontrada en el Input System.");
             return;
         }
 
-        HealthAction.Enable();
-        HealthAction.performed += OnUseBandage;
+        // Registrar aquí, después de que _healthAction esté inicializado
+        RegisterInput();
     }
 
-    private void OnUseBandage(InputAction.CallbackContext context)
+    private void OnEnable()
     {
-        UseBandage();
+        // Solo registrar si Start ya se ejecutó (re-activaciones posteriores del GameObject)
+        if (_healthAction != null)
+            RegisterInput();
     }
-    private void OnTriggerEnter2D(Collider2D other) //Cambio de Marián
+
+    private void OnDisable()
     {
-        _playerMovement = other.GetComponent<PlayerMovement>();
-        if (_playerMovement != null)
-        {
-
-            Inventory inventory = other.GetComponent<Inventory>();
-
-            if (inventory != null)
-            {
-
-                if (inventory.GetFusibleCount() == requiredFusibles)
-                {
-                    Debug.Log("¡Ascensor activado! Cambiando de escena...");
-                    SceneManager.LoadScene(nextSceneName);
-                }
-                else
-                {
-                    Debug.Log("Te faltan fusibles para activar el ascensor.");
-                }
-            }
-        }
+        UnregisterInput();
     }
 
     #endregion
 
-    // ---- MÉTODOS PÚBLICOS ----
-    #region Métodos públicos
-    // Documentar cada método que aparece aquí con ///<summary>
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
-    // Ejemplo: GetPlayerController
+    // ---- MÉTODOS PÚBLICOS — CONSULTA ----
+    #region Métodos públicos — Consulta
 
-    public int GetFusibleCount() //Cambio de Marián
-    {
-        return _fusible;
-    }
+    /// <summary>Devuelve el número de vendas en el inventario.</summary>
+    public int GetBandageCount() => _bandage;
 
-    public int GetBandageCount()
-    {
-        return _bandage;
-    }
+    /// <summary>Devuelve el número de llaves en el inventario.</summary>
+    public int GetKeyCount() => _key;
 
-    public int RestBandageCount()
-    {
-        return _bandage--;
-    }
+    /// <summary>Devuelve el número de fusibles en el inventario.</summary>
+    public int GetFusibleCount() => _fusible;
 
+    #endregion
+
+    // ---- MÉTODOS PÚBLICOS — AÑADIR OBJETOS ----
+    #region Métodos públicos — Añadir objetos
+
+    /// <summary>Añade un objeto al inventario según su tipo.</summary>
     public void AddItem(Objects.ObjectsType type)
     {
         switch (type)
         {
             case Objects.ObjectsType.bandage:
-
-                _bandage += 1;
-                Debug.Log("Bandages: " + _bandage);
+                _bandage++;
+                Debug.Log($"[Inventory] Vendas: {_bandage}");
                 break;
             case Objects.ObjectsType.key:
-
-                _key += 1;
-                Debug.Log("Keys: " + _key);
+                _key++;
+                Debug.Log($"[Inventory] Llaves: {_key}");
                 break;
             case Objects.ObjectsType.fusible:
-
-                _fusible += 1;
-                Debug.Log("Fusibles: " + _fusible);
+                _fusible++;
+                Debug.Log($"[Inventory] Fusibles: {_fusible}");
                 break;
-
         }
     }
 
+    #endregion
 
+    // ---- MÉTODOS PÚBLICOS — CHECKPOINT ----
+    #region Métodos públicos — Restaurar desde checkpoint
+
+    /// <summary>
+    /// Restaura las vendas al valor del checkpoint.
+    /// Llamado por LevelManager al iniciar la escena.
+    /// </summary>
+    public void SetBandagesFromCheckpoint(int savedBandages)
+    {
+        _bandage = Mathf.Max(savedBandages, 0);
+    }
+
+    /// <summary>
+    /// Restaura las llaves al valor del checkpoint.
+    /// Llamado por LevelManager al iniciar la escena.
+    /// </summary>
+    public void SetKeysFromCheckpoint(int savedKeys)
+    {
+        _key = Mathf.Max(savedKeys, 0);
+    }
 
     #endregion
 
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
-    // Documentar cada método que aparece aquí
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
+
+    private void RegisterInput()
+    {
+        if (_inputRegistered || _healthAction == null) return;
+        _healthAction.Enable();
+        _healthAction.performed += OnUseBandage;
+        _inputRegistered = true;
+    }
+
+    private void UnregisterInput()
+    {
+        if (!_inputRegistered || _healthAction == null) return;
+        _healthAction.performed -= OnUseBandage;
+        _healthAction.Disable();
+        _inputRegistered = false;
+    }
+
+    private void OnUseBandage(InputAction.CallbackContext context) => UseBandage();
 
     private void UseBandage()
     {
+        if (_health == null) return;
+
         if (_bandage > 0)
         {
             _bandage--;
             _health.Healing(BandageHealth);
-            Debug.Log("Se ha usado una venda, quedan: " + _bandage + " vendas");
+            Debug.Log($"[Inventory] Venda usada. Quedan: {_bandage}");
         }
-        else Debug.Log("No tienes vendas");
+        else
+        {
+            Debug.Log("[Inventory] No tienes vendas.");
+        }
     }
 
-    #endregion     
+    #endregion
 
-} // class Inventory 
-// Adriana Fernández Luna
-//Laura Garay Zubiaguirre
+} // class Inventory
+  // Adriana Fernández Luna — Laura Garay Zubiaguirre

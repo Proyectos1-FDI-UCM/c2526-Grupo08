@@ -904,9 +904,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 100
-  BandageHealth: 30
   HealthBar: {fileID: 1593157558}
   EnemyGameObject: {fileID: 269608014}
+  IsPlayer: 0
 --- !u!114 &269608016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2487,6 +2487,18 @@ PrefabInstance:
       propertyPath: Velocidad
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: -3823790945834989697, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+      propertyPath: IsPlayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3823790945834989697, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+      propertyPath: HealthBar
+      value: 
+      objectReference: {fileID: 2086375915}
+    - target: {fileID: -3823790945834989697, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+      propertyPath: EnemyGameObject
+      value: 
+      objectReference: {fileID: 269608014}
     - target: {fileID: 3713208540947770867, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_Name
       value: Player
@@ -2531,15 +2543,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: -3823790945834989697, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3713208540947770867, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1057206319}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+--- !u!114 &965242156 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -7483780444665984982, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+  m_PrefabInstance: {fileID: 965242155}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7369cb899eb80b43ad06b1b5c5a30a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &965242157 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -3823790945834989697, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+  m_PrefabInstance: {fileID: 965242155}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7059f633451648b49bdb49418f3a5bef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &989849354
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2661,27 +2691,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1057206310 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3713208540947770867, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
-  m_PrefabInstance: {fileID: 965242155}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1057206319
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1057206310}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7059f633451648b49bdb49418f3a5bef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MaxHealth: 200
-  BandageHealth: 30
-  HealthBar: {fileID: 2086375915}
-  EnemyGameObject: {fileID: 0}
 --- !u!4 &1057206327 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
@@ -2824,7 +2833,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f59f329bc0b4a36bc8d02c6710a226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelDeath: {fileID: 1509483852}
 --- !u!4 &1132275061
 Transform:
   m_ObjectHideFlags: 0
@@ -3120,6 +3128,53 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 288528c7f1f195c4693f7f35cbf4100d, type: 3}
+--- !u!1 &1378035048
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1378035050}
+  - component: {fileID: 1378035049}
+  m_Layer: 0
+  m_Name: LevelManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1378035049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378035048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 398120f647e7e40da805fa99971f1f17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelDeath: {fileID: 1509483852}
+  playerHealth: {fileID: 965242157}
+  playerInventory: {fileID: 965242156}
+--- !u!4 &1378035050
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378035048}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 533.33136, y: 288.04395, z: -4.767591}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1455377980
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6055,9 +6110,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1132275060}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: RestartLevelifLose
+      - m_Target: {fileID: 1378035049}
+        m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
+        m_MethodName: OnRestartButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6110,6 +6165,9 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 12775593}
+  - {fileID: 1132275061}
+  - {fileID: 1378035050}
+  - {fileID: 965242155}
   - {fileID: 594540604}
   - {fileID: 23703052}
   - {fileID: 721766728}
@@ -6123,7 +6181,6 @@ SceneRoots:
   - {fileID: 989849354}
   - {fileID: 1729506787}
   - {fileID: 2116127776}
-  - {fileID: 965242155}
   - {fileID: 1660457989}
   - {fileID: 1084194294}
   - {fileID: 283113954}
@@ -6133,6 +6190,5 @@ SceneRoots:
   - {fileID: 1040331520}
   - {fileID: 55897375}
   - {fileID: 1296118605}
-  - {fileID: 1132275061}
   - {fileID: 56849802}
   - {fileID: 1244705839}

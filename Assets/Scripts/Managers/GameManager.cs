@@ -1,129 +1,96 @@
 //---------------------------------------------------------
-// Contiene el componente GameManager
-// Guillermo Jiménez Díaz, Pedro P. Gómez Martín
-// Marco A. Gómez Martín
-// Template-P1
+// Gestor global del juego. Singleton persistente entre escenas.
+// Responsabilidad única: almacenar y transferir datos de estado
+// entre escenas (checkpoints, desbloqueos).
+// NO gestiona UI, paneles ni lógica de escena — eso es LevelManager.
+// Guillermo Jiménez Díaz, Pedro P. Gómez Martín — Template-P1
+// Alexia Pérez Santana — No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Componente responsable de la gestión global del juego. Es un singleton
-/// que orquesta el funcionamiento general de la aplicación,
-/// sirviendo de comunicación entre las escenas.
+/// Singleton persistente entre escenas (DontDestroyOnLoad).
+/// Solo almacena datos que necesitan viajar entre escenas:
+///   · Vida del jugador en el último checkpoint.
+///   · Inventario en el último checkpoint (vendas, llaves).
+///   · Desbloqueos permanentes (disparo multidireccional, etc.).
 ///
-/// El GameManager ha de sobrevivir entre escenas por lo que hace uso del
-/// DontDestroyOnLoad. En caso de usarlo, cada escena debería tener su propio
-/// GameManager para evitar problemas al usarlo. Además, se debería producir
-/// un intercambio de información entre los GameManager de distintas escenas.
-/// Generalmente, esta información debería estar en un LevelManager o similar.
+/// Navegación entre escenas: los métodos de carga de escena
+/// también viven aquí para centralizar el uso de SceneManager.
+///
+/// Todo lo relacionado con UI de escena (panel de muerte, pausa)
+/// pertenece a LevelManager, que vive solo en su escena.
 /// </summary>
 public class GameManager : MonoBehaviour
 {
-    // ---- ATRIBUTOS DEL INSPECTOR ----
+    // ---- SINGLETON ----
+    #region Singleton
 
-    #region Atributos del Inspector (serialized fields)
-
-    [SerializeField] private GameObject panelDeath;
-
-    #endregion
-
-    // ---- ATRIBUTOS PRIVADOS ----
-
-    #region Atributos Privados (private fields)
-
-    /// <summary>
-    /// Instancia única de la clase (singleton).
-    /// </summary>
     private static GameManager _instance;
 
-    #endregion
-
-    // ---- MÉTODOS DE MONOBEHAVIOUR ----
-
-    #region Métodos de MonoBehaviour
-
-    /// <summary>
-    /// Método llamado en un momento temprano de la inicialización.
-    /// En el momento de la carga, si ya hay otra instancia creada,
-    /// nos destruimos (al GameObject completo)
-    /// </summary>
-    protected void Awake()
-    {
-        if (_instance != null)
-        {
-            // No somos la primera instancia. Transferimos la referencia al panelDeath
-            // de la nueva escena al GameManager que sobrevive.
-            TransferManagerSetup();
-
-            DestroyImmediate(this.gameObject);
-        }
-        else
-        {
-            // Somos el primer GameManager.
-            _instance = this;
-            DontDestroyOnLoad(this.gameObject);
-            Init();
-        }
-    }
-
-    /// <summary>
-    /// Método llamado cuando se destruye el componente.
-    /// </summary>
-    protected void OnDestroy()
-    {
-        if (this == _instance)
-        {
-            _instance = null;
-        }
-    }
-
-    private void Start()
-    {
-        // Aseguramos que el panel esté oculto al inicio de cada escena
-        HidePanelDeath();
-        // Por si la escena anterior dejó el tiempo pausado (ej: muerte)
-        Time.timeScale = 1f;
-    }
-
-    private void Update()
-    {
-    }
-
-    #endregion
-
-    // ---- MÉTODOS PÚBLICOS ----
-
-    #region Métodos públicos
-
-    /// <summary>
-    /// Propiedad para acceder a la única instancia de la clase.
-    /// </summary>
+    /// <summary>Acceso global a la instancia única.</summary>
     public static GameManager Instance
     {
         get
         {
-            Debug.Assert(_instance != null);
+            Debug.Assert(_instance != null, "[GameManager] No hay instancia activa.");
             return _instance;
         }
     }
 
     /// <summary>
-    /// Devuelve cierto si la instancia del singleton está creada y
-    /// falso en otro caso.
+    /// Devuelve true si el singleton está inicializado.
+    /// Usar antes de acceder a Instance para evitar errores al cerrar la app.
     /// </summary>
-    public static bool HasInstance()
+    public static bool HasInstance() => _instance != null;
+
+    protected void Awake()
     {
-        return _instance != null;
+        if (_instance != null)
+        {
+            // Ya existe un GameManager persistente. No hay nada que transferir
+            // porque este GameManager no tiene referencias a objetos de escena.
+            DestroyImmediate(gameObject);
+            return;
+        }
+
+        _instance = this;
+        DontDestroyOnLoad(gameObject);
+        Init();
     }
 
-    /// <summary>
-    /// Método que cambia la escena actual por la indicada en el parámetro.
-    /// </summary>
-    /// <param name="index">Índice de la escena (en el build settings) que se cargará.</param>
+    protected void OnDestroy()
+    {
+        if (this == _instance)
+            _instance = null;
+    }
+
+    #endregion
+
+    // ---- DATOS PERSISTENTES ----
+    #region Datos persistentes entre escenas
+
+    /// <summary>Vida del jugador en el último checkpoint.</summary>
+    private int _savedHealth = 200;
+
+    /// <summary>Vendas en el último checkpoint.</summary>
+    private int _savedBandages = 0;
+
+    /// <summary>Llaves en el último checkpoint.</summary>
+    private int _savedKeys = 0;
+
+    /// <summary>Si el jugador tiene desbloqueado el disparo multidireccional.</summary>
+    private bool _hasMultishot = false;
+
+    #endregion
+
+    // ---- MÉTODOS PÚBLICOS — NAVEGACIÓN ----
+    #region Métodos públicos — Navegación
+
+    /// <summary>Carga una escena por índice (Build Settings).</summary>
     public void ChangeScene(int index)
     {
         System.GC.Collect();
@@ -131,101 +98,74 @@ public class GameManager : MonoBehaviour
         System.GC.Collect();
     }
 
-    /// <summary>
-    /// Reinicia el nivel actual. Llamado desde el botón "Reintentar" del panelDeath.
-    /// Restaura el timeScale por si el juego estaba pausado al morir.
-    /// </summary>
-    public void RestartLevelifLose()
+    /// <summary>Carga una escena por nombre.</summary>
+    public void ChangeScene(string sceneName)
     {
-        Time.timeScale = 1;
+        System.GC.Collect();
+        SceneManager.LoadScene(sceneName);
+        System.GC.Collect();
+    }
+
+    /// <summary>
+    /// Reinicia la escena activa. El jugador reaparece con los datos
+    /// del último checkpoint. Llamado desde LevelManager.
+    /// </summary>
+    public void RestartCurrentScene()
+    {
+        System.GC.Collect();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        System.GC.Collect();
     }
 
-    /// <summary>
-    /// Vuelve al menú principal. Llamado desde el botón "Menú" del panelDeath.
-    /// Restaura el timeScale por si el juego estaba pausado al morir.
-    /// </summary>
-    public void ReturnToMainMenu()
+    /// <summary>Vuelve al menú principal. Llamado desde LevelManager.</summary>
+    public void GoToMainMenu()
     {
-        Time.timeScale = 1f;
         SceneManager.LoadScene("Main menu");
-    }
-
-    /// <summary>
-    /// Actualiza el estado de la GUI según la vida actual del jugador.
-    /// Si la vida llega a 0 muestra el panel de muerte y pausa el juego.
-    /// </summary>
-    /// <param name="currentHealth">Vida actual del jugador.</param>
-    public void UpdateGUI(int currentHealth)
-    {
-        PlayerMovement _player = GetComponent<PlayerMovement>();
-        if (_player != null && currentHealth <= 0)
-        {
-            ShowPanelDeath();
-        }
-    }
-
-    /// <summary>
-    /// Permite a otros componentes asignar el panel de muerte desde la escena activa.
-    /// Útil cuando el GameManager ya existe (DontDestroyOnLoad) y se carga una nueva escena.
-    /// </summary>
-    /// <param name="panel">El GameObject del panel de muerte de la nueva escena.</param>
-    public void SetPanelDeath(GameObject panel)
-    {
-        panelDeath = panel;
-        HidePanelDeath();
     }
 
     #endregion
 
-    // ---- MÉTODOS PRIVADOS ----
+    // ---- MÉTODOS PÚBLICOS — CHECKPOINT ----
+    #region Métodos públicos — Checkpoint
 
+    /// <summary>
+    /// Guarda el estado actual del jugador como checkpoint.
+    /// Llamado por LevelManager al completar una planta.
+    /// </summary>
+    public void SaveCheckpoint(int health, int bandages, int keys)
+    {
+        _savedHealth = health;
+        _savedBandages = bandages;
+        _savedKeys = keys;
+        Debug.Log($"[GameManager] Checkpoint — Vida: {health}, Vendas: {bandages}, Llaves: {keys}");
+    }
+
+    /// <summary>Devuelve la vida guardada en el último checkpoint.</summary>
+    public int GetSavedHealth() => _savedHealth;
+
+    /// <summary>Devuelve las vendas guardadas en el último checkpoint.</summary>
+    public int GetSavedBandages() => _savedBandages;
+
+    /// <summary>Devuelve las llaves guardadas en el último checkpoint.</summary>
+    public int GetSavedKeys() => _savedKeys;
+
+    /// <summary>Devuelve si el multidireccional está desbloqueado.</summary>
+    public bool HasMultishot() => _hasMultishot;
+
+    /// <summary>Desbloquea el disparo multidireccional permanentemente.</summary>
+    public void UnlockMultishot() => _hasMultishot = true;
+
+    #endregion
+
+    // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
 
-    /// <summary>
-    /// Muestra el panel de muerte y pausa el tiempo del juego.
-    /// </summary>
-    private void ShowPanelDeath()
-    {
-        if (panelDeath != null)
-        {
-            panelDeath.SetActive(true);
-        }
-        else
-        {
-            Debug.LogWarning("[GameManager] panelDeath es null. Asegúrate de asignarlo en el Inspector o llamar a SetPanelDeath().");
-        }
-        Time.timeScale = 0f;
-    }
-
-    /// <summary>
-    /// Oculta el panel de muerte.
-    /// </summary>
-    private void HidePanelDeath()
-    {
-        
-        if (panelDeath != null)
-        {
-            panelDeath.SetActive(false);
-        }
-    }
-
-    /// <summary>
-    /// Dispara la inicialización.
-    /// </summary>
     private void Init()
     {
-        // De momento no hay nada que inicializar
-    }
-
-    /// <summary>
-    /// Transfiere la referencia al panelDeath de la nueva escena al GameManager persistente.
-    /// Se llama cuando se detecta que ya existe una instancia y el nuevo GameManager
-    /// (de la escena recién cargada) contiene la referencia actualizada al panel.
-    /// </summary>
-    private void TransferManagerSetup()
-    {
-        _instance.panelDeath = this.panelDeath;
+        _savedHealth = 200;
+        _savedBandages = 0;
+        _savedKeys = 0;
+        _hasMultishot = false;
     }
 
     #endregion

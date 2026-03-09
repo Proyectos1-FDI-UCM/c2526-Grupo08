@@ -1,108 +1,197 @@
 //---------------------------------------------------------
-// Gestor de escena. Podemos crear uno diferente con un
-// nombre significativo para cada escena, si es necesario
-// Guillermo Jiménez Díaz, Pedro Pablo Gómez Martín
-// Template-P1
+// Gestor de escena. Un LevelManager por cada escena de juego.
+// Gestiona todo lo local: panel de muerte, pausa, reinicio,
+// y guardado de checkpoint al completar la planta.
+// Guillermo Jiménez Díaz, Pedro P. Gómez Martín — Template-P1
+// Alexia Pérez Santana — No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Componente que se encarga de la gestión de un nivel concreto.
-/// Este componente es un singleton, para que sea accesible para todos
-/// los objetos de la escena, pero no tiene el comportamiento de
-/// DontDestroyOnLoad, ya que solo vive en una escena.
+/// Singleton local de escena (sin DontDestroyOnLoad).
+/// Responsabilidades:
+///   · Mostrar/ocultar el panel de muerte cuando el jugador muere.
+///   · Pausar y reanudar el juego (Time.timeScale).
+///   · Ejecutar reinicio del nivel o vuelta al menú desde los botones del panel.
+///   · Restaurar el estado del jugador desde el checkpoint al iniciar la escena.
+///   · Guardar el checkpoint en GameManager al completar la planta.
 ///
-/// Contiene toda la información propia de la escena y puede comunicarse
-/// con el GameManager para transferir información importante para
-/// la gestión global del juego (información que ha de pasar entre
-/// escenas)
+/// Los botones del panelDeath deben apuntar a ESTE componente,
+/// que siempre existe en la escena y nunca es una referencia rota.
 /// </summary>
 public class LevelManager : MonoBehaviour
 {
-    // ---- ATRIBUTOS DEL INSPECTOR ----
+    // ---- SINGLETON LOCAL ----
+    #region Singleton local de escena
 
-    #region Atributos del Inspector (serialized fields)
-
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // públicos y de inspector se nombren en formato PascalCase
-    // (palabras con primera letra mayúscula, incluida la primera letra)
-    // Ejemplo: MaxHealthPoints
-
-    #endregion
-
-    // ---- ATRIBUTOS PRIVADOS ----
-
-    #region Atributos Privados (private fields)
-
-    /// <summary>
-    /// Instancia única de la clase (singleton).
-    /// </summary>
     private static LevelManager _instance;
 
-    #endregion
-
-    // ---- MÉTODOS DE MONOBEHAVIOUR ----
-
-    #region Métodos de MonoBehaviour
-
-    protected void Awake()
-    {
-        if (_instance == null)
-        {
-            // Somos la primera y única instancia
-            _instance = this;
-            Init();
-        }
-    }
-
-    #endregion
-
-    // ---- MÉTODOS PÚBLICOS ----
-
-    #region Métodos públicos
-
-    /// <summary>
-    /// Propiedad para acceder a la única instancia de la clase.
-    /// </summary>
+    /// <summary>Acceso global al LevelManager de la escena activa.</summary>
     public static LevelManager Instance
     {
         get
         {
-            Debug.Assert(_instance != null);
+            Debug.Assert(_instance != null, "[LevelManager] No hay instancia en esta escena.");
             return _instance;
         }
     }
 
-    /// <summary>
-    /// Devuelve cierto si la instancia del singleton está creada y
-    /// falso en otro caso.
-    /// Lo normal es que esté creada, pero puede ser útil durante el
-    /// cierre para evitar usar el LevelManager que podría haber sido
-    /// destruído antes de tiempo.
-    /// </summary>
-    /// <returns>Cierto si hay instancia creada.</returns>
-    public static bool HasInstance()
+    /// <summary>Devuelve true si hay un LevelManager activo en la escena.</summary>
+    public static bool HasInstance() => _instance != null;
+
+    protected void Awake()
     {
-        return _instance != null;
+        if (_instance != null)
+        {
+            Debug.LogWarning("[LevelManager] Duplicado detectado. Solo debe haber un LevelManager por escena.");
+            Destroy(gameObject);
+            return;
+        }
+        _instance = this;
+        Init();
+    }
+
+    protected void OnDestroy()
+    {
+        if (this == _instance)
+            _instance = null;
+    }
+
+    #endregion
+
+    // ---- ATRIBUTOS DEL INSPECTOR ----
+    #region Atributos del Inspector
+
+    [Header("Panel de muerte")]
+    [Tooltip("GameObject del panel de muerte de esta escena. " +
+             "Los botones del panel deben apuntar a LevelManager, no a GameManager.")]
+    [SerializeField] private GameObject panelDeath;
+
+    [Header("Referencias al jugador")]
+    [Tooltip("Componente Health del jugador en esta escena.")]
+    [SerializeField] private Health playerHealth;
+
+    [Tooltip("Componente Inventory del jugador en esta escena.")]
+    [SerializeField] private Inventory playerInventory;
+
+    #endregion
+
+    // ---- MÉTODOS DE MONOBEHAVIOUR ----
+    #region Métodos de MonoBehaviour
+
+    private void Start()
+    {
+        // Asegurar que el panel está oculto y el juego corre al iniciar
+        if (panelDeath != null)
+            panelDeath.SetActive(false);
+
+        Time.timeScale = 1f;
+
+        // Restaurar estado del jugador desde el checkpoint guardado
+        RestoreFromCheckpoint();
+    }
+
+    #endregion
+
+    // ---- MÉTODOS PÚBLICOS — LLAMADOS POR Health ----
+    #region Métodos públicos — Muerte del jugador
+
+    /// <summary>
+    /// Muestra el panel de muerte y pausa el juego.
+    /// Llamado por Health cuando la vida del jugador llega a 0.
+    /// </summary>
+    public void OnPlayerDeath()
+    {
+        if (panelDeath != null)
+            panelDeath.SetActive(true);
+        else
+            Debug.LogWarning("[LevelManager] panelDeath no está asignado en el Inspector.");
+
+        Time.timeScale = 0f;
+    }
+
+    #endregion
+
+    // ---- MÉTODOS PÚBLICOS — BOTONES DEL PANEL ----
+    #region Métodos públicos — Botones del panelDeath
+
+    /// <summary>
+    /// Reinicia el nivel desde el último checkpoint.
+    /// Conectar al botón "Try Again" / "Reintentar" del panelDeath.
+    /// </summary>
+    public void OnRestartButton()
+    {
+        Time.timeScale = 1f;
+
+        if (GameManager.HasInstance())
+            GameManager.Instance.RestartCurrentScene();
+        else
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    /// <summary>
+    /// Vuelve al menú principal.
+    /// Conectar al botón "Menú" del panelDeath.
+    /// </summary>
+    public void OnMenuButton()
+    {
+        Time.timeScale = 1f;
+
+        if (GameManager.HasInstance())
+            GameManager.Instance.GoToMainMenu();
+        else
+            SceneManager.LoadScene("Main menu");
+    }
+
+    #endregion
+
+    // ---- MÉTODOS PÚBLICOS — CHECKPOINT ----
+    #region Métodos públicos — Checkpoint al completar la planta
+
+    /// <summary>
+    /// Guarda el estado actual del jugador y carga la siguiente escena.
+    /// Llamado por LevelWin cuando el jugador activa el ascensor con los fusibles.
+    /// </summary>
+    public void CompleteLevel(string nextSceneName)
+    {
+        if (GameManager.HasInstance() && playerHealth != null && playerInventory != null)
+        {
+            GameManager.Instance.SaveCheckpoint(
+                playerHealth.GetCurrentHealth(),
+                playerInventory.GetBandageCount(),
+                playerInventory.GetKeyCount()
+            );
+        }
+
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(nextSceneName);
     }
 
     #endregion
 
     // ---- MÉTODOS PRIVADOS ----
-
     #region Métodos Privados
 
+    private void Init() { }
+
     /// <summary>
-    /// Dispara la inicialización.
+    /// Restaura vida e inventario del jugador al valor del último checkpoint.
+    /// Se ejecuta al iniciar la escena, tanto en primera carga como al reiniciar.
+    /// Si no hay GameManager (ejecución directa desde el editor), no hace nada.
     /// </summary>
-    private void Init()
+    private void RestoreFromCheckpoint()
     {
-        // De momento no hay nada que inicializar
+        if (!GameManager.HasInstance()) return;
+        if (playerHealth == null || playerInventory == null) return;
+
+        playerHealth.SetHealthFromCheckpoint(GameManager.Instance.GetSavedHealth());
+        playerInventory.SetBandagesFromCheckpoint(GameManager.Instance.GetSavedBandages());
+        playerInventory.SetKeysFromCheckpoint(GameManager.Instance.GetSavedKeys());
     }
 
     #endregion
-} // class LevelManager 
-// namespace
+
+} // class LevelManager

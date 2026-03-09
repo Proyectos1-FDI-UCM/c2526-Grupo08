@@ -1,200 +1,155 @@
 //---------------------------------------------------------
-// Breve descripción del contenido del archivo
-// Responsable de la creación de este archivo
-// Nombre del juego
+// Gestiona los puntos de vida de cualquier personaje (jugador o enemigo).
+// Al llegar a 0: destruye al enemigo o avisa al LevelManager si es el jugador.
+// Celia García Riaza
+// No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
-// Añadir aquí el resto de directivas using
-
 
 /// <summary>
-/// Antes de cada class, descripción de qué es y para qué sirve,
-/// usando todas las líneas que sean necesarias.
+/// Componente de vida genérico para jugador y enemigos.
+///
+/// Jugador (IsPlayer = true):
+///   Al morir avisa al LevelManager de la escena, que muestra el panel
+///   de muerte y pausa el juego. LevelManager siempre vive en la escena
+///   activa, así que la referencia nunca es inválida.
+///
+/// Enemigo (IsPlayer = false):
+///   Al morir destruye el GameObject indicado en EnemyGameObject,
+///   o este mismo GameObject si no se asignó ninguno.
 /// </summary>
 public class Health : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
-    #region Atributos del Inspector (serialized fields)
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // públicos y de inspector se nombren en formato PascalCase
-    // (palabras con primera letra mayúscula, incluida la primera letra)
-    // Ejemplo: MaxHealthPoints
+    #region Atributos del Inspector
 
+    [Tooltip("Vida máxima. (GDD: jugador 200, normal 100, rápido 50, fuerte 250)")]
+    [SerializeField] private int MaxHealth = 200;
 
-    [SerializeField] 
-    private int MaxHealth = 200;
-    [SerializeField]
-    private int BandageHealth = 30;
-    [SerializeField] 
-    HealthBar HealthBar; //Cuando tenga daño tengo que llamarla para que se modifique
-    [SerializeField] 
-    GameObject EnemyGameObject;
+    [Tooltip("Barra de vida que muestra la vida en pantalla. Asignar desde el Inspector.")]
+    [SerializeField] private HealthBar HealthBar;
+
+    [Tooltip("Solo enemigos: GameObject a destruir al morir. " +
+             "Si está vacío se destruye este mismo GameObject.")]
+    [SerializeField] private GameObject EnemyGameObject;
+
+    [Tooltip("Marcar true solo en el jugador.")]
+    [SerializeField] private bool IsPlayer = false;
 
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
-    #region Atributos Privados (private fields)
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // privados se nombren en formato _camelCase (comienza con _, 
-    // primera palabra en minúsculas y el resto con la 
-    // primera letra en mayúsculas)
-    // Ejemplo: _maxHealthPoints
-
-    private InputAction _healingAction;
-    private Inventory _inventory;
+    #region Atributos Privados
 
     private int _currentHealth;
-    private bool _picked;
     private bool _isImmune = false;
+
+    /// <summary>Evita procesar la muerte más de una vez.</summary>
+    private bool _isDead = false;
 
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
-    // Por defecto están los típicos (Update y Start) pero:
-    // - Hay que añadir todos los que sean necesarios
-    // - Hay que borrar los que no se usen 
-
-    /// <summary>
-    /// Start is called on the frame when a script is enabled just before 
-    /// any of the Update methods are called the first time.
-    /// </summary>
-
-    void Start()
+    private void Start()
     {
-        _inventory = GetComponent<Inventory>(); 
-
         _currentHealth = MaxHealth;
-        
-        _healingAction = InputSystem.actions.FindAction("Healing");
-        if (_healingAction == null)
+
+        if (HealthBar != null)
         {
-            Debug.Log("Accion no encontrada, no funciona curarse");
-            Destroy(this);
+            HealthBar.SetMaxValue(MaxHealth);
+            HealthBar.SetValue(_currentHealth);
         }
-
-        HealthBar.SetValue(MaxHealth);
-        _healingAction.Enable();
-        _healingAction.performed += OnUseBandage;
     }
 
-    private void OnUseBandage(InputAction.CallbackContext context)
-    {
-        UseBandage();
-    }
-
-    /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
-    /// </summary>
-    void Update()
-    {
-
-    }
     #endregion
 
     // ---- MÉTODOS PÚBLICOS ----
     #region Métodos públicos
-    // Documentar cada método que aparece aquí con ///<summary>
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
-    // Ejemplo: GetPlayerController
 
+    /// <summary>Aplica daño. Si la vida llega a 0 ejecuta la lógica de muerte.</summary>
     public void Damage(int damageAmount)
     {
-        if (_isImmune)
-        {
-            return;
-        }
+        if (_isDead || _isImmune) return;
 
         _currentHealth -= damageAmount;
-        if (HealthBar != null) HealthBar.SetValue(_currentHealth);
-        DestroyEnemy();
-        PlayerDeath();
+        _currentHealth = Mathf.Max(_currentHealth, 0);
+
+        if (HealthBar != null)
+            HealthBar.SetValue(_currentHealth);
+
+        if (_currentHealth <= 0)
+            Die();
     }
 
-    public void Healing(int bandageHealing)
+    /// <summary>Cura al personaje sin superar el máximo de vida.</summary>
+    public void Healing(int healAmount)
     {
-        if (_currentHealth < MaxHealth)
+        if (_isDead) return;
+
+        _currentHealth = Mathf.Min(_currentHealth + healAmount, MaxHealth);
+
+        if (HealthBar != null)
+            HealthBar.SetValue(_currentHealth);
+    }
+
+    /// <summary>Activa o desactiva la inmunidad al daño (durante el dash).</summary>
+    public void SetImmune(bool immune) => _isImmune = immune;
+
+    /// <summary>Devuelve si el personaje es inmune en este momento.</summary>
+    public bool IsImmune() => _isImmune;
+
+    /// <summary>Devuelve la vida actual.</summary>
+    public int GetCurrentHealth() => _currentHealth;
+
+    /// <summary>
+    /// Restaura la vida al valor del checkpoint.
+    /// Llamado por LevelManager al iniciar la escena.
+    /// </summary>
+    public void SetHealthFromCheckpoint(int savedHealth)
+    {
+        _currentHealth = Mathf.Clamp(savedHealth, 0, MaxHealth);
+        _isDead = false;
+
+        if (HealthBar != null)
         {
-            _currentHealth += bandageHealing;
+            HealthBar.SetMaxValue(MaxHealth);
+            HealthBar.SetValue(_currentHealth);
         }
-        else if (_currentHealth >= MaxHealth)
-        {
-            _currentHealth = MaxHealth;
-        }
-        if (HealthBar != null) HealthBar.SetValue(_currentHealth);
-    }
-
-    public void SetImmune(bool immune)
-    {
-        _isImmune = immune;
-    }
-
-    public bool IsImmune()
-    {
-        return _isImmune;
     }
 
     #endregion
-
 
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
-    // Documentar cada método que aparece aquí
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
 
     /// <summary>
-    /// Distintos comportamientos de muerte, diferenciando al enemigo de al jugador
+    /// Lógica de muerte. El jugador avisa al LevelManager (local de escena).
+    /// El enemigo se destruye a sí mismo.
     /// </summary>
-    private void DestroyEnemy()
+    private void Die()
     {
-        EnemyPatrol enemy = GetComponent<EnemyPatrol>();
-        if (enemy != null && _currentHealth <= 0)
+        if (_isDead) return;
+        _isDead = true;
+
+        if (IsPlayer)
         {
-            Destroy(EnemyGameObject);
-            //TODO: liberar magia cuando se muera el enemigo
+            if (LevelManager.HasInstance())
+                LevelManager.Instance.OnPlayerDeath();
+            else
+                Debug.LogWarning("[Health] No hay LevelManager en la escena.");
         }
-    }
-
-    private void PlayerDeath()
-    {
-        if (_currentHealth <= 0)
+        else
         {
-            GameManager.Instance.UpdateGUI(_currentHealth);
+            GameObject toDestroy = EnemyGameObject != null ? EnemyGameObject : gameObject;
+            Destroy(toDestroy);
+            // TODO: liberar energía mágica al matar un enemigo
         }
-    }
-
-    private void UseBandage()
-    {
-
-        if (_inventory == null)
-        {
-            _inventory = GetComponent<Inventory>();
-            if (_inventory == null) return; 
-        }
-
-
-        if ((_inventory.GetBandageCount()) > 0)
-        {
-            _inventory.RestBandageCount();
-            Healing(BandageHealth);
-            Debug.Log("Se ha usado una venda, quedan: " + (_inventory.GetBandageCount()) + " vendas");
-        }
-        else Debug.Log("No tienes vendas");
     }
 
     #endregion
 
-}
-// class PlayerHealth 
-// namespace
+} // class Health

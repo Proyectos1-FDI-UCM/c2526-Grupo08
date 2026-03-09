@@ -1,5 +1,7 @@
 //---------------------------------------------------------
-// Script que reciben todos los objetos recolectables del juego
+// Script que reciben todos los objetos recolectables del juego.
+// Detecta cuando el jugador pulsa F cerca del objeto y lo añade
+// al inventario del jugador.
 // Adriana Fernández Luna
 // No Way Down
 // Proyectos 1 - Curso 2025-26
@@ -7,128 +9,113 @@
 
 using UnityEngine;
 using UnityEngine.InputSystem;
-// Añadir aquí el resto de directivas using
-
 
 /// <summary>
-/// Clase de objeto que llama el inventorio para ser guardado
+/// Componente de objeto recolectable (venda, llave, fusible).
+/// Cuando el jugador entra en el trigger, espera a que pulse F
+/// (acción "Interact" del nuevo Input System) para añadir el
+/// objeto al inventario y destruirse.
+/// El tipo de objeto se configura en el Inspector.
 /// </summary>
 public class Objects : MonoBehaviour
 {
+    // ---- TIPOS DE OBJETO ----
     public enum ObjectsType { bandage, key, fusible }
 
     // ---- ATRIBUTOS DEL INSPECTOR ----
-    #region Atributos del Inspector (serialized fields)
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // públicos y de inspector se nombren en formato PascalCase
-    // (palabras con primera letra mayúscula, incluida la primera letra)
-    // Ejemplo: MaxHealthPoints
+    #region Atributos del Inspector
 
+    [Tooltip("Tipo de objeto recolectable.")]
     [SerializeField] private ObjectsType type;
 
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
-    #region Atributos Privados (private fields)
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // privados se nombren en formato _camelCase (comienza con _, 
-    // primera palabra en minúsculas y el resto con la 
-    // primera letra en mayúsculas)
-    // Ejemplo: _maxHealthPoints
+    #region Atributos Privados
 
-    private Inventory _interactuarObjetos;
+    /// <summary>Acción de input para interactuar (tecla F).</summary>
     private InputAction _interactAction;
+
+    /// <summary>True mientras el jugador está dentro del trigger.</summary>
+    private bool _playerInRange = false;
+
+    /// <summary>Referencia al inventario del jugador cuando está en rango.</summary>
     private Inventory _playerInventory;
-    private bool PlayerInRange;
 
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
-    // Por defecto están los típicos (Update y Start) pero:
-    // - Hay que añadir todos los que sean necesarios
-    // - Hay que borrar los que no se usen 
-
-    /// <summary>
-    /// Start is called on the frame when a script is enabled just before 
-    /// any of the Update methods are called the first time.
-    /// </summary>
-    void Start()
+    private void Start()
     {
         _interactAction = InputSystem.actions.FindAction("Interact");
-
         if (_interactAction == null)
         {
-            Debug.Log("Accion Interact no encontrada");
-            Destroy(this);
+            Debug.LogWarning("[Objects] Acción 'Interact' no encontrada en el Input System. " +
+                             "Usando KeyCode.F como fallback.");
+        }
+        else
+        {
+            _interactAction.Enable();
         }
     }
 
     private void Update()
     {
-        if (PlayerInRange && _interactAction != null && _interactAction.WasPressedThisFrame())
+        if (!_playerInRange || _playerInventory == null) return;
+
+        // Detectar pulsación de F con el nuevo Input System o fallback con KeyCode
+        bool interactPressed = _interactAction != null
+            ? _interactAction.WasPressedThisFrame()
+            : Input.GetKeyDown(KeyCode.F);
+
+        if (interactPressed)
         {
-            GetObject(_playerInventory);
+            PickUp();
         }
     }
 
-    /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
-    /// </summary>
-    #endregion
-
-    // ---- MÉTODOS PÚBLICOS ----
-    #region Métodos públicos
-    // Documentar cada método que aparece aquí con ///<summary>
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
-    // Ejemplo: GetPlayerController
-
-    public void GetObject(Inventory Inventario)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        Inventario.AddItem(type);
-        Destroy(gameObject);
-    }
-
-    private void OnTriggerEnter2D (Collider2D other)
-    {
-        Inventory inv = other.GetComponent<Inventory>();
-
-        if (inv != null)
+        Inventory inventory = other.GetComponent<Inventory>();
+        if (inventory != null)
         {
-            PlayerInRange = true;
-            _playerInventory = inv;
-         }
+            _playerInRange = true;
+            _playerInventory = inventory;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-
-        Inventory inv = other.GetComponent<Inventory>();
-
-        if (inv != null)
+        if (other.GetComponent<Inventory>() != null)
         {
-            PlayerInRange = false;
+            _playerInRange = false;
             _playerInventory = null;
         }
-        
+    }
+
+    private void OnDestroy()
+    {
+        if (_interactAction != null)
+            _interactAction.Disable();
     }
 
     #endregion
 
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
-    // Documentar cada método que aparece aquí
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
+
+    /// <summary>
+    /// Añade este objeto al inventario del jugador y destruye el GameObject.
+    /// </summary>
+    private void PickUp()
+    {
+        _playerInventory.AddItem(type);
+        Destroy(gameObject);
+    }
 
     #endregion
 
-} // class Objects 
-// Adriana Fernández Luna
-// Laura Garay Zubiaguirre
+} // class Objects
+  // Adriana Fernández Luna — Laura Garay Zubiaguirre

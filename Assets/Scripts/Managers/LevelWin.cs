@@ -1,111 +1,63 @@
 //---------------------------------------------------------
-// Breve descripción del contenido del archivo
+// Detecta cuando el jugador activa el ascensor con los fusibles necesarios
+// y delega el cambio de escena al LevelManager.
 // Marián Navarro Santoyo
-// No way down
+// No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
 using UnityEngine;
-using UnityEngine.SceneManagement;
-// Añadir aquí el resto de directivas using
-
 
 /// <summary>
-/// Antes de cada class, descripción de qué es y para qué sirve,
-/// usando todas las líneas que sean necesarias.
+/// Componente del GameObject del ascensor.
+/// Cuando el jugador entra en el trigger con los fusibles necesarios,
+/// llama a LevelManager.CompleteLevel() que guarda el checkpoint
+/// y carga la siguiente escena.
 /// </summary>
 public class LevelWin : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
-    #region Atributos del Inspector (serialized fields)
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // públicos y de inspector se nombren en formato PascalCase
-    // (palabras con primera letra mayúscula, incluida la primera letra)
-    // Ejemplo: MaxHealthPoints
+    #region Atributos del Inspector
+
+    [Tooltip("Nombre exacto de la escena a cargar al completar el nivel.")]
     [SerializeField] private string nextSceneName = "Level_2";
+
+    [Tooltip("Número de fusibles necesarios para activar el ascensor. (GDD: 3)")]
     [SerializeField] private int requiredFusibles = 3;
+
     #endregion
 
-    // ---- ATRIBUTOS PRIVADOS ----
-    #region Atributos Privados (private fields)
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // privados se nombren en formato _camelCase (comienza con _, 
-    // primera palabra en minúsculas y el resto con la 
-    // primera letra en mayúsculas)
-    // Ejemplo: _maxHealthPoints
+    // ---- MÉTODOS DE MONOBEHAVIOUR ----
+    #region Métodos de MonoBehaviour
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Player detectado eje");
+        // Comprobar que quien entra es el jugador
         PlayerMovement player = other.GetComponent<PlayerMovement>();
+        if (player == null) return;
 
-        if (player != null)
+        // Comprobar que lleva los fusibles necesarios
+        Inventory inventory = other.GetComponent<Inventory>();
+        if (inventory == null) return;
+
+        if (inventory.GetFusibleCount() >= requiredFusibles)
         {
-            Inventory inv = other.GetComponent<Inventory>();
+            Debug.Log("[LevelWin] Nivel completado. Cargando siguiente escena...");
 
-            if (inv != null)
+            if (LevelManager.HasInstance())
+                LevelManager.Instance.CompleteLevel(nextSceneName);
+            else
             {
-                
-                if (inv.GetFusibleCount() >= requiredFusibles)
-                {
-                    Debug.Log("Nivel completado");
-                    SceneManager.LoadScene(nextSceneName);
-                }
-                else
-                {
-                    Debug.Log("Te faltan fusibles. Tienes: " + inv.GetFusibleCount());
-                }
+                // Fallback si no hay LevelManager (ejecución directa en editor)
+                UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
             }
+        }
+        else
+        {
+            Debug.Log($"[LevelWin] Faltan fusibles. Tienes {inventory.GetFusibleCount()}/{requiredFusibles}.");
         }
     }
 
-        #endregion
+    #endregion
 
-        // ---- MÉTODOS DE MONOBEHAVIOUR ----
-        #region Métodos de MonoBehaviour
-
-        // Por defecto están los típicos (Update y Start) pero:
-        // - Hay que añadir todos los que sean necesarios
-        // - Hay que borrar los que no se usen 
-
-        /// <summary>
-        /// Start is called on the frame when a script is enabled just before 
-        /// any of the Update methods are called the first time.
-        /// </summary>
-        void Start()
-        {
-
-        }
-
-        /// <summary>
-        /// Update is called every frame, if the MonoBehaviour is enabled.
-        /// </summary>
-        void Update()
-        {
-
-        }
-        #endregion
-
-        // ---- MÉTODOS PÚBLICOS ----
-        #region Métodos públicos
-        // Documentar cada método que aparece aquí con ///<summary>
-        // El convenio de nombres de Unity recomienda que estos métodos
-        // se nombren en formato PascalCase (palabras con primera letra
-        // mayúscula, incluida la primera letra)
-        // Ejemplo: GetPlayerController
-
-        #endregion
-
-        // ---- MÉTODOS PRIVADOS ----
-        #region Métodos Privados
-        // Documentar cada método que aparece aquí
-        // El convenio de nombres de Unity recomienda que estos métodos
-        // se nombren en formato PascalCase (palabras con primera letra
-        // mayúscula, incluida la primera letra)
-
-        #endregion
- }
-
-// class LevelWin 
-// namespace
+} // class LevelWin
