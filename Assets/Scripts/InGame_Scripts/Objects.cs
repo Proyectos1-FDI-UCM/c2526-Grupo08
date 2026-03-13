@@ -20,7 +20,7 @@ using UnityEngine.InputSystem;
 public class Objects : MonoBehaviour
 {
     // ---- TIPOS DE OBJETO ----
-    public enum ObjectsType { bandage, key, fusible }
+    public enum ObjectsType { bandage, key, fusible, card }
 
     // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Atributos del Inspector

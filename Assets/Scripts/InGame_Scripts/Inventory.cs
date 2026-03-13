@@ -36,6 +36,7 @@ public class Inventory : MonoBehaviour
     private int _bandage = 0;
     private int _key = 0;
     private int _fusible = 0;
+    private int _card = 0;
 
     private Health _health;
 
@@ -97,6 +98,9 @@ public class Inventory : MonoBehaviour
     /// <summary>Devuelve el número de fusibles en el inventario.</summary>
     public int GetFusibleCount() => _fusible;
 
+    /// <summary>Devuelve el número de fusibles en el inventario.</summary>
+    
+    public int GetCardCount() => _card;
     #endregion
 
     // ---- MÉTODOS PÚBLICOS — AÑADIR OBJETOS ----
@@ -119,6 +123,11 @@ public class Inventory : MonoBehaviour
                 _fusible++;
                 Debug.Log($"[Inventory] Fusibles: {_fusible}");
                 break;
+            case Objects.ObjectsType.card:
+                _card++;
+                Debug.Log("$\"[Inventory] Tarjeta");
+                break;
+
         }
     }
 
