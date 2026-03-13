@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -8370202389003812274}
   - component: {fileID: -7483780444665984982}
   - component: {fileID: -3823790945834989697}
+  - component: {fileID: -7367919625473029057}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -330,8 +331,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BandageHealth: 30
-  nextSceneName: Level_2
-  requiredFusibles: 3
 --- !u!114 &-3823790945834989697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,3 +346,19 @@ MonoBehaviour:
   MaxHealth: 200
   HealthBar: {fileID: 0}
   EnemyGameObject: {fileID: 0}
+  IsPlayer: 0
+  MagicPointsPrefab: {fileID: 0}
+--- !u!114 &-7367919625473029057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3713208540947770867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7026c3983515bc4f8a2bec8691adc4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxMagic: 60
+  MagicBar: {fileID: 0}

@@ -13,14 +13,14 @@ using UnityEngine.UI;
 /// Health llama a SetMaxValue al iniciar para configurar el rango
 /// y a SetValue cada vez que la vida cambia.
 /// </summary>
-public class HealthBar : MonoBehaviour
+public class UIBar : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Atributos del Inspector
 
     [Tooltip("Slider de UI que representa la barra de vida. " +
              "Si no se asigna, se busca automáticamente en este GameObject.")]
-    [SerializeField] private Slider SliderHealthBar;
+    [SerializeField] private Slider _slider;
 
     #endregion
 
@@ -29,10 +29,10 @@ public class HealthBar : MonoBehaviour
 
     private void Awake()
     {
-        if (SliderHealthBar == null)
-            SliderHealthBar = GetComponent<Slider>();
+        if (_slider == null)
+            _slider = GetComponent<Slider>();
 
-        if (SliderHealthBar == null)
+        if (_slider == null)
             Debug.LogError("[HealthBar] No se encontró Slider. Asígnalo en el Inspector.");
     }
 
@@ -47,19 +47,19 @@ public class HealthBar : MonoBehaviour
     /// </summary>
     public void SetMaxValue(int maxValue)
     {
-        if (SliderHealthBar == null) return;
-        SliderHealthBar.minValue = 0;
-        SliderHealthBar.maxValue = maxValue;
-        SliderHealthBar.value = maxValue;
+        if (_slider == null) return;
+        _slider.minValue = 0;
+        _slider.maxValue = maxValue;
+        _slider.value = maxValue;
     }
 
     /// <summary>Actualiza el valor del Slider para reflejar la vida actual.</summary>
     public void SetValue(int value)
     {
-        if (SliderHealthBar == null) return;
-        SliderHealthBar.value = value;
+        if (_slider == null) return;
+        _slider.value = value;
     }
 
     #endregion
 
-} // class HealthBar
+} // class UIBar
