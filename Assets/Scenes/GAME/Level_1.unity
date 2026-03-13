@@ -1142,8 +1142,8 @@ MonoBehaviour:
   - {fileID: 1296118605}
   PointReachedDistance: 0.1
   Speed: 1
-  DetectionRadius: 3
-  ChaseRadius: 4.5
+  DetectionRadius: 8
+  ChaseRadius: 8
   SpriteUp: {fileID: -3529809619868476689, guid: 82029a652e94d284b91e8da42b0ca4cd, type: 3}
   SpriteDown: {fileID: -6601477196304980844, guid: 92c11cfde79dec14a8e8a662b7146b9e, type: 3}
   SpriteLeft: {fileID: -4166221654935951731, guid: 2410e3987812ba749bda081a43f2da72, type: 3}
@@ -2682,11 +2682,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.53
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.2792952
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_LocalPosition.z
