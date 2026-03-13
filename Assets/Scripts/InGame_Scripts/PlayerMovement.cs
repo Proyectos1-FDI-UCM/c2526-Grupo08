@@ -240,6 +240,7 @@ public class PlayerMovement : MonoBehaviour
         _sliding = false;
     }
 
+    //TODO: esto cambiarlo
     private IEnumerator Dash()
     {
         _canDash = false;
