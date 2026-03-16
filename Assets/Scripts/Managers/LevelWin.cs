@@ -7,6 +7,7 @@
 //---------------------------------------------------------
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Componente del GameObject del ascensor.
@@ -16,14 +17,20 @@ using UnityEngine;
 /// </summary>
 public class LevelWin : MonoBehaviour
 {
+    public enum RequirementType { Fusibles, Cards }
     // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Atributos del Inspector
 
-    [Tooltip("Nombre exacto de la escena a cargar al completar el nivel.")]
+
+    [Header("Scene Settings")]
     [SerializeField] private string nextSceneName = "Level_2";
 
-    [Tooltip("Número de fusibles necesarios para activar el ascensor. (GDD: 3)")]
-    [SerializeField] private int requiredFusibles = 3;
+    [Header("Win Conditions")]
+    [Tooltip("Selecciona qué objeto necesita el jugador en ESTE nivel")]
+    [SerializeField] private RequirementType requiredItem;
+
+    [Tooltip("Cantidad necesaria para que el ascensor funcione")]
+    [SerializeField] private int requiredAmount = 3;
 
     #endregion
 
@@ -32,32 +39,41 @@ public class LevelWin : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Comprobar que quien entra es el jugador
-        PlayerMovement player = other.GetComponent<PlayerMovement>();
-        if (player == null) return;
-
-        // Comprobar que lleva los fusibles necesarios
+        // 1. Buscamos el inventario en el objeto que ha entrado (el jugador)
         Inventory inventory = other.GetComponent<Inventory>();
         if (inventory == null) return;
 
-        if (inventory.GetFusibleCount() >= requiredFusibles)
+        int currentCount = 0;
+
+        // 2. Dependiendo de lo que elegiste en el Inspector, consultamos una cosa u otra
+        if (requiredItem == RequirementType.Fusibles)
         {
-            Debug.Log("[LevelWin] Nivel completado. Cargando siguiente escena...");
+            currentCount = inventory.GetFusibleCount();
+        }
+        else if (requiredItem == RequirementType.Cards)
+        {
+            currentCount = inventory.GetCardCount();
+        }
+
+        // 3. Verificamos si el jugador cumple el requisito
+        if (currentCount >= requiredAmount)
+        {
+            Debug.Log($"[LevelWin] Door opened with {requiredItem}!");
 
             if (LevelManager.HasInstance())
                 LevelManager.Instance.CompleteLevel(nextSceneName);
             else
-            {
-                // Fallback si no hay LevelManager (ejecución directa en editor)
-                UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
-            }
+                SceneManager.LoadScene(nextSceneName);
         }
         else
         {
-            Debug.Log($"[LevelWin] Faltan fusibles. Tienes {inventory.GetFusibleCount()}/{requiredFusibles}.");
+            // Mensaje de ayuda si le faltan objetos
+            Debug.Log($"[LevelWin] You need {requiredAmount} {requiredItem}. You have {currentCount}.");
         }
     }
+}
+
 
     #endregion
 
-} // class LevelWin
+ // class LevelWin

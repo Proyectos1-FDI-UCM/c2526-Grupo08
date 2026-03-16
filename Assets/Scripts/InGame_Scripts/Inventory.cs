@@ -7,6 +7,7 @@
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -104,13 +105,10 @@ public class Inventory : MonoBehaviour
     /// <summary>Devuelve el número de fusibles en el inventario.</summary>
     public int GetFusibleCount() => _fusible;
 
-<<<<<<< HEAD
     /// <summary>Devuelve el número de fusibles en el inventario.</summary>
     
     public int GetCardCount() => _card;
-=======
 
->>>>>>> origin/main
     #endregion
 
     // ---- MÉTODOS PÚBLICOS — AÑADIR OBJETOS ----
@@ -135,9 +133,8 @@ public class Inventory : MonoBehaviour
                 break;
             case Objects.ObjectsType.card:
                 _card++;
-                Debug.Log("$\"[Inventory] Tarjeta");
+                Debug.Log($"[Inventory] Tarjetas: {_card}");
                 break;
-
         }
     }
 
