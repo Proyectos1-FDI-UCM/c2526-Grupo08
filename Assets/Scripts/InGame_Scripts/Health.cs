@@ -29,7 +29,7 @@ public class Health : MonoBehaviour
     [SerializeField] private int MaxHealth = 200;
 
     [Tooltip("Barra de vida que muestra la vida en pantalla. Asignar desde el Inspector.")]
-    [SerializeField] private HealthBar HealthBar;
+    [SerializeField] private UIBar HealthBar;
 
     [Tooltip("Solo enemigos: GameObject a destruir al morir. " +
              "Si está vacío se destruye este mismo GameObject.")]
@@ -37,6 +37,9 @@ public class Health : MonoBehaviour
 
     [Tooltip("Marcar true solo en el jugador.")]
     [SerializeField] private bool IsPlayer = false;
+
+    [Tooltip("Prefab del punto de magia. Solo poner si el personaje que tiene Health es un enemigo.")]
+    [SerializeField] private GameObject MagicPointsPrefab;
 
     #endregion
 
@@ -144,9 +147,12 @@ public class Health : MonoBehaviour
         }
         else
         {
+
             GameObject toDestroy = EnemyGameObject != null ? EnemyGameObject : gameObject;
             Destroy(toDestroy);
-            // TODO: liberar energía mágica al matar un enemigo
+            GameObject _magicPointObj = Instantiate(MagicPointsPrefab, EnemyGameObject.transform.position, Quaternion.identity);
+
+            // TODO: liberar energía mágica al matar un enemigo -> Comprobar si va bien
         }
     }
 

@@ -28,6 +28,7 @@ public class Inventory : MonoBehaviour
     [Tooltip("Puntos de vida restaurados por cada venda. (GDD: 20 puntos)")]
     [SerializeField] private int BandageHealth = 20;
 
+
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
@@ -72,6 +73,11 @@ public class Inventory : MonoBehaviour
         RegisterInput();
     }
 
+    private void Update()
+    {
+        
+    }
+
     private void OnEnable()
     {
         // Solo registrar si Start ya se ejecutó (re-activaciones posteriores del GameObject)
@@ -98,9 +104,13 @@ public class Inventory : MonoBehaviour
     /// <summary>Devuelve el número de fusibles en el inventario.</summary>
     public int GetFusibleCount() => _fusible;
 
+<<<<<<< HEAD
     /// <summary>Devuelve el número de fusibles en el inventario.</summary>
     
     public int GetCardCount() => _card;
+=======
+
+>>>>>>> origin/main
     #endregion
 
     // ---- MÉTODOS PÚBLICOS — AÑADIR OBJETOS ----
@@ -154,6 +164,8 @@ public class Inventory : MonoBehaviour
         _key = Mathf.Max(savedKeys, 0);
     }
 
+    
+
     #endregion
 
     // ---- MÉTODOS PRIVADOS ----
@@ -192,6 +204,7 @@ public class Inventory : MonoBehaviour
             Debug.Log("[Inventory] No tienes vendas.");
         }
     }
+
 
     #endregion
 

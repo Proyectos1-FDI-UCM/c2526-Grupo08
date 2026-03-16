@@ -63,6 +63,8 @@ public class PlayerMovement : MonoBehaviour
     private float _dashingPower = 15f;
     private float _dashingTime = 0.5f;
     private float _dashingCooldown = 1.5f;
+    private float _dashEndTime;
+    private float _dashCooldownEnd;
     private Vector2 _lastMoveDirection = Vector2.right;
 
     private InputAction MoveAction;
@@ -96,8 +98,6 @@ public class PlayerMovement : MonoBehaviour
 
         _rb = GetComponent<Rigidbody2D>();
 
-        MoveAction = InputSystem.actions.FindAction("Move");
-        if (MoveAction == null)
         Health = GetComponent<Health>();
 
         MoveAction = InputSystem.actions.FindAction("Move");
@@ -117,21 +117,77 @@ public class PlayerMovement : MonoBehaviour
     private void OnEnable()
     {
         MoveAction.Enable();
-        DashAction.Enable();
-        DashAction.performed += OnDash;
+
+        if (DashAction != null)
+        {
+            DashAction.Enable();
+            DashAction.performed += OnDash;
+        }
     }
     private void OnDisable()
     {
         MoveAction.Disable();
-        DashAction.Disable();
-        DashAction.performed -= OnDash;
+
+        if (DashAction != null)
+        {
+            DashAction.Disable();
+            DashAction.performed -= OnDash;
+        }
+    }
+
+    private void Update()
+    {
+        if (_isDashing && Time.time >= _dashEndTime)
+        {
+            EndDash();
+        }
+
+        if (!_canDash && Time.time >= _dashCooldownEnd)
+        {
+            _canDash = true;
+        }
     }
 
     private void OnDash(InputAction.CallbackContext context)
     {
         if (_canDash && !_isDashing)
         {
-            StartCoroutine(Dash());
+            StartDash();
+        }
+    }
+
+    private void StartDash()
+    {
+        if (_lastMoveDirection == Vector2.zero)
+        {
+            return;
+        }
+        _canDash = false;
+        _isDashing = true;
+        _dashEndTime = Time.time + _dashingTime;
+        _dashCooldownEnd = Time.time + _dashingCooldown;
+        if (tr != null)
+        {
+            tr.emitting = true;
+        }
+
+        if (Health != null)
+        {
+            Health.SetImmune(true);
+        }
+    }
+
+    private void EndDash()
+    {
+        _isDashing = false;
+        if (tr != null)
+        {
+            tr.emitting = false;
+        }
+
+        if (Health != null)
+        {
+            Health.SetImmune(false);
         }
     }
     #endregion
@@ -240,26 +296,7 @@ public class PlayerMovement : MonoBehaviour
         _sliding = false;
     }
 
-    private IEnumerator Dash()
-    {
-        _canDash = false;
-        _isDashing = true;
-        if (_lastMoveDirection == Vector2.zero)
-        {
-            _isDashing = false;
-            yield break;
-        }
-        tr.emitting = true;
-        if (Health != null)
-            Health.SetImmune(true);
-        yield return new WaitForSeconds(_dashingTime);
-        tr.emitting = false;
-        if (Health != null)
-            Health.SetImmune(false);
-        _isDashing = false;
-        yield return new WaitForSeconds(_dashingCooldown);
-        _canDash = true;
-    }
+    //TODO: esto cambiarlo
 
     // ---- MÉTODOS PÚBLICOS ----
     #region Métodos públicos

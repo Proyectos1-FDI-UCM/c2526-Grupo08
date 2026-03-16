@@ -51,6 +51,8 @@ public class PlayerShoot : MonoBehaviour
 
     private Camera _mainCamera;
 
+    private Magic _magic;
+
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
@@ -81,6 +83,8 @@ public class PlayerShoot : MonoBehaviour
             return;
         }
 
+        _magic = GetComponent<Magic>();
+
         _mainCamera = Camera.main;
 
         if (_shootOrigin == null)
@@ -99,9 +103,10 @@ public class PlayerShoot : MonoBehaviour
         _fireCooldownTimer += Time.deltaTime;
 
         // Disparar si el botón está pulsado y el cooldown ha pasado
-        if (_attackAction.IsPressed() && _fireCooldownTimer >= _fireRate)
+        if (_attackAction.WasPressedThisFrame() && _fireCooldownTimer >= _fireRate)
         {
             Shoot();
+            //_magic.DecreaseMagic();  DE PRUEBA, BORRAR LUEGO
             _fireCooldownTimer = 0f;
         }
     }
