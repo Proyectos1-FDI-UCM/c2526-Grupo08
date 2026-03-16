@@ -28,7 +28,8 @@ public class Inventory : MonoBehaviour
 
     [Tooltip("Puntos de vida restaurados por cada venda. (GDD: 20 puntos)")]
     [SerializeField] private int BandageHealth = 20;
-
+    
+   
 
     #endregion
 
@@ -108,6 +109,14 @@ public class Inventory : MonoBehaviour
     /// <summary>Devuelve el número de fusibles en el inventario.</summary>
     
     public int GetCardCount() => _card;
+
+    public bool hasKey = false;
+    //Esto lo ha hecho Marián
+    public void CollectKey()
+    {
+        hasKey = true;
+        Debug.Log("Llave recogida");
+    }
 
     #endregion
 
