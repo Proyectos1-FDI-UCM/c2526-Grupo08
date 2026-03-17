@@ -7,6 +7,7 @@
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -27,7 +28,8 @@ public class Inventory : MonoBehaviour
 
     [Tooltip("Puntos de vida restaurados por cada venda. (GDD: 20 puntos)")]
     [SerializeField] private int BandageHealth = 20;
-
+    
+   
 
     #endregion
 
@@ -37,6 +39,7 @@ public class Inventory : MonoBehaviour
     private int _bandage = 0;
     private int _key = 0;
     private int _fusible = 0;
+    private int _card = 0;
 
     private Health _health;
 
@@ -103,6 +106,17 @@ public class Inventory : MonoBehaviour
     /// <summary>Devuelve el número de fusibles en el inventario.</summary>
     public int GetFusibleCount() => _fusible;
 
+    /// <summary>Devuelve el número de fusibles en el inventario.</summary>
+    
+    public int GetCardCount() => _card;
+
+    public bool hasKey = false;
+    //Esto lo ha hecho Marián
+    public void CollectKey()
+    {
+        hasKey = true;
+        Debug.Log("Llave recogida");
+    }
 
     #endregion
 
@@ -125,6 +139,10 @@ public class Inventory : MonoBehaviour
             case Objects.ObjectsType.fusible:
                 _fusible++;
                 Debug.Log($"[Inventory] Fusibles: {_fusible}");
+                break;
+            case Objects.ObjectsType.card:
+                _card++;
+                Debug.Log($"[Inventory] Tarjetas: {_card}");
                 break;
         }
     }

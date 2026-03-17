@@ -41,6 +41,9 @@ public class Health : MonoBehaviour
     [Tooltip("Prefab del punto de magia. Solo poner si el personaje que tiene Health es un enemigo.")]
     [SerializeField] private GameObject MagicPointsPrefab;
 
+    [Tooltip("Prefab de la llave que soltará el enemigo.")]
+    [SerializeField] private GameObject KeyPrefab; 
+    //esto para cuando el enemigo muera en el nivel 2, suelte la llave. Lo está haciendo Marián.
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
@@ -147,12 +150,20 @@ public class Health : MonoBehaviour
         }
         else
         {
-
+            
             GameObject toDestroy = EnemyGameObject != null ? EnemyGameObject : gameObject;
+
+            if (KeyPrefab != null)
+            {
+                Instantiate(KeyPrefab, toDestroy.transform.position, Quaternion.identity);
+            }
+
             Destroy(toDestroy);
+
             GameObject _magicPointObj = Instantiate(MagicPointsPrefab, EnemyGameObject.transform.position, Quaternion.identity);
 
             // TODO: liberar energía mágica al matar un enemigo -> Comprobar si va bien
+
         }
     }
 
