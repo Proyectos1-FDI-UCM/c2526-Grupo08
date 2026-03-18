@@ -101,7 +101,7 @@ public class Magic : MonoBehaviour
     /// </summary>
     void Update()
     {
-        
+
     }
     #endregion
 
@@ -120,19 +120,18 @@ public class Magic : MonoBehaviour
         Debug.Log("La magia aumentó");
     }
 
-    public void DecreaseMagic()
+    public bool TrySpendMagic(int amount)
     {
-        if (_currentMagic >= ChargedAttackPoints && _magicAbility1.IsPressed())
-        //Cuando estén las habilidades hechas también depedenderá de qué componente está activado
-        //algo así como ChargedAttackAbility.Enabled()
+        if (_currentMagic < amount)
         {
-            _currentMagic = Mathf.Max(_currentMagic - ChargedAttackPoints, 0); //Para evitar que baje de 0
-            if (MagicBar != null) MagicBar.SetValue(_currentMagic);
-            Debug.Log("La magia disminuyó");
+            return false;
         }
-
-        //TODO: hacer un caso para cada habilidad
-
+        _currentMagic -= amount;
+        if (MagicBar != null)
+        {
+            MagicBar.SetValue(_currentMagic);
+        }
+        return true;
     }
 
     #endregion

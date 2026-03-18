@@ -77,6 +77,8 @@ public class PlayerMovement : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
 
     private Health Health;
+
+    private ChargedAttack _chargedAttack;
     private enum Direction { Up, Down, Right, Left }
     private Direction CurrentDirection = Direction.Left;
     private Direction NewDirection;
@@ -99,6 +101,8 @@ public class PlayerMovement : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
 
         Health = GetComponent<Health>();
+
+        _chargedAttack = GetComponent<ChargedAttack>();
 
         MoveAction = InputSystem.actions.FindAction("Move");
         if (MoveAction == null)
@@ -150,6 +154,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDash(InputAction.CallbackContext context)
     {
+        if (_chargedAttack !=null && _chargedAttack.IsCharging())
+        {
+            return;
+        }
+        
         if (_canDash && !_isDashing)
         {
             StartDash();
@@ -194,6 +203,12 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (_chargedAttack != null && _chargedAttack.IsCharging())
+        {
+            _rb.linearVelocity = Vector2.zero;
+            return;
+        }
+
         Movement = MoveAction.ReadValue<Vector2>().normalized;
         
         if (Movement != Vector2.zero)

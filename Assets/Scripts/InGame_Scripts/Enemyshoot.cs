@@ -185,7 +185,7 @@ public class EnemyShoot : MonoBehaviour
         Bullet bullet = bulletObj.GetComponent<Bullet>();
         if (bullet != null)
         {
-            bullet.Init(direction);
+            bullet.Init(direction, 20);
         }
         else
         {
