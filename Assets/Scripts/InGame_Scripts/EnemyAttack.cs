@@ -41,13 +41,15 @@ public class EnemyMeleeAttack : MonoBehaviour
     [Tooltip("Sonido que se reproduce como advertencia antes de aplicar el daño.")]
     [SerializeField] private AudioClip _attackSound;
 
+    [Header("Referencias")]
+    [SerializeField] private EnemyPatrol _enemyPatrol;
+
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados (private fields)
 
     /// <summary>Referencia al componente EnemyPatrol del mismo GameObject.</summary>
-    private EnemyPatrol _enemyPatrol;
 
     /// <summary>AudioSource del enemigo para reproducir el sonido de ataque.</summary>
     private AudioSource _audioSource;
@@ -74,10 +76,23 @@ public class EnemyMeleeAttack : MonoBehaviour
     /// <summary>
     /// Cachea los componentes necesarios.
     /// </summary>
-    private void Start()
+    /*private void Start()
     {
         _enemyPatrol = GetComponent<EnemyPatrol>();
         _audioSource = GetComponent<AudioSource>();
+
+        ResetTimer();
+    }*/
+    private void Start()
+    {
+        // Esto busca el componente automáticamente en el mismo objeto
+        _enemyPatrol = GetComponent<EnemyPatrol>();
+        _audioSource = GetComponent<AudioSource>();
+
+        if (_enemyPatrol == null)
+        {
+            Debug.LogError("¡OJO! No he encontrado el script EnemyPatrol en " + gameObject.name);
+        }
 
         ResetTimer();
     }
@@ -123,21 +138,34 @@ public class EnemyMeleeAttack : MonoBehaviour
     /// <summary>
     /// Detecta cuando el jugador entra en contacto físico con el enemigo.
     /// </summary>
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        // Detecta si lo que entró en el área es el jugador
+        if (other.CompareTag("Player"))
+        {
             _playerInRange = true;
+            Debug.Log("Jugador entró en el área de ataque.");
+        }
     }
 
-    /// <summary>
-    /// Detecta cuando el jugador deja de estar en contacto físico con el enemigo.
-    /// </summary>
-    private void OnCollisionExit2D(Collision2D collision)
+    private void OnTriggerStay2D(Collider2D other)
     {
-        if (collision.gameObject.CompareTag("Player"))
-            _playerInRange = false;
+        // Por seguridad, si el jugador sigue dentro, mantenemos el flag en true
+        if (other.CompareTag("Player"))
+        {
+            _playerInRange = true;
+        }
     }
 
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        // Cuando el jugador sale del área, deja de recibir daño
+        if (other.CompareTag("Player"))
+        {
+            _playerInRange = false;
+            Debug.Log("Jugador salió del área de ataque.");
+        }
+    }
     #endregion
 
     // ---- MÉTODOS PRIVADOS ----
@@ -171,4 +199,4 @@ public class EnemyMeleeAttack : MonoBehaviour
 
     #endregion
 
-} // class EnemyMeleeAttack
+}
