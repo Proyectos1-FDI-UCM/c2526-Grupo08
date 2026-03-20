@@ -311,7 +311,7 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.5, y: 1}
+  m_Size: {x: 3, y: 5.5}
   m_Direction: 0
 --- !u!212 &2057069035840417792
 SpriteRenderer:
@@ -522,6 +522,8 @@ MonoBehaviour:
   HealthBar: {fileID: 3469035366496759300}
   EnemyGameObject: {fileID: 5833783661910523780}
   IsPlayer: 0
+  MagicPointsPrefab: {fileID: 0}
+  KeyPrefab: {fileID: 0}
 --- !u!1 &7981711060179588134
 GameObject:
   m_ObjectHideFlags: 0
@@ -623,7 +625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ac3796da0b8d36448913c05bd4fe59f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SliderHealthBar: {fileID: 8351438655464505803}
+  _slider: {fileID: 0}
 --- !u!1 &8989267824368811775
 GameObject:
   m_ObjectHideFlags: 0
