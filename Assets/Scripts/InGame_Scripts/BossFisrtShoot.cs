@@ -23,12 +23,19 @@ public class BossFisrtShoot : MonoBehaviour
     // (palabras con primera letra mayúscula, incluida la primera letra)
     // Ejemplo: MaxHealthPoints
 
-    [SerializeField] private float minX;
-    [SerializeField] private float maxX;
-    [SerializeField] private float minY;
-    [SerializeField] private float maxY;
+    [Header("Configuración de Detección")]
+    [SerializeField] private float detectionRange = 12f;
+    [SerializeField] private float attackCooldown = 3f;
+
+    [Header("Configuración de Ataque")]
+    [SerializeField] private int damageValue = 30; // El daño de 30 que pediste
+    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private Transform firePoint; // Punto desde donde sale la bala
+
+    private Transform _playerTransform;
+    private bool _isAttacking = false;
     #endregion
-    
+
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados (private fields)
     // Documentar cada atributo que aparece aquí.
@@ -39,21 +46,25 @@ public class BossFisrtShoot : MonoBehaviour
     // Ejemplo: _maxHealthPoints
 
     #endregion
-    
+
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
-    
+
     // Por defecto están los típicos (Update y Start) pero:
     // - Hay que añadir todos los que sean necesarios
     // - Hay que borrar los que no se usen 
-    
+
     /// <summary>
     /// Start is called on the frame when a script is enabled just before 
     /// any of the Update methods are called the first time.
     /// </summary>
     void Start()
     {
-        
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            _playerTransform = playerObj.transform;
+        }
     }
 
     /// <summary>

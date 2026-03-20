@@ -97,7 +97,7 @@ public class Objects : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (_interactAction != null) ;
+        if (_interactAction != null);
     }
 
     #endregion
