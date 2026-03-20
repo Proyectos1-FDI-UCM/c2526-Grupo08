@@ -10,17 +10,16 @@
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
-using System.Collections;
 using UnityEngine;
 
 /// <summary>
 /// Gestiona el ciclo de disparo del enemigo normal.
 /// Se apoya en EnemyPatrol.IsChasing para saber cuándo activarse.
-/// Usa una Coroutine que cada 1,5 segundos:
+/// Cada 1,5 segundos:
 ///   1. Reproduce el AudioClip de disparo (advertencia sonora).
-///   2. Espera 0,3 s.
-///   3. Instancia la bala apuntando a la posición actual de Cori.
-///   4. Espera los 1,2 s restantes antes de repetir.
+///   2. Transcurridos 0,3 s, instancia la bala apuntando al jugador.
+///   3. Espera los 1,2 s restantes antes de repetir.
+/// La lógica se gestiona con timers en Update, sin corrutinas.
 /// </summary>
 [RequireComponent(typeof(EnemyPatrol))]
 [RequireComponent(typeof(AudioSource))]
@@ -61,11 +60,19 @@ public class EnemyShoot : MonoBehaviour
     /// <summary>Transform del jugador, buscado por tag al iniciar.</summary>
     private Transform _playerTransform;
 
-    /// <summary>Referencia a la Coroutine activa para poder detenerla.</summary>
-    private Coroutine _shootCoroutine;
+    /// <summary>
+    /// Acumulador de tiempo del ciclo de disparo.
+    /// Avanza cada frame mientras la persecución está activa.
+    /// Se inicializa en (_fireInterval - _soundLeadTime) para que el primer sonido
+    /// se emita tras ese tiempo y no de forma inmediata al detectar al jugador.
+    /// </summary>
+    private float _shootTimer = 0f;
 
-    /// <summary>Indica si la Coroutine de disparo está en marcha.</summary>
-    private bool _isShooting = false;
+    /// <summary>
+    /// Indica si el sonido de advertencia ya se reprodujo en el ciclo actual.
+    /// Permite que FireBullet() se ejecute exactamente _soundLeadTime después.
+    /// </summary>
+    private bool _soundPlayed = false;
 
     #endregion
 
@@ -74,6 +81,7 @@ public class EnemyShoot : MonoBehaviour
 
     /// <summary>
     /// Cachea componentes y localiza al jugador por tag.
+    /// Inicializa el timer para que el primer disparo no ocurra de inmediato.
     /// </summary>
     private void Start()
     {
@@ -101,44 +109,48 @@ public class EnemyShoot : MonoBehaviour
 
         // Si no se asignó punto de origen, usamos el propio transform del enemigo
         if (_shootOrigin == null)
-        {
             _shootOrigin = transform;
-        }
+
+        // El timer arranca en el punto del ciclo donde se emite el sonido,
+        // así el primer disparo no ocurre instantáneamente al detectar al jugador.
+        _shootTimer = _fireInterval - _soundLeadTime;
+        _soundPlayed = false;
     }
 
     /// <summary>
-    /// Cada frame comprueba si la persecución acaba de activarse o desactivarse
-    /// para arrancar o detener la Coroutine de disparo.
+    /// Gestiona el temporizador de disparo frame a frame.
+    /// Solo avanza cuando EnemyPatrol.IsChasing es true.
+    /// Ciclo de _fireInterval segundos:
+    ///   · Al alcanzar (_fireInterval - _soundLeadTime) → reproduce el sonido.
+    ///   · Al alcanzar _fireInterval                   → instancia la bala y reinicia.
     /// </summary>
     private void Update()
     {
         if (_playerTransform == null) return;
-
-        bool chasing = _enemyPatrol.IsChasing;
-
-        // Arrancar la Coroutine cuando empieza la persecución
-        if (chasing && !_isShooting)
+        if (!_enemyPatrol.IsChasing)
         {
-            _shootCoroutine = StartCoroutine(ShootLoop());
-            _isShooting = true;
+            // Reseteamos el timer al salir de la persecución para que el ciclo
+            // comience desde el principio la próxima vez que se active.
+            _shootTimer = _fireInterval - _soundLeadTime;
+            _soundPlayed = false;
+            return;
         }
-        // Detener la Coroutine cuando la persecución termina
-        else if (!chasing && _isShooting)
-        {
-            StopCoroutine(_shootCoroutine);
-            _isShooting = false;
-        }
-    }
 
-    /// <summary>
-    /// Asegurarse de parar la Coroutine si el GameObject se desactiva o destruye.
-    /// </summary>
-    private void OnDisable()
-    {
-        if (_isShooting && _shootCoroutine != null)
+        _shootTimer += Time.deltaTime;
+
+        // Fase 1: reproducir sonido de advertencia
+        if (!_soundPlayed && _shootTimer >= _fireInterval - _soundLeadTime)
         {
-            StopCoroutine(_shootCoroutine);
-            _isShooting = false;
+            PlayShootSound();
+            _soundPlayed = true;
+        }
+
+        // Fase 2: instanciar la bala y reiniciar el ciclo
+        if (_shootTimer >= _fireInterval)
+        {
+            FireBullet();
+            _shootTimer = 0f;
+            _soundPlayed = false;
         }
     }
 
@@ -148,62 +160,32 @@ public class EnemyShoot : MonoBehaviour
     #region Métodos Privados
 
     /// <summary>
-    /// Bucle principal de disparo. Se ejecuta mientras la persecución esté activa.
-    /// Ciclo de 1,5 s:
-    ///   → Reproduce el sonido de advertencia.
-    ///   → Espera 0,3 s.
-    ///   → Instancia la bala.
-    ///   → Espera los 1,2 s restantes del ciclo.
-    /// </summary>
-    private IEnumerator ShootLoop()
-    {
-        // Pequeña pausa inicial para que el primer disparo no sea inmediato al detectar
-        yield return new WaitForSeconds(_fireInterval - _soundLeadTime);
-
-        while (true)
-        {
-            // 1. Reproducir el sonido de advertencia
-            PlayShootSound();
-
-            // 2. Esperar el adelanto: el jugador tiene este tiempo para esquivar
-            yield return new WaitForSeconds(_soundLeadTime);
-
-            // 3. Instanciar la bala apuntando a la posición actual de Cori
-            FireBullet();
-
-            // 4. Esperar el resto del intervalo antes del siguiente ciclo
-            yield return new WaitForSeconds(_fireInterval - _soundLeadTime);
-        }
-    }
-
-    /// <summary>
     /// Reproduce el AudioClip de disparo como advertencia sonora para el jugador.
     /// </summary>
     private void PlayShootSound()
     {
         if (_shootSound == null || _audioSource == null) return;
-
         _audioSource.PlayOneShot(_shootSound);
     }
 
     /// <summary>
-    /// Instancia la bala y la inicializa hacia la posición actual de Cori.
+    /// Instancia la bala y la inicializa hacia la posición actual del jugador.
     /// Reutiliza el componente Bullet (mismo que las balas del jugador).
     /// </summary>
     private void FireBullet()
     {
         if (_playerTransform == null) return;
 
-        // Calculamos la dirección desde el origen del disparo hacia Cori
-        Vector2 direction = ((Vector2)_playerTransform.position - (Vector2)_shootOrigin.position).normalized;
+        // Dirección desde el origen del disparo hacia el jugador
+        Vector2 direction = ((Vector2)_playerTransform.position
+                            - (Vector2)_shootOrigin.position).normalized;
 
-        // Instanciamos la bala
         GameObject bulletObj = Instantiate(_bulletPrefab, _shootOrigin.position, Quaternion.identity);
 
         Bullet bullet = bulletObj.GetComponent<Bullet>();
         if (bullet != null)
         {
-            bullet.Init(direction);
+            bullet.Init(direction, 20);
         }
         else
         {

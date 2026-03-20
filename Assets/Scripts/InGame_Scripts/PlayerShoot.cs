@@ -128,7 +128,7 @@ public class PlayerShoot : MonoBehaviour
         Bullet bullet = bulletObj.GetComponent<Bullet>();
 
         if (bullet != null)
-            bullet.Init(shootDirection);
+            bullet.Init(shootDirection, 20);
         else
             Debug.LogWarning("[PlayerShoot] El prefab de bala no tiene el componente Bullet.");
     }

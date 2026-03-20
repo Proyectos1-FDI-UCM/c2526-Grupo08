@@ -121,9 +121,11 @@ public class Bullet : MonoBehaviour
     /// antes de que el Start de la bala se ejecute.
     /// </summary>
     /// <param name="direction">Vector normalizado con la dirección de disparo.</param>
-    public void Init(Vector2 direction)
+    public void Init(Vector2 direction, int damage)
     {
         _direction = direction.normalized;
+
+        _damage = damage;
 
         // Rotamos el sprite de la bala para que apunte en la dirección correcta
         float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
