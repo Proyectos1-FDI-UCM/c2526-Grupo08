@@ -26,6 +26,8 @@ public class MenuManager : MonoBehaviour
 
     [SerializeField] private GameObject MainMenu;
     [SerializeField] private GameObject Options;
+    [SerializeField] private GameObject Credits;
+    [SerializeField] private float _followDelay = 0.5f;
 
     #endregion
 
@@ -37,8 +39,6 @@ public class MenuManager : MonoBehaviour
     // primera palabra en minúsculas y el resto con la 
     // primera letra en mayúsculas)
     // Ejemplo: _maxHealthPoints
-
-    private float _followDelay;
 
     #endregion
 
@@ -57,6 +57,7 @@ public class MenuManager : MonoBehaviour
     {
         if(MainMenu != null) MainMenu.SetActive(true); 
         if(Options != null) Options.SetActive(false);
+        if(Credits != null) Options.SetActive(false);
     }
 
     /// <summary>
@@ -83,19 +84,15 @@ public class MenuManager : MonoBehaviour
         System.GC.Collect();
     }
 
-    public void Restar()
+    public void RestarDelay()
     {
-        do
-        {
-            _followDelay -= 0.1f;
-        } while (_followDelay < 0);
+        if(_followDelay > 0)_followDelay -= 0.1f;
+        Mathf.Round(_followDelay);
     }
-    public void Sumar()
+    public void SumarDelay()
     {
-        do
-        {
-            _followDelay += 0.1f;
-        } while (_followDelay > 0.6f);
+        if(_followDelay <= 1.5f) _followDelay += 0.1f;
+        Mathf.Round(_followDelay);
     }
 
     public float GetFollowDelay() => _followDelay;
@@ -104,12 +101,21 @@ public class MenuManager : MonoBehaviour
     {
         if (MainMenu != null) MainMenu.SetActive(true);
         if (Options != null) Options.SetActive(false);
+        if (Credits != null) Credits.SetActive(false);
     }
 
     public void ActiveOptions()
     {
         if (MainMenu != null) MainMenu.SetActive(false);
         if (Options != null) Options.SetActive(true);
+        if (Credits != null) Credits.SetActive(false);
+    }
+
+    public void ActiveCredits()
+    {
+        if (MainMenu != null) MainMenu.SetActive(false);
+        if (Options != null) Options.SetActive(false);
+        if (Credits != null) Credits.SetActive(true);
     }
 
     public void QuitGame()
