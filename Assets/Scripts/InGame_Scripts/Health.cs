@@ -42,8 +42,12 @@ public class Health : MonoBehaviour
     [SerializeField] private GameObject MagicPointsPrefab;
 
     [Tooltip("Prefab de la llave que soltará el enemigo.")]
-    [SerializeField] private GameObject KeyPrefab; 
+    [SerializeField] private GameObject KeyPrefab;
     //esto para cuando el enemigo muera en el nivel 2, suelte la llave. Lo está haciendo Marián.
+
+    [Tooltip("Marcar true solo en el enemigo especial.")]
+    [SerializeField] private bool IsSpecialEnemy = false;
+
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
@@ -150,7 +154,16 @@ public class Health : MonoBehaviour
         }
         else
         {
-            
+            // --- ENEMIGO ESPECIAL: delegar en SpecialEnemyDeath, no destruir ---
+            if (IsSpecialEnemy)
+            {
+                SpecialEnemyDeath sed = GetComponent<SpecialEnemyDeath>();
+                if (sed != null) sed.OnDefeated();
+                else Debug.LogWarning("[Health] IsSpecialEnemy=true pero no hay SpecialEnemyDeath en " + gameObject.name);
+                return; // salir antes de cualquier Destroy
+            }
+
+            // --- Muerte normal de enemigo ---
             GameObject toDestroy = EnemyGameObject != null ? EnemyGameObject : gameObject;
 
             if (KeyPrefab != null)
@@ -163,7 +176,6 @@ public class Health : MonoBehaviour
             GameObject _magicPointObj = Instantiate(MagicPointsPrefab, EnemyGameObject.transform.position, Quaternion.identity);
 
             // TODO: liberar energía mágica al matar un enemigo -> Comprobar si va bien
-
         }
     }
 
