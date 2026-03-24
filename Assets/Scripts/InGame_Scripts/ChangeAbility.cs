@@ -22,6 +22,7 @@ public class ChangeAbility : MonoBehaviour
     [Header("Abilities")]
     [SerializeField] private MonoBehaviour _multiAbility;
     [SerializeField] private MonoBehaviour _explosiveAbility;
+    [SerializeField] private MonoBehaviour _chargedattackAbility;
     // Documentar cada atributo que aparece aquí.
     // El convenio de nombres de Unity recomienda que los atributos
     // públicos y de inspector se nombren en formato PascalCase
@@ -98,20 +99,25 @@ public class ChangeAbility : MonoBehaviour
 
     private void SwitchAbility()
     {
-        _currentIndex = (_currentIndex + 1) % 2;
+        _currentIndex = (_currentIndex + 1) % 3;
         UpdateAbilities();
     }
 
     private void UpdateAbilities()
     {
+        if (_chargedattackAbility != null)
+        {
+            _chargedattackAbility.enabled = (_currentIndex == 0);
+        }
+
         if (_multiAbility != null)
         {
-            _multiAbility.enabled = (_currentIndex == 0);
+            _multiAbility.enabled = (_currentIndex == 1);
         }
 
         if (_explosiveAbility != null)
         {
-            _explosiveAbility.enabled = (_currentIndex == 1);
+            _explosiveAbility.enabled = (_currentIndex == 2);
         }
     }
     // Documentar cada método que aparece aquí

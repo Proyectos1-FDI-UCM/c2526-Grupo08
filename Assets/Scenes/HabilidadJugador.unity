@@ -1095,6 +1095,17 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &604601729 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2899187465844585586, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+  m_PrefabInstance: {fileID: 1596246527}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5020c10fde88b4944abf0fa3fa9fb666, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &682225227
 GameObject:
   m_ObjectHideFlags: 0
@@ -1871,6 +1882,18 @@ PrefabInstance:
       propertyPath: MagicPointsPrefab
       value: 
       objectReference: {fileID: 1546762712987103224, guid: bc65c4899de222a45b32da9478bf5b87, type: 3}
+    - target: {fileID: 590871797006376245, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+      propertyPath: _chargedattackAbility
+      value: 
+      objectReference: {fileID: 604601729}
+    - target: {fileID: 1061017487215962581, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2899187465844585586, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3713208540947770867, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1881,7 +1904,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.0693908
+      value: -5.14
       objectReference: {fileID: 0}
     - target: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_LocalPosition.z
