@@ -625,6 +625,41 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
   m_PrefabInstance: {fileID: 1596246527}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &425490920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 425490908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baf9068f99638174cb7d7d894b58c9c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _explosiveBulletPrefab: {fileID: 1568315935560897394, guid: 01597d9b75aaa1f4499a70245be01170, type: 3}
+  _shootOrigin: {fileID: 425490919}
+  _fireRate: 0.4
+  _magicCost: 35
+  _maxUses: 6
+--- !u!114 &425490921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 425490908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73eca82c21b3cbf4c83f0d8894191f5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bulletPrefab: {fileID: 1869822841219727020, guid: 11937ea5ec3d5b4498175fed857247e6, type: 3}
+  _shootOrigin: {fileID: 425490919}
+  _fireRate: 0.4
+  _damage: 30
+  _range: 8
+  _magicCost: 30
 --- !u!1 &466613987
 GameObject:
   m_ObjectHideFlags: 0
@@ -1945,6 +1980,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3713208540947770867, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 425490909}
+    - targetCorrespondingSourceObject: {fileID: 3713208540947770867, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 425490921}
+    - targetCorrespondingSourceObject: {fileID: 3713208540947770867, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 425490920}
   m_SourcePrefab: {fileID: 100100000, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
 --- !u!1 &1615736889
 GameObject:
