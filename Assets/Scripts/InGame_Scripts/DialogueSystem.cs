@@ -25,10 +25,6 @@ using TMPro;
 ///   CharacterImage  → Image del personaje (izquierda)
 ///   DialogueText    → TMP_Text con el contenido (derecha)
 ///   ContinueHint    → TMP_Text con el hint de tecla (inferior derecha)
-///
-/// IMPORTANTE: el juego está pausado (timeScale=0) durante el diálogo.
-/// El cooldown de input usa Time.unscaledDeltaTime para funcionar igualmente.
-/// WasPressedThisFrame del new Input System sí funciona con timeScale=0.
 /// </summary>
 public class DialogueSystem : MonoBehaviour
 {
