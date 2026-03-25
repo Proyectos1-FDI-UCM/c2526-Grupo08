@@ -1,7 +1,7 @@
 //---------------------------------------------------------
 // Breve descripción del contenido del archivo
-// Marián Navarro Santoyo
-// No way down
+// Marian Navarro Santoyo
+// No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
@@ -13,7 +13,7 @@ using UnityEngine;
 /// Antes de cada class, descripción de qué es y para qué sirve,
 /// usando todas las líneas que sean necesarias.
 /// </summary>
-public class BossFisrtShoot : MonoBehaviour
+public class SecondAttackBoss : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Atributos del Inspector (serialized fields)
@@ -23,17 +23,20 @@ public class BossFisrtShoot : MonoBehaviour
     // (palabras con primera letra mayúscula, incluida la primera letra)
     // Ejemplo: MaxHealthPoints
 
-    [Header("Configuración de Ataque")]
-    [SerializeField] private int damageValue = 30;
-    [SerializeField] private float detectionRange = 10f;
-    [SerializeField] private float cooldownTime = 3f;
+    [SerializeField] private GameObject _prefabTriangulo;
+    [SerializeField] private GameObject _avisoVisualPrefab;
+    [SerializeField] private float _rangoDeteccion = 10f;
+    [SerializeField] private float _tiempoRecarga = 3f;
+    [SerializeField] private Transform _puntoDisparo;
 
-    [Header("Referencias")]
-    [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private Transform firePoint;
+    private Transform _jugador;
+    private GameObject _avisoActual;
+    private float _timerAtaque;
+    private float _timerAviso;
+    private Vector3 _posicionRegistrada;
+    private bool _alreadyAviso;
 
-    private Transform _playerTransform;
-    private float _timer = 0f;
+
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
@@ -44,6 +47,27 @@ public class BossFisrtShoot : MonoBehaviour
     // primera palabra en minúsculas y el resto con la 
     // primera letra en mayúsculas)
     // Ejemplo: _maxHealthPoints
+
+    private void LanzarTriangulos()
+    {
+        if (_avisoActual != null) Destroy(_avisoActual);
+
+        // Lanzar 3 proyectiles
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject proyectil = Instantiate(_prefabTriangulo, _puntoDisparo.position, Quaternion.identity);
+            Vector2 direccion = (_posicionRegistrada - _puntoDisparo.position).normalized;
+
+            if (proyectil.TryGetComponent(out Rigidbody2D rb))
+            {
+                rb.velocity = direccion * 10f;
+            }
+        }
+
+        // Resetear todo para el siguiente ciclo
+        _alreadyAviso = false;
+        _timerAtaque = 0;
+    }
 
     #endregion
 
@@ -61,10 +85,8 @@ public class BossFisrtShoot : MonoBehaviour
     void Start()
     {
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-        if (playerObj != null)
-        {
-            _playerTransform = playerObj.transform;
-        }
+        if (playerObj != null) _jugador = playerObj.transform;
+
     }
 
     /// <summary>
@@ -72,16 +94,29 @@ public class BossFisrtShoot : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if (_playerTransform == null) return;
+        if (_jugador == null) return;
 
-        _timer += Time.deltaTime;
+        float distancia = Vector2.Distance(transform.position, _jugador.position);
+        _timerAtaque += Time.deltaTime;
 
-        float distanceToPlayer = Vector2.Distance(transform.position, _playerTransform.position);
-
-        if (distanceToPlayer <= detectionRange && _timer >= cooldownTime)
+        // 1. Detección y creación del aviso
+        if (distancia <= _rangoDeteccion && _timerAtaque >= _tiempoRecarga && !_alreadyAviso)
         {
-            ExecuteAttack();
-            _timer = 0f; 
+            _posicionRegistrada = _jugador.position;
+            _avisoActual = Instantiate(_avisoVisualPrefab, _posicionRegistrada, Quaternion.identity);
+            _alreadyAviso = true;
+            _timerAviso = 0; //Esto se reinicia que sino no diapara otra vez
+        }
+
+        
+        if (_alreadyAviso)
+        {
+            _timerAviso += Time.deltaTime;
+
+            if (_timerAviso >= 2f)//He puesto 2 porque 1 me parece muy difícil, si vemos que no, lo cambio
+            {
+                LanzarTriangulos();
+            }
         }
 
     }
@@ -104,31 +139,12 @@ public class BossFisrtShoot : MonoBehaviour
     // se nombren en formato PascalCase (palabras con primera letra
     // mayúscula, incluida la primera letra)
 
+   
+
+
+
+
     #endregion
 
-    private void ExecuteAttack()
-    {
-        transform.position = _playerTransform.position;
-
-        Health playerHealth = _playerTransform.GetComponent<Health>();
-        if (playerHealth != null)
-        {
-            playerHealth.Damage(damageValue);
-            Debug.Log("Teletransporte y daño de " + damageValue + " aplicado.");
-        }
-
-        if (bulletPrefab != null)
-        {
-            Vector3 spawnPos = firePoint != null ? firePoint.position : transform.position;
-            Instantiate(bulletPrefab, spawnPos, Quaternion.identity);
-        }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(transform.position, detectionRange);
-    }
-
-} // class BossFisrtShoot 
+} // class SecondAttackBoss 
 // namespace
