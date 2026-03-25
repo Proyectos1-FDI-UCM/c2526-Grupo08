@@ -20,6 +20,10 @@ public class SpecialEnemyDeath : MonoBehaviour
     // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Atributos del Inspector
 
+    [Header("Referencias")]
+    [Tooltip("Barra de vida del enemigo (el objeto entero, no solo el fill). Se oculta al caer.")]
+    [SerializeField] private GameObject HealthBarObject;
+
     [Header("Rotación al caer")]
     [Tooltip("Grados de rotación Z al caer al suelo (90 o -90 según la orientación del sprite)")]
     [SerializeField] private float FallRotationZ = 90f;
@@ -46,6 +50,7 @@ public class SpecialEnemyDeath : MonoBehaviour
     private EnemyShoot _shoot;
     private EnemyMeleeAttack _attack;
     private SpecialEnemyInteraction _interaction;
+
 
     #endregion
 
@@ -119,6 +124,10 @@ public class SpecialEnemyDeath : MonoBehaviour
             if (!col.isTrigger)
                 col.enabled = false;
         }
+
+        // Ocultar la barra de vida (ya llegó a 0, no tiene sentido mostrarla)
+        if (HealthBarObject != null)
+            HealthBarObject.SetActive(false);
 
         // Preparar rotación objetivo
         _targetRotation = Quaternion.Euler(0f, 0f, FallRotationZ);

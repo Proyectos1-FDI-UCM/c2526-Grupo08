@@ -2,7 +2,7 @@
 // Gestiona la interacción del jugador con el enemigo especial derrotado.
 // Muestra el prompt de acercamiento (F / B en mando), el panel de opciones
 // y lanza el diálogo o el remate según la elección.
-// Alexia Pérez Santana
+// Alexia Pérez SAntana
 // No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
@@ -35,6 +35,13 @@ public class SpecialEnemyInteraction : MonoBehaviour
     [Header("Detección de proximidad")]
     [Tooltip("Radio en el que el jugador puede interactuar con el enemigo derrotado")]
     [SerializeField] private float InteractionRadius = 1.5f;
+
+    [Header("Posición del prompt")]
+    [Tooltip("Desplazamiento en unidades de mundo hacia arriba del prompt respecto al enemigo")]
+    [SerializeField] private float PromptOffsetY = 0.8f;
+
+    [Tooltip("Canvas padre del PromptUI (necesario para convertir coordenadas correctamente)")]
+    [SerializeField] private Canvas ParentCanvas;
 
     [Header("UI - Prompt")]
     [Tooltip("Objeto de UI que muestra 'Pulsa F / B para interactuar'")]
@@ -87,6 +94,8 @@ public class SpecialEnemyInteraction : MonoBehaviour
 
     private Transform _playerTransform;
     private InputAction _interactAction;
+    /// <summary>RectTransform del PromptUI para actualizar su posición cada frame.</summary>
+    private RectTransform _promptRect;
 
     #endregion
 
@@ -108,7 +117,11 @@ public class SpecialEnemyInteraction : MonoBehaviour
 
     private void Start()
     {
-        if (PromptUI != null) PromptUI.SetActive(false);
+        if (PromptUI != null)
+        {
+            PromptUI.SetActive(false);
+            _promptRect = PromptUI.GetComponent<RectTransform>();
+        }
         if (OptionsPanel != null) OptionsPanel.SetActive(false);
 
         if (AmenazarButton != null) AmenazarButton.onClick.AddListener(OnAmenazar);
@@ -130,6 +143,31 @@ public class SpecialEnemyInteraction : MonoBehaviour
 
         if (!_optionsOpen)
         {
+            // Actualizar posición del prompt encima del enemigo
+            if (_promptRect != null && Camera.main != null)
+            {
+                // Convertir posición del enemigo a coordenadas de pantalla
+                Vector3 worldPos = transform.position + new Vector3(0f, PromptOffsetY, 0f);
+                Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
+
+                // Convertir de screen space a local space del Canvas
+                if (ParentCanvas != null)
+                {
+                    RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                        ParentCanvas.GetComponent<RectTransform>(),
+                        screenPos,
+                        ParentCanvas.worldCamera,
+                        out Vector2 localPoint
+                    );
+                    _promptRect.localPosition = localPoint;
+                }
+                else
+                {
+                    // Fallback sin canvas asignado
+                    _promptRect.position = screenPos;
+                }
+            }
+
             // Mostrar u ocultar el prompt según proximidad
             if (PromptUI != null)
                 PromptUI.SetActive(_playerInRange);
@@ -170,7 +208,11 @@ public class SpecialEnemyInteraction : MonoBehaviour
     private void AbrirOpciones()
     {
         _optionsOpen = true;
-        if (PromptUI != null) PromptUI.SetActive(false);
+        if (PromptUI != null)
+        {
+            PromptUI.SetActive(false);
+            _promptRect = PromptUI.GetComponent<RectTransform>();
+        }
         if (OptionsPanel != null) OptionsPanel.SetActive(true);
     }
 
