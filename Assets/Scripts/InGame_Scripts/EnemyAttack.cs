@@ -5,6 +5,7 @@
 // Cadencia: 1 ataque cada 1,5 segundos.
 // El sonido se reproduce 0,3 s antes del daño real.
 // La lógica se gestiona con timers en Update, sin corrutinas.
+// Laura Garay Zubiaguirre
 // No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------

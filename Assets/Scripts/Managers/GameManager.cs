@@ -10,6 +10,8 @@
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
+using UnityEngine.Rendering;
 
 /// <summary>
 /// Singleton persistente entre escenas (DontDestroyOnLoad).
@@ -120,8 +122,9 @@ public class GameManager : MonoBehaviour
     /// <summary>Vuelve al menú principal. Llamado desde LevelManager.</summary>
     public void GoToMainMenu()
     {
-        SceneManager.LoadScene("Main menu");
+        SceneManager.LoadScene("Menu");
     }
+
 
     #endregion
 

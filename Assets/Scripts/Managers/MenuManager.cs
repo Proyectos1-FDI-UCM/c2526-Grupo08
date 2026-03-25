@@ -1,12 +1,12 @@
 //---------------------------------------------------------
 // Breve descripción del contenido del archivo
-// Celia 
+// Responsable de la creación de este archivo
 // Nombre del juego
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 // Añadir aquí el resto de directivas using
 
 
@@ -14,7 +14,7 @@ using UnityEngine.InputSystem;
 /// Antes de cada class, descripción de qué es y para qué sirve,
 /// usando todas las líneas que sean necesarias.
 /// </summary>
-public class Magic : MonoBehaviour
+public class MenuManager : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Atributos del Inspector (serialized fields)
@@ -24,17 +24,10 @@ public class Magic : MonoBehaviour
     // (palabras con primera letra mayúscula, incluida la primera letra)
     // Ejemplo: MaxHealthPoints
 
-    [Tooltip("Magia máxima. (GDD: jugador 60)")]
-    [SerializeField] private int MaxMagic = 60;
-
-    [Tooltip("Barra de vida que muestra la vida en pantalla. Asignar desde el Inspector.")]
-    [SerializeField] private UIBar MagicBar;
-
-    [Tooltip("Cantidad de magia que gasta cada habilidad mágica. GDD: cargado = 20; multidirección = 30; explosión = 35")]
-    [SerializeField] private int ChargedAttackPoints = 20;
-    [SerializeField] private int MultiDirAttackPoints = 30; //Cada bala hace 30 de daño
-    [SerializeField] private int ExplosiveAttackPoints = 35;
-
+    [SerializeField] private GameObject MainMenu;
+    [SerializeField] private GameObject Options;
+    [SerializeField] private GameObject Credits;
+    [SerializeField] private float _followDelay = 0.5f;
 
     #endregion
 
@@ -46,11 +39,6 @@ public class Magic : MonoBehaviour
     // primera palabra en minúsculas y el resto con la 
     // primera letra en mayúsculas)
     // Ejemplo: _maxHealthPoints
-
-    private int _currentMagic;
-
-    private InputAction _magicAbility1;
-    private InputAction _magicAbility2;
 
     #endregion
 
@@ -67,30 +55,9 @@ public class Magic : MonoBehaviour
     /// </summary>
     void Start()
     {
-        if (_magicAbility1 == null)
-        {
-            Debug.LogError("[Magic] Acción 'Charged' no encontrada.");
-            enabled = false;
-            return;
-        }
-
-        if (_magicAbility2 == null)
-        {
-            Debug.LogError("[Magic] Acción 'MultiDir_Explosion' no encontrada.");
-            enabled = false;
-            return;
-        }
-
-        _currentMagic = MaxMagic;
-
-        if (MagicBar != null)
-        {
-            MagicBar.SetMaxValue(MaxMagic);
-            MagicBar.SetValue(_currentMagic);
-        }
-
-        _magicAbility1.Enable();
-        _magicAbility2.Enable();
+        if(MainMenu != null) MainMenu.SetActive(true); 
+        if(Options != null) Options.SetActive(false);
+        if(Credits != null) Options.SetActive(false);
     }
 
     /// <summary>
@@ -98,7 +65,7 @@ public class Magic : MonoBehaviour
     /// </summary>
     void Update()
     {
-
+        
     }
     #endregion
 
@@ -110,26 +77,54 @@ public class Magic : MonoBehaviour
     // mayúscula, incluida la primera letra)
     // Ejemplo: GetPlayerController
 
-    public void IncreaseMagicAmount(int magicPoints)
+    public void ChangeScene(int index)
     {
-        _currentMagic = Mathf.Min(_currentMagic + magicPoints, MaxMagic);
-        if (MagicBar != null) MagicBar.SetValue(_currentMagic);
-        Debug.Log("La magia aumentó");
+        System.GC.Collect();
+        SceneManager.LoadScene(index);
+        System.GC.Collect();
     }
 
-    public bool TrySpendMagic(int amount)
+    public void RestarDelay()
     {
-        if (_currentMagic < amount)
-        {
-            return false;
-        }
-        _currentMagic -= amount;
-        if (MagicBar != null)
-        {
-            MagicBar.SetValue(_currentMagic);
-        }
-        return true;
+        if(_followDelay > 0)_followDelay -= 0.1f;
+        Mathf.Round(_followDelay);
     }
+    public void SumarDelay()
+    {
+        if(_followDelay <= 1.5f) _followDelay += 0.1f;
+        Mathf.Round(_followDelay);
+    }
+
+    public float GetFollowDelay() => _followDelay;
+
+    public void ActiveMainMenu()
+    {
+        if (MainMenu != null) MainMenu.SetActive(true);
+        if (Options != null) Options.SetActive(false);
+        if (Credits != null) Credits.SetActive(false);
+    }
+
+    public void ActiveOptions()
+    {
+        if (MainMenu != null) MainMenu.SetActive(false);
+        if (Options != null) Options.SetActive(true);
+        if (Credits != null) Credits.SetActive(false);
+    }
+
+    public void ActiveCredits()
+    {
+        if (MainMenu != null) MainMenu.SetActive(false);
+        if (Options != null) Options.SetActive(false);
+        if (Credits != null) Credits.SetActive(true);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit(); //Función para salir del juego
+        Debug.Log("Saliendo del juego");
+    }
+
+
 
     #endregion
 
@@ -140,12 +135,7 @@ public class Magic : MonoBehaviour
     // se nombren en formato PascalCase (palabras con primera letra
     // mayúscula, incluida la primera letra)
 
-    /// <summary>
-    /// Decrementa los puntos de magia cuando se usa una habilidad mágica
-    /// </summary>
-
-
     #endregion
 
-} // class Magic 
+} // class MenuManager 
 // namespace

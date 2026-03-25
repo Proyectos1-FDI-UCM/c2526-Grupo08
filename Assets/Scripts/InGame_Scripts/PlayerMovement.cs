@@ -27,7 +27,6 @@ public class PlayerMovement : MonoBehaviour
     // (palabras con primera letra mayúscula, incluida la primera letra)
     // Ejemplo: MaxHealthPoints
 
-    #endregion
     [SerializeField]
     private float Velocidad = 2f;
     [SerializeField]
@@ -42,6 +41,8 @@ public class PlayerMovement : MonoBehaviour
     private Sprite SpriteLeft;
     [SerializeField] 
     private TrailRenderer tr;
+
+    #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados (private fields)

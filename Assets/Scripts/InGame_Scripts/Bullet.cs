@@ -135,6 +135,10 @@ public class Bullet : MonoBehaviour
         _rb.linearVelocity = _direction * _speed;
     }
 
+    public void SetRange(float newRange)
+    {
+        _maxRange = newRange;
+    }
 
     #endregion
 

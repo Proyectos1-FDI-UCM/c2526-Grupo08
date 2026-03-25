@@ -14,10 +14,11 @@ using UnityEngine.InputSystem;
 /// Antes de cada class, descripción de qué es y para qué sirve,
 /// usando todas las líneas que sean necesarias.
 /// </summary>
-public class ChargedAttack : MonoBehaviour
+public class MultiDirectionalAttack : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Atributos del Inspector (serialized fields)
+
 
     [Header("Bullet Setup")]
     [Tooltip("Prefab de la bala. Debe tener el componente Bullet.")]
@@ -26,14 +27,11 @@ public class ChargedAttack : MonoBehaviour
     [Tooltip("Punto desde donde sale la bala. Si es null, sale desde el centro del jugador.")]
     [SerializeField] private Transform _shootOrigin;
 
-    [Header("Shoot Settings")]
-    [Tooltip("Tiempo mínimo entre disparos en segundos. (GDD: 0,4 s)")]
+    [Header("MultiDirectionalAttack")]
     [SerializeField] private float _fireRate = 0.4f;
-
-    [Header("Charged Attack")]
-    [SerializeField] private float _chargedtime = 1.5f;
-    [SerializeField] private int _chargeDamage = 70;
-    [SerializeField] private int _chargedMagicCost = 20;
+    [SerializeField] private int _damage = 30;
+    [SerializeField] private float _range = 8f;
+    [SerializeField] private int _magicCost = 30;
     // Documentar cada atributo que aparece aquí.
     // El convenio de nombres de Unity recomienda que los atributos
     // públicos y de inspector se nombren en formato PascalCase
@@ -46,16 +44,8 @@ public class ChargedAttack : MonoBehaviour
     #region Atributos Privados (private fields)
 
     private InputAction _attackAction;
-    private InputAction _aimAction;
-
-    private float _fireCooldownTimer = 0f;
-
-    private Camera _mainCamera;
-
+    private float _cooldownTimer = 0f;
     private Magic _magic;
-
-    private float _chargeTimer = 0f;
-    private bool _isCharging = false;
     // Documentar cada atributo que aparece aquí.
     // El convenio de nombres de Unity recomienda que los atributos
     // privados se nombren en formato _camelCase (comienza con _, 
@@ -70,15 +60,15 @@ public class ChargedAttack : MonoBehaviour
 
     private void Start()
     {
-        _attackAction = InputSystem.actions.FindAction("Attack");
-        _aimAction = InputSystem.actions.FindAction("HeadPoint");
+        _attackAction = InputSystem.actions.FindAction("MultiDir_Explosion");
 
-        if (_attackAction == null || _aimAction == null)
+        if (_attackAction == null)
         {
             Debug.LogError("Acción no encontrada.");
             enabled = false;
             return;
         }
+
         if (_bulletPrefab == null)
         {
             Debug.LogError("No hay prefab de bala asignado en el Inspector.");
@@ -88,44 +78,22 @@ public class ChargedAttack : MonoBehaviour
 
         _magic = GetComponent<Magic>();
 
-        _mainCamera = Camera.main;
-
         if (_shootOrigin == null)
             _shootOrigin = transform;
 
         _attackAction.Enable();
-        _aimAction.Enable();
+
+        _cooldownTimer = _fireRate;
     }
 
     private void Update()
     {
-        _fireCooldownTimer += Time.deltaTime;
-        if (_attackAction.WasPressedThisFrame())
-        {
-            _isCharging = true;
-            _chargeTimer = 0f;
-        }
+        _cooldownTimer += Time.deltaTime;
 
-        if (_isCharging && _attackAction.IsPressed())
+        if (_attackAction.WasPressedThisFrame() && _cooldownTimer >= _fireRate)
         {
-            _chargeTimer += Time.deltaTime;
-            if (_chargeTimer >= _chargedtime)
-            {
-                TryChargedShot();
-                _isCharging = false;
-                _fireCooldownTimer = 0f;
-            }
+            TryShoot();
         }
-
-        if (_attackAction.WasReleasedThisFrame())
-        {
-            _isCharging = false;
-        }
-    }
-
-    public bool IsCharging()
-    {
-        return _isCharging;
     }
     // Por defecto están los típicos (Update y Start) pero:
     // - Hay que añadir todos los que sean necesarios
@@ -154,47 +122,41 @@ public class ChargedAttack : MonoBehaviour
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
 
-    private void TryChargedShot()
+    private void TryShoot()
     {
         if (_magic == null)
         {
             return;
         }
-
-        if (!_magic.TrySpendMagic(_chargedMagicCost))
-        {
-            return;
-        }
-        Vector2 shootDirection = GetAimDirection();
-
-        if (shootDirection.sqrMagnitude < 0.01f)
+        if (!_magic.TrySpendMagic(_magicCost))
         {
             return;
         }
 
-        GameObject bulletObj = Instantiate(_bulletPrefab, _shootOrigin.position, Quaternion.identity);
-        Bullet bullet = bulletObj.GetComponent<Bullet>();
-
-        if (bullet != null)
-        {
-            bullet.Init(shootDirection, _chargeDamage);
-        }
+        ShootMulti();
+        _cooldownTimer = 0f;
     }
 
-    private Vector2 GetAimDirection()
+    private void ShootMulti()
     {
-        Vector2 rawAim = _aimAction.ReadValue<Vector2>();
-        bool isMouse = Mouse.current != null && _aimAction.activeControl?.device is Mouse;
+        Vector2[] directions = new Vector2[]
+        {
+            new Vector2(1,1).normalized,
+            new Vector2(-1,1).normalized,
+            new Vector2(-1,-1).normalized,
+            new Vector2(1,-1).normalized
+        };
 
-        if (isMouse)
+        foreach (Vector2 dir in  directions)
         {
-            Vector3 worldPos = _mainCamera.ScreenToWorldPoint(
-                new Vector3(rawAim.x, rawAim.y, 0f));
-            return ((Vector2)worldPos - (Vector2)transform.position).normalized;
-        }
-        else
-        {
-            return rawAim.normalized;
+            GameObject bulletObj = Instantiate(_bulletPrefab,_shootOrigin.position, Quaternion.identity);
+            Bullet bullet = bulletObj.GetComponent<Bullet>();
+
+            if (bullet != null)
+            {
+                bullet.SetRange(_range);
+                bullet.Init(dir, _damage);
+            }
         }
     }
     // Documentar cada método que aparece aquí
@@ -202,7 +164,7 @@ public class ChargedAttack : MonoBehaviour
     // se nombren en formato PascalCase (palabras con primera letra
     // mayúscula, incluida la primera letra)
 
-    #endregion   
+    #endregion
 
-} // class ChargedAttack 
+} // class MultiDirectionalAttack 
 // namespace

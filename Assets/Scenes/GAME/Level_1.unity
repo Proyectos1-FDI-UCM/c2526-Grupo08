@@ -826,7 +826,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ac3796da0b8d36448913c05bd4fe59f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SliderHealthBar: {fileID: 173270924}
+  _slider: {fileID: 0}
 --- !u!1 &180226426
 GameObject:
   m_ObjectHideFlags: 0
@@ -1009,6 +1009,9 @@ MonoBehaviour:
   HealthBar: {fileID: 1593157558}
   EnemyGameObject: {fileID: 269608014}
   IsPlayer: 0
+  MagicPointsPrefab: {fileID: 0}
+  KeyPrefab: {fileID: 0}
+  IsSpecialEnemy: 0
 --- !u!114 &269608016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2660,6 +2663,10 @@ PrefabInstance:
       propertyPath: _bulletPrefab
       value: 
       objectReference: {fileID: 1869822841219727020, guid: 11937ea5ec3d5b4498175fed857247e6, type: 3}
+    - target: {fileID: -7367919625473029057, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+      propertyPath: MagicBar
+      value: 
+      objectReference: {fileID: 173270925}
     - target: {fileID: -6006412518456422939, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: Velocidad
       value: 5
@@ -4050,7 +4057,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ac3796da0b8d36448913c05bd4fe59f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SliderHealthBar: {fileID: 1593157559}
+  _slider: {fileID: 0}
 --- !u!114 &1593157559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6089,7 +6096,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ac3796da0b8d36448913c05bd4fe59f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SliderHealthBar: {fileID: 2086375914}
+  _slider: {fileID: 0}
 --- !u!1 &2139504161
 GameObject:
   m_ObjectHideFlags: 0
