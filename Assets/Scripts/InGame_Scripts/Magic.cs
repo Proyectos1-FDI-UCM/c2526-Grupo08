@@ -67,9 +67,6 @@ public class Magic : MonoBehaviour
     /// </summary>
     void Start()
     {
-        _magicAbility1 = InputSystem.actions.FindAction("Attack"); //ESTO ESTÁ MAL, ES DE PRUEBA
-        //_magicAbility1 = InputSystem.actions.FindAction("Charged");
-        _magicAbility2 = InputSystem.actions.FindAction("MultiDir_Explosion");
         if (_magicAbility1 == null)
         {
             Debug.LogError("[Magic] Acción 'Charged' no encontrada.");
