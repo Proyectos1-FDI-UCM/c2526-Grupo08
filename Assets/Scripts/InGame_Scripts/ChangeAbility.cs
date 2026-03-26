@@ -37,6 +37,8 @@ public class ChangeAbility : MonoBehaviour
     private InputAction _changeAbilityAction;
 
     private int _currentIndex = 0;
+
+    private Inventory _inventory;
     // Documentar cada atributo que aparece aquí.
     // El convenio de nombres de Unity recomienda que los atributos
     // privados se nombren en formato _camelCase (comienza con _, 
@@ -67,6 +69,8 @@ public class ChangeAbility : MonoBehaviour
             enabled = false;
             return;
         }
+
+        _inventory = GetComponent<Inventory>();
 
         _changeAbilityAction.Enable();
         UpdateAbilities();
@@ -99,12 +103,34 @@ public class ChangeAbility : MonoBehaviour
 
     private void SwitchAbility()
     {
-        _currentIndex = (_currentIndex + 1) % 3;
+        //Busca entre las habilidades hasta encontrar una desbloqueada
+        for (int i = 0; i < 3; i++)
+        {
+            _currentIndex = (_currentIndex + 1) % 3;
+
+            if (IsAbilityUnlocked(_currentIndex))
+            {
+                break;
+            }
+        }
+        //Activa la nueva habilidad
         UpdateAbilities();
+    }
+
+    private bool IsAbilityUnlocked(int index)
+    {
+        switch (index)
+        {
+            case 0: return true;// charged siempre esta disponible
+            case 1: return _inventory != null && _inventory.HasMultiAbility;
+            case 2: return _inventory != null && _inventory.HasExplosiveAbility;
+       }
+        return false;
     }
 
     private void UpdateAbilities()
     {
+        // Activa solo la hbalilidad seleccionada   
         if (_chargedattackAbility != null)
         {
             _chargedattackAbility.enabled = (_currentIndex == 0);
@@ -112,12 +138,12 @@ public class ChangeAbility : MonoBehaviour
 
         if (_multiAbility != null)
         {
-            _multiAbility.enabled = (_currentIndex == 1);
+            _multiAbility.enabled = (_currentIndex == 1 && IsAbilityUnlocked(1));
         }
 
         if (_explosiveAbility != null)
         {
-            _explosiveAbility.enabled = (_currentIndex == 2);
+            _explosiveAbility.enabled = (_currentIndex == 2 && IsAbilityUnlocked(2));
         }
     }
     // Documentar cada método que aparece aquí
@@ -128,4 +154,4 @@ public class ChangeAbility : MonoBehaviour
     #endregion   
 
 } // class ChangeAbility 
-// namespace
+// Carlos Mesa Torres
