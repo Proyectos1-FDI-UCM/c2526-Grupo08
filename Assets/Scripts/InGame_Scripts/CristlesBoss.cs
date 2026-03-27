@@ -76,7 +76,7 @@ public class CristlesBoss : MonoBehaviour
     public void Inicializar(Vector2 direccion)
     {
         
-        _rb.velocity = direccion.normalized * _velocidad;
+        _rb.linearVelocity = direccion.normalized * _velocidad;
 
         float angulo = Mathf.Atan2(direccion.y, direccion.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angulo);

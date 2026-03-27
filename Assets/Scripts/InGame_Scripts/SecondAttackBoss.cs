@@ -132,7 +132,7 @@ public class SecondAttackBoss : MonoBehaviour
 
             if (proyectil.TryGetComponent(out Rigidbody2D rb))
             {
-                rb.velocity = direccion * 10f;
+                rb.linearVelocity = direccion * 10f;
             }
         }
 
