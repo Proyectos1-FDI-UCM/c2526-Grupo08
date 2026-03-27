@@ -75,7 +75,7 @@ public class CristlesBoss : MonoBehaviour
 
     public void Inicializar(Vector2 direccion)
     {
-        
+
         _rb.linearVelocity = direccion.normalized * _velocidad;
 
         float angulo = Mathf.Atan2(direccion.y, direccion.x) * Mathf.Rad2Deg;
@@ -96,7 +96,7 @@ public class CristlesBoss : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
     }
 
-  
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))

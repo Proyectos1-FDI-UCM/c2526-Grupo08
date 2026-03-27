@@ -127,7 +127,7 @@ public class BossFisrtShoot : MonoBehaviour
             Vector3 spawnPos = firePoint != null ? firePoint.position : transform.position;
             Instantiate(bulletPrefab, spawnPos, Quaternion.identity);
         }
-        _timer = 0f;            
+        _timer = 0f;
         SetRandomCooldown();
     }
 
