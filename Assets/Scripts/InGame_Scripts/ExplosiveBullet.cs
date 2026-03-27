@@ -77,10 +77,12 @@ public class ExplosiveBullet : MonoBehaviour
 
     private void Explode()
     {
+        //Detecta los objetos en el radio
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _explosionRadius, _damageLayer);
 
         foreach (Collider2D hit in hits)
         {
+            //Hace daño si detecta health
             Health health = hit.GetComponent<Health>();
             if (health != null)
             {
@@ -97,4 +99,4 @@ public class ExplosiveBullet : MonoBehaviour
     #endregion   
 
 } // class ExplosiveBullet 
-  // namespace
+  // Carlos Mesa Torres

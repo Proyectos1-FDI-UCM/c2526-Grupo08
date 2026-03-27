@@ -90,6 +90,7 @@ public class MultiDirectionalAttack : MonoBehaviour
     {
         _cooldownTimer += Time.deltaTime;
 
+        //Dispara si se pulsa y no esta con cooldown
         if (_attackAction.WasPressedThisFrame() && _cooldownTimer >= _fireRate)
         {
             TryShoot();
@@ -139,6 +140,7 @@ public class MultiDirectionalAttack : MonoBehaviour
 
     private void ShootMulti()
     {
+        //Direcciones en diagonal
         Vector2[] directions = new Vector2[]
         {
             new Vector2(1,1).normalized,
@@ -167,4 +169,4 @@ public class MultiDirectionalAttack : MonoBehaviour
     #endregion
 
 } // class MultiDirectionalAttack 
-// namespace
+// Carlos Mesa Torres

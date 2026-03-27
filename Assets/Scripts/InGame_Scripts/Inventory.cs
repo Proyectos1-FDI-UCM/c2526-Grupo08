@@ -53,6 +53,8 @@ public class Inventory : MonoBehaviour
     /// <summary>Evita registrar el evento dos veces.</summary>
     private bool _inputRegistered = false;
 
+    private bool _hasMultiAbility = false;
+    private bool _hasExplosiveAbility = false;
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
@@ -110,6 +112,9 @@ public class Inventory : MonoBehaviour
     
     public int GetCardCount() => _card;
 
+    public bool HasMultiAbility => _hasMultiAbility;
+    public bool HasExplosiveAbility => _hasExplosiveAbility;
+
     public bool hasKey = false;
     //Esto lo ha hecho Marián
     public void CollectKey()
@@ -143,6 +148,14 @@ public class Inventory : MonoBehaviour
             case Objects.ObjectsType.card:
                 _card++;
                 Debug.Log($"[Inventory] Tarjetas: {_card}");
+                break;
+            case Objects.ObjectsType.multiAbility:
+                _hasMultiAbility = true;
+                Debug.Log("Habilidad multidireccional desbloqueada");
+                break;
+            case Objects.ObjectsType.explosiveAbility:
+                _hasExplosiveAbility = true;
+                Debug.Log("Habilidad explosiva desbloqueada");
                 break;
         }
     }
