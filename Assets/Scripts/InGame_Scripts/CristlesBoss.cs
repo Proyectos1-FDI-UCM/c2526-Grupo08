@@ -75,7 +75,11 @@ public class CristlesBoss : MonoBehaviour
 
     public void Inicializar(Vector2 direccion)
     {
+<<<<<<< Updated upstream
 
+=======
+        
+>>>>>>> Stashed changes
         _rb.linearVelocity = direccion.normalized * _velocidad;
 
         float angulo = Mathf.Atan2(direccion.y, direccion.x) * Mathf.Rad2Deg;
