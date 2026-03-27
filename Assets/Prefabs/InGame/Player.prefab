@@ -354,6 +354,7 @@ MonoBehaviour:
   IsPlayer: 0
   MagicPointsPrefab: {fileID: 0}
   KeyPrefab: {fileID: 0}
+  IsSpecialEnemy: 0
 --- !u!114 &-7367919625473029057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -385,6 +386,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _multiAbility: {fileID: 8017341004700388055}
   _explosiveAbility: {fileID: 1061017487215962581}
+  _chargedattackAbility: {fileID: 2899187465844585586}
 --- !u!114 &2899187465844585586
 MonoBehaviour:
   m_ObjectHideFlags: 0

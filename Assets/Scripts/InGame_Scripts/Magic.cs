@@ -30,11 +30,6 @@ public class Magic : MonoBehaviour
     [Tooltip("Barra de vida que muestra la vida en pantalla. Asignar desde el Inspector.")]
     [SerializeField] private UIBar MagicBar;
 
-    [Tooltip("Cantidad de magia que gasta cada habilidad mágica. GDD: cargado = 20; multidirección = 30; explosión = 35")]
-    [SerializeField] private int ChargedAttackPoints = 20;
-    [SerializeField] private int MultiDirAttackPoints = 30; //Cada bala hace 30 de daño
-    [SerializeField] private int ExplosiveAttackPoints = 35;
-
 
     #endregion
 
@@ -48,9 +43,6 @@ public class Magic : MonoBehaviour
     // Ejemplo: _maxHealthPoints
 
     private int _currentMagic;
-
-    private InputAction _magicAbility1;
-    private InputAction _magicAbility2;
 
     #endregion
 
@@ -67,19 +59,6 @@ public class Magic : MonoBehaviour
     /// </summary>
     void Start()
     {
-        if (_magicAbility1 == null)
-        {
-            Debug.LogError("[Magic] Acción 'Charged' no encontrada.");
-            enabled = false;
-            return;
-        }
-
-        if (_magicAbility2 == null)
-        {
-            Debug.LogError("[Magic] Acción 'MultiDir_Explosion' no encontrada.");
-            enabled = false;
-            return;
-        }
 
         _currentMagic = MaxMagic;
 
@@ -88,9 +67,6 @@ public class Magic : MonoBehaviour
             MagicBar.SetMaxValue(MaxMagic);
             MagicBar.SetValue(_currentMagic);
         }
-
-        _magicAbility1.Enable();
-        _magicAbility2.Enable();
     }
 
     /// <summary>
