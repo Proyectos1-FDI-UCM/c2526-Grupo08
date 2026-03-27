@@ -49,6 +49,25 @@ public class SecondAttackBoss : MonoBehaviour
     // Ejemplo: _maxHealthPoints
 
    
+    private void LanzarCuchillas()
+    { 
+        // Lanzar 3 proyectiles
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject proyectil = Instantiate(_prefabTriangulo, _puntoDisparo.position, Quaternion.identity);
+            Vector2 direccion = (_posicionRegistrada - _puntoDisparo.position).normalized;
+
+            if (proyectil.TryGetComponent(out Rigidbody2D rb))
+            {
+                rb.linearVelocity = direccion* 10f;
+            }
+        }
+
+        // Resetear todo para el siguiente ciclo
+        _alreadyAviso = false;
+        _timerAtaque = 0;
+    }
+
 
     #endregion
 
@@ -67,8 +86,9 @@ public class SecondAttackBoss : MonoBehaviour
     {
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null) _jugador = playerObj.transform;
-
     }
+
+
 
     /// <summary>
     /// Update is called every frame, if the MonoBehaviour is enabled.
@@ -89,7 +109,7 @@ public class SecondAttackBoss : MonoBehaviour
             _timerAviso = 0; //Esto se reinicia que sino no diapara otra vez
         }
 
-        
+
         if (_alreadyAviso)
         {
             _timerAviso += Time.deltaTime;
@@ -132,7 +152,7 @@ public class SecondAttackBoss : MonoBehaviour
 
             if (proyectil.TryGetComponent(out Rigidbody2D rb))
             {
-                rb.velocity = direccion * 10f;
+                rb.linearVelocity = direccion * 10f;
             }
         }
 
@@ -146,7 +166,6 @@ public class SecondAttackBoss : MonoBehaviour
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, _rangoDeteccion);
     }
-
 
     #endregion
 

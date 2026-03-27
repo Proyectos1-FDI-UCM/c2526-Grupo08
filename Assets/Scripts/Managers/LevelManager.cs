@@ -8,6 +8,7 @@
 //---------------------------------------------------------
 
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -70,6 +71,11 @@ public class LevelManager : MonoBehaviour
              "Los botones del panel deben apuntar a LevelManager, no a GameManager.")]
     [SerializeField] private GameObject panelDeath;
 
+    [Header("Panel del mapa")]
+    [SerializeField] private GameObject panelMap;
+    [Header("HUD")]
+    [SerializeField] private GameObject MainCanvas;
+
     [Header("Referencias al jugador")]
     [Tooltip("Componente Health del jugador en esta escena.")]
     [SerializeField] private Health playerHealth;
@@ -77,6 +83,11 @@ public class LevelManager : MonoBehaviour
     [Tooltip("Componente Inventory del jugador en esta escena.")]
     [SerializeField] private Inventory playerInventory;
 
+
+    private InputAction _showMap;
+    private InputAction _hideMap;
+
+    
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
@@ -84,14 +95,37 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        // Asegurar que el panel está oculto y el juego corre al iniciar
+        _showMap = InputSystem.actions.FindAction("ShowMap");
+        if (_showMap == null)
+        {
+            Debug.Log("[LevelManager] Acción no encontrada");
+        }
+        _hideMap = InputSystem.actions.FindAction("HideMap");
+        if (_hideMap == null)
+        {
+            Debug.Log("[LevelManager] Acción no encontrada");
+        }
+
+        // Asegurar que los paneles están ocultos y el juego corre al iniciar
         if (panelDeath != null)
+        {
             panelDeath.SetActive(false);
+        }
+
+        if (panelMap != null)
+        {
+            panelMap.SetActive(false);
+        }
 
         Time.timeScale = 1f;
 
         // Restaurar estado del jugador desde el checkpoint guardado
         RestoreFromCheckpoint();
+    }
+
+    private void Update()
+    {
+        ShowMap();
     }
 
     #endregion
@@ -143,8 +177,9 @@ public class LevelManager : MonoBehaviour
         if (GameManager.HasInstance())
             GameManager.Instance.GoToMainMenu();
         else
-            SceneManager.LoadScene("Main menu");
+            SceneManager.LoadScene("Menu");
     }
+
 
     #endregion
 
@@ -170,6 +205,13 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadScene(nextSceneName);
     }
 
+    public void HideMap()
+    {
+        panelMap.SetActive(false);
+        MainCanvas.SetActive(true);
+        Time.timeScale = 1f;
+    }
+
     #endregion
 
     // ---- MÉTODOS PRIVADOS ----
@@ -180,7 +222,7 @@ public class LevelManager : MonoBehaviour
     /// <summary>
     /// Restaura vida e inventario del jugador al valor del último checkpoint.
     /// Se ejecuta al iniciar la escena, tanto en primera carga como al reiniciar.
-    /// Si no hay GameManager (ejecución directa desde el editor), no hace nada.
+    /// Si no hkay GameManager (ejecución directa desde el editor), no hace nada.
     /// </summary>
     private void RestoreFromCheckpoint()
     {
@@ -191,6 +233,19 @@ public class LevelManager : MonoBehaviour
         playerInventory.SetBandagesFromCheckpoint(GameManager.Instance.GetSavedBandages());
         playerInventory.SetKeysFromCheckpoint(GameManager.Instance.GetSavedKeys());
     }
+
+    private void ShowMap()
+    {
+        if (_showMap.WasPressedThisFrame())
+        {
+            panelMap.SetActive(true);
+            MainCanvas.SetActive(false);
+            Debug.Log("Mapa mostrado");
+            Time.timeScale = 0f;
+        }
+    }
+
+    
 
     #endregion
 
