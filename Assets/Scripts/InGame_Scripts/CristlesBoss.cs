@@ -1,7 +1,7 @@
 //---------------------------------------------------------
 // Breve descripción del contenido del archivo
-// Marian Navarro Santoyo
-// No way down
+// Responsable de la creación de este archivo
+// Nombre del juego
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
@@ -13,7 +13,7 @@ using UnityEngine;
 /// Antes de cada class, descripción de qué es y para qué sirve,
 /// usando todas las líneas que sean necesarias.
 /// </summary>
-public class BossFisrtShoot : MonoBehaviour
+public class CristlesBoss : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Atributos del Inspector (serialized fields)
@@ -22,22 +22,11 @@ public class BossFisrtShoot : MonoBehaviour
     // públicos y de inspector se nombren en formato PascalCase
     // (palabras con primera letra mayúscula, incluida la primera letra)
     // Ejemplo: MaxHealthPoints
+    [SerializeField] private float _velocidad = 12f;
+    [SerializeField] private int _daño = 35;
+    [SerializeField] private float _tiempoVida = 4f;
 
-    [Header("Configuración de Ataque")]
-    [SerializeField] private int damageValue = 30;
-    [SerializeField] private float detectionRange = 12f;
-    //[SerializeField] private float cooldownTime = 3f; por definir eh
-   
-    [SerializeField] private float minWaitTime = 7f;
-    [SerializeField] private float maxWaitTime = 15f;
-
-    [Header("Referencias")]
-    [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private Transform firePoint;
-
-    private Transform _playerTransform;
-    private float _timer = 0f;
-    private float _nextAttackCooldown;
+    private Rigidbody2D _rb;
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
@@ -64,11 +53,7 @@ public class BossFisrtShoot : MonoBehaviour
     /// </summary>
     void Start()
     {
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-        if (playerObj != null)
-        {
-            _playerTransform = playerObj.transform;
-        }
+        Destroy(gameObject, _tiempoVida);
     }
 
     /// <summary>
@@ -76,19 +61,7 @@ public class BossFisrtShoot : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if (_playerTransform == null) return;
-
-        // El cronómetro avanza cada frame
-        _timer += Time.deltaTime;
-
-        float distanceToPlayer = Vector2.Distance(transform.position, _playerTransform.position);
-
-        // Si ha pasado el tiempo aleatorio y el jugador está cerca
-        if (_timer >= _nextAttackCooldown && distanceToPlayer <= detectionRange)
-        {
-            ExecuteAttack();
-        }
-
+        
     }
     #endregion
 
@@ -100,6 +73,15 @@ public class BossFisrtShoot : MonoBehaviour
     // mayúscula, incluida la primera letra)
     // Ejemplo: GetPlayerController
 
+    public void Inicializar(Vector2 direccion)
+    {
+        
+        _rb.velocity = direccion.normalized * _velocidad;
+
+        float angulo = Mathf.Atan2(direccion.y, direccion.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angulo);
+    }
+
     #endregion
 
     // ---- MÉTODOS PRIVADOS ----
@@ -109,38 +91,23 @@ public class BossFisrtShoot : MonoBehaviour
     // se nombren en formato PascalCase (palabras con primera letra
     // mayúscula, incluida la primera letra)
 
-    #endregion
-
-    private void ExecuteAttack()
+    private void Awake()
     {
-        transform.position = _playerTransform.position;
+        _rb = GetComponent<Rigidbody2D>();
+    }
 
-        Health playerHealth = _playerTransform.GetComponent<Health>(); //aquí llama a health que sino mi bro no recibe daño.
-        if (playerHealth != null)
+  
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
         {
-            playerHealth.Damage(damageValue);
-            Debug.Log(" Daño " + damageValue + " aplicado."); //esto lo he puesto para ver en unity si funciona pero se puede quitar.
+            Debug.Log("Daño: " + _daño);
+
+            Destroy(gameObject);
         }
-
-        if (bulletPrefab != null)
-        {
-            Vector3 spawnPos = firePoint != null ? firePoint.position : transform.position;
-            Instantiate(bulletPrefab, spawnPos, Quaternion.identity);
-        }
-        _timer = 0f;            
-        SetRandomCooldown();
     }
 
-    private void SetRandomCooldown()
-    {
-        _nextAttackCooldown = Random.Range(minWaitTime, maxWaitTime);
-    }
-        
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawWireSphere(transform.position, detectionRange); //esto para que el jugador sepa que viene la mierda del ataque <3.
-    }
+    #endregion   
 
-} // class BossFisrtShoot 
+} // class CristlesBoss 
 // namespace

@@ -154,13 +154,20 @@ public class Health : MonoBehaviour
         }
         else
         {
-            // --- ENEMIGO ESPECIAL: delegar en SpecialEnemyDeath, no destruir ---
             if (IsSpecialEnemy)
             {
-                SpecialEnemyDeath sed = GetComponent<SpecialEnemyDeath>();
-                if (sed != null) sed.OnDefeated();
-                else Debug.LogWarning("[Health] IsSpecialEnemy=true pero no hay SpecialEnemyDeath en " + gameObject.name);
-                return; // salir antes de cualquier Destroy
+                SpecialEnemyDeath specialDeath = GetComponent<SpecialEnemyDeath>();
+
+                if (specialDeath != null)
+                {
+                    specialDeath.OnDefeated();
+                }
+                else
+                {
+                    Debug.LogWarning($"[Health] {gameObject.name} es IsSpecialEnemy pero no tiene el componente SpecialEnemyDeath.");
+                }
+
+                return;
             }
 
             // --- Muerte normal de enemigo ---

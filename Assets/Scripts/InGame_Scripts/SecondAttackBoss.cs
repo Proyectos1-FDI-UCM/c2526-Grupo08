@@ -48,26 +48,7 @@ public class SecondAttackBoss : MonoBehaviour
     // primera letra en mayúsculas)
     // Ejemplo: _maxHealthPoints
 
-    private void LanzarTriangulos()
-    {
-        if (_avisoActual != null) Destroy(_avisoActual);
-
-        // Lanzar 3 proyectiles
-        for (int i = 0; i < 3; i++)
-        {
-            GameObject proyectil = Instantiate(_prefabTriangulo, _puntoDisparo.position, Quaternion.identity);
-            Vector2 direccion = (_posicionRegistrada - _puntoDisparo.position).normalized;
-
-            if (proyectil.TryGetComponent(out Rigidbody2D rb))
-            {
-                rb.velocity = direccion * 10f;
-            }
-        }
-
-        // Resetear todo para el siguiente ciclo
-        _alreadyAviso = false;
-        _timerAtaque = 0;
-    }
+   
 
     #endregion
 
@@ -139,9 +120,32 @@ public class SecondAttackBoss : MonoBehaviour
     // se nombren en formato PascalCase (palabras con primera letra
     // mayúscula, incluida la primera letra)
 
-   
+    private void LanzarTriangulos()
+    {
+        if (_avisoActual != null) Destroy(_avisoActual);
 
+        // Lanzar 3 proyectiles
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject proyectil = Instantiate(_prefabTriangulo, _puntoDisparo.position, Quaternion.identity);
+            Vector2 direccion = (_posicionRegistrada - _puntoDisparo.position).normalized;
 
+            if (proyectil.TryGetComponent(out Rigidbody2D rb))
+            {
+                rb.velocity = direccion * 10f;
+            }
+        }
+
+        // Resetear todo para el siguiente ciclo
+        _alreadyAviso = false;
+        _timerAtaque = 0;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, _rangoDeteccion);
+    }
 
 
     #endregion
