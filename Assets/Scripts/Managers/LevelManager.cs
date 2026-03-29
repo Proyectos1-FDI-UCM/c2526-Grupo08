@@ -86,8 +86,8 @@ public class LevelManager : MonoBehaviour
 
     private InputAction _showMap;
     private InputAction _hideMap;
+    private bool _mapShown;
 
-    
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
@@ -125,7 +125,25 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
-        ShowMap();
+        if (_showMap.WasPressedThisFrame()) // misma tecla
+        {
+            _mapShown = !_mapShown;
+
+            if (_mapShown)
+            {
+                panelMap.SetActive(true);
+                MainCanvas.SetActive(false);
+                Time.timeScale = 0f;
+                Debug.Log("Mapa mostrado");
+            }
+            else
+            {
+                panelMap.SetActive(false);
+                MainCanvas.SetActive(true);
+                Time.timeScale = 1f;
+                Debug.Log("Mapa ocultado");
+            }
+        }
     }
 
     #endregion
@@ -212,6 +230,7 @@ public class LevelManager : MonoBehaviour
         Time.timeScale = 1f;
     }
 
+
     #endregion
 
     // ---- MÉTODOS PRIVADOS ----
@@ -234,18 +253,7 @@ public class LevelManager : MonoBehaviour
         playerInventory.SetKeysFromCheckpoint(GameManager.Instance.GetSavedKeys());
     }
 
-    private void ShowMap()
-    {
-        if (_showMap.WasPressedThisFrame())
-        {
-            panelMap.SetActive(true);
-            MainCanvas.SetActive(false);
-            Debug.Log("Mapa mostrado");
-            Time.timeScale = 0f;
-        }
-    }
 
-    
 
     #endregion
 

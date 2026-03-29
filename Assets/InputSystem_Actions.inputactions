@@ -1051,10 +1051,10 @@
                 {
                     "name": "",
                     "id": "d30d0eee-cff4-4377-9c4f-5e070c334994",
-                    "path": "",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Gamepad",
                     "action": "HideMap",
                     "isComposite": false,
                     "isPartOfComposite": false

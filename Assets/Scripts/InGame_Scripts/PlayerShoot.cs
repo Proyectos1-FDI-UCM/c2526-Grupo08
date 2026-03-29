@@ -142,14 +142,14 @@ public class PlayerShoot : MonoBehaviour
     {
         Vector2 rawAim = _aimAction.ReadValue<Vector2>();
         bool isMouse = Mouse.current != null && _aimAction.activeControl?.device is Mouse;
+        //bool isController = Gamepad.current != null && _aimAction.activeControl?.device is Gamepad;
 
         if (isMouse)
         {
-            Vector3 worldPos = _mainCamera.ScreenToWorldPoint(
-                new Vector3(rawAim.x, rawAim.y, 0f));
+            Vector3 worldPos = _mainCamera.ScreenToWorldPoint(new Vector3(rawAim.x, rawAim.y, 0f));
             return ((Vector2)worldPos - (Vector2)transform.position).normalized;
         }
-        else
+        else 
         {
             return rawAim.normalized;
         }

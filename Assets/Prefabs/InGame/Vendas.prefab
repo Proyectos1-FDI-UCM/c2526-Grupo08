@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2731897293834898680}
   - component: {fileID: 1845822168570267623}
   - component: {fileID: 8943447582659610566}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Vendas
   m_TagString: Untagged
   m_Icon: {fileID: 0}

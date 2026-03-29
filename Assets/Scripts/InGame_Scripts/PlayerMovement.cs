@@ -253,7 +253,6 @@ public class PlayerMovement : MonoBehaviour
 
         Vector2 Mouse = WorldPos - transform.position;
 
-
         //Detectamos la dirección en la que se encuentra el ratón y dependiendo de esta cambiamos el sprite.
         if ((Mathf.Abs(Mouse.x) > Mathf.Abs(Mouse.y)))
         {
