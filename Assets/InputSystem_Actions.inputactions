@@ -88,9 +88,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "HeadPoint",
+                    "name": "HeadPoint1",
                     "type": "Button",
                     "id": "f042805a-721b-4fc1-acb9-a7234dd5a749",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "HeadPoint2",
+                    "type": "Button",
+                    "id": "8fcfce1e-2b48-4db3-8116-d709a1555094",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -283,6 +292,17 @@
                 },
                 {
                     "name": "",
+                    "id": "12dc6bae-5cbf-428e-8d08-8c2f560ac28e",
+                    "path": "<Mouse>/position",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "f2e9ba44-c423-42a7-ad56-f20975884794",
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
@@ -294,11 +314,11 @@
                 },
                 {
                     "name": "",
-                    "id": "8cbb2f4b-a784-49cc-8d5e-c010b8c7f4e6",
-                    "path": "<Gamepad>/leftShoulder",
+                    "id": "759aa185-dede-4af4-b611-954fcc943ece",
+                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad",
+                    "groups": "",
                     "action": "MultiDir_Explosion",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -317,7 +337,7 @@
                 {
                     "name": "",
                     "id": "13039fbc-2c8b-4163-9608-de47afbf2418",
-                    "path": "<Gamepad>/leftShoulder",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "Hold",
                     "processors": "",
                     "groups": "Gamepad",
@@ -426,19 +446,8 @@
                 },
                 {
                     "name": "",
-                    "id": "263202a9-052f-4f3f-84b6-5e706f506a14",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "ChangeAbility",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "dd54e696-0881-4211-b590-e2adabcd3e1b",
-                    "path": "<Gamepad>/leftTrigger",
+                    "id": "30981650-4c92-457d-93b7-e8fc9ad78cf9",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -448,12 +457,12 @@
                 },
                 {
                     "name": "",
-                    "id": "c40f8434-88b8-4217-988b-7684e0051e9b",
-                    "path": "<Joystick>/stick/right",
+                    "id": "89265122-f8fc-4f23-befb-99343442aa7a",
+                    "path": "<Gamepad>/leftShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "HeadPoint",
+                    "action": "ChangeAbility",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -464,7 +473,18 @@
                     "interactions": "Press",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "HeadPoint",
+                    "action": "HeadPoint1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a3438a80-4ed8-48ec-903c-a0f57f6bda53",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "HeadPoint2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

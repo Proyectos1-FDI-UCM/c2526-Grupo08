@@ -46,7 +46,9 @@ public class ChargedAttack : MonoBehaviour
     #region Atributos Privados (private fields)
 
     private InputAction _attackAction;
-    private InputAction _aimAction;
+
+    private InputAction _aimGamepad;
+    private InputAction _aimMouse;
 
     private float _fireCooldownTimer = 0f;
 
@@ -71,9 +73,11 @@ public class ChargedAttack : MonoBehaviour
     private void Start()
     {
         _attackAction = InputSystem.actions.FindAction("Charged");
-        _aimAction = InputSystem.actions.FindAction("HeadPoint");
+        //_aimAction = InputSystem.actions.FindAction("HeadPoint");
+        _aimMouse = InputSystem.actions.FindAction("HeadPoint1");
+        _aimGamepad = InputSystem.actions.FindAction("HeadPoint2");
 
-        if (_attackAction == null || _aimAction == null)
+        if (_attackAction == null || _aimMouse == null || _aimGamepad == null)
         {
             Debug.LogError("Acción no encontrada.");
             enabled = false;
@@ -94,7 +98,8 @@ public class ChargedAttack : MonoBehaviour
             _shootOrigin = transform;
 
         _attackAction.Enable();
-        _aimAction.Enable();
+        _aimGamepad.Enable();
+        _aimMouse.Enable();
     }
 
     private void Update()
@@ -183,18 +188,19 @@ public class ChargedAttack : MonoBehaviour
 
     private Vector2 GetAimDirection()
     {
-        Vector2 rawAim = _aimAction.ReadValue<Vector2>();
-        bool isMouse = Mouse.current != null && _aimAction.activeControl?.device is Mouse;
+        Vector2 rawAim = _aimGamepad.ReadValue<Vector2>();
 
-        if (isMouse)
+        if (rawAim.magnitude > 0.1f)
         {
-            Vector3 worldPos = _mainCamera.ScreenToWorldPoint(
-                new Vector3(rawAim.x, rawAim.y, 0f));
-            return ((Vector2)worldPos - (Vector2)transform.position).normalized;
+            Debug.Log(rawAim);
+            return rawAim.normalized;
         }
         else
         {
-            return rawAim.normalized;
+            Vector2 mousePos = _aimMouse.ReadValue<Vector2>();
+            Vector3 worldPos = _mainCamera.ScreenToWorldPoint(mousePos);
+
+            return ((Vector2)worldPos - (Vector2)transform.position).normalized;
         }
     }
     // Documentar cada método que aparece aquí

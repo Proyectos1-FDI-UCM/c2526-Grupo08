@@ -247,39 +247,50 @@ public class PlayerMovement : MonoBehaviour
         //Aplicamos la velocidad
         _rb.linearVelocity = VelocidadFinal;
 
-        //Transformamos las coordenadas del mouse a la pantalla en la variable Mouse
-        Vector3 ScreenPos = UnityEngine.InputSystem.Mouse.current.position.ReadValue();
-        Vector3 WorldPos = Camera.main.ScreenToWorldPoint(ScreenPos);
+        Vector2 dir;
 
-        Vector2 Mouse = WorldPos - transform.position;
+        //Tomamos el vector del joystick
+        Vector2 Gamepad = UnityEngine.InputSystem.Gamepad.current.rightStick.ReadValue();
+
+        if (Gamepad.magnitude > 0.1f)
+        {
+            dir = Gamepad;
+        }
+        else 
+        {
+            //Transformamos las coordenadas del mouse a la pantalla en la variable Mouse
+            Vector3 ScreenPos = UnityEngine.InputSystem.Mouse.current.position.ReadValue();
+            Vector3 WorldPos = Camera.main.ScreenToWorldPoint(ScreenPos);
+            dir =  WorldPos - transform.position;
+        }
 
         //Detectamos la dirección en la que se encuentra el ratón y dependiendo de esta cambiamos el sprite.
-        if ((Mathf.Abs(Mouse.x) > Mathf.Abs(Mouse.y)))
+        if ((Mathf.Abs(dir.x) > Mathf.Abs(dir.y)))
         {
-            if (Mouse.x > 0)
+            if (dir.x > 0 || dir.x > 0)
             {
-                //Debug.Log("Derecha");
+                Debug.Log("Derecha");
 
                 ChangeSprite(Direction.Right);
             }
             else
             {
-                //Debug.Log("Izquierda");
+                Debug.Log("Izquierda");
 
                 ChangeSprite(Direction.Left);
             }
         }
         else
         {
-            if (Mouse.y > 0)
+            if (dir.y > 0 || dir.y > 0)
             {
-                //Debug.Log("Arriba");
+                Debug.Log("Arriba");
 
                 ChangeSprite(Direction.Up);
             }
             else
             {
-                //Debug.Log("Abajo");
+                Debug.Log("Abajo");
 
                 ChangeSprite(Direction.Down);
             }
