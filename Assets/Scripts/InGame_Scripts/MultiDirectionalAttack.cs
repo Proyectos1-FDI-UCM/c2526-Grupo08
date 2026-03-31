@@ -7,6 +7,7 @@
 
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 // Añadir aquí el resto de directivas using
 
 
@@ -46,6 +47,7 @@ public class MultiDirectionalAttack : MonoBehaviour
     private InputAction _attackAction;
     private float _cooldownTimer = 0f;
     private Magic _magic;
+
     // Documentar cada atributo que aparece aquí.
     // El convenio de nombres de Unity recomienda que los atributos
     // privados se nombren en formato _camelCase (comienza con _, 

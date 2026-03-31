@@ -7,6 +7,7 @@
 
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 // Añadir aquí el resto de directivas using
 
 
@@ -30,6 +31,7 @@ public class ExplosiveAttack : MonoBehaviour
     [SerializeField] private float _fireRate = 0.4f;
     [SerializeField] private int _magicCost = 35;
     [SerializeField] private int _maxUses = 6;
+
     // Documentar cada atributo que aparece aquí.
     // El convenio de nombres de Unity recomienda que los atributos
     // públicos y de inspector se nombren en formato PascalCase

@@ -7,6 +7,7 @@
 
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 // Añadir aquí el resto de directivas using
 
 
@@ -34,6 +35,7 @@ public class ChargedAttack : MonoBehaviour
     [SerializeField] private float _chargedtime = 1.5f;
     [SerializeField] private int _chargeDamage = 70;
     [SerializeField] private int _chargedMagicCost = 20;
+
     // Documentar cada atributo que aparece aquí.
     // El convenio de nombres de Unity recomienda que los atributos
     // públicos y de inspector se nombren en formato PascalCase
@@ -58,6 +60,7 @@ public class ChargedAttack : MonoBehaviour
 
     private float _chargeTimer = 0f;
     private bool _isCharging = false;
+
     // Documentar cada atributo que aparece aquí.
     // El convenio de nombres de Unity recomienda que los atributos
     // privados se nombren en formato _camelCase (comienza con _, 

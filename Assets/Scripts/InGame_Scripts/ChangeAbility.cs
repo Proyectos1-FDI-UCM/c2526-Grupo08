@@ -23,6 +23,8 @@ public class ChangeAbility : MonoBehaviour
     [SerializeField] private MonoBehaviour _multiAbility;
     [SerializeField] private MonoBehaviour _explosiveAbility;
     [SerializeField] private MonoBehaviour _chargedattackAbility;
+
+    [SerializeField] private GameObject[] _abilityImage;
     // Documentar cada atributo que aparece aquí.
     // El convenio de nombres de Unity recomienda que los atributos
     // públicos y de inspector se nombren en formato PascalCase
@@ -69,6 +71,12 @@ public class ChangeAbility : MonoBehaviour
             enabled = false;
             return;
         }
+
+        for (int i = 0; i < _abilityImage.Length; i++)
+        {
+            _abilityImage[i].SetActive(false);
+        }
+        _abilityImage[_currentIndex].SetActive(true);
 
         _inventory = GetComponent<Inventory>();
 
@@ -124,13 +132,13 @@ public class ChangeAbility : MonoBehaviour
             case 0: return true;// charged siempre esta disponible
             case 1: return _inventory != null && _inventory.HasMultiAbility;
             case 2: return _inventory != null && _inventory.HasExplosiveAbility;
-       }
+        }
         return false;
     }
 
     private void UpdateAbilities()
     {
-        // Activa solo la hbalilidad seleccionada   
+        // Activa solo la habilidad seleccionada   
         if (_chargedattackAbility != null)
         {
             _chargedattackAbility.enabled = (_currentIndex == 0);
@@ -145,7 +153,18 @@ public class ChangeAbility : MonoBehaviour
         {
             _explosiveAbility.enabled = (_currentIndex == 2 && IsAbilityUnlocked(2));
         }
+
+        UpdateAbilityUI();
     }
+
+    private void UpdateAbilityUI()
+    {
+        for (int i = 0; i < _abilityImage.Length; i++)
+        {
+            _abilityImage[i].SetActive(i == _currentIndex);
+        }
+    }
+
     // Documentar cada método que aparece aquí
     // El convenio de nombres de Unity recomienda que estos métodos
     // se nombren en formato PascalCase (palabras con primera letra

@@ -249,12 +249,17 @@ public class PlayerMovement : MonoBehaviour
 
         Vector2 dir;
 
-        //Tomamos el vector del joystick
-        Vector2 Gamepad = UnityEngine.InputSystem.Gamepad.current.rightStick.ReadValue();
 
-        if (Gamepad.magnitude > 0.1f)
+        //Tomamos el vector del joystick
+        Vector2 gamepad = Vector2.zero;
+        if (Gamepad.current != null)
         {
-            dir = Gamepad;
+            gamepad = UnityEngine.InputSystem.Gamepad.current.rightStick.ReadValue();
+        }
+
+        if (gamepad.magnitude > 0.1f)
+        {
+            dir = gamepad;
         }
         else 
         {
@@ -269,14 +274,10 @@ public class PlayerMovement : MonoBehaviour
         {
             if (dir.x > 0 || dir.x > 0)
             {
-                Debug.Log("Derecha");
-
                 ChangeSprite(Direction.Right);
             }
             else
             {
-                Debug.Log("Izquierda");
-
                 ChangeSprite(Direction.Left);
             }
         }
@@ -284,14 +285,10 @@ public class PlayerMovement : MonoBehaviour
         {
             if (dir.y > 0 || dir.y > 0)
             {
-                Debug.Log("Arriba");
-
                 ChangeSprite(Direction.Up);
             }
             else
             {
-                Debug.Log("Abajo");
-
                 ChangeSprite(Direction.Down);
             }
         }
