@@ -1217,7 +1217,7 @@ MonoBehaviour:
   EnemyGameObject: {fileID: 442061834}
   IsPlayer: 0
   MagicPointsPrefab: {fileID: 1546762712987103224, guid: bc65c4899de222a45b32da9478bf5b87, type: 3}
-  KeyPrefab: {fileID: 0}
+  KeyPrefab: {fileID: 6370220561489869585}
   IsSpecialEnemy: 1
 --- !u!114 &442061838
 MonoBehaviour:
@@ -2340,7 +2340,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1055572462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4419,7 +4419,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1850527423
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5799,6 +5799,10 @@ PrefabInstance:
     - target: {fileID: 4296618808425056567, guid: 28714e20fdc8af9459ae7897a9f6d8a3, type: 3}
       propertyPath: m_Name
       value: SpecialKeyDrop
+      objectReference: {fileID: 0}
+    - target: {fileID: 4296618808425056567, guid: 28714e20fdc8af9459ae7897a9f6d8a3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6304388400646895773, guid: 28714e20fdc8af9459ae7897a9f6d8a3, type: 3}
       propertyPath: m_LocalScale.x
