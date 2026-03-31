@@ -2,7 +2,7 @@
 // Gestiona la interacción del jugador con el enemigo especial derrotado.
 // Muestra el prompt de acercamiento (F / B en mando), el panel de opciones
 // y lanza el diálogo o el remate según la elección.
-// Alexia Pérez SAntana
+// Alexia Pérez Santana
 // No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
@@ -17,13 +17,12 @@ using TMPro;
 /// Se activa cuando SpecialEnemyDeath termina la animación de caída.
 /// Detecta si el jugador está cerca (por distancia), muestra el prompt "Pulsa F / B"
 /// y al pulsar la tecla abre un panel con dos opciones: Amenazar o Rematar.
-/// - Amenazar: pausa el juego y activa DialogueSystem.
-/// - Rematar: da +15 de magia, cura al jugador y destruye el enemigo.
+/// - Amenazar: pausa el juego, activa DialogueSystem y al terminar instancia la llave especial.
+/// - Rematar: instancia drops de magia y vendas en el suelo, y destruye al enemigo.
 ///
 /// IMPORTANTE sobre F en el panel de opciones:
 /// Mientras el panel está abierto este script ignora F para que no haya
-/// conflicto con el DialogueSystem. El jugador navega con los botones de UI
-/// (ratón o mando con navegación de UI).
+/// conflicto con el DialogueSystem. El jugador navega con los botones de UI.
 /// Cuando el diálogo arranca, _dialogueActive = true y este script
 /// queda completamente inactivo hasta que el diálogo termina.
 /// </summary>
@@ -73,6 +72,11 @@ public class SpecialEnemyInteraction : MonoBehaviour
     [Tooltip("Separación entre drops instanciados para que no se solapen.")]
     [SerializeField] private float DropSpread = 0.4f;
 
+    [Header("Recompensa al amenazar")]
+    [Tooltip("Prefab de la llave especial que se instancia al terminar el diálogo de amenaza. " +
+             "Debe llevar el script SpecialKeyPickup.")]
+    [SerializeField] private GameObject SpecialKeyDropPrefab;
+
     [Header("Sistema de diálogo")]
     [Tooltip("Referencia al DialogueSystem de la escena")]
     [SerializeField] private DialogueSystem DialogueSystemRef;
@@ -88,12 +92,13 @@ public class SpecialEnemyInteraction : MonoBehaviour
 
     /// <summary>
     /// True mientras el DialogueSystem está reproduciendo el diálogo.
-    /// Impide que este script procese ninguna entrada y que F interfiera.
+    /// Impide que este script procese ninguna entrada.
     /// </summary>
     private bool _dialogueActive = false;
 
     private Transform _playerTransform;
     private InputAction _interactAction;
+
     /// <summary>RectTransform del PromptUI para actualizar su posición cada frame.</summary>
     private RectTransform _promptRect;
 
@@ -134,8 +139,6 @@ public class SpecialEnemyInteraction : MonoBehaviour
     private void Update()
     {
         if (!_interactionEnabled || _playerTransform == null) return;
-
-        // Mientras el diálogo está activo, este script no hace nada en absoluto
         if (_dialogueActive) return;
 
         float dist = Vector2.Distance(transform.position, _playerTransform.position);
@@ -144,42 +147,26 @@ public class SpecialEnemyInteraction : MonoBehaviour
         if (!_optionsOpen)
         {
             // Actualizar posición del prompt encima del enemigo
-            if (_promptRect != null && Camera.main != null)
+            if (_promptRect != null && Camera.main != null && ParentCanvas != null)
             {
-                // Convertir posición del enemigo a coordenadas de pantalla
                 Vector3 worldPos = transform.position + new Vector3(0f, PromptOffsetY, 0f);
                 Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
 
-                // Convertir de screen space a local space del Canvas
-                if (ParentCanvas != null)
-                {
-                    RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                        ParentCanvas.GetComponent<RectTransform>(),
-                        screenPos,
-                        ParentCanvas.worldCamera,
-                        out Vector2 localPoint
-                    );
-                    _promptRect.localPosition = localPoint;
-                }
-                else
-                {
-                    // Fallback sin canvas asignado
-                    _promptRect.position = screenPos;
-                }
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    ParentCanvas.GetComponent<RectTransform>(),
+                    screenPos,
+                    ParentCanvas.worldCamera,
+                    out Vector2 localPoint
+                );
+                _promptRect.localPosition = localPoint;
             }
 
-            // Mostrar u ocultar el prompt según proximidad
             if (PromptUI != null)
                 PromptUI.SetActive(_playerInRange);
 
-            // F / B abre el panel de opciones
             if (_playerInRange && _interactAction != null && _interactAction.WasPressedThisFrame())
-            {
                 AbrirOpciones();
-            }
         }
-        // Con el panel abierto F no hace nada aquí:
-        // el jugador elige con los botones (ratón o navegación de mando por UI)
     }
 
     #endregion
@@ -189,6 +176,7 @@ public class SpecialEnemyInteraction : MonoBehaviour
 
     /// <summary>
     /// Llamado por SpecialEnemyDeath cuando la animación de caída termina.
+    /// Activa la detección de proximidad y la lectura de input.
     /// </summary>
     public void EnableInteraction()
     {
@@ -208,25 +196,20 @@ public class SpecialEnemyInteraction : MonoBehaviour
     private void AbrirOpciones()
     {
         _optionsOpen = true;
-        if (PromptUI != null)
-        {
-            PromptUI.SetActive(false);
-            _promptRect = PromptUI.GetComponent<RectTransform>();
-        }
+        if (PromptUI != null) PromptUI.SetActive(false);
         if (OptionsPanel != null) OptionsPanel.SetActive(true);
     }
 
     /// <summary>
     /// Opción 1: Amenazar. Cierra el panel, pausa el juego y activa el diálogo.
+    /// Al terminar el diálogo se instancia la llave especial en el suelo.
     /// </summary>
     private void OnAmenazar()
     {
         if (OptionsPanel != null) OptionsPanel.SetActive(false);
         _optionsOpen = false;
 
-        // Marcar diálogo activo ANTES de pausar para que Update no interfiera
         _dialogueActive = true;
-
         Time.timeScale = 0f;
 
         if (DialogueSystemRef != null)
@@ -236,23 +219,32 @@ public class SpecialEnemyInteraction : MonoBehaviour
         else
         {
             Debug.LogWarning("[SpecialEnemyInteraction] No hay DialogueSystem asignado.");
-            Time.timeScale = 1f;
-            Destroy(gameObject);
+            OnDialogueEnd();
         }
     }
 
-    /// <summary>Callback del DialogueSystem al terminar todas las líneas.</summary>
+    /// <summary>
+    /// Callback del DialogueSystem al terminar todas las líneas.
+    /// Restaura el tiempo, instancia la llave especial y destruye al enemigo.
+    /// </summary>
     private void OnDialogueEnd()
     {
         _dialogueActive = false;
         Time.timeScale = 1f;
+
+        // Instanciar la llave especial en el suelo para que el jugador la recoja
+        if (SpecialKeyDropPrefab != null)
+            Instantiate(SpecialKeyDropPrefab, transform.position, Quaternion.identity);
+        else
+            Debug.LogWarning("[SpecialEnemyInteraction] SpecialKeyDropPrefab no asignado. " +
+                             "El jugador no recibirá la llave especial.");
+
         Destroy(gameObject);
     }
 
     /// <summary>
-    /// Opción 2: Rematar. Instancia drops de magia y vendas en el suelo para
-    /// que el jugador los recoja, y destruye al enemigo.
-    /// Los drops se esparcen ligeramente para que no se solapen.
+    /// Opción 2: Rematar. Instancia drops de magia y vendas en el suelo
+    /// para que el jugador los recoja, y destruye al enemigo.
     /// </summary>
     private void OnRematar()
     {
@@ -261,12 +253,11 @@ public class SpecialEnemyInteraction : MonoBehaviour
 
         Vector2 basePos = transform.position;
 
-        // Instanciar drops de magia en el suelo
+        // Drops de magia en círculo
         if (MagicDropPrefab != null)
         {
             for (int i = 0; i < MagicDropCount; i++)
             {
-                // Desplazar cada drop en círculo para que no se solapen
                 Vector2 offset = new Vector2(
                     Mathf.Cos(i * Mathf.PI * 2f / MagicDropCount) * DropSpread,
                     Mathf.Sin(i * Mathf.PI * 2f / MagicDropCount) * DropSpread
@@ -275,16 +266,13 @@ public class SpecialEnemyInteraction : MonoBehaviour
             }
         }
         else
-        {
             Debug.LogWarning("[SpecialEnemyInteraction] MagicDropPrefab no asignado.");
-        }
 
-        // Instanciar vendas en el suelo
+        // Vendas en círculo opuesto
         if (BandagePrefab != null)
         {
             for (int i = 0; i < BandageCount; i++)
             {
-                // Desplazar en dirección opuesta a los de magia
                 Vector2 offset = new Vector2(
                     Mathf.Cos(i * Mathf.PI * 2f / BandageCount + Mathf.PI) * DropSpread,
                     Mathf.Sin(i * Mathf.PI * 2f / BandageCount + Mathf.PI) * DropSpread
@@ -293,9 +281,7 @@ public class SpecialEnemyInteraction : MonoBehaviour
             }
         }
         else
-        {
             Debug.LogWarning("[SpecialEnemyInteraction] BandagePrefab no asignado.");
-        }
 
         Destroy(gameObject);
     }

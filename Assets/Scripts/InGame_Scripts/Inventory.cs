@@ -1,5 +1,5 @@
 //---------------------------------------------------------
-// Gestiona el inventario del jugador: vendas, llaves y fusibles.
+// Gestiona el inventario del jugador: vendas, llaves, fusibles y llave especial.
 // El uso de vendas se controla con la tecla E (acción "Healing").
 // La lógica del ascensor está en LevelWin, no aquí.
 // Adriana Fernández Luna
@@ -16,7 +16,8 @@ using UnityEngine.InputSystem;
 ///
 /// Vendas: se consumen pulsando E y curan al jugador llamando a Health.Healing().
 /// Fusibles: se acumulan para activar el ascensor (LevelWin los consulta).
-/// Llaves: se acumulan para abrir puertas (pendiente de implementar).
+/// Llaves genéricas: se acumulan para abrir puertas comunes.
+/// Llave especial: flag único que abre solo la habitación secreta de la planta 2.
 ///
 /// LevelManager puede restaurar el inventario al iniciar la escena
 /// llamando a SetBandagesFromCheckpoint() y SetKeysFromCheckpoint().
@@ -28,8 +29,6 @@ public class Inventory : MonoBehaviour
 
     [Tooltip("Puntos de vida restaurados por cada venda. (GDD: 20 puntos)")]
     [SerializeField] private int BandageHealth = 20;
-    
-   
 
     #endregion
 
@@ -55,6 +54,7 @@ public class Inventory : MonoBehaviour
 
     private bool _hasMultiAbility = false;
     private bool _hasExplosiveAbility = false;
+
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
@@ -73,18 +73,13 @@ public class Inventory : MonoBehaviour
             return;
         }
 
-        // Registrar aquí, después de que _healthAction esté inicializado
         RegisterInput();
     }
 
-    private void Update()
-    {
-        
-    }
+    private void Update() { }
 
     private void OnEnable()
     {
-        // Solo registrar si Start ya se ejecutó (re-activaciones posteriores del GameObject)
         if (_healthAction != null)
             RegisterInput();
     }
@@ -108,19 +103,48 @@ public class Inventory : MonoBehaviour
     /// <summary>Devuelve el número de fusibles en el inventario.</summary>
     public int GetFusibleCount() => _fusible;
 
-    /// <summary>Devuelve el número de fusibles en el inventario.</summary>
-    
+    /// <summary>Devuelve el número de tarjetas en el inventario.</summary>
     public int GetCardCount() => _card;
 
+    /// <summary>True si el jugador tiene desbloqueado el disparo multidireccional.</summary>
     public bool HasMultiAbility => _hasMultiAbility;
+
+    /// <summary>True si el jugador tiene desbloqueado el disparo explosivo.</summary>
     public bool HasExplosiveAbility => _hasExplosiveAbility;
 
+    // ---- Llave genérica (puertas comunes) — de Marián ----
+
+    /// <summary>True si el jugador tiene al menos una llave genérica.</summary>
     public bool hasKey = false;
-    //Esto lo ha hecho Marián
+
+    /// <summary>
+    /// Registra que el jugador ha recogido una llave genérica.
+    /// Llamado por Objects.cs (tipo key) a través de AddItem,
+    /// o directamente por Door.cs según la implementación de Marián.
+    /// </summary>
     public void CollectKey()
     {
         hasKey = true;
-        Debug.Log("Llave recogida");
+        Debug.Log("[Inventory] Llave recogida");
+    }
+
+    // ---- Llave especial (habitación secreta de la planta 2) ----
+
+    /// <summary>
+    /// True si el jugador ha recogido la llave especial que dropea el enemigo
+    /// especial al ser amenazado. Solo existe una en toda la partida.
+    /// La usa SecretDoor.cs para abrir la habitación secreta.
+    /// </summary>
+    public bool hasSpecialKey = false;
+
+    /// <summary>
+    /// Registra que el jugador ha recogido la llave especial.
+    /// Llamado por SpecialKeyPickup.cs al recoger el drop del enemigo especial.
+    /// </summary>
+    public void CollectSpecialKey()
+    {
+        hasSpecialKey = true;
+        Debug.Log("[Inventory] Llave especial recogida");
     }
 
     #endregion
@@ -139,6 +163,7 @@ public class Inventory : MonoBehaviour
                 break;
             case Objects.ObjectsType.key:
                 _key++;
+                CollectKey(); // sincronizar con el flag de Marián
                 Debug.Log($"[Inventory] Llaves: {_key}");
                 break;
             case Objects.ObjectsType.fusible:
@@ -151,11 +176,11 @@ public class Inventory : MonoBehaviour
                 break;
             case Objects.ObjectsType.multiAbility:
                 _hasMultiAbility = true;
-                Debug.Log("Habilidad multidireccional desbloqueada");
+                Debug.Log("[Inventory] Habilidad multidireccional desbloqueada");
                 break;
             case Objects.ObjectsType.explosiveAbility:
                 _hasExplosiveAbility = true;
-                Debug.Log("Habilidad explosiva desbloqueada");
+                Debug.Log("[Inventory] Habilidad explosiva desbloqueada");
                 break;
         }
     }
@@ -182,8 +207,6 @@ public class Inventory : MonoBehaviour
     {
         _key = Mathf.Max(savedKeys, 0);
     }
-
-    
 
     #endregion
 
@@ -223,7 +246,6 @@ public class Inventory : MonoBehaviour
             Debug.Log("[Inventory] No tienes vendas.");
         }
     }
-
 
     #endregion
 

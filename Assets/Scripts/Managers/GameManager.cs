@@ -1,7 +1,7 @@
 //---------------------------------------------------------
 // Gestor global del juego. Singleton persistente entre escenas.
 // Responsabilidad única: almacenar y transferir datos de estado
-// entre escenas (checkpoints, desbloqueos).
+// entre escenas (checkpoints, desbloqueos, ajustes de usuario).
 // NO gestiona UI, paneles ni lógica de escena — eso es LevelManager.
 // Guillermo Jiménez Díaz, Pedro P. Gómez Martín — Template-P1
 // Alexia Pérez Santana — No Way Down
@@ -10,18 +10,20 @@
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Audio;
-using UnityEngine.Rendering;
 
 /// <summary>
 /// Singleton persistente entre escenas (DontDestroyOnLoad).
-/// Solo almacena datos que necesitan viajar entre escenas:
+/// Almacena datos que necesitan viajar entre escenas:
 ///   · Vida del jugador en el último checkpoint.
 ///   · Inventario en el último checkpoint (vendas, llaves).
 ///   · Desbloqueos permanentes (disparo multidireccional, etc.).
+///   · Ajustes de usuario: intensidad de shake y follow delay de cámara.
 ///
 /// Navegación entre escenas: los métodos de carga de escena
 /// también viven aquí para centralizar el uso de SceneManager.
+///
+/// CameraController lee CameraShakeIntensity y CameraFollowDelay en cada frame
+/// para reflejar los cambios del menú de ajustes sin reiniciar la escena.
 ///
 /// Todo lo relacionado con UI de escena (panel de muerte, pausa)
 /// pertenece a LevelManager, que vive solo en su escena.
@@ -53,8 +55,6 @@ public class GameManager : MonoBehaviour
     {
         if (_instance != null)
         {
-            // Ya existe un GameManager persistente. No hay nada que transferir
-            // porque este GameManager no tiene referencias a objetos de escena.
             DestroyImmediate(gameObject);
             return;
         }
@@ -72,8 +72,8 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
-    // ---- DATOS PERSISTENTES ----
-    #region Datos persistentes entre escenas
+    // ---- DATOS PERSISTENTES — CHECKPOINT ----
+    #region Datos persistentes entre escenas — Checkpoint
 
     /// <summary>Vida del jugador en el último checkpoint.</summary>
     private int _savedHealth = 200;
@@ -86,6 +86,26 @@ public class GameManager : MonoBehaviour
 
     /// <summary>Si el jugador tiene desbloqueado el disparo multidireccional.</summary>
     private bool _hasMultishot = false;
+
+    #endregion
+
+    // ---- AJUSTES DE USUARIO — CÁMARA ----
+    #region Ajustes de usuario — Cámara
+
+    /// <summary>
+    /// Intensidad del efecto de temblor de cámara.
+    /// 0 = sin temblor, 1 = intensidad máxima.
+    /// CameraController multiplica su _shakeIntensity base por este valor.
+    /// Modificado desde SettingsMenu y persistente entre escenas.
+    /// </summary>
+    public float CameraShakeIntensity = 1f;
+
+    /// <summary>
+    /// Retraso del seguimiento de cámara en segundos.
+    /// CameraController usa este valor como smoothTime en SmoothDamp.
+    /// Modificado desde SettingsMenu y persistente entre escenas.
+    /// </summary>
+    public float CameraFollowDelay = 0.5f;
 
     #endregion
 
@@ -124,7 +144,6 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("Menu");
     }
-
 
     #endregion
 
@@ -169,6 +188,10 @@ public class GameManager : MonoBehaviour
         _savedBandages = 0;
         _savedKeys = 0;
         _hasMultishot = false;
+
+        // Valores por defecto de los ajustes de cámara
+        CameraShakeIntensity = 1f;
+        CameraFollowDelay = 0.5f;
     }
 
     #endregion
