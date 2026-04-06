@@ -23,18 +23,22 @@ public class SecondAttackBoss : MonoBehaviour
     // (palabras con primera letra mayúscula, incluida la primera letra)
     // Ejemplo: MaxHealthPoints
 
-    [SerializeField] private GameObject _prefabTriangulo;
+    [Header("Prefabs")]
+    [SerializeField] private CristlesBoss _prefabCuchilla;
     [SerializeField] private GameObject _avisoVisualPrefab;
+
+    [Header("Configuración")]
     [SerializeField] private float _rangoDeteccion = 10f;
     [SerializeField] private float _tiempoRecarga = 3f;
     [SerializeField] private Transform _puntoDisparo;
 
     private Transform _jugador;
     private GameObject _avisoActual;
-    private float _timerAtaque;
+    private Vector3 _posicionObjetivo;
+
+    private float _timerRecarga;
     private float _timerAviso;
-    private Vector3 _posicionRegistrada;
-    private bool _alreadyAviso;
+    private bool _preparandoAtaque;
 
 
     #endregion
@@ -48,25 +52,8 @@ public class SecondAttackBoss : MonoBehaviour
     // primera letra en mayúsculas)
     // Ejemplo: _maxHealthPoints
 
-   
-    private void LanzarCuchillas()
-    { 
-        // Lanzar 3 proyectiles
-        for (int i = 0; i < 3; i++)
-        {
-            GameObject proyectil = Instantiate(_prefabTriangulo, _puntoDisparo.position, Quaternion.identity);
-            Vector2 direccion = (_posicionRegistrada - _puntoDisparo.position).normalized;
 
-            if (proyectil.TryGetComponent(out Rigidbody2D rb))
-            {
-                rb.linearVelocity = direccion* 10f;
-            }
-        }
 
-        // Resetear todo para el siguiente ciclo
-        _alreadyAviso = false;
-        _timerAtaque = 0;
-    }
 
 
     #endregion
@@ -84,8 +71,9 @@ public class SecondAttackBoss : MonoBehaviour
     /// </summary>
     void Start()
     {
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-        if (playerObj != null) _jugador = playerObj.transform;
+        GameObject p = GameObject.FindGameObjectWithTag("Player");
+        if (p != null) _jugador = p.transform;
+        _timerRecarga = _tiempoRecarga;
     }
 
 
@@ -97,27 +85,38 @@ public class SecondAttackBoss : MonoBehaviour
     {
         if (_jugador == null) return;
 
-        float distancia = Vector2.Distance(transform.position, _jugador.position);
-        _timerAtaque += Time.deltaTime;
-
-        // 1. Detección y creación del aviso
-        if (distancia <= _rangoDeteccion && _timerAtaque >= _tiempoRecarga && !_alreadyAviso)
+        // 1. Contar recarga si no estamos ya preparando un ataque
+        if (!_preparandoAtaque)
         {
-            _posicionRegistrada = _jugador.position;
-            _avisoActual = Instantiate(_avisoVisualPrefab, _posicionRegistrada, Quaternion.identity);
-            _alreadyAviso = true;
-            _timerAviso = 0; //Esto se reinicia que sino no diapara otra vez
+            _timerRecarga += Time.deltaTime;
         }
 
+        float distancia = Vector2.Distance(transform.position, _jugador.position);
 
-        if (_alreadyAviso)
+        // 2. Iniciar secuencia de ataque
+        if (distancia <= _rangoDeteccion && _timerRecarga >= _tiempoRecarga && !_preparandoAtaque)
+        {
+            _preparandoAtaque = true;
+            _timerAviso = 0;
+            _posicionObjetivo = _jugador.position; // Fijamos donde estaba el jugador
+
+            _avisoActual = Instantiate(_avisoVisualPrefab, _posicionObjetivo, Quaternion.identity);
+        }
+
+        // 3. Lógica del aviso (los 2 segundos)
+        if (_preparandoAtaque && _avisoActual != null)
         {
             _timerAviso += Time.deltaTime;
 
-            if (_timerAviso >= 2f)//He puesto 2 porque 1 me parece muy difícil, si vemos que no, lo cambio
+            if (_timerAviso >= 2f)
             {
-                LanzarTriangulos();
+                Disparar();
             }
+        }
+        // Seguridad: Si el aviso se destruye por fuera, cancelamos para no dar error
+        else if (_preparandoAtaque && _avisoActual == null)
+        {
+            _preparandoAtaque = false;
         }
 
     }
@@ -140,34 +139,35 @@ public class SecondAttackBoss : MonoBehaviour
     // se nombren en formato PascalCase (palabras con primera letra
     // mayúscula, incluida la primera letra)
 
-    private void LanzarTriangulos()
+    private void Disparar()
     {
-        if (_avisoActual != null) Destroy(_avisoActual);
-
-        // Lanzar 3 proyectiles
-        for (int i = 0; i < 3; i++)
+        // ELIMINAR EL AVISO Y LIMPIAR LA VARIABLE (Evita el MissingReferenceException)
+        if (_avisoActual != null)
         {
-            GameObject proyectil = Instantiate(_prefabTriangulo, _puntoDisparo.position, Quaternion.identity);
-            Vector2 direccion = (_posicionRegistrada - _puntoDisparo.position).normalized;
-
-            if (proyectil.TryGetComponent(out Rigidbody2D rb))
-            {
-                rb.linearVelocity = direccion * 10f;
-            }
+            Destroy(_avisoActual);
+            _avisoActual = null;
         }
 
-        // Resetear todo para el siguiente ciclo
-        _alreadyAviso = false;
-        _timerAtaque = 0;
+        Vector2 direccion = (_posicionObjetivo - _puntoDisparo.position);
+
+        for (int i = 0; i < 3; i++)
+        {
+            CristlesBoss c = Instantiate(_prefabCuchilla, _puntoDisparo.position, Quaternion.identity);
+            c.Lanzar(direccion);
+        }
+
+        _preparandoAtaque = false;
+        _timerRecarga = 0;
     }
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.cyan;
+        Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _rangoDeteccion);
     }
 
     #endregion
 
-} // class SecondAttackBoss 
+}
+// class SecondAttackBoss 
 // namespace

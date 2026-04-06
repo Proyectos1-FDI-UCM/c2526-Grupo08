@@ -24,8 +24,7 @@ public class CristlesBoss : MonoBehaviour
     // Ejemplo: MaxHealthPoints
     [SerializeField] private float _velocidad = 12f;
     [SerializeField] private int _daño = 35;
-    [SerializeField] private float _tiempoVida = 4f;
-
+    [SerializeField] private int _tiempoVida;
     private Rigidbody2D _rb;
     #endregion
 
@@ -73,7 +72,8 @@ public class CristlesBoss : MonoBehaviour
     // mayúscula, incluida la primera letra)
     // Ejemplo: GetPlayerController
 
-    public void Inicializar(Vector2 direccion)
+  
+    public void Lanzar(Vector2 direccion)
     {
         _rb.linearVelocity = direccion.normalized * _velocidad;
 
@@ -100,8 +100,9 @@ public class CristlesBoss : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            Debug.Log("Daño: " + _daño);
+            
 
+            Debug.Log("Impacto: -" + _daño + " de vida");
             Destroy(gameObject);
         }
     }
