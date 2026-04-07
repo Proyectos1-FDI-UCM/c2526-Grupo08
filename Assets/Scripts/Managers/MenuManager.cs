@@ -7,6 +7,7 @@
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 // Añadir aquí el resto de directivas using
 
 
@@ -28,6 +29,9 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject Options;
     [SerializeField] private GameObject Credits;
     [SerializeField] private float _followDelay = 0.5f;
+
+    [SerializeField] private GameObject newMainButton1;
+    [SerializeField] private GameObject newMainButton2;
 
     #endregion
 
@@ -125,6 +129,24 @@ public class MenuManager : MonoBehaviour
     }
 
 
+    public void ChangeFirstOptionButtonAjustes()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(newMainButton1);
+    }
+    public void ChangeFirstOptionButtonCredits()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(newMainButton2);
+    }
+
+    /*
+    public void MainButton()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(OriginalFirstButton);
+    }
+    */
 
     #endregion
 
