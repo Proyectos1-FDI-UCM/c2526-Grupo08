@@ -37,6 +37,7 @@ public class CristlesBoss : MonoBehaviour
     // primera letra en mayúsculas)
     // Ejemplo: _maxHealthPoints
 
+    private Health _health;
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
@@ -53,6 +54,7 @@ public class CristlesBoss : MonoBehaviour
     void Start()
     {
         //Destroy(gameObject, _tiempoVida); 
+        _health = GetComponent<Health>();
     }
 
     /// <summary>
@@ -96,15 +98,14 @@ public class CristlesBoss : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (collision.CompareTag("Player"))
+        _health = other.GetComponent<Health>();
+        if (other.CompareTag("Player") && _health != null)
         {
-            
-
-            Debug.Log("Impacto: -" + _daño + " de vida");
-            Destroy(gameObject);
+            _health.Damage(_daño);
         }
+
     }
 
     #endregion   
