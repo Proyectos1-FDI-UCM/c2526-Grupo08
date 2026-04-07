@@ -1,6 +1,6 @@
 //---------------------------------------------------------
 // Breve descripción del contenido del archivo
-// Responsable de la creación de este archivo
+// Marián Navarro
 // Nombre del juego
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
@@ -52,7 +52,7 @@ public class CristlesBoss : MonoBehaviour
     /// </summary>
     void Start()
     {
-        Destroy(gameObject, _tiempoVida);
+        //Destroy(gameObject, _tiempoVida); 
     }
 
     /// <summary>
