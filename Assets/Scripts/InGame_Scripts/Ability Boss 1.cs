@@ -36,7 +36,7 @@ public class AbilityBoss1 : MonoBehaviour
     [SerializeField] private bool IsActive = false;
 
     [Tooltip("Tiempo entre cada ráfaga de cristales.")]
-    [SerializeField] private float TimeBetweenCrystals = 0.5f;
+    [SerializeField] private float TimeBetweenCrystals = 0.3f;
 
     // -- CAMBIO AQUÍ: Ahora SpawnRange define el tamaño TOTAL del rectángulo (Ancho, Alto) --
     [Tooltip("Tamaño TOTAL (Ancho en X, Alto en Y) del área rectangular de spawn, centrada en el Boss.")]
