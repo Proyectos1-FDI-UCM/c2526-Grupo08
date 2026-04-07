@@ -70,6 +70,7 @@ public class LevelManager : MonoBehaviour
     [Tooltip("GameObject del panel de muerte de esta escena. " +
              "Los botones del panel deben apuntar a LevelManager, no a GameManager.")]
     [SerializeField] private GameObject panelDeath;
+    [SerializeField] private GameObject panelWin;
 
     [Header("Panel del mapa")]
     [SerializeField] private GameObject panelMap;
@@ -112,6 +113,11 @@ public class LevelManager : MonoBehaviour
             panelDeath.SetActive(false);
         }
 
+        if (panelWin != null)
+        {
+            panelWin.SetActive(false);
+        }
+
         if (panelMap != null)
         {
             panelMap.SetActive(false);
@@ -146,6 +152,7 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+
     #endregion
 
     // ---- MÉTODOS PÚBLICOS — LLAMADOS POR Health ----
@@ -158,10 +165,27 @@ public class LevelManager : MonoBehaviour
     public void OnPlayerDeath()
     {
         if (panelDeath != null)
+        {
             panelDeath.SetActive(true);
+        }
         else
+        {
             Debug.LogWarning("[LevelManager] panelDeath no está asignado en el Inspector.");
+        }
 
+        Time.timeScale = 0f;
+    }
+
+    public void OnBossDeath()
+    {
+        if (panelWin != null)
+        {
+            panelWin.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("[LevelManager] panelWin no está asignado en el Inspector.");
+        }
         Time.timeScale = 0f;
     }
 

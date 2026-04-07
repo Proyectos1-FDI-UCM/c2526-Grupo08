@@ -38,6 +38,9 @@ public class Health : MonoBehaviour
     [Tooltip("Marcar true solo en el jugador.")]
     [SerializeField] private bool IsPlayer = false;
 
+    [Tooltip("Marcar true solo en el jefe.")]
+    [SerializeField] private bool IsBoss = false;
+
     [Tooltip("Prefab del punto de magia. Solo poner si el personaje que tiene Health es un enemigo.")]
     [SerializeField] private GameObject MagicPointsPrefab;
 
@@ -149,6 +152,13 @@ public class Health : MonoBehaviour
         {
             if (LevelManager.HasInstance())
                 LevelManager.Instance.OnPlayerDeath();
+            else
+                Debug.LogWarning("[Health] No hay LevelManager en la escena.");
+        }
+        else if (IsBoss)
+        {
+            if (LevelManager.HasInstance())
+                LevelManager.Instance.OnBossDeath();
             else
                 Debug.LogWarning("[Health] No hay LevelManager en la escena.");
         }

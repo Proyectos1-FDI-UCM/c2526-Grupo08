@@ -522,8 +522,10 @@ MonoBehaviour:
   HealthBar: {fileID: 3469035366496759300}
   EnemyGameObject: {fileID: 5833783661910523780}
   IsPlayer: 0
-  MagicPointsPrefab: {fileID: 0}
+  IsBoss: 0
+  MagicPointsPrefab: {fileID: 1546762712987103224, guid: bc65c4899de222a45b32da9478bf5b87, type: 3}
   KeyPrefab: {fileID: 0}
+  IsSpecialEnemy: 0
 --- !u!1 &7981711060179588134
 GameObject:
   m_ObjectHideFlags: 0
