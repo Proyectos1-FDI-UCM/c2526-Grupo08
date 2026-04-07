@@ -24,21 +24,15 @@ public class SecondAttackBoss : MonoBehaviour
     // Ejemplo: MaxHealthPoints
 
     [Header("Prefabs")]
-    [SerializeField] private CristlesBoss _prefabCuchilla;
+    [SerializeField] private CristlesBoss _prefabCuchilla1;
+    [SerializeField] private CristlesBoss _prefabCuchilla2;
+    [SerializeField] private CristlesBoss _prefabCuchilla3;
     [SerializeField] private GameObject _avisoVisualPrefab;
 
     [Header("Configuración")]
     [SerializeField] private float _rangoDeteccion = 10f;
     [SerializeField] private float _tiempoRecarga = 3f;
     [SerializeField] private Transform _puntoDisparo;
-
-    private Transform _jugador;
-    private GameObject _avisoActual;
-    private Vector3 _posicionObjetivo;
-
-    private float _timerRecarga;
-    private float _timerAviso;
-    private bool _preparandoAtaque;
 
 
     #endregion
@@ -52,7 +46,13 @@ public class SecondAttackBoss : MonoBehaviour
     // primera letra en mayúsculas)
     // Ejemplo: _maxHealthPoints
 
+    private Transform _jugador;
+    private GameObject _avisoActual;
+    private Vector3 _posicionObjetivo;
 
+    private float _timerRecarga;
+    private float _timerAviso;
+    private bool _preparandoAtaque;
 
 
 
@@ -75,7 +75,6 @@ public class SecondAttackBoss : MonoBehaviour
         if (p != null) _jugador = p.transform;
         _timerRecarga = _tiempoRecarga;
     }
-
 
 
     /// <summary>
@@ -148,12 +147,18 @@ public class SecondAttackBoss : MonoBehaviour
             _avisoActual = null;
         }
 
-        Vector2 direccion = (_posicionObjetivo - _puntoDisparo.position);
+        Vector2 direccion1 = (_posicionObjetivo - _puntoDisparo.position);
+        Vector2 direccion2 = (_posicionObjetivo - _puntoDisparo.position);
+        Vector2 direccion3 = (_posicionObjetivo - _puntoDisparo.position);
 
         for (int i = 0; i < 3; i++)
         {
-            CristlesBoss c = Instantiate(_prefabCuchilla, _puntoDisparo.position, Quaternion.identity);
-            c.Lanzar(direccion);
+            CristlesBoss c1 = Instantiate(_prefabCuchilla1, _puntoDisparo.position, Quaternion.identity);
+            CristlesBoss c2 = Instantiate(_prefabCuchilla2, _puntoDisparo.position + new Vector3(2, 0, 0), Quaternion.Euler(0, 0, 10));
+            CristlesBoss c3 = Instantiate(_prefabCuchilla3, _puntoDisparo.position - new Vector3(2, 0, 0), Quaternion.Euler(0, 0, -10));
+            c1.Lanzar(direccion1);
+            c2.Lanzar(direccion2);
+            c3.Lanzar(direccion3);
         }
 
         _preparandoAtaque = false;
