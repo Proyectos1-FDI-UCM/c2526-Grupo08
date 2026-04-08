@@ -11,7 +11,6 @@ using UnityEngine;
 
 /// <summary>
 /// Antes de cada class, descripción de qué es y para qué sirve,
-/// usando todas las líneas que sean necesarias.
 /// </summary>
 public class BossFisrtShoot : MonoBehaviour
 {
@@ -135,8 +134,9 @@ public class BossFisrtShoot : MonoBehaviour
     {
         Vector2 dashDirection = (targetPlayer.position - transform.position).normalized;
 
-        // Aplicamos un impulso de fuerza instantáneo 
-        rb.linearVelocity = Vector2.zero; // Limpiamos velocidad previa para que el dash sea preciso
+        // Reducimos la velocidad previa a la mitad antes del impulso
+        // en vez de pararla en seco, para que la transición sea más fluida.
+        rb.linearVelocity *= 0.3f;
         rb.AddForce(dashDirection * dashForce, ForceMode2D.Impulse);
 
         Debug.Log("¡Enemigo ejecutando Dash!");
