@@ -32,12 +32,13 @@ public class BossFisrtShoot : MonoBehaviour
     [SerializeField] private float dashDuration = 3f;
 
     [Header("Movement Settings")]
-    [SerializeField] private float maxSpeed = 18f;
-    [SerializeField] private float acceleration = 60f;
+    [SerializeField] private float dashForce = 20f;   // La fuerza del impulso inicial
+    [SerializeField] private float dashDrag = 3f;    // Fricción para que se detenga tras el dash
+    [SerializeField] private int damageAmount = 30;
 
     private Rigidbody2D rb;
-    private float nextAttackTime;
-    private float stopAttackTime;
+    private float nextDashTime;
+
 
 
     #endregion
@@ -55,35 +56,20 @@ public class BossFisrtShoot : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
 
-        
+        // Configuración física para el dash
         rb.gravityScale = 0f;
-        rb.linearDamping = 2f;
-        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+        rb.linearDamping = dashDrag;
         rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
 
+        // Evitamos que se tumbe (bloqueo de rotación Z)
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
-        SetNextChaseTime();
+        CalculateNextDash();
 
     }
 
-    private void FixedUpdate()
-    {
-        if (targetPlayer == null) return;
-
-        if (Time.fixedTime >= nextAttackTime && Time.fixedTime < stopAttackTime)
-        {
-            ExecuteDash();
-        }
-        else
-        {
-            StopMovement();
-
-            if (Time.fixedTime >= stopAttackTime)
-            {
-                CalculateNextAttack();
-            }
-        }
-    }
+   
 
 
     #endregion
@@ -109,8 +95,16 @@ public class BossFisrtShoot : MonoBehaviour
     /// </summary>
     void Update()
     {
+        if (targetPlayer == null) return;
 
+        // Comprobamos si ha llegado el momento del dash
+        if (Time.time >= nextDashTime)
+        {
+            Dash();
+            CalculateNextDash(); // Se programa el siguiente 
+        }
     }
+
 
 
 
@@ -135,47 +129,41 @@ public class BossFisrtShoot : MonoBehaviour
 
     #endregion
 
-    private void SetNextChaseTime()
+    
+
+    private void Dash()
     {
-        if (targetPlayer == null) return;
+        Vector2 dashDirection = (targetPlayer.position - transform.position).normalized;
 
-        // Check if we are within the attack window
-        if (Time.fixedTime >= nextAttackTime && Time.fixedTime < stopAttackTime)
-        {
-            ExecuteDash();
-        }
-        else
-        {
-            StopMovement();
+        // Aplicamos un impulso de fuerza instantáneo 
+        rb.linearVelocity = Vector2.zero; // Limpiamos velocidad previa para que el dash sea preciso
+        rb.AddForce(dashDirection * dashForce, ForceMode2D.Impulse);
 
-            if (Time.fixedTime >= stopAttackTime)
-            {
-                CalculateNextAttack();
-            }
-        }
+        Debug.Log("¡Enemigo ejecutando Dash!");
     }
 
-    private void ExecuteDash()
-    {
-        Vector2 direction = (targetPlayer.position - transform.position).normalized;
-        Vector2 targetVelocity = direction * maxSpeed;
+   
 
-        rb.linearVelocity = Vector2.MoveTowards(rb.linearVelocity, targetVelocity, acceleration * Time.fixedDeltaTime);
+    private void CalculateNextDash()
+    {
+        float wait = Random.Range(minWaitTime, maxWaitTime);
+        nextDashTime = Time.time + wait;
     }
 
-    private void StopMovement()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         
-        rb.linearVelocity = Vector2.MoveTowards(rb.linearVelocity, Vector2.zero, acceleration * Time.fixedDeltaTime);
+        Health healthComponent = collision.gameObject.GetComponent<Health>();
+
+        if (healthComponent != null)
+        {
+            healthComponent.Damage(damageAmount);
+            Debug.Log($"{gameObject.name} daño a {collision.gameObject.name} quitando {damageAmount} de vida");
+        }
     }
 
-    private void CalculateNextAttack()
-    {
-        float randomWait = Random.Range(minWaitTime, maxWaitTime);
-        nextAttackTime = Time.fixedTime + randomWait;
-        stopAttackTime = nextAttackTime + dashDuration;
-    }
 
 
-} // class BossFisrtShoot 
+}
+// class BossFisrtShoot 
 // namespace
