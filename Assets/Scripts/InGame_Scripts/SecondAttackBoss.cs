@@ -146,18 +146,16 @@ public class SecondAttackBoss : MonoBehaviour
         }
 
         Vector2 direccion1 = (_posicionObjetivo - _puntoDisparo.position);
-        Vector2 direccion2 = (_posicionObjetivo - _puntoDisparo.position);
-        Vector2 direccion3 = (_posicionObjetivo - _puntoDisparo.position);
+        direccion1 = direccion1.normalized;
+        Vector2 dir2 = Quaternion.AngleAxis(45, Vector3.forward) * direccion1;
+        Vector2 dir3 = Quaternion.AngleAxis(-45, Vector3.forward) * direccion1;
+        CristlesBoss c1 = Instantiate(_prefabCuchilla1, _puntoDisparo.position, Quaternion.identity);
+        CristlesBoss c2 = Instantiate(_prefabCuchilla2, _puntoDisparo.position, Quaternion.AngleAxis(45, direccion1.normalized));
+        CristlesBoss c3 = Instantiate(_prefabCuchilla3, _puntoDisparo.position, Quaternion.AngleAxis(-45, direccion1.normalized));
+        c1.Lanzar(direccion1.normalized);
+        c2.Lanzar(dir2);
+        c3.Lanzar(dir3);
 
-        for (int i = 0; i < 3; i++)
-        {
-            CristlesBoss c1 = Instantiate(_prefabCuchilla1, _puntoDisparo.position, Quaternion.identity);
-            CristlesBoss c2 = Instantiate(_prefabCuchilla2, _puntoDisparo.position + new Vector3(2, 0, 0), Quaternion.Euler(0, 0, 10));
-            CristlesBoss c3 = Instantiate(_prefabCuchilla3, _puntoDisparo.position - new Vector3(2, 0, 0), Quaternion.Euler(0, 0, -10));
-            c1.Lanzar(direccion1);
-            c2.Lanzar(direccion2);
-            c3.Lanzar(direccion3);
-        }
 
         _preparandoAtaque = false;
         _timerRecarga = 0;

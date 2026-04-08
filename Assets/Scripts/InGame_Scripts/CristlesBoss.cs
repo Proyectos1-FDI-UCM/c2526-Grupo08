@@ -81,6 +81,7 @@ public class CristlesBoss : MonoBehaviour
 
         float angulo = Mathf.Atan2(direccion.y, direccion.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angulo);
+        
     }
 
     #endregion
