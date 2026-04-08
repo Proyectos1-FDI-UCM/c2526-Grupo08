@@ -23,21 +23,23 @@ public class BossFisrtShoot : MonoBehaviour
     // (palabras con primera letra mayúscula, incluida la primera letra)
     // Ejemplo: MaxHealthPoints
 
-    [Header("Configuración de Ataque")]
-    [SerializeField] private int damageValue = 30;
-    [SerializeField] private float detectionRange = 12f;
-    //[SerializeField] private float cooldownTime = 3f; por definir eh
-   
+    [Header("References")]
+    [SerializeField] private Transform targetPlayer;
+
+    [Header("Timer Settings (Seconds)")]
     [SerializeField] private float minWaitTime = 7f;
     [SerializeField] private float maxWaitTime = 15f;
+    [SerializeField] private float dashDuration = 3f;
 
-    [Header("Referencias")]
-    [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private Transform firePoint;
+    [Header("Movement Settings")]
+    [SerializeField] private float maxSpeed = 18f;
+    [SerializeField] private float acceleration = 60f;
 
-    private Transform _playerTransform;
-    private float _timer = 0f;
-    private float _nextAttackCooldown;
+    private Rigidbody2D rb;
+    private float nextAttackTime;
+    private float stopAttackTime;
+
+
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
@@ -48,6 +50,41 @@ public class BossFisrtShoot : MonoBehaviour
     // primera palabra en minúsculas y el resto con la 
     // primera letra en mayúsculas)
     // Ejemplo: _maxHealthPoints
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+
+        
+        rb.gravityScale = 0f;
+        rb.linearDamping = 2f;
+        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+        rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+
+
+        SetNextChaseTime();
+
+    }
+
+    private void FixedUpdate()
+    {
+        if (targetPlayer == null) return;
+
+        if (Time.fixedTime >= nextAttackTime && Time.fixedTime < stopAttackTime)
+        {
+            ExecuteDash();
+        }
+        else
+        {
+            StopMovement();
+
+            if (Time.fixedTime >= stopAttackTime)
+            {
+                CalculateNextAttack();
+            }
+        }
+    }
+
 
     #endregion
 
@@ -64,11 +101,7 @@ public class BossFisrtShoot : MonoBehaviour
     /// </summary>
     void Start()
     {
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-        if (playerObj != null)
-        {
-            _playerTransform = playerObj.transform;
-        }
+       
     }
 
     /// <summary>
@@ -76,20 +109,11 @@ public class BossFisrtShoot : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if (_playerTransform == null) return;
-
-        // El cronómetro avanza cada frame
-        _timer += Time.deltaTime;
-
-        float distanceToPlayer = Vector2.Distance(transform.position, _playerTransform.position);
-
-        // Si ha pasado el tiempo aleatorio y el jugador está cerca
-        if (_timer >= _nextAttackCooldown && distanceToPlayer <= detectionRange)
-        {
-            ExecuteAttack();
-        }
 
     }
+
+
+
     #endregion
 
     // ---- MÉTODOS PÚBLICOS ----
@@ -111,36 +135,47 @@ public class BossFisrtShoot : MonoBehaviour
 
     #endregion
 
-    private void ExecuteAttack()
+    private void SetNextChaseTime()
     {
-        transform.position = _playerTransform.position;
+        if (targetPlayer == null) return;
 
-        Health playerHealth = _playerTransform.GetComponent<Health>(); //aquí llama a health que sino mi bro no recibe daño.
-        if (playerHealth != null)
+        // Check if we are within the attack window
+        if (Time.fixedTime >= nextAttackTime && Time.fixedTime < stopAttackTime)
         {
-            playerHealth.Damage(damageValue);
-            Debug.Log(" Daño " + damageValue + " aplicado."); //esto lo he puesto para ver en unity si funciona pero se puede quitar.
+            ExecuteDash();
         }
+        else
+        {
+            StopMovement();
 
-        if (bulletPrefab != null)
-        {
-            Vector3 spawnPos = firePoint != null ? firePoint.position : transform.position;
-            Instantiate(bulletPrefab, spawnPos, Quaternion.identity);
+            if (Time.fixedTime >= stopAttackTime)
+            {
+                CalculateNextAttack();
+            }
         }
-        _timer = 0f;
-        SetRandomCooldown();
     }
 
-    private void SetRandomCooldown()
+    private void ExecuteDash()
     {
-        _nextAttackCooldown = Random.Range(minWaitTime, maxWaitTime);
+        Vector2 direction = (targetPlayer.position - transform.position).normalized;
+        Vector2 targetVelocity = direction * maxSpeed;
+
+        rb.linearVelocity = Vector2.MoveTowards(rb.linearVelocity, targetVelocity, acceleration * Time.fixedDeltaTime);
     }
+
+    private void StopMovement()
+    {
         
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawWireSphere(transform.position, detectionRange); //esto para que el jugador sepa que viene la mierda del ataque <3.
+        rb.linearVelocity = Vector2.MoveTowards(rb.linearVelocity, Vector2.zero, acceleration * Time.fixedDeltaTime);
     }
+
+    private void CalculateNextAttack()
+    {
+        float randomWait = Random.Range(minWaitTime, maxWaitTime);
+        nextAttackTime = Time.fixedTime + randomWait;
+        stopAttackTime = nextAttackTime + dashDuration;
+    }
+
 
 } // class BossFisrtShoot 
 // namespace

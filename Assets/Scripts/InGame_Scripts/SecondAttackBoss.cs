@@ -84,7 +84,7 @@ public class SecondAttackBoss : MonoBehaviour
     {
         if (_jugador == null) return;
 
-        // 1. Contar recarga si no estamos ya preparando un ataque
+        
         if (!_preparandoAtaque)
         {
             _timerRecarga += Time.deltaTime;
@@ -92,17 +92,16 @@ public class SecondAttackBoss : MonoBehaviour
 
         float distancia = Vector2.Distance(transform.position, _jugador.position);
 
-        // 2. Iniciar secuencia de ataque
+      
         if (distancia <= _rangoDeteccion && _timerRecarga >= _tiempoRecarga && !_preparandoAtaque)
         {
             _preparandoAtaque = true;
             _timerAviso = 0;
-            _posicionObjetivo = _jugador.position; // Fijamos donde estaba el jugador
+            _posicionObjetivo = _jugador.position; 
 
             _avisoActual = Instantiate(_avisoVisualPrefab, _posicionObjetivo, Quaternion.identity);
         }
 
-        // 3. Lógica del aviso (los 2 segundos)
         if (_preparandoAtaque && _avisoActual != null)
         {
             _timerAviso += Time.deltaTime;
@@ -112,7 +111,7 @@ public class SecondAttackBoss : MonoBehaviour
                 Disparar();
             }
         }
-        // Seguridad: Si el aviso se destruye por fuera, cancelamos para no dar error
+        
         else if (_preparandoAtaque && _avisoActual == null)
         {
             _preparandoAtaque = false;
@@ -140,7 +139,6 @@ public class SecondAttackBoss : MonoBehaviour
 
     private void Disparar()
     {
-        // ELIMINAR EL AVISO Y LIMPIAR LA VARIABLE (Evita el MissingReferenceException)
         if (_avisoActual != null)
         {
             Destroy(_avisoActual);
