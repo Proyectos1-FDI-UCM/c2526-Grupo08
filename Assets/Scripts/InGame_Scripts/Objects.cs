@@ -63,17 +63,19 @@ public class Objects : MonoBehaviour
 
     private void Update()
     {
+
         if (!_playerInRange || _playerInventory == null) return;
 
-        // Detectar pulsación de F con el nuevo Input System o fallback con KeyCode
-        bool interactPressed = _interactAction != null
-            ? _interactAction.WasPressedThisFrame()
-            : Input.GetKeyDown(KeyCode.F);
+        bool interactPressed = false;
 
-        if (interactPressed)
+        if (_interactAction != null)
         {
-            PickUp();
+            interactPressed = _interactAction.WasPressedThisFrame();
         }
+
+        if (!interactPressed) return;
+
+        PickUp();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -110,7 +112,16 @@ public class Objects : MonoBehaviour
     /// </summary>
     private void PickUp()
     {
-        _playerInventory.AddItem(type);
+        Debug.Log("Recojo objeto: " + type);
+
+        if (_playerInventory != null)
+        {
+            _playerInventory.AddItem(type);
+        }
+
+        _playerInRange = false;
+        _playerInventory = null;
+
         Destroy(gameObject);
     }
 

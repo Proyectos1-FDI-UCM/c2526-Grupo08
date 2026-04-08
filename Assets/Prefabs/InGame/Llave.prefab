@@ -13,8 +13,13 @@ GameObject:
   - component: {fileID: 343323742898474946}
   - component: {fileID: 1129480002480642243}
   - component: {fileID: 7009754139723194485}
+<<<<<<< HEAD:Assets/Prefabs/InGame/Llave.prefab
+  m_Layer: 0
+  m_Name: Llave
+=======
   m_Layer: 3
   m_Name: Llave1
+>>>>>>> origin/main:Assets/Prefabs/InGame/Llave1.prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

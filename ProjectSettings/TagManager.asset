@@ -50,6 +50,15 @@ TagManager:
   - name: Bullet
     uniqueID: 4000259879
     locked: 0
+  - name: Wall
+    uniqueID: 276708583
+    locked: 0
+  - name: Elevator
+    uniqueID: 613379581
+    locked: 0
+  - name: Enemy
+    uniqueID: 872213591
+    locked: 0
   - name: Player
     uniqueID: 1435715633
     locked: 0
