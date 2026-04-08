@@ -107,8 +107,9 @@ public class CameraController : MonoBehaviour
     /// <summary>
     /// LateUpdate se ejecuta después de todos los Update, ideal para mover la cámara.
     /// Lee los parámetros de GameManager en tiempo real para reflejar ajustes del menú.
+    /// Lo hemos puesto en el Fixed para que la cámara no vaya mal.
     /// </summary>
-    private void LateUpdate()
+    private void FixedUpdate()
     {
         if (_target == null) return;
 
