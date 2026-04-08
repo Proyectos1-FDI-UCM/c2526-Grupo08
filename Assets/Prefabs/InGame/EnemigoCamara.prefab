@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3797789623946725183}
   - component: {fileID: 8136243842017716074}
   - component: {fileID: 4531694248479771828}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: EnemyCamara
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,7 +181,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7229757840001111713}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Punto 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,7 +212,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 685176425577108201}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: EnemigoCamara
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -247,7 +247,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1639446724794915323}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Punto 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -278,7 +278,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7615556331239334701}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Punto 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}

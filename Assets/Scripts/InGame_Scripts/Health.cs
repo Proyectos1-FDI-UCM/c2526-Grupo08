@@ -38,12 +38,19 @@ public class Health : MonoBehaviour
     [Tooltip("Marcar true solo en el jugador.")]
     [SerializeField] private bool IsPlayer = false;
 
+    [Tooltip("Marcar true solo en el jefe.")]
+    [SerializeField] private bool IsBoss = false;
+
     [Tooltip("Prefab del punto de magia. Solo poner si el personaje que tiene Health es un enemigo.")]
     [SerializeField] private GameObject MagicPointsPrefab;
 
     [Tooltip("Prefab de la llave que soltará el enemigo.")]
-    [SerializeField] private GameObject KeyPrefab; 
+    [SerializeField] private GameObject KeyPrefab;
     //esto para cuando el enemigo muera en el nivel 2, suelte la llave. Lo está haciendo Marián.
+
+    [Tooltip("Marcar true solo en el enemigo especial.")]
+    [SerializeField] private bool IsSpecialEnemy = false;
+
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
@@ -148,9 +155,32 @@ public class Health : MonoBehaviour
             else
                 Debug.LogWarning("[Health] No hay LevelManager en la escena.");
         }
+        else if (IsBoss)
+        {
+            if (LevelManager.HasInstance())
+                LevelManager.Instance.OnBossDeath();
+            else
+                Debug.LogWarning("[Health] No hay LevelManager en la escena.");
+        }
         else
         {
-            
+            if (IsSpecialEnemy)
+            {
+                SpecialEnemyDeath specialDeath = GetComponent<SpecialEnemyDeath>();
+
+                if (specialDeath != null)
+                {
+                    specialDeath.OnDefeated();
+                }
+                else
+                {
+                    Debug.LogWarning($"[Health] {gameObject.name} es IsSpecialEnemy pero no tiene el componente SpecialEnemyDeath.");
+                }
+
+                return;
+            }
+
+            // --- Muerte normal de enemigo ---
             GameObject toDestroy = EnemyGameObject != null ? EnemyGameObject : gameObject;
 
             if (KeyPrefab != null)
@@ -163,7 +193,6 @@ public class Health : MonoBehaviour
             GameObject _magicPointObj = Instantiate(MagicPointsPrefab, EnemyGameObject.transform.position, Quaternion.identity);
 
             // TODO: liberar energía mágica al matar un enemigo -> Comprobar si va bien
-
         }
     }
 

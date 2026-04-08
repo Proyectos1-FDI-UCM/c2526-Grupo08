@@ -18,6 +18,10 @@ GameObject:
   - component: {fileID: -7483780444665984982}
   - component: {fileID: -3823790945834989697}
   - component: {fileID: -7367919625473029057}
+  - component: {fileID: 590871797006376245}
+  - component: {fileID: 2899187465844585586}
+  - component: {fileID: 8017341004700388055}
+  - component: {fileID: 1061017487215962581}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -331,6 +335,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BandageHealth: 30
+  hasKey: 0
 --- !u!114 &-3823790945834989697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,6 +353,8 @@ MonoBehaviour:
   EnemyGameObject: {fileID: 0}
   IsPlayer: 0
   MagicPointsPrefab: {fileID: 0}
+  KeyPrefab: {fileID: 0}
+  IsSpecialEnemy: 0
 --- !u!114 &-7367919625473029057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,3 +369,74 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxMagic: 60
   MagicBar: {fileID: 0}
+  ChargedAttackPoints: 20
+  MultiDirAttackPoints: 30
+  ExplosiveAttackPoints: 35
+--- !u!114 &590871797006376245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3713208540947770867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 539031775becf2443b1016364d2a7d07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _multiAbility: {fileID: 8017341004700388055}
+  _explosiveAbility: {fileID: 1061017487215962581}
+  _chargedattackAbility: {fileID: 2899187465844585586}
+--- !u!114 &2899187465844585586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3713208540947770867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5020c10fde88b4944abf0fa3fa9fb666, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bulletPrefab: {fileID: 1869822841219727020, guid: 11937ea5ec3d5b4498175fed857247e6, type: 3}
+  _shootOrigin: {fileID: 5780791531641562959}
+  _fireRate: 0.4
+  _chargedtime: 1.5
+  _chargeDamage: 70
+  _chargedMagicCost: 20
+--- !u!114 &8017341004700388055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3713208540947770867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73eca82c21b3cbf4c83f0d8894191f5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bulletPrefab: {fileID: 1869822841219727020, guid: 11937ea5ec3d5b4498175fed857247e6, type: 3}
+  _shootOrigin: {fileID: 5780791531641562959}
+  _fireRate: 0.4
+  _damage: 30
+  _range: 8
+  _magicCost: 30
+--- !u!114 &1061017487215962581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3713208540947770867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baf9068f99638174cb7d7d894b58c9c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _explosiveBulletPrefab: {fileID: 1568315935560897394, guid: 01597d9b75aaa1f4499a70245be01170, type: 3}
+  _shootOrigin: {fileID: 5780791531641562959}
+  _fireRate: 0.4
+  _magicCost: 35
+  _maxUses: 6

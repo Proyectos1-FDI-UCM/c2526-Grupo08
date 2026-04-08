@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2050621813665885301}
   - component: {fileID: 9025598022726802701}
   - component: {fileID: -272735204318147645}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: MagicPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

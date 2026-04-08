@@ -1,7 +1,7 @@
 //---------------------------------------------------------
 // Breve descripción del contenido del archivo
-// Responsable de la creación de este archivo
-// Nombre del juego
+// Marian Navarro Santoyo
+// No way down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
@@ -23,12 +23,23 @@ public class BossFisrtShoot : MonoBehaviour
     // (palabras con primera letra mayúscula, incluida la primera letra)
     // Ejemplo: MaxHealthPoints
 
-    [SerializeField] private float minX;
-    [SerializeField] private float maxX;
-    [SerializeField] private float minY;
-    [SerializeField] private float maxY;
+    [Header("Configuración de Ataque")]
+    [SerializeField] private int damageValue = 30;
+    [SerializeField] private float detectionRange = 12f;
+    //[SerializeField] private float cooldownTime = 3f; por definir eh
+   
+    [SerializeField] private float minWaitTime = 7f;
+    [SerializeField] private float maxWaitTime = 15f;
+
+    [Header("Referencias")]
+    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private Transform firePoint;
+
+    private Transform _playerTransform;
+    private float _timer = 0f;
+    private float _nextAttackCooldown;
     #endregion
-    
+
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados (private fields)
     // Documentar cada atributo que aparece aquí.
@@ -39,21 +50,25 @@ public class BossFisrtShoot : MonoBehaviour
     // Ejemplo: _maxHealthPoints
 
     #endregion
-    
+
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
-    
+
     // Por defecto están los típicos (Update y Start) pero:
     // - Hay que añadir todos los que sean necesarios
     // - Hay que borrar los que no se usen 
-    
+
     /// <summary>
     /// Start is called on the frame when a script is enabled just before 
     /// any of the Update methods are called the first time.
     /// </summary>
     void Start()
     {
-        
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            _playerTransform = playerObj.transform;
+        }
     }
 
     /// <summary>
@@ -61,7 +76,19 @@ public class BossFisrtShoot : MonoBehaviour
     /// </summary>
     void Update()
     {
-        
+        if (_playerTransform == null) return;
+
+        // El cronómetro avanza cada frame
+        _timer += Time.deltaTime;
+
+        float distanceToPlayer = Vector2.Distance(transform.position, _playerTransform.position);
+
+        // Si ha pasado el tiempo aleatorio y el jugador está cerca
+        if (_timer >= _nextAttackCooldown && distanceToPlayer <= detectionRange)
+        {
+            ExecuteAttack();
+        }
+
     }
     #endregion
 
@@ -74,7 +101,7 @@ public class BossFisrtShoot : MonoBehaviour
     // Ejemplo: GetPlayerController
 
     #endregion
-    
+
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
     // Documentar cada método que aparece aquí
@@ -82,7 +109,38 @@ public class BossFisrtShoot : MonoBehaviour
     // se nombren en formato PascalCase (palabras con primera letra
     // mayúscula, incluida la primera letra)
 
-    #endregion   
+    #endregion
+
+    private void ExecuteAttack()
+    {
+        transform.position = _playerTransform.position;
+
+        Health playerHealth = _playerTransform.GetComponent<Health>(); //aquí llama a health que sino mi bro no recibe daño.
+        if (playerHealth != null)
+        {
+            playerHealth.Damage(damageValue);
+            Debug.Log(" Daño " + damageValue + " aplicado."); //esto lo he puesto para ver en unity si funciona pero se puede quitar.
+        }
+
+        if (bulletPrefab != null)
+        {
+            Vector3 spawnPos = firePoint != null ? firePoint.position : transform.position;
+            Instantiate(bulletPrefab, spawnPos, Quaternion.identity);
+        }
+        _timer = 0f;
+        SetRandomCooldown();
+    }
+
+    private void SetRandomCooldown()
+    {
+        _nextAttackCooldown = Random.Range(minWaitTime, maxWaitTime);
+    }
+        
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(transform.position, detectionRange); //esto para que el jugador sepa que viene la mierda del ataque <3.
+    }
 
 } // class BossFisrtShoot 
 // namespace

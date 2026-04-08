@@ -15,8 +15,8 @@ TagManager:
   - Enemy
   - PlayerBullet
   - enemyBullet
-  - 
-  - 
+  - ExplosiveBullet
+  - IconPlayer
   - 
   - 
   - 

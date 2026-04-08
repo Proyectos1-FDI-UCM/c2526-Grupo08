@@ -119,6 +119,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+<<<<<<< HEAD
 --- !u!1 &201008616
 GameObject:
   m_ObjectHideFlags: 0
@@ -1060,18 +1061,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e4a56e9feca54ca43b465181b1627195, type: 3}
+=======
+>>>>>>> origin/main
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
-  m_Roots:
-  - {fileID: 201008619}
-  - {fileID: 2010393920}
-  - {fileID: 627283417}
-  - {fileID: 585651342}
-  - {fileID: 6144280239934410548}
-  - {fileID: 1559427062}
-  - {fileID: 253415811777421245}
-  - {fileID: 1335445374}
-  - {fileID: 1775536971}
-  - {fileID: 1150968190}
-  - {fileID: 1686200815}
+  m_Roots: []

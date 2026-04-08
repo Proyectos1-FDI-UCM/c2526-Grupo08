@@ -2,6 +2,8 @@
 // Componente que controla la cámara principal del juego en vista top-down.
 // Sigue al jugador con retraso configurable y añade temblor al usar habilidades mágicas.
 // El temblor se gestiona con un timer en LateUpdate, sin corrutinas.
+// Los parámetros de shake y follow delay se leen de GameManager en tiempo real
+// para reflejar los cambios del menú de ajustes sin reiniciar la escena.
 // Alexia Pérez Santana
 // No Way Down
 // Proyectos 1 - Curso 2025-26
@@ -13,8 +15,12 @@ using UnityEngine;
 /// Controla el comportamiento de la cámara principal del juego.
 /// La cámara sigue al jugador en vista top-down con un retraso suavizado,
 /// y ejecuta un efecto de temblor cuando el jugador usa una habilidad mágica.
-/// El área de visión cubre 18 casillas de ancho y 10 de alto (formato 16:9),
-/// siendo cada casilla una unidad de Unity.
+///
+/// Parámetros que vienen del Inspector (valores base/fallback):
+///   _followDelay      → se sobreescribe por GameManager.CameraFollowDelay si hay instancia.
+///   _shakeIntensity   → se multiplica por GameManager.CameraShakeIntensity (0–1).
+///
+/// Esto permite que los ajustes del menú afecten a la cámara en tiempo real.
 /// </summary>
 public class CameraController : MonoBehaviour
 {
@@ -26,14 +32,15 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Transform _target;
 
     [Header("Follow Settings")]
-    [Tooltip("Retraso en segundos que tarda la cámara en alcanzar la posición del jugador. (GDD: 1 segundo)")]
+    [Tooltip("Retraso base en segundos. En juego se usa GameManager.CameraFollowDelay si existe.")]
     [SerializeField] private float _followDelay = 0.5f;
 
     [Header("Screen Shake")]
     [Tooltip("Duración en segundos del temblor al usar una habilidad mágica.")]
     [SerializeField] private float _shakeDuration = 0.3f;
 
-    [Tooltip("Intensidad máxima del desplazamiento durante el temblor (en unidades de Unity).")]
+    [Tooltip("Intensidad base del desplazamiento durante el temblor (en unidades de Unity). " +
+             "El valor real = _shakeIntensity × GameManager.CameraShakeIntensity.")]
     [SerializeField] private float _shakeIntensity = 0.1f;
 
     [Header("Room Bounds")]
@@ -47,7 +54,6 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Vector2 _boundsMax = new Vector2(9f, 5f);
 
     #endregion
-
 
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados (private fields)
@@ -69,12 +75,11 @@ public class CameraController : MonoBehaviour
 
     #endregion
 
-
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
     /// <summary>
-    /// Awake se llama antes que Start. Se usa para guardar la profundidad Z inicial de la cámara.
+    /// Awake se llama antes que Start. Guarda la profundidad Z inicial de la cámara.
     /// </summary>
     private void Awake()
     {
@@ -82,8 +87,8 @@ public class CameraController : MonoBehaviour
     }
 
     /// <summary>
-    /// Start se llama en el primer frame. Valida que el objetivo esté asignado
-    /// y coloca la cámara directamente sobre el jugador al inicio sin retraso.
+    /// Start se llama en el primer frame. Valida el objetivo y coloca la cámara
+    /// directamente sobre el jugador sin retraso inicial.
     /// </summary>
     private void Start()
     {
@@ -100,13 +105,17 @@ public class CameraController : MonoBehaviour
     }
 
     /// <summary>
-    /// LateUpdate se ejecuta después de todos los Update, ideal para mover la cámara
-    /// una vez que el jugador ya ha actualizado su posición en ese frame.
-    /// También gestiona el timer del efecto de temblor sin necesidad de corrutinas.
+    /// LateUpdate se ejecuta después de todos los Update, ideal para mover la cámara.
+    /// Lee los parámetros de GameManager en tiempo real para reflejar ajustes del menú.
     /// </summary>
     private void LateUpdate()
     {
         if (_target == null) return;
+
+        // Leer follow delay desde GameManager si está disponible, si no usar el del Inspector
+        float followDelay = GameManager.HasInstance()
+            ? GameManager.Instance.CameraFollowDelay
+            : _followDelay;
 
         // --- Seguimiento suavizado ---
         Vector3 desiredPosition = new Vector3(_target.position.x, _target.position.y, _depthZ);
@@ -115,7 +124,7 @@ public class CameraController : MonoBehaviour
             transform.position,
             desiredPosition,
             ref _smoothVelocity,
-            _followDelay
+            followDelay
         );
 
         // Aplicamos límites de sala si están activados
@@ -135,9 +144,13 @@ public class CameraController : MonoBehaviour
 
             if (_shakeElapsed < _shakeDuration)
             {
-                // La intensidad se reduce progresivamente conforme avanza el temblor
+                // La intensidad se reduce progresivamente conforme avanza el temblor.
+                // Se multiplica por el modificador de ajustes (0 = sin shake, 1 = completo).
                 float progress = _shakeElapsed / _shakeDuration;
-                float currentIntensity = _shakeIntensity * (1f - progress);
+                float shakeMultiplier = GameManager.HasInstance()
+                    ? GameManager.Instance.CameraShakeIntensity
+                    : 1f;
+                float currentIntensity = _shakeIntensity * shakeMultiplier * (1f - progress);
 
                 float offsetX = Random.Range(-currentIntensity, currentIntensity);
                 float offsetY = Random.Range(-currentIntensity, currentIntensity);
@@ -146,7 +159,7 @@ public class CameraController : MonoBehaviour
             }
             else
             {
-                // Temblor terminado: volvemos a la posición base y desactivamos
+                // Temblor terminado
                 transform.position = _basePosition;
                 _isShaking = false;
                 _shakeElapsed = 0f;
@@ -160,7 +173,6 @@ public class CameraController : MonoBehaviour
 
     #endregion
 
-
     // ---- MÉTODOS PÚBLICOS ----
     #region Métodos públicos
 
@@ -168,7 +180,8 @@ public class CameraController : MonoBehaviour
     /// Activa el efecto de temblor de cámara. Llamar desde cualquier script
     /// de habilidad mágica cuando se ejecute la habilidad.
     /// Si ya hay un temblor en curso, se reinicia desde el principio.
-    /// Ejemplo de uso: FindObjectOfType&lt;CameraController&gt;().TriggerShake();
+    /// Si CameraShakeIntensity en GameManager es 0, el shake no tiene efecto visual
+    /// pero el timer sigue corriendo correctamente.
     /// </summary>
     public void TriggerShake()
     {

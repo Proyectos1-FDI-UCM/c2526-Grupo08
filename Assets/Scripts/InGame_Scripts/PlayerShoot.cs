@@ -40,7 +40,8 @@ public class PlayerShoot : MonoBehaviour
     #region Atributos Privados
 
     private InputAction _attackAction;
-    private InputAction _aimAction;
+    private InputAction _aimGamepad;
+    private InputAction _aimMouse;
 
     /// <summary>
     /// Acumulador de tiempo desde el último disparo.
@@ -50,8 +51,6 @@ public class PlayerShoot : MonoBehaviour
     private float _fireCooldownTimer = 0f;
 
     private Camera _mainCamera;
-
-    private Magic _magic;
 
     #endregion
 
@@ -68,10 +67,18 @@ public class PlayerShoot : MonoBehaviour
             return;
         }
 
-        _aimAction = InputSystem.actions.FindAction("HeadPoint");
-        if (_aimAction == null)
+        _aimMouse = InputSystem.actions.FindAction("HeadPoint1");
+        if (_aimMouse == null)
         {
-            Debug.LogError("[PlayerShoot] Acción 'HeadPoint' no encontrada.");
+            Debug.LogError("[PlayerShoot] Acción 'HeadPoint1' no encontrada.");
+            enabled = false;
+            return;
+        }
+
+        _aimGamepad = InputSystem.actions.FindAction("HeadPoint2");
+        if (_aimGamepad == null)
+        {
+            Debug.LogError("[PlayerShoot] Acción 'HeadPoint2' no encontrada.");
             enabled = false;
             return;
         }
@@ -83,15 +90,14 @@ public class PlayerShoot : MonoBehaviour
             return;
         }
 
-        _magic = GetComponent<Magic>();
-
         _mainCamera = Camera.main;
 
         if (_shootOrigin == null)
             _shootOrigin = transform;
 
         _attackAction.Enable();
-        _aimAction.Enable();
+        _aimGamepad.Enable();
+        _aimMouse.Enable();
 
         // Listo para disparar desde el primer frame
         _fireCooldownTimer = _fireRate;
@@ -106,7 +112,6 @@ public class PlayerShoot : MonoBehaviour
         if (_attackAction.WasPressedThisFrame() && _fireCooldownTimer >= _fireRate)
         {
             Shoot();
-            //_magic.DecreaseMagic();  DE PRUEBA, BORRAR LUEGO
             _fireCooldownTimer = 0f;
         }
     }
@@ -140,18 +145,19 @@ public class PlayerShoot : MonoBehaviour
     /// </summary>
     private Vector2 GetAimDirection()
     {
-        Vector2 rawAim = _aimAction.ReadValue<Vector2>();
-        bool isMouse = Mouse.current != null && _aimAction.activeControl?.device is Mouse;
-
-        if (isMouse)
+        Vector2 rawAim = _aimGamepad.ReadValue<Vector2>();
+        
+        if (rawAim.magnitude > 0.1f)
         {
-            Vector3 worldPos = _mainCamera.ScreenToWorldPoint(
-                new Vector3(rawAim.x, rawAim.y, 0f));
-            return ((Vector2)worldPos - (Vector2)transform.position).normalized;
+            Debug.Log(rawAim);
+            return rawAim.normalized;
         }
         else
         {
-            return rawAim.normalized;
+            Vector2 mousePos = _aimMouse.ReadValue<Vector2>();
+            Vector3 worldPos = _mainCamera.ScreenToWorldPoint(mousePos);
+
+            return ((Vector2)worldPos - (Vector2)transform.position).normalized;
         }
     }
 

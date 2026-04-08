@@ -7,6 +7,7 @@
 
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 // Añadir aquí el resto de directivas using
 
 
@@ -14,26 +15,23 @@ using UnityEngine.InputSystem;
 /// Antes de cada class, descripción de qué es y para qué sirve,
 /// usando todas las líneas que sean necesarias.
 /// </summary>
-public class ChargedAttack : MonoBehaviour
+public class ExplosiveAttack : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Atributos del Inspector (serialized fields)
 
     [Header("Bullet Setup")]
     [Tooltip("Prefab de la bala. Debe tener el componente Bullet.")]
-    [SerializeField] private GameObject _bulletPrefab;
+    [SerializeField] private GameObject _explosiveBulletPrefab;
 
     [Tooltip("Punto desde donde sale la bala. Si es null, sale desde el centro del jugador.")]
     [SerializeField] private Transform _shootOrigin;
 
     [Header("Shoot Settings")]
-    [Tooltip("Tiempo mínimo entre disparos en segundos. (GDD: 0,4 s)")]
     [SerializeField] private float _fireRate = 0.4f;
+    [SerializeField] private int _magicCost = 35;
+    [SerializeField] private int _maxUses = 6;
 
-    [Header("Charged Attack")]
-    [SerializeField] private float _chargedtime = 1.5f;
-    [SerializeField] private int _chargeDamage = 70;
-    [SerializeField] private int _chargedMagicCost = 20;
     // Documentar cada atributo que aparece aquí.
     // El convenio de nombres de Unity recomienda que los atributos
     // públicos y de inspector se nombren en formato PascalCase
@@ -44,18 +42,16 @@ public class ChargedAttack : MonoBehaviour
 
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados (private fields)
-
     private InputAction _attackAction;
-    private InputAction _aimAction;
+    private InputAction _aimGamepad;
+    private InputAction _aimMouse;
 
-    private float _fireCooldownTimer = 0f;
+    private float _cooldownTimer = 0f;
+    private int _remainingUses;
 
     private Camera _mainCamera;
 
     private Magic _magic;
-
-    private float _chargeTimer = 0f;
-    private bool _isCharging = false;
     // Documentar cada atributo que aparece aquí.
     // El convenio de nombres de Unity recomienda que los atributos
     // privados se nombren en formato _camelCase (comienza con _, 
@@ -68,18 +64,27 @@ public class ChargedAttack : MonoBehaviour
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
+    // Por defecto están los típicos (Update y Start) pero:
+    // - Hay que añadir todos los que sean necesarios
+    // - Hay que borrar los que no se usen 
+
+    /// <summary>
+    /// Start is called on the frame when a script is enabled just before 
+    /// any of the Update methods are called the first time.
+    /// </summary>
     private void Start()
     {
-        _attackAction = InputSystem.actions.FindAction("Attack");
-        _aimAction = InputSystem.actions.FindAction("HeadPoint");
+        _attackAction = InputSystem.actions.FindAction("MultiDir_Explosion");
+        _aimMouse = InputSystem.actions.FindAction("HeadPoint1");
+        _aimGamepad = InputSystem.actions.FindAction("HeadPoint2");
 
-        if (_attackAction == null || _aimAction == null)
+        if (_attackAction == null || _aimMouse == null || _aimGamepad == null)
         {
             Debug.LogError("Acción no encontrada.");
             enabled = false;
             return;
         }
-        if (_bulletPrefab == null)
+        if (_explosiveBulletPrefab == null)
         {
             Debug.LogError("No hay prefab de bala asignado en el Inspector.");
             enabled = false;
@@ -93,52 +98,27 @@ public class ChargedAttack : MonoBehaviour
         if (_shootOrigin == null)
             _shootOrigin = transform;
 
+        _remainingUses = _maxUses;
+
         _attackAction.Enable();
-        _aimAction.Enable();
+        _aimGamepad.Enable();
+        _aimMouse.Enable();
+
+        _cooldownTimer = _fireRate;
     }
-
-    private void Update()
-    {
-        _fireCooldownTimer += Time.deltaTime;
-        if (_attackAction.WasPressedThisFrame())
-        {
-            _isCharging = true;
-            _chargeTimer = 0f;
-        }
-
-        if (_isCharging && _attackAction.IsPressed())
-        {
-            _chargeTimer += Time.deltaTime;
-            if (_chargeTimer >= _chargedtime)
-            {
-                TryChargedShot();
-                _isCharging = false;
-                _fireCooldownTimer = 0f;
-            }
-        }
-
-        if (_attackAction.WasReleasedThisFrame())
-        {
-            _isCharging = false;
-        }
-    }
-
-    public bool IsCharging()
-    {
-        return _isCharging;
-    }
-    // Por defecto están los típicos (Update y Start) pero:
-    // - Hay que añadir todos los que sean necesarios
-    // - Hay que borrar los que no se usen 
-
-    /// <summary>
-    /// Start is called on the frame when a script is enabled just before 
-    /// any of the Update methods are called the first time.
-    /// </summary>
 
     /// <summary>
     /// Update is called every frame, if the MonoBehaviour is enabled.
     /// </summary>
+    private void Update()
+    {
+        _cooldownTimer += Time.deltaTime;
+
+        if (_attackAction.WasPressedThisFrame() && _cooldownTimer >= _fireRate)
+        {
+            TryShoot();
+        }
+    }
     #endregion
 
     // ---- MÉTODOS PÚBLICOS ----
@@ -150,51 +130,58 @@ public class ChargedAttack : MonoBehaviour
     // Ejemplo: GetPlayerController
 
     #endregion
-
+    
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
-
-    private void TryChargedShot()
+    private void TryShoot()
     {
-        if (_magic == null)
+        if (_remainingUses <= 0)
+        {
+            Debug.Log("No quedan usos del ataque explosivo");
+            return;
+        }
+
+        if (_magic == null || !_magic.TrySpendMagic(_magicCost))
         {
             return;
         }
 
-        if (!_magic.TrySpendMagic(_chargedMagicCost))
-        {
-            return;
-        }
-        Vector2 shootDirection = GetAimDirection();
-
-        if (shootDirection.sqrMagnitude < 0.01f)
+        Vector2 dir = GetAimDirection();
+        if (dir.sqrMagnitude < 0.01f)
         {
             return;
         }
 
-        GameObject bulletObj = Instantiate(_bulletPrefab, _shootOrigin.position, Quaternion.identity);
-        Bullet bullet = bulletObj.GetComponent<Bullet>();
+        float spawnOffset = 2f;
+        Vector2 spawnPosition = (Vector2)_shootOrigin.position + dir * spawnOffset;
 
-        if (bullet != null)
+        GameObject bullet = Instantiate(_explosiveBulletPrefab, spawnPosition, Quaternion.identity);
+
+        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+        if (rb != null) 
         {
-            bullet.Init(shootDirection, _chargeDamage);
+            rb.linearVelocity = dir * 15f;
         }
+
+        _remainingUses--;
+        _cooldownTimer = 0f;
     }
 
     private Vector2 GetAimDirection()
     {
-        Vector2 rawAim = _aimAction.ReadValue<Vector2>();
-        bool isMouse = Mouse.current != null && _aimAction.activeControl?.device is Mouse;
+        Vector2 rawAim = _aimGamepad.ReadValue<Vector2>();
 
-        if (isMouse)
+        if (rawAim.magnitude > 0.1f)
         {
-            Vector3 worldPos = _mainCamera.ScreenToWorldPoint(
-                new Vector3(rawAim.x, rawAim.y, 0f));
-            return ((Vector2)worldPos - (Vector2)transform.position).normalized;
+            Debug.Log(rawAim);
+            return rawAim.normalized;
         }
         else
         {
-            return rawAim.normalized;
+            Vector2 mousePos = _aimMouse.ReadValue<Vector2>();
+            Vector3 worldPos = _mainCamera.ScreenToWorldPoint(mousePos);
+
+            return ((Vector2)worldPos - (Vector2)transform.position).normalized;
         }
     }
     // Documentar cada método que aparece aquí
@@ -204,5 +191,5 @@ public class ChargedAttack : MonoBehaviour
 
     #endregion   
 
-} // class ChargedAttack 
-// namespace
+} // class ExplosiveAttack 
+// Carlos Mesa Torres
