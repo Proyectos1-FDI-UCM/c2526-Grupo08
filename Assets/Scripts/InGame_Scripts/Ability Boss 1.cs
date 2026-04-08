@@ -38,13 +38,13 @@ public class AbilityBoss1 : MonoBehaviour
     [Tooltip("Tiempo entre cada ráfaga de cristales.")]
     [SerializeField] private float TimeBetweenCrystals = 0.3f;
 
-    // -- CAMBIO AQUÍ: Ahora SpawnRange define el tamaño TOTAL del rectángulo (Ancho, Alto) --
+    
     [Tooltip("Tamaño TOTAL (Ancho en X, Alto en Y) del área rectangular de spawn, centrada en el Boss.")]
     [SerializeField] private Vector2 SpawnRange = new Vector2(10f, 10f);
 
     [Header("Visualización del Gizmo")]
     [Tooltip("Color del área de ataque en el editor.")]
-    [SerializeField] private Color GizmoColor = new Color(1f, 0f, 0f, 0.25f); // Rojo semi-transparente por defecto
+    [SerializeField] private Color GizmoColor = new Color(1f, 0f, 0f, 0.25f); //lo que sea
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
@@ -99,9 +99,7 @@ public class AbilityBoss1 : MonoBehaviour
         }
     }
 
-    // -- CAMBIO AQUÍ: El Gizmo ahora es un rectángulo plano y semi-transparente --
     // Dibuja el área de ataque en el editor para que sea fácil de ajustar.
-    // Solo aparece cuando el objeto 'Boss (1)' está seleccionado en la Hierarchy.
     private void OnDrawGizmosSelected()
     {
         // Establecer el color, usando transparencia para que no tape al personaje
@@ -112,11 +110,10 @@ public class AbilityBoss1 : MonoBehaviour
         // El centro del rectángulo es la posición del Boss.
         Vector3 positionCenter = transform.position;
 
-        // El tamaño es directamente SpawnRange (Ancho en X, Alto en Y).
         // Le damos un grosor Z mínimo (0.1f) para que sea visible en 2D ortogonal y en 3D Top-Down.
         Vector3 sizeRect = new Vector3(SpawnRange.x, SpawnRange.y, 0.1f);
 
-        // Dibuja un CUBO SÓLIDO (plano en Z) para visualizar el área.
+        // Dibuja el área.
         Gizmos.DrawCube(positionCenter, sizeRect);
 
         // Opcional: Dibujar un borde para que se vea mejor incluso en ángulos raros
@@ -145,7 +142,6 @@ public class AbilityBoss1 : MonoBehaviour
     private void SpawnRandomCrystal()
     {
         // Genera una posición aleatoria dentro del rectángulo centrado en el Boss.
-        // Dado que SpawnRange es el tamaño total, el rango va de -(mitad) a +(mitad).
         float randomX = Random.Range(-SpawnRange.x / 2f, SpawnRange.x / 2f);
         float randomY = Random.Range(-SpawnRange.y / 2f, SpawnRange.y / 2f);
 
@@ -176,10 +172,9 @@ public class AbilityBoss1 : MonoBehaviour
             Destroy(attack.WarningInstance);
         }
 
-        if (CrystalPrefab == null) return; // Evitar errores si no hay prefab asignado
+        if (CrystalPrefab == null) return; 
         GameObject crystalObj = Instantiate(CrystalPrefab, attack.Position, Quaternion.identity);
 
-        // Intentamos obtener el script Crystal para pasarle el daño
         if (crystalObj.TryGetComponent<Crystal>(out Crystal crystalScript))
         {
             crystalScript.damage = CrystalDamage;
