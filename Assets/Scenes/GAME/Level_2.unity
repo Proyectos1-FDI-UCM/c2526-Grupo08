@@ -8465,7 +8465,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2002571680}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -12605,7 +12605,6 @@ Transform:
   m_Children:
   - {fileID: 383243394}
   - {fileID: 1823128087}
-  - {fileID: 701502162}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1778253692
@@ -14465,7 +14464,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 473163523}
         m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
         m_MethodName: OnRestartButton
         m_Mode: 1
@@ -15171,7 +15170,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 770907575}
-  m_Father: {fileID: 701502162}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.680695}
   m_AnchorMax: {x: 0, y: 0.680695}
@@ -15849,3 +15848,5 @@ SceneRoots:
   - {fileID: 1103571514}
   - {fileID: 1489553470}
   - {fileID: 540953850}
+  - {fileID: 1123511003}
+  - {fileID: 2083653716}
