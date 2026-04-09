@@ -356,7 +356,7 @@ MonoBehaviour:
   - {fileID: 0}
   PointReachedDistance: 0.1
   Speed: 0.75
-  DetectionRadius: 12
+  DetectionRadius: 11
   ChaseRadius: 12
   SpriteUp: {fileID: -3529809619868476689, guid: 82029a652e94d284b91e8da42b0ca4cd, type: 3}
   SpriteDown: {fileID: -6601477196304980844, guid: 92c11cfde79dec14a8e8a662b7146b9e, type: 3}
