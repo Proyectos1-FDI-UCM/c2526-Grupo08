@@ -522,6 +522,22 @@ PrefabInstance:
       propertyPath: EnemyGameObject
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 590871797006376245, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+      propertyPath: _abilityImage.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 590871797006376245, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+      propertyPath: '_abilityImage.Array.data[0]'
+      value: 
+      objectReference: {fileID: 990301065}
+    - target: {fileID: 590871797006376245, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+      propertyPath: '_abilityImage.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1517215784}
+    - target: {fileID: 590871797006376245, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+      propertyPath: '_abilityImage.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2020958549}
     - target: {fileID: 3713208540947770867, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_Name
       value: Player
@@ -2216,6 +2232,7 @@ GameObject:
   - component: {fileID: 886794008}
   - component: {fileID: 886794007}
   - component: {fileID: 886794010}
+  - component: {fileID: 886794011}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2341,6 +2358,25 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &886794011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 886794006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1d1434331e2f5f4289231bcd7856226, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _target: {fileID: 162771818}
+  _followDelay: 0.5
+  _shakeDuration: 0.3
+  _shakeIntensity: 0.1
+  _useBounds: 0
+  _boundsMin: {x: -9, y: -5}
+  _boundsMax: {x: 9, y: 5}
 --- !u!1 &888654238
 GameObject:
   m_ObjectHideFlags: 0
@@ -3382,7 +3418,7 @@ Transform:
   m_GameObject: {fileID: 1125756858}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -272.62146, y: -103.05908, z: -3.82921}
+  m_LocalPosition: {x: -307, y: -153, z: -3.82921}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3467,7 +3503,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 125
+  orthographic size: 75
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -4141,7 +4177,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1369133547
 Transform:
   m_ObjectHideFlags: 0
