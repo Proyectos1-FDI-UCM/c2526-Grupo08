@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 56063302}
   - component: {fileID: 56063305}
   - component: {fileID: 56063306}
+  - component: {fileID: 56063307}
   m_Layer: 5
   m_Name: Return
   m_TagString: Untagged
@@ -290,6 +291,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _musicaSource: {fileID: 0}
   _efectosSource: {fileID: 0}
+--- !u!114 &56063307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 56063300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PanelSettings: {fileID: 0}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 0}
+  m_SortingOrder: 0
+  m_WorldSpaceSizeMode: 1
+  m_WorldSpaceWidth: 1920
+  m_WorldSpaceHeight: 1080
 --- !u!1 &162296300
 GameObject:
   m_ObjectHideFlags: 0
@@ -2695,6 +2715,7 @@ GameObject:
   - component: {fileID: 860436215}
   - component: {fileID: 860436214}
   - component: {fileID: 860436218}
+  - component: {fileID: 860436219}
   m_Layer: 5
   m_Name: Return
   m_TagString: Untagged
@@ -2852,6 +2873,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _musicaSource: {fileID: 0}
   _efectosSource: {fileID: 0}
+--- !u!114 &860436219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860436212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PanelSettings: {fileID: 0}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 0}
+  m_SortingOrder: 0
+  m_WorldSpaceSizeMode: 1
+  m_WorldSpaceWidth: 1920
+  m_WorldSpaceHeight: 1080
 --- !u!1 &863686932
 GameObject:
   m_ObjectHideFlags: 0
@@ -4994,6 +5034,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1392553939}
   - component: {fileID: 1392553940}
+  - component: {fileID: 1392553941}
   m_Layer: 0
   m_Name: MenuManager
   m_TagString: Untagged
@@ -5030,6 +5071,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _musicaSource: {fileID: 0}
   _efectosSource: {fileID: 0}
+--- !u!114 &1392553941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392553937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PanelSettings: {fileID: 0}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 0}
+  m_SortingOrder: 0
+  m_WorldSpaceSizeMode: 1
+  m_WorldSpaceWidth: 1920
+  m_WorldSpaceHeight: 1080
 --- !u!1 &1424006206
 GameObject:
   m_ObjectHideFlags: 0

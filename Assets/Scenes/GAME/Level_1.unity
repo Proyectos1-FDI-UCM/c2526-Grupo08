@@ -5385,6 +5385,22 @@ PrefabInstance:
       propertyPath: EnemyGameObject
       value: 
       objectReference: {fileID: 269608014}
+    - target: {fileID: 590871797006376245, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+      propertyPath: _abilityImage.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 590871797006376245, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+      propertyPath: '_abilityImage.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1533112247}
+    - target: {fileID: 590871797006376245, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+      propertyPath: '_abilityImage.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1278820197}
+    - target: {fileID: 590871797006376245, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+      propertyPath: '_abilityImage.Array.data[2]'
+      value: 
+      objectReference: {fileID: 561799662}
     - target: {fileID: 2928703926099211430, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_SortingLayer
       value: 5
@@ -12321,11 +12337,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7869615964057372890, guid: eb9e61577eaff8e45af7982409102376, type: 3}
       propertyPath: m_Size.y
-      value: 9.053003
+      value: 8.078798
       objectReference: {fileID: 0}
     - target: {fileID: 7869615964057372890, guid: eb9e61577eaff8e45af7982409102376, type: 3}
       propertyPath: m_Offset.y
-      value: -0.50650215
+      value: -0.019399405
+      objectReference: {fileID: 0}
+    - target: {fileID: 7976032604276309950, guid: eb9e61577eaff8e45af7982409102376, type: 3}
+      propertyPath: m_Size.y
+      value: 1.0167434
+      objectReference: {fileID: 0}
+    - target: {fileID: 7976032604276309950, guid: eb9e61577eaff8e45af7982409102376, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.008371726
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
