@@ -1,0 +1,91 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements"
+         xsi="http://www.w3.org/2001/XMLSchema-instance"
+         noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd"
+         editor-extension-mode="False">
+
+    <ui:Style src="project://database/Assets/UI/MenuPrincipal.uss" />
+
+    <ui:VisualElement name="root" class="root">
+
+        <!-- ─── MENÚ PRINCIPAL ─── -->
+        <ui:VisualElement name="panelMain">
+
+            <ui:VisualElement class="titulo-bloque">
+                <ui:Label name="lblTitulo"    class="titulo"    text="NO WAY DOWN" />
+                <ui:Label name="lblSubtitulo" class="subtitulo" text="SUBE · SOBREVIVE · DECIDE" />
+                <ui:VisualElement class="linea-deco" />
+            </ui:VisualElement>
+
+            <ui:VisualElement class="botones-contenedor">
+                <ui:Button name="btnIniciar"  class="btn-menu"           text="INICIAR JUEGO" />
+                <ui:Button name="btnAjustes"  class="btn-menu"           text="AJUSTES" />
+                <ui:Button name="btnCreditos" class="btn-menu"           text="CRÉDITOS" />
+                <ui:VisualElement class="separador" />
+                <ui:Button name="btnSalir"    class="btn-menu btn-salir" text="SALIR" />
+            </ui:VisualElement>
+
+        </ui:VisualElement>
+
+        <!-- ─── PANEL AJUSTES ─── -->
+        <ui:VisualElement name="panelAjustes" class="panel-overlay">
+            <ui:VisualElement class="panel-caja">
+
+                <ui:Label class="panel-titulo" text="AJUSTES" />
+                <ui:VisualElement class="panel-linea" />
+
+                <ui:VisualElement class="ajustes-fila">
+                    <ui:Label class="ajustes-label" text="Volumen música" />
+                    <ui:Slider name="sliderMusica" class="unity-slider" low-value="0" high-value="1" value="1" />
+                </ui:VisualElement>
+
+                <ui:VisualElement class="ajustes-fila">
+                    <ui:Label class="ajustes-label" text="Volumen efectos" />
+                    <ui:Slider name="sliderEfectos" class="unity-slider" low-value="0" high-value="1" value="1" />
+                </ui:VisualElement>
+
+                <ui:VisualElement class="ajustes-fila">
+                    <ui:Label class="ajustes-label" text="Shake cámara" />
+                    <ui:Button name="btnShakeMenos" class="btn-step" text="−" />
+                    <ui:Label  name="lblShake"      class="ajustes-valor" text="1.0" />
+                    <ui:Button name="btnShakeMas"   class="btn-step" text="+" />
+                </ui:VisualElement>
+
+                <ui:VisualElement class="ajustes-fila">
+                    <ui:Label class="ajustes-label" text="Delay cámara" />
+                    <ui:Button name="btnDelayMenos" class="btn-step" text="−" />
+                    <ui:Label  name="lblDelay"      class="ajustes-valor" text="0.5" />
+                    <ui:Button name="btnDelayMas"   class="btn-step" text="+" />
+                </ui:VisualElement>
+
+                <ui:Button name="btnVolverAjustes" class="btn-volver" text="← VOLVER" />
+
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- ─── PANEL CRÉDITOS ─── -->
+        <ui:VisualElement name="panelCreditos" class="panel-overlay">
+            <ui:VisualElement class="panel-caja">
+
+                <ui:Label class="panel-titulo" text="CRÉDITOS" />
+                <ui:VisualElement class="panel-linea" />
+
+                <ui:Label class="creditos-categoria" text="DESARROLLO Y DISEÑO" />
+                <ui:Label class="creditos-nombres" text="Adriana Fernández · Alexia Pérez · Carlos Mesa · Celia García · Laura Garay · Marián Navarro" />
+
+                <ui:Label class="creditos-categoria" text="ARTE" />
+                <ui:Label class="creditos-nombres" text="—" />
+
+                <ui:Label class="creditos-categoria" text="QA" />
+                <ui:Label class="creditos-nombres" text="—" />
+
+                <ui:Label class="creditos-categoria" text="CONTENIDO DE TERCEROS" />
+                <ui:Label class="creditos-nombres" text="—" />
+
+                <ui:Button name="btnVolverCreditos" class="btn-volver" text="← VOLVER" />
+
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+
+</ui:UXML>
