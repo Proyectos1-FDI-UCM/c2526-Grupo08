@@ -181,6 +181,15 @@ public class BoosBehaviour : MonoBehaviour
         _tiempoHastaCambio = Random.Range(TiempoMinimoEntrePuntos, TiempoMaximoEntrePuntos);
     }
 
+    //Método público para el comportamiento del jefe 
+    public void AplicarBuffFaseFinal(float multiplicador)
+    {
+        VelocidadMovimiento *= multiplicador;
+        // Opcional: aumentar la suavidad para que sea más agresivo
+        SuavidadVelocidad *= multiplicador;
+        Debug.Log($"<color=orange>BossBehaviour: Velocidad aumentada a {VelocidadMovimiento}</color>");
+    }
+
     #endregion
 
 } // class BoosBehaviour
