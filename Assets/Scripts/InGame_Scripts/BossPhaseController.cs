@@ -79,7 +79,7 @@ public class BossPhaseController : MonoBehaviour
             ActivarHabilidadesFase2();
         }
 
-        // LÓGICA DE FASE 3 (199 - 0 HP)
+        // LÓGICA DE FASE 3 (199 - 0 HP) He puesto 499 y 199 por si hay algún problema y se raya con 200 y 500
         if (vidaActual < 200 && !_fase3Activada)
         {
             ActivarEnrageFase3();
@@ -130,10 +130,10 @@ public class BossPhaseController : MonoBehaviour
         _fase3Activada = true;
         float multiplicador = 1.5f;
 
-        // 1. Buff de movimiento (en BoosBehaviour)
+        // 1 Buff de movimiento (en BoosBehaviour)
         if (_movimiento != null) _movimiento.AplicarBuffVelocidad(multiplicador);
 
-        // 2. Buff de ataques (usando los nuevos setters)
+        // 2 Buff de ataques (usando los nuevos setters)
         if (_dash != null) _dash.AplicarBuffFaseFinal(multiplicador);
         if (_cuchillas != null) _cuchillas.AplicarBuffFaseFinal(multiplicador);
 
