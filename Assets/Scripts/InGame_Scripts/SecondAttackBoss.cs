@@ -169,6 +169,13 @@ public class SecondAttackBoss : MonoBehaviour
 
     #endregion
 
+    public void AplicarBuffFaseFinal(float multiplicador) //Esto lo ha hecho Marián
+    {
+        // Reducimos el tiempo de recarga entre ráfagas
+        _tiempoRecarga /= multiplicador;
+        Debug.Log("[SecondAttackBoss] Buff de cadencia aplicado.");
+    }
+
 }
 // class SecondAttackBoss 
 // namespace

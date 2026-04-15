@@ -1,7 +1,7 @@
 //---------------------------------------------------------
 // Movimiento base del jefe: deambula de forma aleatoria
 // por el área de combate con transiciones suaves de velocidad.
-// Alexia Pérez Santana
+// Alexia Perez y Marián Navarro
 // No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
@@ -181,13 +181,14 @@ public class BoosBehaviour : MonoBehaviour
         _tiempoHastaCambio = Random.Range(TiempoMinimoEntrePuntos, TiempoMaximoEntrePuntos);
     }
 
-    //Método público para el comportamiento del jefe 
-    public void AplicarBuffFaseFinal(float multiplicador)
+    public void AplicarBuffVelocidad(float multiplicador) //Esto lo ha hecho Marián por si hay dudas
     {
+        
         VelocidadMovimiento *= multiplicador;
-        // Opcional: aumentar la suavidad para que sea más agresivo
-        SuavidadVelocidad *= multiplicador;
-        Debug.Log($"<color=orange>BossBehaviour: Velocidad aumentada a {VelocidadMovimiento}</color>");
+
+        SuavidadVelocidad *= multiplicador; //Esto para que el jefe cambie de dirección agresivamente
+
+        Debug.Log($"<color=cyan>[Boss] Velocidad aumentada a: {VelocidadMovimiento}</color>");
     }
 
     #endregion

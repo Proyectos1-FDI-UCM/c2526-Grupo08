@@ -162,7 +162,13 @@ public class BossFisrtShoot : MonoBehaviour
         }
     }
 
-
+    public void AplicarBuffFaseFinal(float multiplicador) // Esto lo ha hecho Marián
+    {
+        dashForce *= multiplicador;
+        minWaitTime /= multiplicador;
+        maxWaitTime /= multiplicador;
+        Debug.Log("[BossFisrtShoot] Buff de velocidad de ataque aplicado.");
+    }
 
 }
 // class BossFisrtShoot 
