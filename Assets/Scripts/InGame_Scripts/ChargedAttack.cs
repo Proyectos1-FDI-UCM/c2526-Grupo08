@@ -32,10 +32,18 @@ public class ChargedAttack : MonoBehaviour
     [SerializeField] private float _fireRate = 0.4f;
 
     [Header("Charged Attack")]
-    [SerializeField] private float _chargedtime = 1.5f;
+    [SerializeField] private float _chargedTime = 1.5f;
     [SerializeField] private int _chargeDamage = 70;
     [SerializeField] private int _chargedMagicCost = 20;
 
+    [Header("Charge Visual")]
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private Color _chargeColor = Color.cyan;
+
+    [Header("Charge Aura")]
+    [SerializeField] private ParticleSystem _chargeAura;
+    [SerializeField] private float _maxEmission = 40f;
+    [SerializeField] private float _rotationSpeed = 180f;
     // Documentar cada atributo que aparece aquí.
     // El convenio de nombres de Unity recomienda que los atributos
     // públicos y de inspector se nombren en formato PascalCase
@@ -52,15 +60,15 @@ public class ChargedAttack : MonoBehaviour
     private InputAction _aimGamepad;
     private InputAction _aimMouse;
 
-    private float _fireCooldownTimer = 0f;
-
     private Camera _mainCamera;
 
     private Magic _magic;
 
     private float _chargeTimer = 0f;
     private bool _isCharging = false;
+    private bool _canCharge = false;
 
+    private Color _originalColor;
     // Documentar cada atributo que aparece aquí.
     // El convenio de nombres de Unity recomienda que los atributos
     // privados se nombren en formato _camelCase (comienza con _, 
@@ -103,31 +111,86 @@ public class ChargedAttack : MonoBehaviour
         _attackAction.Enable();
         _aimGamepad.Enable();
         _aimMouse.Enable();
+
+        if (_spriteRenderer != null)
+        {
+            _originalColor = _spriteRenderer.color;
+        }
+
+        if (_chargeAura != null)
+        {
+            _chargeAura.Stop();
+        }
     }
 
     private void Update()
     {
-        _fireCooldownTimer += Time.deltaTime;
         if (_attackAction.WasPressedThisFrame())
         {
-            _isCharging = true;
-            _chargeTimer = 0f;
+            if (_magic != null && _magic.HasEnoughMagic(_chargedMagicCost))
+            {
+                _isCharging = true;
+                _canCharge = true;
+                _chargeTimer = 0f;
+            }
+            else
+            {
+                _isCharging = false;
+                _canCharge = false;
+            }
         }
 
-        if (_isCharging && _attackAction.IsPressed())
+        if (_isCharging && _canCharge && _attackAction.IsPressed())
         {
             _chargeTimer += Time.deltaTime;
-            if (_chargeTimer >= _chargedtime)
+            float chargePercent = _chargeTimer / _chargedTime;
+
+            if (_spriteRenderer != null)
+            {
+                float pulse = Mathf.Sin(Time.time * 25f) * 0.1f;
+
+                _spriteRenderer.color = Color.Lerp(_originalColor, _chargeColor, Mathf.Clamp01(chargePercent + pulse));
+            }
+            
+            if (_chargeAura != null)
+            {
+                if (!_chargeAura.isPlaying)
+                {
+                    _chargeAura.Play();
+                }
+                var emission = _chargeAura.emission;
+                emission.rateOverTime = Mathf.Lerp(5f, _maxEmission, chargePercent);
+                _chargeAura.transform.position = transform.position;
+                _chargeAura.transform.Rotate(0, 0, _rotationSpeed* Time.deltaTime);
+            }
+
+            if (_chargeTimer >= _chargedTime)
             {
                 TryChargedShot();
                 _isCharging = false;
-                _fireCooldownTimer = 0f;
+                _canCharge = false;
+                ResetChargeVisual();
             }
         }
 
         if (_attackAction.WasReleasedThisFrame())
         {
             _isCharging = false;
+            _canCharge = false;
+            ResetChargeVisual();
+        }
+    }
+
+    private void ResetChargeVisual()
+    {
+        if (_spriteRenderer != null)
+        {
+            _spriteRenderer.color = _originalColor;
+        }
+        
+        if (_chargeAura != null )
+        {
+            _chargeAura.Stop();
         }
     }
 
