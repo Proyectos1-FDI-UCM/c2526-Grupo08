@@ -1,7 +1,7 @@
 //---------------------------------------------------------
 // Breve descripción del contenido del archivo
 // Responsable de la creación de este archivo
-// Nombre del juego
+// No way down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
@@ -38,13 +38,12 @@ public class AbilityBoss1 : MonoBehaviour
     [Tooltip("Tiempo entre cada ráfaga de cristales.")]
     [SerializeField] private float TimeBetweenCrystals = 0.3f;
 
-    
     [Tooltip("Tamaño TOTAL (Ancho en X, Alto en Y) del área rectangular de spawn, centrada en el Boss.")]
     [SerializeField] private Vector2 SpawnRange = new Vector2(10f, 10f);
 
     [Header("Visualización del Gizmo")]
     [Tooltip("Color del área de ataque en el editor.")]
-    [SerializeField] private Color GizmoColor = new Color(1f, 0f, 0f, 0.25f); //lo que sea
+    [SerializeField] private Color GizmoColor = new Color(1f, 0f, 0f, 0.25f); //Color rojo.
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
@@ -57,7 +56,7 @@ public class AbilityBoss1 : MonoBehaviour
         public float Timer;
     }
 
-    private List<ActiveAttack> _pendingAttacks = new List<ActiveAttack>();
+    private List<ActiveAttack> _pendingAttacks = new List<ActiveAttack>(); 
     private float _spawnTimer;
 
     #endregion

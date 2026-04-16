@@ -5,15 +5,27 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/GAME/Menu.unity
     guid: b13e49dfc910045ba80034544cb5011b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/GAME/Level_1.unity
     guid: 75cdb2af219b1e24995be4968687843a
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/GAME/Level_2.unity
     guid: ce190ff2261f9c24f85613229ae607c1
+  - enabled: 1
+    path: Assets/Scenes/Playtesting/Attack1.unity
+    guid: c0cff6f7470e7d848b32cb4de12ce00e
+  - enabled: 1
+    path: Assets/Scenes/Playtesting/Attack2.unity
+    guid: 42dc65bcad258c7449ab9f9447b591d9
+  - enabled: 1
+    path: Assets/Scenes/Playtesting/Attack3.unity
+    guid: b91fdb0ef27a8064f9c0940cda362f1b
+  - enabled: 1
+    path: Assets/Scenes/Playtesting/Attack4.unity
+    guid: 23732bd64d906eb40931633a303da1d9
   - enabled: 1
     path: Assets/Scenes/GAME/Level_Boss.unity
     guid: 4ff8bfb9367e40b419c60db2b1c1561d
