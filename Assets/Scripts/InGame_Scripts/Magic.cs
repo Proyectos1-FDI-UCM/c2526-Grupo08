@@ -107,6 +107,10 @@ public class Magic : MonoBehaviour
         return true;
     }
 
+    public bool HasEnoughMagic(int amount)
+    {
+        return _currentMagic >= amount;
+    }
     #endregion
 
     // ---- MÉTODOS PRIVADOS ----
