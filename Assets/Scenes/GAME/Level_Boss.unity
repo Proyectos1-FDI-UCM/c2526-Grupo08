@@ -255,7 +255,7 @@ RectTransform:
   m_Father: {fileID: 1294739095}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -0.00005340576, y: -0.19999981}
   m_SizeDelta: {x: 41.567, y: 9.5308}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2349,6 +2349,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 3120850960586380758, guid: fdfaf40956812ed44a80db05742cc084, type: 3}
+      propertyPath: _playerLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 6134085449428234767, guid: fdfaf40956812ed44a80db05742cc084, type: 3}
       propertyPath: IsBoss
       value: 1
@@ -2478,9 +2482,7 @@ MonoBehaviour:
   TelegraphDuration: 1
   CrystalDamage: 30
   IsActive: 1
-  TimeBetweenCrystals: 2
   SpawnRange: {x: 15, y: 15}
-  GizmoColor: {r: 1, g: 0, b: 0, a: 0.25}
 --- !u!114 &940375072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2496,7 +2498,6 @@ MonoBehaviour:
   minionPrefab: {fileID: 5833783661910523780, guid: 54819649d9e38bf4f904b282db1f353f, type: 3}
   spawnPointL: {fileID: 82005666}
   spawnPointR: {fileID: 280247279}
-  spawnTime: 15
 --- !u!114 &940375078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2824,7 +2825,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1008176912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3917,7 +3918,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1369133547
 Transform:
   m_ObjectHideFlags: 0
@@ -4419,7 +4420,7 @@ RectTransform:
   m_Father: {fileID: 1341555696}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 8.5, y: 0}
   m_SizeDelta: {x: -17, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4720,7 +4721,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 228.7, y: 0.8}
   m_SizeDelta: {x: 941.2, y: 413.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1817978667

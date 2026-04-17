@@ -50,7 +50,6 @@ public class SecondAttackBoss : MonoBehaviour
     private GameObject _avisoActual;
     private Vector3 _posicionObjetivo;
 
-    private float _timerRecarga;
     private float _timerAviso;
     private bool _preparandoAtaque;
 
@@ -73,7 +72,6 @@ public class SecondAttackBoss : MonoBehaviour
     {
         GameObject p = GameObject.FindGameObjectWithTag("Player");
         if (p != null) _jugador = p.transform;
-        _timerRecarga = _tiempoRecarga;
     }
 
 
@@ -82,41 +80,7 @@ public class SecondAttackBoss : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if (_jugador == null) return;
-
         
-        if (!_preparandoAtaque)
-        {
-            _timerRecarga += Time.deltaTime;
-        }
-
-        float distancia = Vector2.Distance(transform.position, _jugador.position);
-
-      
-        if (distancia <= _rangoDeteccion && _timerRecarga >= _tiempoRecarga && !_preparandoAtaque)
-        {
-            _preparandoAtaque = true;
-            _timerAviso = 0;
-            _posicionObjetivo = _jugador.position; 
-
-            _avisoActual = Instantiate(_avisoVisualPrefab, _posicionObjetivo, Quaternion.identity);
-        }
-
-        if (_preparandoAtaque && _avisoActual != null)
-        {
-            _timerAviso += Time.deltaTime;
-
-            if (_timerAviso >= 2f)
-            {
-                Disparar();
-            }
-        }
-        
-        else if (_preparandoAtaque && _avisoActual == null)
-        {
-            _preparandoAtaque = false;
-        }
-
     }
     #endregion
 
@@ -145,8 +109,7 @@ public class SecondAttackBoss : MonoBehaviour
             _avisoActual = null;
         }
 
-        Vector2 direccion1 = (_posicionObjetivo - _puntoDisparo.position);
-        direccion1 = direccion1.normalized;
+        Vector2 direccion1 = (_posicionObjetivo - _puntoDisparo.position).normalized;
         Vector2 dir2 = Quaternion.AngleAxis(45, Vector3.forward) * direccion1;
         Vector2 dir3 = Quaternion.AngleAxis(-45, Vector3.forward) * direccion1;
         CristlesBoss c1 = Instantiate(_prefabCuchilla1, _puntoDisparo.position, Quaternion.identity);
@@ -158,7 +121,24 @@ public class SecondAttackBoss : MonoBehaviour
 
 
         _preparandoAtaque = false;
-        _timerRecarga = 0;
+    }
+
+    public void ExecuteBladeAttack()
+    {
+        if (_jugador == null || _preparandoAtaque) return;
+
+        _preparandoAtaque = true;
+        _timerAviso = 0;
+        _posicionObjetivo = _jugador.position;
+
+        // Crea el triángulo rojo de aviso
+        if (_avisoVisualPrefab != null)
+        {
+            _avisoActual = Instantiate(_avisoVisualPrefab, _posicionObjetivo, Quaternion.identity);
+        }
+
+        // Iniciamos la espera de 1 segundo (como pedías en fase 1) antes de disparar
+        Invoke(nameof(Disparar), 1.0f);
     }
 
     private void OnDrawGizmosSelected()

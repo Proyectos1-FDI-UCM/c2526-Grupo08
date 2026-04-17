@@ -22,7 +22,14 @@ public class BossPhaseController : MonoBehaviour
     // públicos y de inspector se nombren en formato PascalCase
     // (palabras con primera letra mayúscula, incluida la primera letra)
     // Ejemplo: MaxHealthPoints
+    [Header("Detection Settings")]
+    [Tooltip("Detection range to trigger the fight when Cori enters.")]
+    [SerializeField] private float _detectionRange = 12f;
+    [SerializeField] private LayerMask _playerLayer;
 
+    [Header("Combat Timing")]
+    [Tooltip("Idle time between attacks to prevent overlapping.")]
+    [SerializeField] private float _timeBetweenAttacks = 2.0f;
 
 
 
@@ -38,14 +45,16 @@ public class BossPhaseController : MonoBehaviour
     // Ejemplo: _maxHealthPoints
 
     private Health _health;
-    private BoosBehaviour _movimiento;
+    private BoosBehaviour _movement;
     private BossFisrtShoot _dash;
-    private SecondAttackBoss _cuchillas;
-    private AbilityBoss1 _cristales;
-    private BossSummonAbility _esbirros;
+    private SecondAttackBoss _blades;
+    private AbilityBoss1 _crystals;
+    private AbilityBoss2 _summons;
 
-    private bool _fase2Activada = false;
-    private bool _fase3Activada = false;
+    private bool _phase2Activated = false;
+    private bool _phase3Activated = false;
+    private bool _isPlayerDetected = false;
+    private float _attackCooldownTimer = 0f;
 
     #endregion
 
@@ -71,19 +80,28 @@ public class BossPhaseController : MonoBehaviour
 
     private void Update()
     {
-        int vidaActual = _health.GetCurrentHealth();
-
-        // LÓGICA DE FASE 2 (499 - 200 HP)
-        if (vidaActual < 500 && vidaActual >= 200 && !_fase2Activada)
+        // 1. Initial State: Wait for Cori to enter the room
+        if (!_isPlayerDetected)
         {
-            ActivarHabilidadesFase2();
+            CheckForPlayer();
+            return;
         }
 
-        // LÓGICA DE FASE 3 (199 - 0 HP) He puesto 499 y 199 por si hay algún problema y se raya con 200 y 500
-        if (vidaActual < 200 && !_fase3Activada)
+        int currentHealth = _health.GetCurrentHealth();
+
+        // 2. Phase Threshold Logic
+        if (currentHealth < 500 && currentHealth >= 200 && !_phase2Activated)
         {
-            ActivarEnrageFase3();
+            ActivatePhase2();
         }
+
+        if (currentHealth < 200 && !_phase3Activated)
+        {
+            ActivatePhase3();
+        }
+
+        // 3. Combat Loop: Prevent overlapping attacks
+        HandleAttackCycle();
     }
     #endregion
 
@@ -104,43 +122,78 @@ public class BossPhaseController : MonoBehaviour
     // se nombren en formato PascalCase (palabras con primera letra
     // mayúscula, incluida la primera letra)
 
+    private void CheckForPlayer()
+    {
+        Collider2D player = Physics2D.OverlapCircle(transform.position, _detectionRange, _playerLayer);
+        if (player != null)
+        {
+            _isPlayerDetected = true;
+            Debug.Log("Player Detected: Raven combat started.");
+        }
+    }
+
     private void Awake()
     {
         _health = GetComponent<Health>();
-        _movimiento = GetComponent<BoosBehaviour>();
+        _movement = GetComponent<BoosBehaviour>();
         _dash = GetComponent<BossFisrtShoot>();
-        _cuchillas = GetComponent<SecondAttackBoss>();
-        _cristales = GetComponent<AbilityBoss1>();
-        _esbirros = GetComponent<BossSummonAbility>();
+        _blades = GetComponent<SecondAttackBoss>();
+        _crystals = GetComponent<AbilityBoss1>();
+        _summons = GetComponent<AbilityBoss2>();
     }
 
-    private void ActivarHabilidadesFase2()
+    private void HandleAttackCycle()
     {
-        _fase2Activada = true;
+        if (_attackCooldownTimer > 0)
+        {
+            _attackCooldownTimer -= Time.deltaTime;
+            return;
+        }
 
-        // Habilitamos los scripts de habilidades que estaban apagados
-        if (_cristales != null) _cristales.SetAbilityActive(true);
-        if (_esbirros != null) _esbirros.enabled = true;
-
-        Debug.Log("Fase 2 activada");
+        ExecuteRandomAttack();
+        _attackCooldownTimer = _timeBetweenAttacks;
     }
 
-    private void ActivarEnrageFase3()
+    private void ExecuteRandomAttack()
     {
-        _fase3Activada = true;
-        float multiplicador = 1.5f;
+        // Phase 1 has 2 attacks. Phase 2 & 3 have 4 attacks total.
+        int attackCount = _phase2Activated ? 4 : 2;
+        int choice = Random.Range(0, attackCount);
 
-        // 1 Buff de movimiento (en BoosBehaviour)
-        if (_movimiento != null) _movimiento.AplicarBuffVelocidad(multiplicador);
+        switch (choice)
+        {
+            case 0: _dash.ExecuteDashAttack(); break;    
+            case 1: _blades.ExecuteBladeAttack(); break;
+            case 2: _crystals.ExecuteGroundCrystals(); break; 
+            case 3: _summons.ExecuteSummoning(); break;      
+        }
+    }
 
-        // 2 Buff de ataques (usando los nuevos setters)
-        if (_dash != null) _dash.AplicarBuffFaseFinal(multiplicador);
-        if (_cuchillas != null) _cuchillas.AplicarBuffFaseFinal(multiplicador);
+    private void ActivatePhase2()
+    {
+        _phase2Activated = true;
+        if (_crystals != null) _crystals.SetAbilityActive(true);
+        if (_summons != null) _summons.enabled = true;
 
-        Debug.Log("Fase 3 activada");
+        _timeBetweenAttacks *= 0.85f; // Slightly faster pacing
+        Debug.Log("Phase 2 Activated: Ground Crystals and Minions available.");
+    }
 
-        #endregion
+    private void ActivatePhase3()
+    {
+        _phase3Activated = true;
+        float multiplier = 1.5f;
 
+        // Buff speeds
+        if (_movement != null) _movement.AplicarBuffVelocidad(multiplier);
+        if (_dash != null) _dash.AplicarBuffFaseFinal(multiplier);
+        if (_blades != null) _blades.AplicarBuffFaseFinal(multiplier);
+
+        // Drastically reduce time between attacks
+        _timeBetweenAttacks /= multiplier;
+
+        Debug.Log("Phase 3 Activated: Enrage mode (x1.5 Speed).");
     }
 }// class BossPhaseController 
 // namespace
+#endregion

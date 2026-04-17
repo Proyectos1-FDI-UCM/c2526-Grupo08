@@ -94,14 +94,6 @@ public class BossFisrtShoot : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if (targetPlayer == null) return;
-
-        // Comprobamos si ha llegado el momento del dash
-        if (Time.time >= nextDashTime)
-        {
-            Dash();
-            CalculateNextDash(); // Se programa el siguiente 
-        }
     }
 
 
@@ -128,21 +120,21 @@ public class BossFisrtShoot : MonoBehaviour
 
     #endregion
 
-    
 
-    private void Dash()
+
+    public void ExecuteDashAttack()
     {
+        if (targetPlayer == null) return; // Seguridad
+
         Vector2 dashDirection = (targetPlayer.position - transform.position).normalized;
 
-        // Reducimos la velocidad previa a la mitad antes del impulso
-        // en vez de pararla en seco, para que la transición sea más fluida.
         rb.linearVelocity *= 0.3f;
         rb.AddForce(dashDirection * dashForce, ForceMode2D.Impulse);
 
-        Debug.Log("¡Enemigo ejecutando Dash!");
+        Debug.Log("¡Raven ejecutando Dash desde el Controlador de Fases!");
     }
 
-   
+
 
     private void CalculateNextDash()
     {
@@ -169,6 +161,7 @@ public class BossFisrtShoot : MonoBehaviour
         maxWaitTime /= multiplicador;
         Debug.Log("[BossFisrtShoot] Buff de velocidad de ataque aplicado.");
     }
+   
 
 }
 // class BossFisrtShoot 
