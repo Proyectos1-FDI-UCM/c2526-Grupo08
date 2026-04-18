@@ -158,8 +158,7 @@ public class PickupPrompt : MonoBehaviour
     {
         if (PromptText == null) return;
 
-        bool esGamepad = Gamepad.current != null &&
-                         InputSystem.GetDevice<Gamepad>() == Gamepad.current;
+        bool esGamepad = Gamepad.current != null && InputSystem.GetDevice<Gamepad>() == Gamepad.current;
 
         PromptText.text = esGamepad ? GamepadText : KeyboardText;
     }

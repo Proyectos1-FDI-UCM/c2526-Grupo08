@@ -149,7 +149,7 @@ public class EnemyPatrol : MonoBehaviour
     /// </summary>
     private void CheckDetection()
     {
-        if (_playerTransform == null) return;
+        if (_playerTransform == null) { return; }
 
         float distanceToPlayer = Vector2.Distance(transform.position, _playerTransform.position);
 
@@ -178,7 +178,7 @@ public class EnemyPatrol : MonoBehaviour
     /// </summary>
     private void Patrol()
     {
-        if (PatrolPoints == null || PatrolPoints.Length == 0) return;
+        if (PatrolPoints == null || PatrolPoints.Length == 0) { return; }
 
         Transform target = PatrolPoints[_currentPatrolIndex];
         Vector2 destination = target.position;
@@ -199,7 +199,7 @@ public class EnemyPatrol : MonoBehaviour
     /// </summary>
     private void Chase()
     {
-        if (_playerTransform == null) return;
+        if (_playerTransform == null) { return; }
 
         Vector2 directionToPlayer = (Vector2)_playerTransform.position - (Vector2)transform.position;
         MoveTowards(_playerTransform.position);
@@ -225,23 +225,31 @@ public class EnemyPatrol : MonoBehaviour
     private void UpdateSpriteFromDirection(Vector2 moveDirection)
     {
         // Si el vector es casi cero no cambiamos el sprite (el enemigo está parado)
-        if (moveDirection.sqrMagnitude < 0.01f) return;
+        if (moveDirection.sqrMagnitude < 0.01f) { return; }
 
         if (Mathf.Abs(moveDirection.x) > Mathf.Abs(moveDirection.y))
         {
             // Movimiento principalmente horizontal
             if (moveDirection.x > 0)
+            {
                 ChangeSprite(Direction.Right);
+            }
             else
+            {
                 ChangeSprite(Direction.Left);
+            }
         }
         else
         {
             // Movimiento principalmente vertical
             if (moveDirection.y > 0)
+            {
                 ChangeSprite(Direction.Up);
+            }
             else
+            {
                 ChangeSprite(Direction.Down);
+            }
         }
     }
 
@@ -254,7 +262,7 @@ public class EnemyPatrol : MonoBehaviour
     /// <param name="newDirection">Nueva dirección a aplicar</param>
     private void ChangeSprite(Direction newDirection)
     {
-        if (newDirection == _currentDirection) return;
+        if (newDirection == _currentDirection) { return; }
 
         Vector3 currentScale = gameObject.transform.localScale;
 
@@ -307,7 +315,7 @@ public class EnemyPatrol : MonoBehaviour
         _state = EnemyState.Patrol;
         _rb.linearVelocity = Vector2.zero;
 
-        if (PatrolPoints == null || PatrolPoints.Length == 0) return;
+        if (PatrolPoints == null || PatrolPoints.Length == 0) { return; }
 
         // Buscar el punto más cercano a la posición actual del enemigo
         float minDistance = float.MaxValue;

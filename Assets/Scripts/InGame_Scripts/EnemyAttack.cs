@@ -77,13 +77,6 @@ public class EnemyMeleeAttack : MonoBehaviour
     /// <summary>
     /// Cachea los componentes necesarios.
     /// </summary>
-    /*private void Start()
-    {
-        _enemyPatrol = GetComponent<EnemyPatrol>();
-        _audioSource = GetComponent<AudioSource>();
-
-        ResetTimer();
-    }*/
     private void Start()
     {
         // Esto busca el componente automáticamente en el mismo objeto
@@ -130,7 +123,9 @@ public class EnemyMeleeAttack : MonoBehaviour
         if (_attackTimer >= _attackInterval)
         {
             if (_playerInRange)
+            {
                 ApplyDamage();
+            }
 
             ResetTimer();
         }
@@ -178,7 +173,7 @@ public class EnemyMeleeAttack : MonoBehaviour
     private void ApplyDamage()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player == null) return;
+        if (player == null) { return; }
 
         Health health = player.GetComponent<Health>();
         if (health != null)

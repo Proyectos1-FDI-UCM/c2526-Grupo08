@@ -71,13 +71,9 @@ public class PlayerMovement : MonoBehaviour
     private InputAction MoveAction;
     private InputAction DashAction;
 
-    private bool _sliding = false;
-
-    private bool TouchingWall = false;
-
     private SpriteRenderer _spriteRenderer;
 
-    private Health Health;
+    private Health _health;
 
     private ChargedAttack _chargedAttack;
     private enum Direction { Up, Down, Right, Left }
@@ -101,7 +97,7 @@ public class PlayerMovement : MonoBehaviour
 
         _rb = GetComponent<Rigidbody2D>();
 
-        Health = GetComponent<Health>();
+        _health = GetComponent<Health>();
 
         _chargedAttack = GetComponent<ChargedAttack>();
 
@@ -181,9 +177,9 @@ public class PlayerMovement : MonoBehaviour
             tr.emitting = true;
         }
 
-        if (Health != null)
+        if (_health != null)
         {
-            Health.SetImmune(true);
+            _health.SetImmune(true);
         }
     }
 
@@ -195,9 +191,9 @@ public class PlayerMovement : MonoBehaviour
             tr.emitting = false;
         }
 
-        if (Health != null)
+        if (_health != null)
         {
-            Health.SetImmune(false);
+            _health.SetImmune(false);
         }
     }
     #endregion
@@ -222,26 +218,10 @@ public class PlayerMovement : MonoBehaviour
         if (_isDashing)
         {
             VelocidadFinal = _lastMoveDirection * _dashingPower;
-            if (TouchingWall)
-            {
-                VelocidadFinal.x = 0f;
-            }
         }
         else
         {
             VelocidadFinal = Movement * Velocidad;
-        }
-        
-        if (TouchingWall)
-        {
-            if (_isDashing)
-            {
-                VelocidadFinal.y = -VelociadDeslizarDash;
-            }
-            else if (_sliding)
-            {
-                VelocidadFinal.y = -VelocidadDeslizar;
-            }
         }
 
         //Aplicamos la velocidad
@@ -294,32 +274,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    //Empleamos este método para aplicar desliz cada vez que el jugador se choca con una pared
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        ContactPoint2D contactPoint = collision.GetContact(0); //Detecta el punto donde la colisión ocurre
-
-        if (Mathf.Abs(contactPoint.normal.x) > 0.98f) //Si choca contra un objeto vertical
-        {
-            TouchingWall = true;
-
-            if ((contactPoint.normal.x > 0 && Movement.x < 0) || //Pared y desplazamiento a la izquierda
-                (contactPoint.normal.x < 0 && Movement.x > 0))   //Pared y desplazamiento a la derecha
-            {
-                _sliding = true;
-                return;
-            }
-        }
-        _sliding = false;
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        TouchingWall = false;
-        _sliding = false;
-    }
-
-    //TODO: esto cambiarlo
 
     // ---- MÉTODOS PÚBLICOS ----
     #region Métodos públicos

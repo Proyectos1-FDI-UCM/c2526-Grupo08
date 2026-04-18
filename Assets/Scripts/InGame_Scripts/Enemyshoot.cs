@@ -30,21 +30,21 @@ public class EnemyShoot : MonoBehaviour
 
     [Header("Bullet Setup")]
     [Tooltip("Prefab de la bala del enemigo. Debe tener el componente Bullet.")]
-    [SerializeField] private GameObject _bulletPrefab;
+    [SerializeField] private GameObject BulletPrefab;
 
     [Tooltip("Punto desde donde sale la bala. Si es null, sale desde el centro del enemigo.")]
-    [SerializeField] private Transform _shootOrigin;
+    [SerializeField] private Transform ShootOrigin;
 
     [Header("Shoot Settings")]
     [Tooltip("Tiempo total entre disparos en segundos. (GDD: 1,5 s)")]
-    [SerializeField] private float _fireInterval = 1.5f;
+    [SerializeField] private float FireInterval = 1.5f;
 
     [Tooltip("Adelanto del sonido respecto al disparo real en segundos. (GDD: 0,3 s)")]
-    [SerializeField] private float _soundLeadTime = 0.3f;
+    [SerializeField] private float SoundLeadTime = 0.3f;
 
     [Header("Audio")]
     [Tooltip("Sonido que se reproduce como advertencia antes de que salga la bala.")]
-    [SerializeField] private AudioClip _shootSound;
+    [SerializeField] private AudioClip ShootSound;
 
     #endregion
 
@@ -100,7 +100,7 @@ public class EnemyShoot : MonoBehaviour
         }
 
         // Validar prefab
-        if (_bulletPrefab == null)
+        if (BulletPrefab == null)
         {
             Debug.LogError($"[EnemyShoot] {gameObject.name}: no hay prefab de bala asignado.");
             enabled = false;
@@ -108,12 +108,14 @@ public class EnemyShoot : MonoBehaviour
         }
 
         // Si no se asignó punto de origen, usamos el propio transform del enemigo
-        if (_shootOrigin == null)
-            _shootOrigin = transform;
+        if (ShootOrigin == null)
+        {
+            ShootOrigin = transform;
+        }
 
         // El timer arranca en el punto del ciclo donde se emite el sonido,
         // así el primer disparo no ocurre instantáneamente al detectar al jugador.
-        _shootTimer = _fireInterval - _soundLeadTime;
+        _shootTimer = FireInterval - SoundLeadTime;
         _soundPlayed = false;
     }
 
@@ -131,7 +133,7 @@ public class EnemyShoot : MonoBehaviour
         {
             // Reseteamos el timer al salir de la persecución para que el ciclo
             // comience desde el principio la próxima vez que se active.
-            _shootTimer = _fireInterval - _soundLeadTime;
+            _shootTimer = FireInterval - SoundLeadTime;
             _soundPlayed = false;
             return;
         }
@@ -139,14 +141,14 @@ public class EnemyShoot : MonoBehaviour
         _shootTimer += Time.deltaTime;
 
         // Fase 1: reproducir sonido de advertencia
-        if (!_soundPlayed && _shootTimer >= _fireInterval - _soundLeadTime)
+        if (!_soundPlayed && _shootTimer >= FireInterval - SoundLeadTime)
         {
             PlayShootSound();
             _soundPlayed = true;
         }
 
         // Fase 2: instanciar la bala y reiniciar el ciclo
-        if (_shootTimer >= _fireInterval)
+        if (_shootTimer >= FireInterval)
         {
             FireBullet();
             _shootTimer = 0f;
@@ -164,8 +166,8 @@ public class EnemyShoot : MonoBehaviour
     /// </summary>
     private void PlayShootSound()
     {
-        if (_shootSound == null || _audioSource == null) return;
-        _audioSource.PlayOneShot(_shootSound);
+        if (ShootSound == null || _audioSource == null) return;
+        _audioSource.PlayOneShot(ShootSound);
     }
 
     /// <summary>
@@ -178,9 +180,9 @@ public class EnemyShoot : MonoBehaviour
 
         // Dirección desde el origen del disparo hacia el jugador
         Vector2 direction = ((Vector2)_playerTransform.position
-                            - (Vector2)_shootOrigin.position).normalized;
+                            - (Vector2)ShootOrigin.position).normalized;
 
-        GameObject bulletObj = Instantiate(_bulletPrefab, _shootOrigin.position, Quaternion.identity);
+        GameObject bulletObj = Instantiate(BulletPrefab, ShootOrigin.position, Quaternion.identity);
 
         Bullet bullet = bulletObj.GetComponent<Bullet>();
         if (bullet != null)

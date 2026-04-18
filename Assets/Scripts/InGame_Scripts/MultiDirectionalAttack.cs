@@ -1,7 +1,7 @@
 //---------------------------------------------------------
 // Breve descripción del contenido del archivo
 // Responsable de la creación de este archivo
-// Nombre del juego
+// No way down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
@@ -23,16 +23,16 @@ public class MultiDirectionalAttack : MonoBehaviour
 
     [Header("Bullet Setup")]
     [Tooltip("Prefab de la bala. Debe tener el componente Bullet.")]
-    [SerializeField] private GameObject _bulletPrefab;
+    [SerializeField] private GameObject BulletPrefab;
 
     [Tooltip("Punto desde donde sale la bala. Si es null, sale desde el centro del jugador.")]
-    [SerializeField] private Transform _shootOrigin;
+    [SerializeField] private Transform ShootOrigin;
 
     [Header("MultiDirectionalAttack")]
-    [SerializeField] private float _fireRate = 0.4f;
-    [SerializeField] private int _damage = 30;
-    [SerializeField] private float _range = 8f;
-    [SerializeField] private int _magicCost = 30;
+    [SerializeField] private float FireRate = 0.4f;
+    [SerializeField] private int Damage = 30;
+    [SerializeField] private float Range = 8f;
+    [SerializeField] private int MagicCost = 30;
     // Documentar cada atributo que aparece aquí.
     // El convenio de nombres de Unity recomienda que los atributos
     // públicos y de inspector se nombren en formato PascalCase
@@ -71,7 +71,7 @@ public class MultiDirectionalAttack : MonoBehaviour
             return;
         }
 
-        if (_bulletPrefab == null)
+        if (BulletPrefab == null)
         {
             Debug.LogError("No hay prefab de bala asignado en el Inspector.");
             enabled = false;
@@ -80,12 +80,12 @@ public class MultiDirectionalAttack : MonoBehaviour
 
         _magic = GetComponent<Magic>();
 
-        if (_shootOrigin == null)
-            _shootOrigin = transform;
+        if (ShootOrigin == null)
+            ShootOrigin = transform;
 
         _attackAction.Enable();
 
-        _cooldownTimer = _fireRate;
+        _cooldownTimer = FireRate;
     }
 
     private void Update()
@@ -93,7 +93,7 @@ public class MultiDirectionalAttack : MonoBehaviour
         _cooldownTimer += Time.deltaTime;
 
         //Dispara si se pulsa y no esta con cooldown
-        if (_attackAction.WasPressedThisFrame() && _cooldownTimer >= _fireRate)
+        if (_attackAction.WasPressedThisFrame() && _cooldownTimer >= FireRate)
         {
             TryShoot();
         }
@@ -131,7 +131,7 @@ public class MultiDirectionalAttack : MonoBehaviour
         {
             return;
         }
-        if (!_magic.TrySpendMagic(_magicCost))
+        if (!_magic.TrySpendMagic(MagicCost))
         {
             return;
         }
@@ -153,13 +153,13 @@ public class MultiDirectionalAttack : MonoBehaviour
 
         foreach (Vector2 dir in  directions)
         {
-            GameObject bulletObj = Instantiate(_bulletPrefab,_shootOrigin.position, Quaternion.identity);
+            GameObject bulletObj = Instantiate(BulletPrefab,ShootOrigin.position, Quaternion.identity);
             Bullet bullet = bulletObj.GetComponent<Bullet>();
 
             if (bullet != null)
             {
-                bullet.SetRange(_range);
-                bullet.Init(dir, _damage);
+                bullet.SetRange(Range);
+                bullet.Init(dir, Damage);
             }
         }
     }

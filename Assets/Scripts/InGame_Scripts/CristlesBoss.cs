@@ -22,8 +22,8 @@ public class CristlesBoss : MonoBehaviour
     // públicos y de inspector se nombren en formato PascalCase
     // (palabras con primera letra mayúscula, incluida la primera letra)
     // Ejemplo: MaxHealthPoints
-    [SerializeField] private float _velocidad = 12f;
-    [SerializeField] private int _daño = 35;
+    [SerializeField] private float _speed = 12f;
+    [SerializeField] private int _damage = 35;
     [SerializeField] private int _tiempoVida;
     private Rigidbody2D _rb;
     #endregion
@@ -57,13 +57,6 @@ public class CristlesBoss : MonoBehaviour
         _health = GetComponent<Health>();
     }
 
-    /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
-    /// </summary>
-    void Update()
-    {
-        
-    }
     #endregion
 
     // ---- MÉTODOS PÚBLICOS ----
@@ -77,11 +70,10 @@ public class CristlesBoss : MonoBehaviour
   
     public void Lanzar(Vector2 direccion)
     {
-        _rb.linearVelocity = direccion.normalized * _velocidad;
+        _rb.linearVelocity = direccion.normalized * _speed;
 
         float angulo = Mathf.Atan2(direccion.y, direccion.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angulo);
-        
     }
 
     #endregion
@@ -98,13 +90,12 @@ public class CristlesBoss : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
     }
 
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         _health = other.GetComponent<Health>();
         if (other.CompareTag("Player") && _health != null)
         {
-            _health.Damage(_daño);
+            _health.Damage(_damage);
         }
 
     }

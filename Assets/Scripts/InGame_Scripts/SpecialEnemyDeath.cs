@@ -68,7 +68,7 @@ public class SpecialEnemyDeath : MonoBehaviour
 
     private void Update()
     {
-        if (!_isDefeated || _fallComplete) return;
+        if (!_isDefeated || _fallComplete) { return; }
 
         // Rotar suavemente hacia la rotación de caída
         transform.rotation = Quaternion.RotateTowards(
@@ -100,7 +100,7 @@ public class SpecialEnemyDeath : MonoBehaviour
     /// </summary>
     public void OnDefeated()
     {
-        if (_isDefeated) return;
+        if (_isDefeated) { return; }
         _isDefeated = true;
 
         // Parar movimiento físico

@@ -24,7 +24,7 @@ public class Door : MonoBehaviour
     // Ejemplo: MaxHealthPoints
 
     #endregion
-    
+
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados (private fields)
     // Documentar cada atributo que aparece aquí.
@@ -47,18 +47,7 @@ public class Door : MonoBehaviour
     /// Start is called on the frame when a script is enabled just before 
     /// any of the Update methods are called the first time.
     /// </summary>
-    void Start()
-    {
-        
-    }
-
-    /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
-    /// </summary>
-    void Update()
-    {
-        
-    }
+    
     #endregion
 
     // ---- MÉTODOS PÚBLICOS ----
@@ -81,7 +70,6 @@ public class Door : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        
         Inventory inventory = collision.gameObject.GetComponent<Inventory>();
 
         if (inventory != null)

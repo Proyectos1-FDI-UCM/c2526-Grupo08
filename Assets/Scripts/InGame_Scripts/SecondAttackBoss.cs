@@ -24,15 +24,15 @@ public class SecondAttackBoss : MonoBehaviour
     // Ejemplo: MaxHealthPoints
 
     [Header("Prefabs")]
-    [SerializeField] private CristlesBoss _prefabCuchilla1;
-    [SerializeField] private CristlesBoss _prefabCuchilla2;
-    [SerializeField] private CristlesBoss _prefabCuchilla3;
-    [SerializeField] private GameObject _avisoVisualPrefab;
+    [SerializeField] private CristlesBoss _prefabKnife1;
+    [SerializeField] private CristlesBoss _prefabKnife2;
+    [SerializeField] private CristlesBoss _prefabKnife3;
+    [SerializeField] private GameObject _WarningPrefab;
 
     [Header("Configuración")]
-    [SerializeField] private float _rangoDeteccion = 10f;
+    [SerializeField] private float _DetectionRange = 10f;
     [SerializeField] private float _tiempoRecarga = 3f;
-    [SerializeField] private Transform _puntoDisparo;
+    [SerializeField] private Transform _shootOrigin;
 
 
     #endregion
@@ -109,12 +109,12 @@ public class SecondAttackBoss : MonoBehaviour
             _avisoActual = null;
         }
 
-        Vector2 direccion1 = (_posicionObjetivo - _puntoDisparo.position).normalized;
+        Vector2 direccion1 = (_posicionObjetivo - _shootOrigin.position).normalized;
         Vector2 dir2 = Quaternion.AngleAxis(45, Vector3.forward) * direccion1;
         Vector2 dir3 = Quaternion.AngleAxis(-45, Vector3.forward) * direccion1;
-        CristlesBoss c1 = Instantiate(_prefabCuchilla1, _puntoDisparo.position, Quaternion.identity);
-        CristlesBoss c2 = Instantiate(_prefabCuchilla2, _puntoDisparo.position, Quaternion.AngleAxis(45, direccion1.normalized));
-        CristlesBoss c3 = Instantiate(_prefabCuchilla3, _puntoDisparo.position, Quaternion.AngleAxis(-45, direccion1.normalized));
+        CristlesBoss c1 = Instantiate(_prefabKnife1, _shootOrigin.position, Quaternion.identity);
+        CristlesBoss c2 = Instantiate(_prefabKnife2, _shootOrigin.position, Quaternion.AngleAxis(45, direccion1.normalized));
+        CristlesBoss c3 = Instantiate(_prefabKnife3, _shootOrigin.position, Quaternion.AngleAxis(-45, direccion1.normalized));
         c1.Lanzar(direccion1.normalized);
         c2.Lanzar(dir2);
         c3.Lanzar(dir3);
@@ -132,9 +132,9 @@ public class SecondAttackBoss : MonoBehaviour
         _posicionObjetivo = _jugador.position;
 
         // Crea el triángulo rojo de aviso
-        if (_avisoVisualPrefab != null)
+        if (_WarningPrefab != null)
         {
-            _avisoActual = Instantiate(_avisoVisualPrefab, _posicionObjetivo, Quaternion.identity);
+            _avisoActual = Instantiate(_WarningPrefab, _posicionObjetivo, Quaternion.identity);
         }
 
         // Iniciamos la espera de 1 segundo (como pedías en fase 1) antes de disparar
@@ -144,7 +144,7 @@ public class SecondAttackBoss : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, _rangoDeteccion);
+        Gizmos.DrawWireSphere(transform.position, _DetectionRange);
     }
 
     #endregion

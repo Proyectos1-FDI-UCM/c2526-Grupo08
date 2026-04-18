@@ -25,14 +25,14 @@ public class PlayerShoot : MonoBehaviour
 
     [Header("Bullet Setup")]
     [Tooltip("Prefab de la bala. Debe tener el componente Bullet.")]
-    [SerializeField] private GameObject _bulletPrefab;
+    [SerializeField] private GameObject BulletPrefab;
 
     [Tooltip("Punto desde donde sale la bala. Si es null, sale desde el centro del jugador.")]
-    [SerializeField] private Transform _shootOrigin;
+    [SerializeField] private Transform ShootOrigin;
 
     [Header("Shoot Settings")]
     [Tooltip("Tiempo mínimo entre disparos en segundos. (GDD: 0,4 s)")]
-    [SerializeField] private float _fireRate = 0.4f;
+    [SerializeField] private float FireRate = 0.4f;
 
     #endregion
 
@@ -83,7 +83,7 @@ public class PlayerShoot : MonoBehaviour
             return;
         }
 
-        if (_bulletPrefab == null)
+        if (BulletPrefab == null)
         {
             Debug.LogError("[PlayerShoot] No hay prefab de bala asignado en el Inspector.");
             enabled = false;
@@ -92,15 +92,15 @@ public class PlayerShoot : MonoBehaviour
 
         _mainCamera = Camera.main;
 
-        if (_shootOrigin == null)
-            _shootOrigin = transform;
+        if (ShootOrigin == null)
+            ShootOrigin = transform;
 
         _attackAction.Enable();
         _aimGamepad.Enable();
         _aimMouse.Enable();
 
         // Listo para disparar desde el primer frame
-        _fireCooldownTimer = _fireRate;
+        _fireCooldownTimer = FireRate;
     }
 
     private void Update()
@@ -109,7 +109,7 @@ public class PlayerShoot : MonoBehaviour
         _fireCooldownTimer += Time.deltaTime;
 
         // Disparar si el botón está pulsado y el cooldown ha pasado
-        if (_attackAction.WasPressedThisFrame() && _fireCooldownTimer >= _fireRate)
+        if (_attackAction.WasPressedThisFrame() && _fireCooldownTimer >= FireRate)
         {
             Shoot();
             _fireCooldownTimer = 0f;
@@ -129,7 +129,7 @@ public class PlayerShoot : MonoBehaviour
         Vector2 shootDirection = GetAimDirection();
         if (shootDirection.sqrMagnitude < 0.01f) return;
 
-        GameObject bulletObj = Instantiate(_bulletPrefab, _shootOrigin.position, Quaternion.identity);
+        GameObject bulletObj = Instantiate(BulletPrefab, ShootOrigin.position, Quaternion.identity);
         Bullet bullet = bulletObj.GetComponent<Bullet>();
 
         if (bullet != null)

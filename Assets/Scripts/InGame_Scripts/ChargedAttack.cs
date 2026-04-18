@@ -84,7 +84,6 @@ public class ChargedAttack : MonoBehaviour
     private void Start()
     {
         _attackAction = InputSystem.actions.FindAction("Charged");
-        //_aimAction = InputSystem.actions.FindAction("HeadPoint");
         _aimMouse = InputSystem.actions.FindAction("HeadPoint1");
         _aimGamepad = InputSystem.actions.FindAction("HeadPoint2");
 

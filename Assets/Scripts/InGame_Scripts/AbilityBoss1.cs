@@ -25,7 +25,7 @@ public class AbilityBoss1 : MonoBehaviour
     [SerializeField] private int CrystalDamage = 30; // El daño que quita
 
     [Header("Donde aparecen")]
-    [SerializeField] private bool IsActive = false; // Para que no ataque si no toca
+    [SerializeField] private bool IsActive = true; // Para que no ataque si no toca
     [SerializeField] private Vector2 SpawnRange = new Vector2(10f, 10f); // El tamaño de la zona
 
     #endregion
@@ -34,7 +34,7 @@ public class AbilityBoss1 : MonoBehaviour
     #region Atributos Privados
 
     // Clase para guardar los datos de cada ataque que se está preparando
-    private class ActiveAttack
+    class ActiveAttack
     {
         public GameObject WarningInstance; // El clon del aviso
         public Vector3 Position;           // Donde va a salir
@@ -144,6 +144,12 @@ public class AbilityBoss1 : MonoBehaviour
             GameObject crystal = Instantiate(CrystalPrefab, attack.Position, Quaternion.identity);
 
             // TODO: Falta pasarle el CrystalDamage al script del propio cristal
+
+            // Intentamos obtener el script Crystal para pasarle el daño
+            if (crystal.TryGetComponent<Crystal>(out Crystal crystalScript))
+            {
+                crystalScript.damage = CrystalDamage;
+            }
         }
     }
 

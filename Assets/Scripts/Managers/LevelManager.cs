@@ -58,7 +58,9 @@ public class LevelManager : MonoBehaviour
     protected void OnDestroy()
     {
         if (this == _instance)
+        {
             _instance = null;
+        }
     }
 
     #endregion
@@ -203,9 +205,13 @@ public class LevelManager : MonoBehaviour
         Time.timeScale = 1f;
 
         if (GameManager.HasInstance())
+        {
             GameManager.Instance.RestartCurrentScene();
+        }
         else
+        {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 
     /// <summary>
@@ -217,9 +223,13 @@ public class LevelManager : MonoBehaviour
         Time.timeScale = 1f;
 
         if (GameManager.HasInstance())
+        {
             GameManager.Instance.GoToMainMenu();
+        }
         else
+        {
             SceneManager.LoadScene("Menu");
+        }
     }
 
 
@@ -269,8 +279,8 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     private void RestoreFromCheckpoint()
     {
-        if (!GameManager.HasInstance()) return;
-        if (playerHealth == null || playerInventory == null) return;
+        if (!GameManager.HasInstance()) { return; }
+        if (playerHealth == null || playerInventory == null) { return; }
 
         playerHealth.SetHealthFromCheckpoint(GameManager.Instance.GetSavedHealth());
         playerInventory.SetBandagesFromCheckpoint(GameManager.Instance.GetSavedBandages());

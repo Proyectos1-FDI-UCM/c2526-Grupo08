@@ -37,8 +37,6 @@ public class MagicDrop : MonoBehaviour
     // primera letra en mayúsculas)
     // Ejemplo: _maxHealthPoints
 
-    private Magic _magic;
-    private int _magicDropCount = 0;
 
     #endregion
 
@@ -49,22 +47,7 @@ public class MagicDrop : MonoBehaviour
     // - Hay que añadir todos los que sean necesarios
     // - Hay que borrar los que no se usen 
 
-    /// <summary>
-    /// Start is called on the frame when a script is enabled just before 
-    /// any of the Update methods are called the first time.
-    /// </summary>
-    void Start()
-    {
 
-    }
-
-    /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
-    /// </summary>
-    void Update()
-    {
-        
-    }
     #endregion
 
     // ---- MÉTODOS PÚBLICOS ----

@@ -30,10 +30,14 @@ public class UIBar : MonoBehaviour
     private void Awake()
     {
         if (_slider == null)
+        { 
             _slider = GetComponent<Slider>();
+        }
 
         if (_slider == null)
-            Debug.LogError("[HealthBar] No se encontró Slider. Asígnalo en el Inspector.");
+        { 
+            Debug.LogError("[HealthBar] No se encontró Slider. Asígnalo en el Inspector."); 
+        }
     }
 
     #endregion
@@ -47,7 +51,7 @@ public class UIBar : MonoBehaviour
     /// </summary>
     public void SetMaxValue(int maxValue)
     {
-        if (_slider == null) return;
+        if (_slider == null) { return; }
         _slider.minValue = 0;
         _slider.maxValue = maxValue;
         _slider.value = maxValue;
@@ -56,7 +60,7 @@ public class UIBar : MonoBehaviour
     /// <summary>Actualiza el valor del Slider para reflejar la vida actual.</summary>
     public void SetValue(int value)
     {
-        if (_slider == null) return;
+        if (_slider == null) { return; }
         _slider.value = value;
     }
 

@@ -22,15 +22,15 @@ public class ExplosiveAttack : MonoBehaviour
 
     [Header("Bullet Setup")]
     [Tooltip("Prefab de la bala. Debe tener el componente Bullet.")]
-    [SerializeField] private GameObject _explosiveBulletPrefab;
+    [SerializeField] private GameObject ExplosiveBulletPrefab;
 
     [Tooltip("Punto desde donde sale la bala. Si es null, sale desde el centro del jugador.")]
-    [SerializeField] private Transform _shootOrigin;
+    [SerializeField] private Transform ShootOrigin;
 
     [Header("Shoot Settings")]
-    [SerializeField] private float _fireRate = 0.4f;
-    [SerializeField] private int _magicCost = 35;
-    [SerializeField] private int _maxUses = 6;
+    [SerializeField] private float FireRate = 0.4f;
+    [SerializeField] private int MagicCost = 35;
+    [SerializeField] private int MaxUses = 6;
 
     // Documentar cada atributo que aparece aquí.
     // El convenio de nombres de Unity recomienda que los atributos
@@ -84,7 +84,7 @@ public class ExplosiveAttack : MonoBehaviour
             enabled = false;
             return;
         }
-        if (_explosiveBulletPrefab == null)
+        if (ExplosiveBulletPrefab == null)
         {
             Debug.LogError("No hay prefab de bala asignado en el Inspector.");
             enabled = false;
@@ -95,16 +95,16 @@ public class ExplosiveAttack : MonoBehaviour
 
         _mainCamera = Camera.main;
 
-        if (_shootOrigin == null)
-            _shootOrigin = transform;
+        if (ShootOrigin == null)
+            ShootOrigin = transform;
 
-        _remainingUses = _maxUses;
+        _remainingUses = MaxUses;
 
         _attackAction.Enable();
         _aimGamepad.Enable();
         _aimMouse.Enable();
 
-        _cooldownTimer = _fireRate;
+        _cooldownTimer = FireRate;
     }
 
     /// <summary>
@@ -114,7 +114,7 @@ public class ExplosiveAttack : MonoBehaviour
     {
         _cooldownTimer += Time.deltaTime;
 
-        if (_attackAction.WasPressedThisFrame() && _cooldownTimer >= _fireRate)
+        if (_attackAction.WasPressedThisFrame() && _cooldownTimer >= FireRate)
         {
             TryShoot();
         }
@@ -141,7 +141,7 @@ public class ExplosiveAttack : MonoBehaviour
             return;
         }
 
-        if (_magic == null || !_magic.TrySpendMagic(_magicCost))
+        if (_magic == null || !_magic.TrySpendMagic(MagicCost))
         {
             return;
         }
@@ -153,9 +153,9 @@ public class ExplosiveAttack : MonoBehaviour
         }
 
         float spawnOffset = 2f;
-        Vector2 spawnPosition = (Vector2)_shootOrigin.position + dir * spawnOffset;
+        Vector2 spawnPosition = (Vector2)ShootOrigin.position + dir * spawnOffset;
 
-        GameObject bullet = Instantiate(_explosiveBulletPrefab, spawnPosition, Quaternion.identity);
+        GameObject bullet = Instantiate(ExplosiveBulletPrefab, spawnPosition, Quaternion.identity);
 
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         if (rb != null) 

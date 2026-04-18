@@ -91,7 +91,7 @@ public class EnemyCamera : MonoBehaviour
 
     private void Patrol()
     {
-        if (WayPoints == null || WayPoints.Length == 0) return;
+        if (WayPoints == null || WayPoints.Length == 0) { return; }
 
         Vector2 target = WayPoints[_currentPoint].position;
 

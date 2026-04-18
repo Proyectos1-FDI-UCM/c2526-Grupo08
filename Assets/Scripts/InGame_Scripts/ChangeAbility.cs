@@ -1,7 +1,7 @@
 //---------------------------------------------------------
 // Breve descripción del contenido del archivo
 // Responsable de la creación de este archivo
-// Nombre del juego
+// No way down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
@@ -112,13 +112,13 @@ public class ChangeAbility : MonoBehaviour
     private void SwitchAbility()
     {
         //Busca entre las habilidades hasta encontrar una desbloqueada
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < _abilityImage.Length; i++)
         {
-            _currentIndex = (_currentIndex + 1) % 3;
+            _currentIndex = (_currentIndex + 1) % _abilityImage.Length;
 
             if (IsAbilityUnlocked(_currentIndex))
             {
-                break;
+                return;
             }
         }
         //Activa la nueva habilidad

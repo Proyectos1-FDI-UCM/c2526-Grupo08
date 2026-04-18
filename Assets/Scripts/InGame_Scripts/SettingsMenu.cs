@@ -147,7 +147,7 @@ public class SettingsMenu : MonoBehaviour
     /// </summary>
     public void FollowDelayMenos()
     {
-        if (!GameManager.HasInstance()) return;
+        if (!GameManager.HasInstance()) { return; }
 
         float nuevo = Mathf.Round((GameManager.Instance.CameraFollowDelay - FollowDelayStep) * 100f) / 100f;
         GameManager.Instance.CameraFollowDelay = Mathf.Clamp(nuevo, FollowDelayMin, FollowDelayMax);
@@ -188,7 +188,7 @@ public class SettingsMenu : MonoBehaviour
     /// </summary>
     private void ActualizarLabel(SettingsEntry entry, float value)
     {
-        if (entry == null || entry.ValueLabel == null) return;
+        if (entry == null || entry.ValueLabel == null) { return; }
         entry.ValueLabel.text = value.ToString(NumberFormat);
     }
 

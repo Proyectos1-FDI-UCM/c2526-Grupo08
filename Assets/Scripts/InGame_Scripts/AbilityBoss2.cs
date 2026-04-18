@@ -35,16 +35,6 @@ public class AbilityBoss2 : MonoBehaviour
     // ---- FUNCIONES DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
-    private void Start()
-    {
-        // Aquí no hace falta nada por ahora
-    }
-
-    void Update()
-    {
-        // El update está vacío porque esto se llama por eventos o por el otro script
-    }
-
     #endregion
 
     // ---- FUNCIONES QUE SE LLAMAN DESDE FUERA ----

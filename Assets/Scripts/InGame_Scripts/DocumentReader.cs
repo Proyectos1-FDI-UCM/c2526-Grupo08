@@ -113,7 +113,9 @@ public class DocumentReader : MonoBehaviour
                 PlayerMovementRef = player.GetComponent<PlayerMovement>();
             }
             else
+            {
                 Debug.LogWarning("[DocumentReader] No se encontró jugador con tag 'Player'.");
+            }
         }
         else
         {
@@ -122,14 +124,16 @@ public class DocumentReader : MonoBehaviour
 
         _interactAction = InputSystem.actions.FindAction("Interact");
         if (_interactAction == null)
+        {
             Debug.LogWarning("[DocumentReader] Acción 'Interact' no encontrada en el InputSystem.");
+        }
     }
 
     private void Start()
     {
-        if (_interactAction != null) _interactAction.Enable();
-        if (DocumentCanvas != null) DocumentCanvas.SetActive(false);
-        if (PromptUI != null) PromptUI.SetActive(false);
+        if (_interactAction != null) { _interactAction.Enable(); }
+        if (DocumentCanvas != null) { DocumentCanvas.SetActive(false); }
+        if (PromptUI != null) { PromptUI.SetActive(false); }
     }
 
     private void Update()
@@ -145,15 +149,17 @@ public class DocumentReader : MonoBehaviour
         {
             // Mientras se lee, solo procesamos el avance de página
             if (_interactAction != null && _interactAction.WasPressedThisFrame())
-                AvanzarPagina();
+                NextPage();
         }
         else
         {
             // Fuera de lectura: detectar proximidad y abrir el documento
-            ActualizarProximidad();
+            UpdateProximity();
 
             if (_playerInRange && _interactAction != null && _interactAction.WasPressedThisFrame())
-                AbrirDocumento();
+            {
+                OpenDocument();
+            }
         }
     }
 
@@ -163,15 +169,15 @@ public class DocumentReader : MonoBehaviour
     #region Métodos Privados
 
     /// <summary>Calcula si el jugador está en rango y actualiza el prompt.</summary>
-    private void ActualizarProximidad()
+    private void UpdateProximity()
     {
-        if (_playerTransform == null) return;
+        if (_playerTransform == null) { return; }
 
-        bool enRango = Vector2.Distance(transform.position, _playerTransform.position) <= InteractionRadius;
+        bool inRange = Vector2.Distance(transform.position, _playerTransform.position) <= InteractionRadius;
 
-        if (enRango != _playerInRange)
+        if (inRange != _playerInRange)
         {
-            _playerInRange = enRango;
+            _playerInRange = inRange;
             if (PromptUI != null) PromptUI.SetActive(_playerInRange);
         }
     }
@@ -179,7 +185,7 @@ public class DocumentReader : MonoBehaviour
     /// <summary>
     /// Abre el canvas del documento, pausa el juego y desactiva el movimiento del jugador.
     /// </summary>
-    private void AbrirDocumento()
+    private void OpenDocument()
     {
         if (Pages == null || Pages.Length == 0)
         {
@@ -199,23 +205,23 @@ public class DocumentReader : MonoBehaviour
         if (DocumentCanvas != null) DocumentCanvas.SetActive(true);
 
         _inputCooldown = INPUT_COOLDOWN_DURATION;
-        MostrarPaginaActual();
+        ShowActualPage();
     }
 
     /// <summary>Avanza a la siguiente página o cierra si era la última.</summary>
-    private void AvanzarPagina()
+    private void NextPage()
     {
         _currentPage++;
         _inputCooldown = INPUT_COOLDOWN_DURATION;
 
         if (_currentPage >= Pages.Length)
-            CerrarDocumento();
+            CloseDocument();
         else
-            MostrarPaginaActual();
+            ShowActualPage();
     }
 
     /// <summary>Actualiza los textos de la UI con el contenido de la página actual.</summary>
-    private void MostrarPaginaActual()
+    private void ShowActualPage()
     {
         if (PageText != null)
             PageText.text = Pages[_currentPage];
@@ -234,7 +240,7 @@ public class DocumentReader : MonoBehaviour
     /// Cierra el canvas, reanuda el tiempo y reactiva el movimiento del jugador.
     /// El documento sigue en el suelo para poder releerlo.
     /// </summary>
-    private void CerrarDocumento()
+    private void CloseDocument()
     {
         _isReading = false;
 
@@ -244,7 +250,7 @@ public class DocumentReader : MonoBehaviour
         if (DocumentCanvas != null) DocumentCanvas.SetActive(false);
 
         // Recalcular proximidad para mostrar el prompt si el jugador sigue cerca
-        ActualizarProximidad();
+        UpdateProximity();
     }
 
     private void OnDrawGizmosSelected()

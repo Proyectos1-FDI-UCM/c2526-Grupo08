@@ -7,11 +7,9 @@
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using TMPro;
 
 /// <summary>
 /// Se activa cuando SpecialEnemyDeath termina la animación de caída.
@@ -51,10 +49,10 @@ public class SpecialEnemyInteraction : MonoBehaviour
     [SerializeField] private GameObject OptionsPanel;
 
     [Tooltip("Botón de la opción Amenazar")]
-    [SerializeField] private Button AmenazarButton;
+    [SerializeField] private Button ThreatenButton;
 
     [Tooltip("Botón de la opción Rematar")]
-    [SerializeField] private Button RematarButton;
+    [SerializeField] private Button KillButton;
 
     [Header("Recompensas al rematar (drops en el suelo)")]
     [Tooltip("Prefab del drop de magia (MagicDrop). Se instancian tantos como MagicDropCount.")]
@@ -111,13 +109,19 @@ public class SpecialEnemyInteraction : MonoBehaviour
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
+        {
             _playerTransform = player.transform;
+        }
         else
-            Debug.LogWarning("[SpecialEnemyInteraction] No se encontró jugador con tag 'Player'.");
+        { 
+            Debug.LogWarning("[SpecialEnemyInteraction] No se encontró jugador con tag 'Player'."); 
+        }
 
         _interactAction = InputSystem.actions.FindAction("Interact");
         if (_interactAction == null)
+        { 
             Debug.LogWarning("[SpecialEnemyInteraction] Acción 'Interact' no encontrada en el InputSystem.");
+        }
     }
 
     private void Start()
@@ -129,8 +133,8 @@ public class SpecialEnemyInteraction : MonoBehaviour
         }
         if (OptionsPanel != null) OptionsPanel.SetActive(false);
 
-        if (AmenazarButton != null) AmenazarButton.onClick.AddListener(OnAmenazar);
-        if (RematarButton != null) RematarButton.onClick.AddListener(OnRematar);
+        if (ThreatenButton != null) ThreatenButton.onClick.AddListener(OnThreat);
+        if (KillButton != null) KillButton.onClick.AddListener(OnRematar);
 
         // Desactivar hasta que el enemigo caiga
         enabled = false;
@@ -138,8 +142,8 @@ public class SpecialEnemyInteraction : MonoBehaviour
 
     private void Update()
     {
-        if (!_interactionEnabled || _playerTransform == null) return;
-        if (_dialogueActive) return;
+        if (!_interactionEnabled || _playerTransform == null) { return; }
+        if (_dialogueActive) { return; }
 
         float dist = Vector2.Distance(transform.position, _playerTransform.position);
         _playerInRange = dist <= InteractionRadius;
@@ -184,7 +188,7 @@ public class SpecialEnemyInteraction : MonoBehaviour
         enabled = true;
 
         if (_interactAction != null)
-            _interactAction.Enable();
+        { _interactAction.Enable(); }
     }
 
     #endregion
@@ -196,17 +200,17 @@ public class SpecialEnemyInteraction : MonoBehaviour
     private void AbrirOpciones()
     {
         _optionsOpen = true;
-        if (PromptUI != null) PromptUI.SetActive(false);
-        if (OptionsPanel != null) OptionsPanel.SetActive(true);
+        if (PromptUI != null) { PromptUI.SetActive(false); }
+        if (OptionsPanel != null) { OptionsPanel.SetActive(true); }
     }
 
     /// <summary>
     /// Opción 1: Amenazar. Cierra el panel, pausa el juego y activa el diálogo.
     /// Al terminar el diálogo se instancia la llave especial en el suelo.
     /// </summary>
-    private void OnAmenazar()
+    private void OnThreat()
     {
-        if (OptionsPanel != null) OptionsPanel.SetActive(false);
+        if (OptionsPanel != null) { OptionsPanel.SetActive(false); }
         _optionsOpen = false;
 
         _dialogueActive = true;
@@ -234,10 +238,12 @@ public class SpecialEnemyInteraction : MonoBehaviour
 
         // Instanciar la llave especial en el suelo para que el jugador la recoja
         if (SpecialKeyDropPrefab != null)
-            Instantiate(SpecialKeyDropPrefab, transform.position, Quaternion.identity);
+        { Instantiate(SpecialKeyDropPrefab, transform.position, Quaternion.identity); }
         else
+        {
             Debug.LogWarning("[SpecialEnemyInteraction] SpecialKeyDropPrefab no asignado. " +
                              "El jugador no recibirá la llave especial.");
+        }
 
         Destroy(gameObject);
     }
@@ -281,7 +287,7 @@ public class SpecialEnemyInteraction : MonoBehaviour
             }
         }
         else
-            Debug.LogWarning("[SpecialEnemyInteraction] BandagePrefab no asignado.");
+        { Debug.LogWarning("[SpecialEnemyInteraction] BandagePrefab no asignado."); }
 
         Destroy(gameObject);
     }

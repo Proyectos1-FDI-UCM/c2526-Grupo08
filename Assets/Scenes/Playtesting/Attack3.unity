@@ -2893,12 +2893,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ea2e2f6b0bb504eba3d5e60fab7071, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VelocidadMovimiento: 2.5
-  SuavidadVelocidad: 4
-  DistanciaLlegada: 0.4
-  TiempoMinimoEntrePuntos: 2
-  TiempoMaximoEntrePuntos: 5
-  AreaMovimiento: {x: 8, y: 6}
+  Speed: 2.5
+  SmoothSpeed: 4
+  MinimumDistanceArrive: 0.4
+  MinimumTimeBetweenPoints: 2
+  MaxTimeBetweenPoints: 5
+  MovementArea: {x: 8, y: 6}
   ColorGizmo: {r: 0, g: 1, b: 1, a: 0.2}
 --- !u!50 &1987638231
 Rigidbody2D:

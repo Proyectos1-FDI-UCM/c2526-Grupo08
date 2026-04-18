@@ -19,9 +19,9 @@ public class ExplosiveBullet : MonoBehaviour
     #region Atributos del Inspector (serialized fields)
 
     [Header("Explosion settings")]
-    [SerializeField] private float _explosionRadius = 4f;
-    [SerializeField] private int _damage = 250;
-    [SerializeField] private LayerMask _damageLayer;
+    [SerializeField] private float ExplosionRadius = 4f;
+    [SerializeField] private int Damage = 250;
+    [SerializeField] private LayerMask DamageLayer;
     // Documentar cada atributo que aparece aquí.
     // El convenio de nombres de Unity recomienda que los atributos
     // públicos y de inspector se nombren en formato PascalCase
@@ -78,7 +78,7 @@ public class ExplosiveBullet : MonoBehaviour
     private void Explode()
     {
         //Detecta los objetos en el radio
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _explosionRadius, _damageLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, ExplosionRadius, DamageLayer);
 
         foreach (Collider2D hit in hits)
         {
@@ -86,7 +86,7 @@ public class ExplosiveBullet : MonoBehaviour
             Health health = hit.GetComponent<Health>();
             if (health != null)
             {
-                health.Damage(_damage);
+                health.Damage(Damage);
             }
         }
         Destroy(gameObject);

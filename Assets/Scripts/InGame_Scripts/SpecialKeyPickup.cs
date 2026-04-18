@@ -48,42 +48,46 @@ public class SpecialKeyPickup : MonoBehaviour
     {
         _interactAction = InputSystem.actions.FindAction("Interact");
         if (_interactAction == null)
-            Debug.LogWarning("[SpecialKeyPickup] Acción 'Interact' no encontrada.");
+        { 
+            Debug.LogWarning("[SpecialKeyPickup] Acción 'Interact' no encontrada."); 
+        }
         else
+        {
             _interactAction.Enable();
+        }
 
-        if (PickupPrompt != null) PickupPrompt.SetActive(false);
+        if (PickupPrompt != null) { PickupPrompt.SetActive(false); }
     }
 
     private void Update()
     {
-        if (!_playerInRange || _playerInventory == null) return;
+        if (!_playerInRange || _playerInventory == null) { return; }
 
-        bool interactPressed = _interactAction != null
-            ? _interactAction.WasPressedThisFrame()
-            : Input.GetKeyDown(KeyCode.F);
+        bool interactPressed = _interactAction.WasPressedThisFrame();
 
         if (interactPressed)
-            PickUp();
+        { 
+            PickUp(); 
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         Inventory inv = other.GetComponent<Inventory>();
-        if (inv == null) return;
+        if (inv == null) { return; }
 
         _playerInRange = true;
         _playerInventory = inv;
-        if (PickupPrompt != null) PickupPrompt.SetActive(true);
+        if (PickupPrompt != null) { PickupPrompt.SetActive(true); }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.GetComponent<Inventory>() == null) return;
+        if (other.GetComponent<Inventory>() == null) { return; }
 
         _playerInRange = false;
         _playerInventory = null;
-        if (PickupPrompt != null) PickupPrompt.SetActive(false);
+        if (PickupPrompt != null) { PickupPrompt.SetActive(false); }
     }
 
     #endregion

@@ -95,15 +95,19 @@ public class DialogueSystem : MonoBehaviour
     {
         _interactAction = InputSystem.actions.FindAction("Interact");
         if (_interactAction == null)
+        { 
             Debug.LogWarning("[DialogueSystem] Acción 'Interact' no encontrada.");
+        }
 
         if (DialogueBox != null)
-            DialogueBox.SetActive(false);
+        { 
+            DialogueBox.SetActive(false); 
+        }
     }
 
     private void Update()
     {
-        if (!_isActive) return;
+        if (!_isActive) { return; }
 
         // Reducir cooldown con tiempo sin escalar (funciona con timeScale = 0)
         if (_inputCooldown > 0f)
@@ -142,10 +146,12 @@ public class DialogueSystem : MonoBehaviour
         _isActive = true;
 
         if (_interactAction != null)
+        {
             _interactAction.Enable();
+        }
 
-        if (DialogueBox != null) DialogueBox.SetActive(true);
-        if (ContinueHint != null) ContinueHint.text = HintText;
+        if (DialogueBox != null) { DialogueBox.SetActive(true); }
+        if (ContinueHint != null) { ContinueHint.text = HintText; }
 
         // Cooldown inicial: evita avanzar el mismo frame que se abre
         _inputCooldown = INPUT_COOLDOWN_DURATION;
@@ -159,7 +165,7 @@ public class DialogueSystem : MonoBehaviour
 
     private void ShowCurrentLine()
     {
-        if (_currentLineIndex >= DialogueLines.Count) return;
+        if (_currentLineIndex >= DialogueLines.Count) { return; }
 
         DialogueLine line = DialogueLines[_currentLineIndex];
 
@@ -170,7 +176,9 @@ public class DialogueSystem : MonoBehaviour
         }
 
         if (DialogueText != null)
+        {
             DialogueText.text = line.Text;
+        }
     }
 
     private void AdvanceDialogue()
@@ -179,15 +187,19 @@ public class DialogueSystem : MonoBehaviour
         _inputCooldown = INPUT_COOLDOWN_DURATION;
 
         if (_currentLineIndex >= DialogueLines.Count)
+        {
             EndDialogue();
+        }
         else
+        {
             ShowCurrentLine();
+        }
     }
 
     private void EndDialogue()
     {
         _isActive = false;
-        if (DialogueBox != null) DialogueBox.SetActive(false);
+        if (DialogueBox != null) { DialogueBox.SetActive(false); }
         _onDialogueEnd?.Invoke();
         _onDialogueEnd = null;
     }

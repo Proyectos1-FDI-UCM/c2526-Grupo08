@@ -191,8 +191,6 @@ public class Health : MonoBehaviour
             Destroy(toDestroy);
 
             GameObject _magicPointObj = Instantiate(MagicPointsPrefab, EnemyGameObject.transform.position, Quaternion.identity);
-
-            // TODO: liberar energía mágica al matar un enemigo -> Comprobar si va bien
         }
     }
 

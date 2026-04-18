@@ -65,14 +65,6 @@ public class BossPhaseController : MonoBehaviour
     // - Hay que añadir todos los que sean necesarios
     // - Hay que borrar los que no se usen 
 
-    /// <summary>
-    /// Start is called on the frame when a script is enabled just before 
-    /// any of the Update methods are called the first time.
-    /// </summary>
-    void Start()
-    {
-
-    }
 
     /// <summary>
     /// Update is called every frame, if the MonoBehaviour is enabled.
@@ -185,7 +177,7 @@ public class BossPhaseController : MonoBehaviour
         float multiplier = 1.5f;
 
         // Buff speeds
-        if (_movement != null) _movement.AplicarBuffVelocidad(multiplier);
+        if (_movement != null) _movement.BuffSpeed(multiplier);
         if (_dash != null) _dash.AplicarBuffFaseFinal(multiplier);
         if (_blades != null) _blades.AplicarBuffFaseFinal(multiplier);
 

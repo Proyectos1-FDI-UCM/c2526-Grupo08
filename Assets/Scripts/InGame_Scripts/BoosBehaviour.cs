@@ -24,28 +24,28 @@ public class BoosBehaviour : MonoBehaviour
 
     [Header("Movimiento")]
     [Tooltip("Velocidad máxima de desplazamiento base del jefe.")]
-    [SerializeField] private float VelocidadMovimiento = 2.5f;
+    [SerializeField] private float Speed = 2.5f;
 
     [Tooltip("Velocidad de interpolación de la velocidad (suavidad). " +
              "Valores bajos = más suave pero más lento en reaccionar. " +
              "Recomendado: 3-6.")]
-    [SerializeField] private float SuavidadVelocidad = 4f;
+    [SerializeField] private float SmoothSpeed = 4f;
 
     [Tooltip("Distancia mínima al punto objetivo para considerarlo alcanzado " +
              "y elegir uno nuevo.")]
-    [SerializeField] private float DistanciaLlegada = 0.4f;
+    [SerializeField] private float MinimumDistanceArrive = 0.4f;
 
     [Header("Temporización")]
     [Tooltip("Tiempo mínimo en segundos antes de elegir un nuevo punto aleatorio.")]
-    [SerializeField] private float TiempoMinimoEntrePuntos = 2f;
+    [SerializeField] private float MinimumTimeBetweenPoints = 2f;
 
     [Tooltip("Tiempo máximo en segundos antes de elegir un nuevo punto aleatorio.")]
-    [SerializeField] private float TiempoMaximoEntrePuntos = 5f;
+    [SerializeField] private float MaxTimeBetweenPoints = 5f;
 
     [Header("Área de movimiento")]
     [Tooltip("Tamaño del rectángulo (Ancho X, Alto Y) dentro del cual el jefe " +
              "elige sus puntos aleatorios. Centrado en la posición inicial del jefe.")]
-    [SerializeField] private Vector2 AreaMovimiento = new Vector2(8f, 6f);
+    [SerializeField] private Vector2 MovementArea = new Vector2(8f, 6f);
 
     [Header("Visualización del Gizmo")]
     [Tooltip("Color del área de movimiento en el editor.")]
@@ -60,16 +60,16 @@ public class BoosBehaviour : MonoBehaviour
     private Rigidbody2D _rb;
 
     /// <summary>Punto aleatorio actual hacia el que se mueve el jefe.</summary>
-    private Vector2 _puntoObjetivo;
+    private Vector2 _goalPoint;
 
     /// <summary>Posición inicial del jefe, usada como centro del área de movimiento.</summary>
-    private Vector2 _centroArea;
+    private Vector2 _areaCenter;
 
     /// <summary>Timer que cuenta el tiempo hasta elegir un nuevo punto.</summary>
-    private float _timerCambioPunto;
+    private float _timerChangePoint;
 
     /// <summary>Tiempo aleatorio hasta el próximo cambio de punto.</summary>
-    private float _tiempoHastaCambio;
+    private float _timeUntilChange;
 
     #endregion
 
@@ -90,8 +90,8 @@ public class BoosBehaviour : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        _centroArea = transform.position;
-        ElegirNuevoPunto();
+        _areaCenter = transform.position;
+        ChooseNewPoint();
     }
 
     /// <summary>
@@ -100,8 +100,8 @@ public class BoosBehaviour : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        ActualizarTimer();
-        MoverHaciaObjetivo();
+        ActualizeTimer();
+        MoveTowardsObjective();
     }
 
     /// <summary>
@@ -110,20 +110,20 @@ public class BoosBehaviour : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         // Usamos la posición actual en editor; en runtime usamos _centroArea
-        Vector3 centro = Application.isPlaying ? (Vector3)_centroArea : transform.position;
+        Vector3 centro = Application.isPlaying ? (Vector3)_areaCenter : transform.position;
 
         Gizmos.color = ColorGizmo;
-        Gizmos.DrawCube(centro, new Vector3(AreaMovimiento.x, AreaMovimiento.y, 0.1f));
+        Gizmos.DrawCube(centro, new Vector3(MovementArea.x, MovementArea.y, 0.1f));
 
         // Borde sólido
         Gizmos.color = new Color(ColorGizmo.r, ColorGizmo.g, ColorGizmo.b, 1f);
-        Gizmos.DrawWireCube(centro, new Vector3(AreaMovimiento.x, AreaMovimiento.y, 0.1f));
+        Gizmos.DrawWireCube(centro, new Vector3(MovementArea.x, MovementArea.y, 0.1f));
 
         // Punto objetivo actual (solo en runtime)
         if (Application.isPlaying)
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawSphere(_puntoObjetivo, 0.2f);
+            Gizmos.DrawSphere(_goalPoint, 0.2f);
         }
     }
 
@@ -136,16 +136,16 @@ public class BoosBehaviour : MonoBehaviour
     /// Avanza el timer y elige un nuevo punto cuando expira.
     /// También cambia si el jefe ya llegó al punto actual.
     /// </summary>
-    private void ActualizarTimer()
+    private void ActualizeTimer()
     {
-        _timerCambioPunto += Time.deltaTime;
+        _timerChangePoint += Time.deltaTime;
 
-        bool tiempoAgotado = _timerCambioPunto >= _tiempoHastaCambio;
-        bool llegado = Vector2.Distance(transform.position, _puntoObjetivo) <= DistanciaLlegada;
+        bool tiempoAgotado = _timerChangePoint >= _timeUntilChange;
+        bool llegado = Vector2.Distance(transform.position, _goalPoint) <= MinimumDistanceArrive;
 
         if (tiempoAgotado || llegado)
         {
-            ElegirNuevoPunto();
+            ChooseNewPoint();
         }
     }
 
@@ -153,42 +153,41 @@ public class BoosBehaviour : MonoBehaviour
     /// Aplica velocidad suavizada hacia el punto objetivo usando Lerp.
     /// Esto evita el movimiento brusco: la velocidad aumenta y disminuye gradualmente.
     /// </summary>
-    private void MoverHaciaObjetivo()
+    private void MoveTowardsObjective()
     {
-        Vector2 direccion = (_puntoObjetivo - (Vector2)transform.position).normalized;
-        Vector2 velocidadDeseada = direccion * VelocidadMovimiento;
+        Vector2 direccion = (_goalPoint - (Vector2)transform.position).normalized;
+        Vector2 velocidadDeseada = direccion * Speed;
 
         // Lerp entre la velocidad actual y la deseada para suavizar
-        _rb.linearVelocity = Vector2.Lerp(_rb.linearVelocity, velocidadDeseada,
-                                           SuavidadVelocidad * Time.deltaTime);
+        _rb.linearVelocity = Vector2.Lerp(_rb.linearVelocity, velocidadDeseada, SmoothSpeed * Time.deltaTime);
     }
 
     /// <summary>
     /// Elige un punto aleatorio dentro del rectángulo centrado en _centroArea
     /// y reinicia el timer con un tiempo aleatorio entre los límites configurados.
     /// </summary>
-    private void ElegirNuevoPunto()
+    private void ChooseNewPoint()
     {
-        float mitadX = AreaMovimiento.x / 2f;
-        float mitadY = AreaMovimiento.y / 2f;
+        float mitadX = MovementArea.x / 2f;
+        float mitadY = MovementArea.y / 2f;
 
-        _puntoObjetivo = new Vector2(
-            _centroArea.x + Random.Range(-mitadX, mitadX),
-            _centroArea.y + Random.Range(-mitadY, mitadY)
+        _goalPoint = new Vector2(
+            _areaCenter.x + Random.Range(-mitadX, mitadX),
+            _areaCenter.y + Random.Range(-mitadY, mitadY)
         );
 
-        _timerCambioPunto = 0f;
-        _tiempoHastaCambio = Random.Range(TiempoMinimoEntrePuntos, TiempoMaximoEntrePuntos);
+        _timerChangePoint = 0f;
+        _timeUntilChange = Random.Range(MinimumTimeBetweenPoints, MaxTimeBetweenPoints);
     }
 
-    public void AplicarBuffVelocidad(float multiplicador) //Esto lo ha hecho Marián por si hay dudas
+    public void BuffSpeed(float multiplicador) //Esto lo ha hecho Marián por si hay dudas
     {
         
-        VelocidadMovimiento *= multiplicador;
+        Speed *= multiplicador;
 
-        SuavidadVelocidad *= multiplicador; //Esto para que el jefe cambie de dirección agresivamente
+        SmoothSpeed *= multiplicador; //Esto para que el jefe cambie de dirección agresivamente
 
-        Debug.Log($"<color=cyan>[Boss] Velocidad aumentada a: {VelocidadMovimiento}</color>");
+        Debug.Log($"<color=cyan>[Boss] Velocidad aumentada a: {Speed}</color>");
     }
 
     #endregion
