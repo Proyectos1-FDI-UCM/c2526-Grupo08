@@ -30,10 +30,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float Velocidad = 2f;
     [SerializeField]
-    private float VelocidadDeslizar = 2f;
-    [SerializeField]
-    private float VelociadDeslizarDash = 6f;
-    [SerializeField]
     private Sprite SpriteUp;
     [SerializeField]
     private Sprite SpriteDown;
@@ -62,10 +58,11 @@ public class PlayerMovement : MonoBehaviour
     private bool _canDash = true;
     private bool _isDashing;
     private float _dashingPower = 15f;
-    private float _dashingTime = 0.5f;
+    private float _dashingTime = 0.2f;
     private float _dashingCooldown = 1.5f;
     private float _dashEndTime;
     private float _dashCooldownEnd;
+    private Vector2 _dashDir;
     private Vector2 _lastMoveDirection = Vector2.right;
 
     private InputAction MoveAction;
@@ -78,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
     private ChargedAttack _chargedAttack;
     private enum Direction { Up, Down, Right, Left }
     private Direction CurrentDirection = Direction.Left;
-    private Direction NewDirection;
+
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
@@ -149,53 +146,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void OnDash(InputAction.CallbackContext context)
-    {
-        if (_chargedAttack !=null && _chargedAttack.IsCharging())
-        {
-            return;
-        }
-        
-        if (_canDash && !_isDashing)
-        {
-            StartDash();
-        }
-    }
-
-    private void StartDash()
-    {
-        if (_lastMoveDirection == Vector2.zero)
-        {
-            return;
-        }
-        _canDash = false;
-        _isDashing = true;
-        _dashEndTime = Time.time + _dashingTime;
-        _dashCooldownEnd = Time.time + _dashingCooldown;
-        if (tr != null)
-        {
-            tr.emitting = true;
-        }
-
-        if (_health != null)
-        {
-            _health.SetImmune(true);
-        }
-    }
-
-    private void EndDash()
-    {
-        _isDashing = false;
-        if (tr != null)
-        {
-            tr.emitting = false;
-        }
-
-        if (_health != null)
-        {
-            _health.SetImmune(false);
-        }
-    }
+    
     #endregion
 
     void FixedUpdate()
@@ -217,7 +168,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (_isDashing)
         {
-            VelocidadFinal = _lastMoveDirection * _dashingPower;
+            VelocidadFinal = _dashDir.normalized * _dashingPower;
         }
         else
         {
@@ -292,6 +243,56 @@ public class PlayerMovement : MonoBehaviour
     // dependiendo de en donde esta el cursor/left joystick
     //Se trató de implementar en cuatro direcciones pero fue mejor de otra manera
     //Se conserva en caso de algún cambio en los sprites del futuro.
+
+    private void OnDash(InputAction.CallbackContext context)
+    {
+        if (_chargedAttack != null && _chargedAttack.IsCharging())
+        {
+            return;
+        }
+
+        if (_canDash && !_isDashing)
+        {
+            StartDash();
+        }
+    }
+
+    private void StartDash()
+    {
+        _isDashing = true;
+        _dashDir = _lastMoveDirection.normalized;
+        if (_lastMoveDirection == Vector2.zero)
+        {
+            return;
+        }
+        
+        _canDash = false;
+        _dashEndTime = Time.time + _dashingTime;
+        _dashCooldownEnd = Time.time + _dashingCooldown;
+        if (tr != null)
+        {
+            tr.emitting = true;
+        }
+
+        if (_health != null)
+        {
+            _health.SetImmune(true);
+        }
+    }
+
+    private void EndDash()
+    {
+        _isDashing = false;
+        if (tr != null)
+        {
+            tr.emitting = false;
+        }
+
+        if (_health != null)
+        {
+            _health.SetImmune(false);
+        }
+    }
 
     private void Flip()
     {
