@@ -234,7 +234,7 @@ public class PlayerMovement : MonoBehaviour
         Vector2 gamepad = Vector2.zero;
         if (Gamepad.current != null)
         {
-            gamepad = UnityEngine.InputSystem.Gamepad.current.rightStick.ReadValue();
+            gamepad = Gamepad.current.rightStick.ReadValue();
         }
 
         if (gamepad.magnitude > 0.1f)
@@ -244,7 +244,7 @@ public class PlayerMovement : MonoBehaviour
         else 
         {
             //Transformamos las coordenadas del mouse a la pantalla en la variable Mouse
-            Vector3 ScreenPos = UnityEngine.InputSystem.Mouse.current.position.ReadValue();
+            Vector3 ScreenPos = Mouse.current.position.ReadValue();
             Vector3 WorldPos = Camera.main.ScreenToWorldPoint(ScreenPos);
             dir =  WorldPos - transform.position;
         }
