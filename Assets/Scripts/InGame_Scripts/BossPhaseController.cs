@@ -1,6 +1,6 @@
 //---------------------------------------------------------
 // Breve descripción del contenido del archivo
-// Marián Navarro
+// Marián Navarro y Laura Garay
 // No way down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
@@ -114,6 +114,14 @@ public class BossPhaseController : MonoBehaviour
     // se nombren en formato PascalCase (palabras con primera letra
     // mayúscula, incluida la primera letra)
 
+    private void MuerteBoss()
+    {
+        Debug.Log("Raven derrotado. Desactivando objeto...");
+
+        // Desactivamos el objeto para que desaparezca y no de errores de referencia
+        // Es mejor que Destroy porque así no rompe scripts que le estén mirando
+        gameObject.SetActive(false);
+    }
     private void CheckForPlayer()
     {
         Collider2D player = Physics2D.OverlapCircle(transform.position, _detectionRange, _playerLayer);

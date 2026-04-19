@@ -16,24 +16,55 @@ public class AbilityBoss2 : MonoBehaviour
     // ---- COSAS QUE TENGO QUE ARRASTRAR AL UNITY ----
     #region Atributos del Inspector (serialized fields)
 
-    [Header("Ajustes de Invocación")]
-    [SerializeField] private GameObject minionPrefab; // El bicho que va a salir
 
-    [Header("Puntos de salida")]
-    [SerializeField] private Transform spawnPointL; // Punto de la izquierda
-    [SerializeField] private Transform spawnPointR; // Punto de la derecha
+    [Header("Ajustes de Invocación")]
+    [Tooltip("El prefab del esbirro que va a aparecer.")]
+    [SerializeField] private GameObject minionPrefab;
+
+    [Tooltip("Segundos entre cada invocación automática.")]
+    [SerializeField] private float summonInterval = 15f;
+
+    [Header("Puntos de Spawn")]
+    [SerializeField] private Transform spawnPointL;
+    [SerializeField] private Transform spawnPointR;
 
     #endregion
 
     // ---- VARIABLES INTERNAS (POR SI HACEN FALTA LUEGO) ----
     #region Atributos Privados
 
-    // De momento vacío, pero lo dejo por si hay que guardar una lista de minions
+    private GameObject _leftMinion;
+    private GameObject _rightMinion;
+
+    private float _timer;
+    private bool _isPlayerDetected = false;
+
 
     #endregion
 
     // ---- FUNCIONES DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
+
+    private void Start()
+    {
+        _timer = summonInterval; // Inicializamos el temporizador con el intervalo que pusimos en el Inspector
+    }
+
+    void Update()
+    {
+        // Solo empezamos la cuenta atrás si el boss ha visto al jugador
+        if (_isPlayerDetected)
+        {
+            _timer -= Time.deltaTime;
+
+            // Cuando el tiempo llega a cero, intentamos invocar
+            if (_timer <= 0f)
+            {
+                ExecuteSummoning();
+                _timer = summonInterval; // Reiniciamos el reloj
+            }
+        }
+    }
 
     #endregion
 
@@ -43,30 +74,39 @@ public class AbilityBoss2 : MonoBehaviour
     // Esta función hace el trabajo sucio de crear los minions
     public void SummonMinions()
     {
-        // Primero miro si he arrastrado todo al inspector para que no de error
+        // Miramos si los esbirros de la oleada anterior siguen vivos
+        bool leftAlive = _leftMinion != null;
+        bool rightAlive = _rightMinion != null;
+
+        // Si alguno sigue vivo, no invocamos más para no saturar
+        if (leftAlive || rightAlive)
+        {
+            Debug.Log("AbilityBoss2: Todavía hay esbirros vivos. Saltando esta oleada.");
+            return;
+        }
+
         if (minionPrefab != null && spawnPointL != null && spawnPointR != null)
         {
-            // Creamos uno en la izquierda y otro en la derecha
-            Instantiate(minionPrefab, spawnPointL.position, Quaternion.identity);
-            Instantiate(minionPrefab, spawnPointR.position, Quaternion.identity);
+            _leftMinion = Instantiate(minionPrefab, spawnPointL.position, Quaternion.identity);
+            _rightMinion = Instantiate(minionPrefab, spawnPointR.position, Quaternion.identity);
 
-            // Un mensaje en consola para saber que ha funcionado
-            Debug.Log("¡Esbirros invocados en los puntos laterales!");
+            Debug.Log("AbilityBoss2: Nueva oleada de esbirros invocada.");
         }
         else
         {
-            // Si falta algo, aviso por consola para que no nos volvamos locos buscando el fallo
-            Debug.LogWarning("Faltan referencias en AbilityBoss2 (Prefab o SpawnPoints)");
+            Debug.LogWarning("AbilityBoss2: ¡Faltan referencias en el Inspector!");
         }
+    }
+
+    public void StartCounting()
+    {
+        _isPlayerDetected = true;
+        Debug.Log("AbilityBoss2: Cuenta atrás activada. Esbirros cada " + summonInterval + " segundos.");
     }
 
     // Esta es la función principal que activará el ataque
     public void ExecuteSummoning()
     {
-        // Raven es el nombre del boss, supongo
-        Debug.Log("Raven está invocando ayuda...");
-
-        // Llamamos a la lógica de arriba para que salgan los bichos
         SummonMinions();
     }
 
