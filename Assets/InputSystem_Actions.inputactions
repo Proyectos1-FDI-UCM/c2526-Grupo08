@@ -359,7 +359,7 @@
                 {
                     "name": "",
                     "id": "b3f66d0b-7751-423f-908b-a11c5bd95930",
-                    "path": "<Gamepad>/buttonEast",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -381,7 +381,7 @@
                 {
                     "name": "",
                     "id": "7a9d20f4-d3bd-4a57-85ff-f8c06663552d",
-                    "path": "<Gamepad>/buttonNorth",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
@@ -523,11 +523,11 @@
                 },
                 {
                     "name": "",
-                    "id": "17984cec-9f41-4532-9bf3-35725a66fdd1",
-                    "path": "<Gamepad>/buttonWest",
+                    "id": "9afc9f0c-922e-4da4-ae11-c2fa982d6ebf",
+                    "path": "<XInputController>/start",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
+                    "groups": "",
                     "action": "ShowMap",
                     "isComposite": false,
                     "isPartOfComposite": false
