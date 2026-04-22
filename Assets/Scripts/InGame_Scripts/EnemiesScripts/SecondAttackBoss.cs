@@ -1,0 +1,161 @@
+//---------------------------------------------------------
+// Breve descripción del contenido del archivo
+// Marian Navarro Santoyo
+// No Way Down
+// Proyectos 1 - Curso 2025-26
+//---------------------------------------------------------
+
+using UnityEngine;
+// Añadir aquí el resto de directivas using
+
+
+/// <summary>
+/// Antes de cada class, descripción de qué es y para qué sirve,
+/// usando todas las líneas que sean necesarias.
+/// </summary>
+public class SecondAttackBoss : MonoBehaviour
+{
+    // ---- ATRIBUTOS DEL INSPECTOR ----
+    #region Atributos del Inspector (serialized fields)
+    // Documentar cada atributo que aparece aquí.
+    // El convenio de nombres de Unity recomienda que los atributos
+    // públicos y de inspector se nombren en formato PascalCase
+    // (palabras con primera letra mayúscula, incluida la primera letra)
+    // Ejemplo: MaxHealthPoints
+
+    [Header("Prefabs")]
+    [SerializeField] private CristlesBoss _prefabKnife1;
+    [SerializeField] private CristlesBoss _prefabKnife2;
+    [SerializeField] private CristlesBoss _prefabKnife3;
+    [SerializeField] private GameObject _WarningPrefab;
+
+    [Header("Configuración")]
+    [SerializeField] private float _DetectionRange = 10f;
+    [SerializeField] private float _tiempoRecarga = 3f;
+    [SerializeField] private Transform _shootOrigin;
+
+
+    #endregion
+
+    // ---- ATRIBUTOS PRIVADOS ----
+    #region Atributos Privados (private fields)
+    // Documentar cada atributo que aparece aquí.
+    // El convenio de nombres de Unity recomienda que los atributos
+    // privados se nombren en formato _camelCase (comienza con _, 
+    // primera palabra en minúsculas y el resto con la 
+    // primera letra en mayúsculas)
+    // Ejemplo: _maxHealthPoints
+
+    private Transform _jugador;
+    private GameObject _avisoActual;
+    private Vector3 _posicionObjetivo;
+
+    private float _timerAviso;
+    private bool _preparandoAtaque;
+
+
+
+    #endregion
+
+    // ---- MÉTODOS DE MONOBEHAVIOUR ----
+    #region Métodos de MonoBehaviour
+
+    // Por defecto están los típicos (Update y Start) pero:
+    // - Hay que añadir todos los que sean necesarios
+    // - Hay que borrar los que no se usen 
+
+    /// <summary>
+    /// Start is called on the frame when a script is enabled just before 
+    /// any of the Update methods are called the first time.
+    /// </summary>
+    void Start()
+    {
+        GameObject p = GameObject.FindGameObjectWithTag("Player");
+        if (p != null) _jugador = p.transform;
+    }
+
+
+    /// <summary>
+    /// Update is called every frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    void Update()
+    {
+        
+    }
+    #endregion
+
+    // ---- MÉTODOS PÚBLICOS ----
+    #region Métodos públicos
+    // Documentar cada método que aparece aquí con ///<summary>
+    // El convenio de nombres de Unity recomienda que estos métodos
+    // se nombren en formato PascalCase (palabras con primera letra
+    // mayúscula, incluida la primera letra)
+    // Ejemplo: GetPlayerController
+
+    #endregion
+
+    // ---- MÉTODOS PRIVADOS ----
+    #region Métodos Privados
+    // Documentar cada método que aparece aquí
+    // El convenio de nombres de Unity recomienda que estos métodos
+    // se nombren en formato PascalCase (palabras con primera letra
+    // mayúscula, incluida la primera letra)
+
+    private void Disparar()
+    {
+        if (_avisoActual != null)
+        {
+            Destroy(_avisoActual);
+            _avisoActual = null;
+        }
+
+        Vector2 direccion1 = (_posicionObjetivo - _shootOrigin.position).normalized;
+        Vector2 dir2 = Quaternion.AngleAxis(45, Vector3.forward) * direccion1;
+        Vector2 dir3 = Quaternion.AngleAxis(-45, Vector3.forward) * direccion1;
+        CristlesBoss c1 = Instantiate(_prefabKnife1, _shootOrigin.position, Quaternion.identity);
+        CristlesBoss c2 = Instantiate(_prefabKnife2, _shootOrigin.position, Quaternion.AngleAxis(45, direccion1.normalized));
+        CristlesBoss c3 = Instantiate(_prefabKnife3, _shootOrigin.position, Quaternion.AngleAxis(-45, direccion1.normalized));
+        c1.Lanzar(direccion1.normalized);
+        c2.Lanzar(dir2);
+        c3.Lanzar(dir3);
+
+
+        _preparandoAtaque = false;
+    }
+
+    public void ExecuteBladeAttack()
+    {
+        if (_jugador == null || _preparandoAtaque) return;
+
+        _preparandoAtaque = true;
+        _timerAviso = 0;
+        _posicionObjetivo = _jugador.position;
+
+        // Crea el triángulo rojo de aviso
+        if (_WarningPrefab != null)
+        {
+            _avisoActual = Instantiate(_WarningPrefab, _posicionObjetivo, Quaternion.identity);
+        }
+
+        // Iniciamos la espera de 1 segundo (como pedías en fase 1) antes de disparar
+        Invoke(nameof(Disparar), 1.0f);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, _DetectionRange);
+    }
+
+    #endregion
+
+    public void AplicarBuffFaseFinal(float multiplicador) //Esto lo ha hecho Marián
+    {
+        // Reducimos el tiempo de recarga entre ráfagas
+        _tiempoRecarga /= multiplicador;
+        Debug.Log("[SecondAttackBoss] Buff de cadencia aplicado.");
+    }
+
+}
+// class SecondAttackBoss 
+// namespace

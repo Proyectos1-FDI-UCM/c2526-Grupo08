@@ -41,7 +41,7 @@ public class LevelWin : MonoBehaviour
     {
         // 1. Buscamos el inventario en el objeto que ha entrado (el jugador)
         Inventory inventory = other.GetComponent<Inventory>();
-        if (inventory == null) return;
+        if (inventory == null) { return; }
 
         int currentCount = 0;
 
@@ -61,9 +61,13 @@ public class LevelWin : MonoBehaviour
             Debug.Log($"[LevelWin] Door opened with {requiredItem}!");
 
             if (LevelManager.HasInstance())
+            {
                 LevelManager.Instance.CompleteLevel(nextSceneName);
+            }
             else
+            { 
                 SceneManager.LoadScene(nextSceneName);
+            }
         }
         else
         {

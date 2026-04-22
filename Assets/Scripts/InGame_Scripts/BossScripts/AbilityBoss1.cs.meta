@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: c832f798d711ce6479aaee5c6760b410
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - WarningPrefab: {fileID: 6303686602008324352, guid: a40cd7ee357ecb94c81e1749a6a71a79, type: 3}
+  - CrystalPrefab: {fileID: 6943249316873651562, guid: e84c86328db01bb4db4baae738bc0ad6, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

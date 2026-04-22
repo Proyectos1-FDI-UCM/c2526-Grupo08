@@ -209,6 +209,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5833783661910523780, guid: 54819649d9e38bf4f904b282db1f353f, type: 3}
   m_PrefabInstance: {fileID: 879137069}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &501106611 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+  m_PrefabInstance: {fileID: 1170881706}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &629304355
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -321,9 +326,7 @@ MonoBehaviour:
   TelegraphDuration: 1
   CrystalDamage: 30
   IsActive: 1
-  TimeBetweenCrystals: 0.1
   SpawnRange: {x: 10, y: 10}
-  GizmoColor: {r: 1, g: 0, b: 0, a: 0.25}
 --- !u!1001 &689994570
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -616,6 +619,7 @@ GameObject:
   - component: {fileID: 1257653019}
   - component: {fileID: 1257653018}
   - component: {fileID: 1257653021}
+  - component: {fileID: 1257653022}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -741,6 +745,25 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &1257653022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257653017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1d1434331e2f5f4289231bcd7856226, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _target: {fileID: 501106611}
+  _followDelay: 0.5
+  _shakeDuration: 0.3
+  _shakeIntensity: 0.1
+  _useBounds: 0
+  _boundsMin: {x: -9, y: -5}
+  _boundsMax: {x: 9, y: 5}
 --- !u!1 &1616007826 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5833783661910523780, guid: 54819649d9e38bf4f904b282db1f353f, type: 3}
@@ -761,7 +784,6 @@ MonoBehaviour:
   minionPrefab: {fileID: 412437166}
   spawnPointL: {fileID: 975334538}
   spawnPointR: {fileID: 971850565}
-  spawnTime: 15
 --- !u!4 &1616007834 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4166956782553929676, guid: 54819649d9e38bf4f904b282db1f353f, type: 3}
