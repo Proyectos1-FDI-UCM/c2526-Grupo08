@@ -1,7 +1,7 @@
 //---------------------------------------------------------
 // Breve descripción del contenido del archivo
-// Marián Navarro
-// No way down
+// Responsable de la creación de este archivo
+// Nombre del juego
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
@@ -13,7 +13,7 @@ using UnityEngine;
 /// Antes de cada class, descripción de qué es y para qué sirve,
 /// usando todas las líneas que sean necesarias.
 /// </summary>
-public class SoundTrack : MonoBehaviour
+public class ShootSound : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Atributos del Inspector (serialized fields)
@@ -42,10 +42,6 @@ public class SoundTrack : MonoBehaviour
     // primera palabra en minúsculas y el resto con la 
     // primera letra en mayúsculas)
     // Ejemplo: _maxHealthPoints
-
-   
-
-   
 
     #endregion
 
@@ -96,7 +92,7 @@ public class SoundTrack : MonoBehaviour
 
     private void Shoot()
     {
-        
+
         GameObject bulletObj = Instantiate(_bulletPrefab, _firePoint.position, _firePoint.rotation);
         Bullet bullet = bulletObj.GetComponent<Bullet>();
 
@@ -111,8 +107,7 @@ public class SoundTrack : MonoBehaviour
         }
     }
 
-
     #endregion
 
-} // class SoundTrack 
+} // class ShootSound 
 // namespace

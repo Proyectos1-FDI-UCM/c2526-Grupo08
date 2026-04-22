@@ -31,6 +31,8 @@ public class Bullet : MonoBehaviour
     [Tooltip("Daño que inflige la bala al impactar. (GDD ataque básico: 20 de daño)")]
     [SerializeField] private int _damage = 20;
 
+    [SerializeField] private AudioClip _impactSound;
+
     #endregion
 
 
@@ -99,28 +101,35 @@ public class Bullet : MonoBehaviour
     ///   · EnemyBullet  no colisiona con: Enemy,  EnemyBullet
     /// </summary>
     /// 
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         _health = other.GetComponent<Health>();
         if (_health != null)
         {
             _health.Damage(_damage);
+
+            // Esto crea un objeto temporal que suena y se destruye solo
+            if (_impactSound != null)
+            {
+                AudioSource.PlayClipAtPoint(_impactSound, transform.position);
+            }
         }
         Destroy(gameObject);
-    }
+
 
 
     #endregion
 
 
-    // ---- MÉTODOS PÚBLICOS ----
-    #region Métodos públicos
+        // ---- MÉTODOS PÚBLICOS ----
+        #region Métodos públicos
 
-    /// <summary>
-    /// Inicializa la dirección de la bala. Debe llamarse justo después del Instantiate,
-    /// antes de que el Start de la bala se ejecute.
-    /// </summary>
-    /// <param name="direction">Vector normalizado con la dirección de disparo.</param>
+        /// <summary>
+        /// Inicializa la dirección de la bala. Debe llamarse justo después del Instantiate,
+        /// antes de que el Start de la bala se ejecute.
+        /// </summary>
+        /// <param name="direction">Vector normalizado con la dirección de disparo.</param>
     public void Init(Vector2 direction, int damage)
     {
         _direction = direction.normalized;
@@ -139,7 +148,7 @@ public class Bullet : MonoBehaviour
     {
         _maxRange = newRange;
     }
-
+    
     #endregion
 
 } // class Bullet
