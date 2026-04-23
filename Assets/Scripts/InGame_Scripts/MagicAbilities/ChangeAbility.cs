@@ -114,15 +114,15 @@ public class ChangeAbility : MonoBehaviour
         //Busca entre las habilidades hasta encontrar una desbloqueada
         for (int i = 0; i < _abilityImage.Length; i++)
         {
-            _currentIndex = (_currentIndex + 1) % _abilityImage.Length;
+            _currentIndex = (_currentIndex + 1) % 3;
 
             if (IsAbilityUnlocked(_currentIndex))
             {
+                //Activa la nueva habilidad
+                UpdateAbilities();
                 return;
             }
         }
-        //Activa la nueva habilidad
-        UpdateAbilities();
     }
 
     private bool IsAbilityUnlocked(int index)

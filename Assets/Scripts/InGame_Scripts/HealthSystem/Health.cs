@@ -51,6 +51,8 @@ public class Health : MonoBehaviour
     [Tooltip("Marcar true solo en el enemigo especial.")]
     [SerializeField] private bool IsSpecialEnemy = false;
 
+    [SerializeField] private float ColorDuration = 0.3f;
+
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
@@ -61,6 +63,10 @@ public class Health : MonoBehaviour
 
     /// <summary>Evita procesar la muerte más de una vez.</summary>
     private bool _isDead = false;
+
+    private SpriteRenderer _spriteRenderer;
+    private Color _ogColor;
+    private float _colorTimer;
 
     #endregion
 
@@ -75,6 +81,22 @@ public class Health : MonoBehaviour
         {
             HealthBar.SetMaxValue(MaxHealth);
             HealthBar.SetValue(_currentHealth);
+        }
+
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _ogColor = _spriteRenderer.color;
+    }
+
+    private void Update()
+    {
+        if (_colorTimer > 0)
+        {
+            _colorTimer -= Time.deltaTime;
+
+            if (_colorTimer <= 0)
+            { 
+                _spriteRenderer.color = _ogColor;
+            }
         }
     }
 
@@ -94,8 +116,14 @@ public class Health : MonoBehaviour
         if (HealthBar != null)
             HealthBar.SetValue(_currentHealth);
 
-        if (_currentHealth <= 0)
-            Die();
+        //Cambiar color del player a rojo por un tiempo si le provocan daño
+        if (_currentHealth > 0)
+        {
+            _spriteRenderer.color = Color.red;
+            _colorTimer = ColorDuration; //Inicio del cronómetro
+        }
+
+        if (_currentHealth <= 0) Die();
     }
 
     /// <summary>Cura al personaje sin superar el máximo de vida.</summary>
@@ -107,6 +135,13 @@ public class Health : MonoBehaviour
 
         if (HealthBar != null)
             HealthBar.SetValue(_currentHealth);
+
+        //Cambiar color del player a verde si se cura
+        if (_currentHealth > 0)
+        {
+            _spriteRenderer.color = Color.green;
+            _colorTimer = ColorDuration; //Inicio del cronómetro
+        }
     }
 
     /// <summary>Activa o desactiva la inmunidad al daño (durante el dash).</summary>

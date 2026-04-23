@@ -30,6 +30,7 @@ public class Magic : MonoBehaviour
     [Tooltip("Barra de vida que muestra la vida en pantalla. Asignar desde el Inspector.")]
     [SerializeField] private UIBar MagicBar;
 
+    [SerializeField] private float ColorDuration = 0.3f;
 
     #endregion
 
@@ -43,6 +44,9 @@ public class Magic : MonoBehaviour
     // Ejemplo: _maxHealthPoints
 
     private int _currentMagic;
+    private float _colorTimer;
+    private SpriteRenderer _spriteRenderer;
+    private Color _ogColor;
 
     #endregion
 
@@ -67,9 +71,24 @@ public class Magic : MonoBehaviour
             MagicBar.SetMaxValue(MaxMagic);
             MagicBar.SetValue(_currentMagic);
         }
+
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _ogColor = _spriteRenderer.color;
     }
 
-    
+    private void Update()
+    {
+        if (_colorTimer > 0)
+        {
+            _colorTimer -= Time.deltaTime;
+
+            if (_colorTimer <= 0)
+            {
+                _spriteRenderer.color = _ogColor;
+            }
+        }
+    }
+
     #endregion
 
     // ---- MÉTODOS PÚBLICOS ----
@@ -84,6 +103,8 @@ public class Magic : MonoBehaviour
     {
         _currentMagic = Mathf.Min(_currentMagic + magicPoints, MaxMagic);
         if (MagicBar != null) MagicBar.SetValue(_currentMagic);
+        _spriteRenderer.color = Color.cyan;
+        _colorTimer = ColorDuration; //Inicio del cronómetro
         Debug.Log("La magia aumentó");
     }
 

@@ -1521,6 +1521,7 @@ MonoBehaviour:
   MagicPointsPrefab: {fileID: 0}
   KeyPrefab: {fileID: 0}
   IsSpecialEnemy: 0
+  ColorDuration: 0.3
 --- !u!114 &269608016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5341,6 +5342,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8370202389003812274, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+      propertyPath: BulletPrefab
+      value: 
+      objectReference: {fileID: 1869822841219727020, guid: 11937ea5ec3d5b4498175fed857247e6, type: 3}
+    - target: {fileID: -8370202389003812274, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: _bulletPrefab
       value: 
       objectReference: {fileID: 1869822841219727020, guid: 11937ea5ec3d5b4498175fed857247e6, type: 3}
@@ -7794,6 +7799,7 @@ MonoBehaviour:
   MagicPointsPrefab: {fileID: 0}
   KeyPrefab: {fileID: 0}
   IsSpecialEnemy: 0
+  ColorDuration: 0.3
 --- !u!114 &1563131092
 MonoBehaviour:
   m_ObjectHideFlags: 0
