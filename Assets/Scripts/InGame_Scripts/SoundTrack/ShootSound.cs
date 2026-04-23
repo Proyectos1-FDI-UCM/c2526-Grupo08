@@ -1,6 +1,6 @@
 //---------------------------------------------------------
 // Breve descripción del contenido del archivo
-// Responsable de la creación de este archivo
+// Marián Navarro
 // Nombre del juego
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
@@ -66,7 +66,7 @@ public class ShootSound : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (InputManager.Instance.MovementVector != Vector2.zero && Input.GetButtonDown("Fire1"))
+        if (Input.GetMouseButtonDown(0))
         {
             Shoot();
         }
@@ -92,18 +92,18 @@ public class ShootSound : MonoBehaviour
 
     private void Shoot()
     {
-
-        GameObject bulletObj = Instantiate(_bulletPrefab, _firePoint.position, _firePoint.rotation);
-        Bullet bullet = bulletObj.GetComponent<Bullet>();
-
-        // Inicializamos la bala 
-        bullet.Init(_firePoint.right, 20);
-
         if (_audioSource != null && _sfxDisparo != null)
         {
-            // Para que no suene monótono
-            _audioSource.pitch = Random.Range(0.95f, 1.05f);
             _audioSource.PlayOneShot(_sfxDisparo, _volumen);
+        }
+
+        if (_bulletPrefab != null && _firePoint != null)
+        {
+            // Instancia la bala y la lanza
+            GameObject bullet = Instantiate(_bulletPrefab, _firePoint.position, _firePoint.rotation);
+
+            // Asumiendo que tu script Bullet tiene el método Init
+            bullet.GetComponent<Bullet>().Init(_firePoint.right, 20);
         }
     }
 

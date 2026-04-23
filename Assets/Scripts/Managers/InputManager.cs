@@ -163,7 +163,7 @@ public class InputManager : MonoBehaviour
     {
         //return _fire.IsPressed();
     }
-    */
+   */
 
     /// <summary>
     /// Método para saber si el botón de disparo (Fire) se ha pulsado en este frame
