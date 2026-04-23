@@ -185,7 +185,7 @@ public class PlayerMovement : MonoBehaviour
         Vector2 gamepad = Vector2.zero;
         if (Gamepad.current != null)
         {
-            gamepad = Gamepad.current.rightStick.ReadValue();
+            gamepad = Gamepad.current.rightStick.ReadValue(); //Leído directamente del gamepad para que no se errores
         }
 
         if (gamepad.magnitude > 0.1f)

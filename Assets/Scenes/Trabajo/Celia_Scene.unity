@@ -127,6 +127,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8370202389003812274, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+      propertyPath: ShootOrigin
+      value: 
+      objectReference: {fileID: 226100411}
+    - target: {fileID: -8370202389003812274, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+      propertyPath: BulletPrefab
+      value: 
+      objectReference: {fileID: 1869822841219727020, guid: 11937ea5ec3d5b4498175fed857247e6, type: 3}
     - target: {fileID: -7367919625473029057, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: MagicBar
       value: 
