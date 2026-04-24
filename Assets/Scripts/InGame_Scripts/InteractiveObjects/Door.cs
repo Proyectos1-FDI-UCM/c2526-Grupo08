@@ -1,98 +1,117 @@
 //---------------------------------------------------------
-// Breve descripción del contenido del archivo
-// Marián Navarro
-// Nombre del juego
+// Gestiona el comportamiento de las puertas con llave del juego.
+// Al colisionar con el jugador comprueba si tiene llave:
+//   · Si la tiene: abre la puerta y consume la llave.
+//   · Si no la tiene: muestra feedback visual indicando que falta la llave.
+// Marián Navarro, lex
+// No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
 using UnityEngine;
-// Añadir aquí el resto de directivas using
-
 
 /// <summary>
-/// Antes de cada class, descripción de qué es y para qué sirve,
-/// usando todas las líneas que sean necesarias.
+/// Puerta que requiere una llave genérica para abrirse.
+/// Al intentar pasar, el jugador recibe feedback visual a través de FeedbackUI.
+///
+/// Modos de apertura (configurables en Inspector):
+///   · Destruir    → la puerta desaparece del mundo
+///   · Desactivar  → el GameObject se desactiva (recomendado si hay animaciones)
+///
+/// SETUP EN INSPECTOR:
+///   · Añade este script al GameObject de la puerta.
+///   · El Collider2D de la puerta debe ser un collider físico (IsTrigger = false)
+///     para que OnCollisionEnter2D se dispare.
+///   · Asigna el SpriteRenderer si quieres efecto visual al abrir.
 /// </summary>
 public class Door : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
-    #region Atributos del Inspector (serialized fields)
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // públicos y de inspector se nombren en formato PascalCase
-    // (palabras con primera letra mayúscula, incluida la primera letra)
-    // Ejemplo: MaxHealthPoints
+    #region Atributos del Inspector
+
+    [Header("Comportamiento")]
+    [Tooltip("Si es true, la puerta se destruye al abrirse.\n" +
+             "Si es false, el GameObject se desactiva (útil para animaciones futuras).")]
+    [SerializeField] private bool DestroyOnOpen = true;
+
+    [Header("Feedback")]
+    [Tooltip("Texto principal que aparece en el panel cuando la puerta está bloqueada.")]
+    [SerializeField] private string MensajeBloqueada = "Puerta bloqueada";
+
+    [Tooltip("Texto secundario cuando está bloqueada (motivo).")]
+    [SerializeField] private string SubmensajeBloqueada = "Necesitas una llave";
+
+    [Tooltip("Texto que aparece al abrir la puerta.")]
+    [SerializeField] private string MensajeAbierta = "¡Puerta abierta!";
 
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
-    #region Atributos Privados (private fields)
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // privados se nombren en formato _camelCase (comienza con _, 
-    // primera palabra en minúsculas y el resto con la 
-    // primera letra en mayúsculas)
-    // Ejemplo: _maxHealthPoints
+    #region Atributos Privados
+
+    /// <summary>Evita que la puerta procese más colisiones tras abrirse.</summary>
+    private bool _isOpen = false;
 
     #endregion
-    
+
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
-    
-    // Por defecto están los típicos (Update y Start) pero:
-    // - Hay que añadir todos los que sean necesarios
-    // - Hay que borrar los que no se usen 
-    
-    /// <summary>
-    /// Start is called on the frame when a script is enabled just before 
-    /// any of the Update methods are called the first time.
-    /// </summary>
-    
-    #endregion
 
-    // ---- MÉTODOS PÚBLICOS ----
-    #region Métodos públicos
-    // Documentar cada método que aparece aquí con ///<summary>
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
-    // Ejemplo: GetPlayerController
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (_isOpen) { return; }
+
+        Inventory inventory = collision.gameObject.GetComponent<Inventory>();
+        if (inventory == null) { return; }
+
+        if (inventory.hasKey)
+        {
+            OpenDoor(inventory);
+        }
+        else
+        {
+            MostrarFeedbackBloqueada();
+        }
+    }
 
     #endregion
 
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
-    // Documentar cada método que aparece aquí
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
 
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    /// <summary>
+    /// Abre la puerta: consume la llave, muestra feedback y elimina/desactiva el objeto.
+    /// </summary>
+    private void OpenDoor(Inventory inventory)
     {
-        Inventory inventory = collision.gameObject.GetComponent<Inventory>();
+        _isOpen = true;
 
-        if (inventory != null)
-        {
-            if (inventory.hasKey)
-            {
-                OpenDoor();
-            }
-            else
-            {
-                Debug.Log("Está cerrada, necesitas una llave.");
-            }
-        }
+        // Consumir la llave del inventario
+        inventory.hasKey = false;
+
+        // Feedback visual
+        if (FeedbackUI.HasInstance())
+            FeedbackUI.Instance.MostrarPuerta(bloqueada: false, MensajeAbierta);
+
+        Debug.Log("[Door] Puerta abierta.");
+
+        if (DestroyOnOpen)
+            Destroy(gameObject);
+        else
+            gameObject.SetActive(false);
     }
 
-    void OpenDoor()
+    /// <summary>
+    /// Muestra el panel de puerta bloqueada. No consume ningún recurso.
+    /// </summary>
+    private void MostrarFeedbackBloqueada()
     {
-        Debug.Log("Puerta abierta");
-        
-        Destroy(gameObject); 
+        if (FeedbackUI.HasInstance())
+            FeedbackUI.Instance.MostrarPuerta(bloqueada: true, MensajeBloqueada, SubmensajeBloqueada);
+
+        Debug.Log("[Door] Bloqueada: el jugador no tiene llave.");
     }
 
-    #endregion   
+    #endregion
 
-} // class Door 
-// namespace
+} // class Door

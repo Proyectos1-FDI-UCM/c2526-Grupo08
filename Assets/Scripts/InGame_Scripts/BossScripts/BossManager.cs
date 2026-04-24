@@ -26,16 +26,6 @@ using UnityEngine;
 ///   · Un DialogueSystem en la escena (asignar en Inspector).
 ///   · BossPhaseController en el mismo GameObject del boss (se busca automáticamente).
 ///   · LevelManager en la escena (singleton local).
-///
-/// IMPORTANTE — pequeño cambio en Health.cs:
-///   En el bloque 'else if (IsBoss)' de Die(), sustituir la llamada directa
-///   a LevelManager.Instance.OnBossDeath() por:
-///       if (BossManager.HasInstance())
-///           BossManager.Instance.OnBossDeath();
-///       else if (LevelManager.HasInstance())
-///           LevelManager.Instance.OnBossDeath();
-///   Así el diálogo se reproduce antes de mostrar el panel de victoria.
-///   (Ver región "CAMBIO EN Health.cs" al final del archivo para el bloque exacto.)
 /// </summary>
 public class BossManager : MonoBehaviour
 {

@@ -1,0 +1,73 @@
+/*
+  FeedbackUI.uss
+  Tarjetas de feedback visual ingame (pickup, puerta).
+  Paleta del GDD.
+*/
+
+.feedback-root {
+    position: absolute;
+    left: 24px;
+    bottom: 80px;
+    width: 280px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.feedback-card {
+    background-color: rgba(31, 55, 56, 0.92);
+    border-color: #2f7a74;
+    border-width: 1px;
+    border-radius: 5px;
+    padding: 8px 14px;
+    margin-bottom: 6px;
+    flex-direction: row;
+    align-items: center;
+    opacity: 0;
+    translate: -20px 0;
+    transition-property: opacity, translate;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+}
+
+.feedback-card--visible {
+    opacity: 1;
+    translate: 0 0;
+}
+
+.feedback-card--locked {
+    border-color: #e0c060;
+    background-color: rgba(40, 32, 15, 0.92);
+}
+
+.feedback-card--unlocked {
+    border-color: #79e2d6;
+    background-color: rgba(18, 45, 45, 0.92);
+}
+
+.feedback-card--pickup {
+    border-color: #3bb4a8;
+}
+
+.feedback-icon {
+    width: 28px;
+    height: 28px;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.feedback-text-col {
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.feedback-label {
+    color: #d4f0ee;
+    font-size: 13px;
+    -unity-font-style: bold;
+}
+
+.feedback-sublabel {
+    color: #7aadaa;
+    font-size: 11px;
+    margin-top: 1px;
+}

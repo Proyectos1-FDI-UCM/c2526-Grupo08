@@ -1,0 +1,182 @@
+/*
+  PauseMenu.uss
+  Paleta del GDD: #122123 fondo · #79e2d6 cyan · #2f7a74 verde mid · #1f3738 panel
+*/
+
+:root {
+    --color-bg:        #122123;
+    --color-panel:     #1f3738;
+    --color-panel-alt: #2e4f4d;
+    --color-accent:    #79e2d6;
+    --color-mid:       #2f7a74;
+    --color-text:      #d4f0ee;
+    --color-text-dim:  #7aadaa;
+    --color-overlay:   rgba(10, 20, 21, 0.82);
+}
+
+.pause-overlay {
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: var(--color-overlay);
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+
+.pause-overlay--visible {
+    display: flex;
+}
+
+.pause-panel {
+    background-color: var(--color-panel);
+    border-color: var(--color-accent);
+    border-width: 1px;
+    border-radius: 6px;
+    padding: 32px 40px;
+    min-width: 320px;
+    align-items: center;
+}
+
+.pause-title {
+    font-size: 26px;
+    color: var(--color-accent);
+    -unity-font-style: bold;
+    letter-spacing: 3px;
+    margin-bottom: 28px;
+    -unity-text-align: upper-center;
+}
+
+.pause-divider {
+    width: 100%;
+    height: 1px;
+    background-color: var(--color-mid);
+    margin-top: 4px;
+    margin-bottom: 20px;
+}
+
+.pause-btn {
+    background-color: var(--color-panel-alt);
+    border-color: var(--color-mid);
+    border-width: 1px;
+    border-radius: 4px;
+    color: var(--color-text);
+    font-size: 14px;
+    letter-spacing: 1px;
+    padding: 10px 0;
+    width: 240px;
+    margin-bottom: 10px;
+    -unity-text-align: upper-center;
+    transition-property: background-color, border-color;
+    transition-duration: 0.15s;
+    transition-timing-function: ease-out;
+}
+
+.pause-btn:hover {
+    background-color: var(--color-mid);
+    border-color: var(--color-accent);
+}
+
+.pause-btn:active {
+    background-color: var(--color-accent);
+    color: var(--color-bg);
+}
+
+.pause-btn--primary {
+    background-color: var(--color-mid);
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    -unity-font-style: bold;
+    margin-bottom: 18px;
+}
+
+.pause-btn--primary:hover {
+    background-color: var(--color-accent);
+    color: var(--color-bg);
+}
+
+.pause-settings {
+    display: none;
+    width: 100%;
+    align-items: center;
+}
+
+.pause-settings--visible {
+    display: flex;
+    flex-direction: column;
+}
+
+.pause-setting-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 14px;
+}
+
+.pause-setting-label {
+    color: var(--color-text-dim);
+    font-size: 13px;
+    flex-grow: 1;
+}
+
+.pause-setting-value {
+    color: var(--color-accent);
+    font-size: 13px;
+    -unity-font-style: bold;
+    width: 38px;
+    -unity-text-align: upper-center;
+}
+
+.pause-btn-small {
+    background-color: var(--color-panel);
+    border-color: var(--color-mid);
+    border-width: 1px;
+    border-radius: 3px;
+    color: var(--color-accent);
+    font-size: 14px;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    -unity-text-align: upper-center;
+    margin-left: 4px;
+    transition-property: background-color;
+    transition-duration: 0.1s;
+}
+
+.pause-btn-small:hover {
+    background-color: var(--color-mid);
+}
+
+.pause-slider {
+    width: 160px;
+    margin-left: 8px;
+}
+
+.pause-slider > .unity-base-slider__tracker {
+    background-color: var(--color-panel-alt);
+    border-color: var(--color-mid);
+    border-width: 1px;
+    height: 4px;
+    border-radius: 2px;
+}
+
+.pause-slider > .unity-base-slider__dragger {
+    background-color: var(--color-accent);
+    border-width: 0;
+    width: 14px;
+    height: 14px;
+    border-radius: 7px;
+    margin-top: -5px;
+}
+
+.pause-btn-back {
+    margin-top: 16px;
+    color: var(--color-text-dim);
+    border-color: var(--color-panel-alt);
+}
+
+.pause-btn-back:hover {
+    color: var(--color-text);
+    border-color: var(--color-mid);
+}
