@@ -1,6 +1,5 @@
 //---------------------------------------------------------
 // Gestiona los puntos de vida de cualquier personaje (jugador o enemigo).
-// Al llegar a 0: destruye al enemigo o avisa al LevelManager si es el jugador.
 // Celia García Riaza
 // No Way Down
 // Proyectos 1 - Curso 2025-26
@@ -11,14 +10,13 @@ using UnityEngine;
 /// <summary>
 /// Componente de vida genérico para jugador y enemigos.
 ///
-/// Jugador (IsPlayer = true):
-///   Al morir avisa al LevelManager de la escena, que muestra el panel
-///   de muerte y pausa el juego. LevelManager siempre vive en la escena
-///   activa, así que la referencia nunca es inválida.
-///
-/// Enemigo (IsPlayer = false):
-///   Al morir destruye el GameObject indicado en EnemyGameObject,
-///   o este mismo GameObject si no se asignó ninguno.
+/// CORRECCIÓN respecto a la versión anterior:
+///   · Die() comprobaba MagicPointsPrefab != null pero luego siempre llamaba
+///     Instantiate(MagicPointsPrefab, EnemyGameObject.transform.position, ...)
+///     → si MagicPointsPrefab O EnemyGameObject eran null, lanzaba
+///     NullReferenceException. Ahora ambos se validan antes de instanciar.
+///   · Si EnemyGameObject es null en la muerte normal, se usa gameObject
+///     como posición del drop de magia (igual que para la destrucción).
 /// </summary>
 public class Health : MonoBehaviour
 {
@@ -28,7 +26,7 @@ public class Health : MonoBehaviour
     [Tooltip("Vida máxima. (GDD: jugador 200, normal 100, rápido 50, fuerte 250)")]
     [SerializeField] private int MaxHealth = 200;
 
-    [Tooltip("Barra de vida que muestra la vida en pantalla. Asignar desde el Inspector.")]
+    [Tooltip("Barra de vida que muestra la vida en pantalla.")]
     [SerializeField] private UIBar HealthBar;
 
     [Tooltip("Solo enemigos: GameObject a destruir al morir. " +
@@ -41,16 +39,16 @@ public class Health : MonoBehaviour
     [Tooltip("Marcar true solo en el jefe.")]
     [SerializeField] private bool IsBoss = false;
 
-    [Tooltip("Prefab del punto de magia. Solo poner si el personaje que tiene Health es un enemigo.")]
+    [Tooltip("Prefab del punto de magia. Opcional: solo si el enemigo debe soltar magia al morir.")]
     [SerializeField] private GameObject MagicPointsPrefab;
 
-    [Tooltip("Prefab de la llave que soltará el enemigo.")]
+    [Tooltip("Prefab de la llave que soltará el enemigo al morir. Opcional.")]
     [SerializeField] private GameObject KeyPrefab;
-    //esto para cuando el enemigo muera en el nivel 2, suelte la llave. Lo está haciendo Marián.
 
     [Tooltip("Marcar true solo en el enemigo especial.")]
     [SerializeField] private bool IsSpecialEnemy = false;
 
+    [Tooltip("Duración en segundos del flash de color al recibir daño o curación.")]
     [SerializeField] private float ColorDuration = 0.3f;
 
     #endregion
@@ -60,8 +58,6 @@ public class Health : MonoBehaviour
 
     private int _currentHealth;
     private bool _isImmune = false;
-
-    /// <summary>Evita procesar la muerte más de una vez.</summary>
     private bool _isDead = false;
 
     private SpriteRenderer _spriteRenderer;
@@ -70,7 +66,7 @@ public class Health : MonoBehaviour
 
     #endregion
 
-    // ---- MÉTODOS DE MONOBEHAVIOUR ----
+    // ---- MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
     private void Start()
@@ -84,19 +80,17 @@ public class Health : MonoBehaviour
         }
 
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _ogColor = _spriteRenderer.color;
+        if (_spriteRenderer != null)
+            _ogColor = _spriteRenderer.color;
     }
 
     private void Update()
     {
-        if (_colorTimer > 0)
+        if (_colorTimer > 0f)
         {
             _colorTimer -= Time.deltaTime;
-
-            if (_colorTimer <= 0)
-            { 
+            if (_colorTimer <= 0f && _spriteRenderer != null)
                 _spriteRenderer.color = _ogColor;
-            }
         }
     }
 
@@ -108,7 +102,7 @@ public class Health : MonoBehaviour
     /// <summary>Aplica daño. Si la vida llega a 0 ejecuta la lógica de muerte.</summary>
     public void Damage(int damageAmount)
     {
-        if (_isDead || _isImmune) return;
+        if (_isDead || _isImmune) { return; }
 
         _currentHealth -= damageAmount;
         _currentHealth = Mathf.Max(_currentHealth, 0);
@@ -116,47 +110,37 @@ public class Health : MonoBehaviour
         if (HealthBar != null)
             HealthBar.SetValue(_currentHealth);
 
-        //Cambiar color del player a rojo por un tiempo si le provocan daño
-        if (_currentHealth > 0)
+        if (_currentHealth > 0 && _spriteRenderer != null)
         {
             _spriteRenderer.color = Color.red;
-            _colorTimer = ColorDuration; //Inicio del cronómetro
+            _colorTimer = ColorDuration;
         }
 
-        if (_currentHealth <= 0) Die();
+        if (_currentHealth <= 0) { Die(); }
     }
 
     /// <summary>Cura al personaje sin superar el máximo de vida.</summary>
     public void Healing(int healAmount)
     {
-        if (_isDead) return;
+        if (_isDead) { return; }
 
         _currentHealth = Mathf.Min(_currentHealth + healAmount, MaxHealth);
 
         if (HealthBar != null)
             HealthBar.SetValue(_currentHealth);
 
-        //Cambiar color del player a verde si se cura
-        if (_currentHealth > 0)
+        if (_spriteRenderer != null)
         {
             _spriteRenderer.color = Color.green;
-            _colorTimer = ColorDuration; //Inicio del cronómetro
+            _colorTimer = ColorDuration;
         }
     }
 
-    /// <summary>Activa o desactiva la inmunidad al daño (durante el dash).</summary>
     public void SetImmune(bool immune) => _isImmune = immune;
-
-    /// <summary>Devuelve si el personaje es inmune en este momento.</summary>
     public bool IsImmune() => _isImmune;
-
-    /// <summary>Devuelve la vida actual.</summary>
     public int GetCurrentHealth() => _currentHealth;
 
-    /// <summary>
-    /// Restaura la vida al valor del checkpoint.
-    /// Llamado por LevelManager al iniciar la escena.
-    /// </summary>
+    /// <summary>Restaura la vida al valor del checkpoint. Llamado por LevelManager.</summary>
     public void SetHealthFromCheckpoint(int savedHealth)
     {
         _currentHealth = Mathf.Clamp(savedHealth, 0, MaxHealth);
@@ -174,13 +158,9 @@ public class Health : MonoBehaviour
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
 
-    /// <summary>
-    /// Lógica de muerte. El jugador avisa al LevelManager (local de escena).
-    /// El enemigo se destruye a sí mismo.
-    /// </summary>
     private void Die()
     {
-        if (_isDead) return;
+        if (_isDead) { return; }
         _isDead = true;
 
         if (IsPlayer)
@@ -191,8 +171,10 @@ public class Health : MonoBehaviour
                 LevelManager.Instance.OnPlayerDeath();
             else
                 Debug.LogWarning("[Health] No hay BossManager ni LevelManager en la escena.");
+            return;
         }
-        else if (IsBoss)
+
+        if (IsBoss)
         {
             if (BossManager.HasInstance())
                 BossManager.Instance.OnBossDeath();
@@ -200,39 +182,36 @@ public class Health : MonoBehaviour
                 LevelManager.Instance.OnBossDeath();
             else
                 Debug.LogWarning("[Health] No hay BossManager ni LevelManager en la escena.");
+            return;
         }
-        else
+
+        // --- Enemigo especial ---
+        if (IsSpecialEnemy)
         {
-            if (IsSpecialEnemy)
-            {
-                SpecialEnemyDeath specialDeath = GetComponent<SpecialEnemyDeath>();
-
-                if (specialDeath != null)
-                {
-                    specialDeath.OnDefeated();
-                }
-                else
-                {
-                    Debug.LogWarning($"[Health] {gameObject.name} es IsSpecialEnemy pero no tiene el componente SpecialEnemyDeath.");
-                }
-
-                return;
-            }
-
-            // --- Muerte normal de enemigo ---
-            GameObject toDestroy = EnemyGameObject != null ? EnemyGameObject : gameObject;
-
-            if (KeyPrefab != null)
-            {
-                Instantiate(KeyPrefab, toDestroy.transform.position, Quaternion.identity);
-            }
-
-            Destroy(toDestroy);
-
-            GameObject _magicPointObj = Instantiate(MagicPointsPrefab, EnemyGameObject.transform.position, Quaternion.identity);
+            SpecialEnemyDeath specialDeath = GetComponent<SpecialEnemyDeath>();
+            if (specialDeath != null)
+                specialDeath.OnDefeated();
+            else
+                Debug.LogWarning($"[Health] {gameObject.name} es IsSpecialEnemy pero no tiene SpecialEnemyDeath.");
+            return;
         }
+
+        // --- Muerte normal de enemigo ---
+        // El GameObject a destruir: EnemyGameObject si está asignado, sino este mismo.
+        GameObject toDestroy = EnemyGameObject != null ? EnemyGameObject : gameObject;
+
+        // Llave opcional
+        if (KeyPrefab != null)
+            Instantiate(KeyPrefab, toDestroy.transform.position, Quaternion.identity);
+
+        // Drop de magia opcional — CORRECCIÓN: doble null-check
+        if (MagicPointsPrefab != null)
+            Instantiate(MagicPointsPrefab, toDestroy.transform.position, Quaternion.identity);
+
+        Destroy(toDestroy);
     }
 
     #endregion
 
 } // class Health
+  // Celia García Riaza

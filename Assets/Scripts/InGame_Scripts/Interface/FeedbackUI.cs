@@ -1,10 +1,5 @@
 //---------------------------------------------------------
 // Controlador de feedback visual ingame usando UI Toolkit.
-// Muestra tarjetas animadas en la esquina inferior izquierda para:
-//   · Recoger un objeto  → nombre del objeto + cantidad total
-//   · Acercarse a puerta → "Bloqueada: falta una llave" / "¡Abierta!"
-// Cada tarjeta se muestra durante un tiempo configurable y desaparece
-// con transición de opacidad (USS transition).
 // Alexia Pérez Santana
 // No Way Down
 // Proyectos 1 - Curso 2025-26
@@ -15,23 +10,17 @@ using UnityEngine.UIElements;
 
 /// <summary>
 /// Singleton local por escena.
+/// Muestra tarjetas animadas para pickup de objetos y estado de puertas.
 ///
-/// Uso desde otros scripts:
+/// IMPORTANTE: la inicialización de UI se hace en Start (no OnEnable)
+/// porque UI Toolkit necesita un frame para procesar el UXML.
 ///
-///   // Al recoger un objeto:
-///   FeedbackUI.Instance.MostrarPickup("Fusible", Sprites.Fusible, 2);
-///
-///   // Al acercarse a una puerta bloqueada:
-///   FeedbackUI.Instance.MostrarPuerta(bloqueada: true, "Falta una llave");
-///
-///   // Al abrir la puerta:
-///   FeedbackUI.Instance.MostrarPuerta(bloqueada: false, "¡Puerta abierta!");
 /// </summary>
 [RequireComponent(typeof(UIDocument))]
 public class FeedbackUI : MonoBehaviour
 {
     // ---- SINGLETON ----
-    #region Singleton local de escena
+    #region Singleton
 
     private static FeedbackUI _instance;
     public static FeedbackUI Instance
@@ -62,38 +51,18 @@ public class FeedbackUI : MonoBehaviour
     #region Atributos del Inspector
 
     [Header("Timing")]
-    [Tooltip("Segundos que se muestra la tarjeta de pickup antes de desaparecer.")]
     [SerializeField] private float PickupDuration = 2.5f;
-
-    [Tooltip("Segundos que se muestra la tarjeta de puerta antes de desaparecer.")]
     [SerializeField] private float DoorDuration = 2f;
 
     [Header("Sprites de objetos")]
-    [Tooltip("Sprite del fusible (se muestra en la tarjeta de pickup).")]
     [SerializeField] private Sprite SpriteFusible;
-
-    [Tooltip("Sprite de la llave genérica.")]
     [SerializeField] private Sprite SpriteLlave;
-
-    [Tooltip("Sprite de la venda.")]
     [SerializeField] private Sprite SpriteVenda;
-
-    [Tooltip("Sprite de la tarjeta de acceso.")]
     [SerializeField] private Sprite SpriteTarjeta;
-
-    [Tooltip("Sprite de la llave especial.")]
     [SerializeField] private Sprite SpriteLlaveEspecial;
-
-    [Tooltip("Sprite de la habilidad multidireccional.")]
     [SerializeField] private Sprite SpriteHabilidadMulti;
-
-    [Tooltip("Sprite de la habilidad explosiva.")]
     [SerializeField] private Sprite SpriteHabilidadExplosiva;
-
-    [Tooltip("Sprite icono de puerta bloqueada.")]
     [SerializeField] private Sprite SpritePuertaBloqueada;
-
-    [Tooltip("Sprite icono de puerta abierta.")]
     [SerializeField] private Sprite SpritePuertaAbierta;
 
     #endregion
@@ -101,7 +70,6 @@ public class FeedbackUI : MonoBehaviour
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados
 
-    // ── Elementos UI ──
     private VisualElement _doorCard;
     private VisualElement _doorIcon;
     private Label _doorLabel;
@@ -112,11 +80,11 @@ public class FeedbackUI : MonoBehaviour
     private Label _pickupLabel;
     private Label _pickupSublabel;
 
-    // ── Timers (acumuladores, sin corrutinas) ──
     private float _pickupTimer = 0f;
     private float _doorTimer = 0f;
     private bool _pickupActive = false;
     private bool _doorActive = false;
+    private bool _uiReady = false;
 
     private const string CSS_VISIBLE = "feedback-card--visible";
     private const string CSS_LOCKED = "feedback-card--locked";
@@ -124,32 +92,18 @@ public class FeedbackUI : MonoBehaviour
 
     #endregion
 
-    // ---- MÉTODOS DE MONOBEHAVIOUR ----
-    #region Métodos de MonoBehaviour
+    // ---- MONOBEHAVIOUR ----
+    #region MonoBehaviour
 
-    private void OnEnable()
+    private void Start()
     {
-        UIDocument doc = GetComponent<UIDocument>();
-        VisualElement root = doc.rootVisualElement;
-
-        _doorCard = root.Q<VisualElement>("doorCard");
-        _doorIcon = root.Q<VisualElement>("doorIcon");
-        _doorLabel = root.Q<Label>("doorLabel");
-        _doorSublabel = root.Q<Label>("doorSublabel");
-
-        _pickupCard = root.Q<VisualElement>("pickupCard");
-        _pickupIcon = root.Q<VisualElement>("pickupIcon");
-        _pickupLabel = root.Q<Label>("pickupLabel");
-        _pickupSublabel = root.Q<Label>("pickupSublabel");
-
-        // Estado inicial: ocultos
-        _doorCard.RemoveFromClassList(CSS_VISIBLE);
-        _pickupCard.RemoveFromClassList(CSS_VISIBLE);
+        InicializarUI();
     }
 
     private void Update()
     {
-        // Timer de pickup
+        if (!_uiReady) { return; }
+
         if (_pickupActive)
         {
             _pickupTimer -= Time.deltaTime;
@@ -160,7 +114,6 @@ public class FeedbackUI : MonoBehaviour
             }
         }
 
-        // Timer de puerta
         if (_doorActive)
         {
             _doorTimer -= Time.deltaTime;
@@ -178,19 +131,14 @@ public class FeedbackUI : MonoBehaviour
     #region API pública
 
     /// <summary>
-    /// Muestra la tarjeta de pickup.
-    /// Llamar desde Objects.cs (o desde Inventory.cs) al recoger un objeto.
+    /// Muestra la tarjeta de pickup con nombre, icono y cantidad total.
     /// </summary>
-    /// <param name="nombreObjeto">Nombre a mostrar ("Fusible", "Venda", etc.)</param>
-    /// <param name="icono">Sprite del objeto. Puede ser null (sin icono).</param>
-    /// <param name="cantidad">Cantidad total que tiene el jugador ahora.</param>
     public void MostrarPickup(string nombreObjeto, Sprite icono, int cantidad)
     {
-        if (_pickupCard == null) { return; }
+        if (!_uiReady) { return; }
 
         _pickupLabel.text = nombreObjeto;
-        _pickupSublabel.text = $"Total: <color=#79e2d6><b>{cantidad}</b></color>";
-
+        _pickupSublabel.text = $"Total: {cantidad}";
         SetIconSprite(_pickupIcon, icono);
 
         _pickupTimer = PickupDuration;
@@ -199,11 +147,12 @@ public class FeedbackUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Atajo: muestra pickup a partir del tipo de objeto del enum de Inventory.
-    /// Llama a MostrarPickup con el sprite correcto automáticamente.
+    /// Detecta automáticamente nombre e icono según el tipo de Objects.
     /// </summary>
     public void MostrarPickupTipo(Objects.ObjectsType tipo, int cantidad)
     {
+        if (!_uiReady) { return; }
+
         string nombre;
         Sprite icono;
 
@@ -218,31 +167,21 @@ public class FeedbackUI : MonoBehaviour
             case Objects.ObjectsType.card:
                 nombre = "Tarjeta de acceso"; icono = SpriteTarjeta; break;
             case Objects.ObjectsType.multiAbility:
-                nombre = "Habilidad multidireccional desbloqueda";
-                icono = SpriteHabilidadMulti;
-                cantidad = -1; // las habilidades no tienen cantidad
-                break;
+                nombre = "Habilidad multidireccional"; icono = SpriteHabilidadMulti; cantidad = -1; break;
             case Objects.ObjectsType.explosiveAbility:
-                nombre = "Habilidad explosiva desbloqueada";
-                icono = SpriteHabilidadExplosiva;
-                cantidad = -1;
-                break;
+                nombre = "Habilidad explosiva"; icono = SpriteHabilidadExplosiva; cantidad = -1; break;
             default:
                 nombre = "Objeto"; icono = null; break;
         }
 
         if (cantidad < 0)
         {
-            // Para habilidades: solo el nombre, sin "Total:"
-            if (_pickupCard != null)
-            {
-                _pickupLabel.text = nombre;
-                _pickupSublabel.text = "";
-                SetIconSprite(_pickupIcon, icono);
-                _pickupTimer = PickupDuration;
-                _pickupActive = true;
-                _pickupCard.AddToClassList(CSS_VISIBLE);
-            }
+            _pickupLabel.text = nombre;
+            _pickupSublabel.text = "";
+            SetIconSprite(_pickupIcon, icono);
+            _pickupTimer = PickupDuration;
+            _pickupActive = true;
+            _pickupCard.AddToClassList(CSS_VISIBLE);
         }
         else
         {
@@ -251,17 +190,12 @@ public class FeedbackUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Muestra la tarjeta de puerta.
-    /// Llamar desde Door.cs al intentar abrir una puerta.
+    /// Muestra la tarjeta de puerta (bloqueada = amarillo / abierta = cyan).
     /// </summary>
-    /// <param name="bloqueada">True = sin llave (rojo). False = abierta (cyan).</param>
-    /// <param name="mensaje">Texto principal ("Bloqueada: falta una llave" / "¡Puerta abierta!").</param>
-    /// <param name="submensaje">Texto secundario opcional.</param>
     public void MostrarPuerta(bool bloqueada, string mensaje, string submensaje = "")
     {
-        if (_doorCard == null) { return; }
+        if (!_uiReady) { return; }
 
-        // Limpiar clases de variante anteriores
         _doorCard.RemoveFromClassList(CSS_LOCKED);
         _doorCard.RemoveFromClassList(CSS_UNLOCKED);
 
@@ -289,10 +223,46 @@ public class FeedbackUI : MonoBehaviour
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
 
-    /// <summary>
-    /// Asigna un sprite a un VisualElement usando backgroundImage (UI Toolkit).
-    /// Si el sprite es null, oculta el elemento.
-    /// </summary>
+    private void InicializarUI()
+    {
+        UIDocument doc = GetComponent<UIDocument>();
+        if (doc == null)
+        {
+            Debug.LogError("[FeedbackUI] No hay UIDocument en este GameObject.");
+            return;
+        }
+
+        VisualElement root = doc.rootVisualElement;
+        if (root == null)
+        {
+            Debug.LogError("[FeedbackUI] rootVisualElement es null. " +
+                           "¿Está el UXML asignado en Source Asset?");
+            return;
+        }
+
+        _doorCard = root.Q<VisualElement>("doorCard");
+        _doorIcon = root.Q<VisualElement>("doorIcon");
+        _doorLabel = root.Q<Label>("doorLabel");
+        _doorSublabel = root.Q<Label>("doorSublabel");
+
+        _pickupCard = root.Q<VisualElement>("pickupCard");
+        _pickupIcon = root.Q<VisualElement>("pickupIcon");
+        _pickupLabel = root.Q<Label>("pickupLabel");
+        _pickupSublabel = root.Q<Label>("pickupSublabel");
+
+        if (_doorCard == null || _pickupCard == null)
+        {
+            Debug.LogError("[FeedbackUI] 'doorCard' o 'pickupCard' no encontrados en el UXML. " +
+                           "Nombres esperados: doorCard, pickupCard.");
+            return;
+        }
+
+        _doorCard.RemoveFromClassList(CSS_VISIBLE);
+        _pickupCard.RemoveFromClassList(CSS_VISIBLE);
+
+        _uiReady = true;
+    }
+
     private void SetIconSprite(VisualElement element, Sprite sprite)
     {
         if (element == null) { return; }

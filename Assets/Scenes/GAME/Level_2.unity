@@ -1685,73 +1685,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 171525329}
   m_CullTransparentMesh: 1
---- !u!1 &185878636
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 185878639}
-  - component: {fileID: 185878638}
-  - component: {fileID: 185878637}
-  m_Layer: 0
-  m_Name: PauseMenuUI (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &185878637
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 185878636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88282ead215826f49ae498ee4a4c7699, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MusicaSource: {fileID: 1107412822}
-  EfectosSource: {fileID: 1107412822}
-  NombreEscenaMenu: MainMenu
---- !u!114 &185878638
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 185878636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_PanelSettings: {fileID: 11400000, guid: 6287e04c8b05f2343a27225cb43b701c, type: 2}
-  m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: e54af70da99ab4146a6403f96ba8cd74, type: 3}
-  m_SortingOrder: 10
-  m_WorldSpaceSizeMode: 1
-  m_WorldSpaceWidth: 1920
-  m_WorldSpaceHeight: 1080
---- !u!4 &185878639
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 185878636}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.3861555, y: 37.811375, z: -0.97123677}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &190194408
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3983,10 +3916,10 @@ MonoBehaviour:
   SpriteVenda: {fileID: -741464502463440612, guid: a148e7edf821e0e4c88da43d05333fa6, type: 3}
   SpriteTarjeta: {fileID: 746447300835577954, guid: 41d0dc96ec422704f920709d3089c189, type: 3}
   SpriteLlaveEspecial: {fileID: -4338090237889075295, guid: 82749643d2a3c0a4c8c1605934edfbb1, type: 3}
-  SpriteHabilidadMulti: {fileID: 0}
-  SpriteHabilidadExplosiva: {fileID: 0}
+  SpriteHabilidadMulti: {fileID: -8524480863828330132, guid: 529a73d2fb886884bb793a5d5c98f14f, type: 3}
+  SpriteHabilidadExplosiva: {fileID: 9048997433866386892, guid: 01de14ccb44fbb344a56405ff17b0623, type: 3}
   SpritePuertaBloqueada: {fileID: -3548610865192063708, guid: e27e3a2a5a51db54ab591a454fc52a05, type: 3}
-  SpritePuertaAbierta: {fileID: 0}
+  SpritePuertaAbierta: {fileID: -6832189706618455083, guid: b4361cc45a7abe4428caa0b95f0070df, type: 3}
 --- !u!114 &537221902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13189,6 +13122,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DialogueSystemRef: {fileID: 31857259}
+  AutoStartOnLoad: 0
+  AutoStartDelay: 0.1
   Lines:
   - SpeakerName: 
     CharacterSprite: {fileID: 0}
@@ -13328,6 +13263,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DialogueSystemRef: {fileID: 31857259}
+  AutoStartOnLoad: 0
+  AutoStartDelay: 0.1
   Lines:
   - SpeakerName: Cori
     CharacterSprite: {fileID: 0}
@@ -15369,81 +15306,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &2035942305
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2035942308}
-  - component: {fileID: 2035942307}
-  - component: {fileID: 2035942306}
-  m_Layer: 0
-  m_Name: FeedbackUIDoc (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2035942306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2035942305}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d90fefb98a39cf9468adaaa3363d690e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PickupDuration: 2.5
-  DoorDuration: 2
-  SpriteFusible: {fileID: -6090702972439111104, guid: 05a6ff58963cae648ad1708fdb0b2526, type: 3}
-  SpriteLlave: {fileID: 3664216311134451531, guid: 501ddca1b393d9a489949090989030a8, type: 3}
-  SpriteVenda: {fileID: -741464502463440612, guid: a148e7edf821e0e4c88da43d05333fa6, type: 3}
-  SpriteTarjeta: {fileID: 746447300835577954, guid: 41d0dc96ec422704f920709d3089c189, type: 3}
-  SpriteLlaveEspecial: {fileID: -4338090237889075295, guid: 82749643d2a3c0a4c8c1605934edfbb1, type: 3}
-  SpriteHabilidadMulti: {fileID: -8524480863828330132, guid: 529a73d2fb886884bb793a5d5c98f14f, type: 3}
-  SpriteHabilidadExplosiva: {fileID: 9048997433866386892, guid: 01de14ccb44fbb344a56405ff17b0623, type: 3}
-  SpritePuertaBloqueada: {fileID: -3548610865192063708, guid: e27e3a2a5a51db54ab591a454fc52a05, type: 3}
-  SpritePuertaAbierta: {fileID: -6832189706618455083, guid: b4361cc45a7abe4428caa0b95f0070df, type: 3}
---- !u!114 &2035942307
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2035942305}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_PanelSettings: {fileID: 11400000, guid: 6287e04c8b05f2343a27225cb43b701c, type: 2}
-  m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: 850354f752210794d98ec95446bf90f8, type: 3}
-  m_SortingOrder: 5
-  m_WorldSpaceSizeMode: 1
-  m_WorldSpaceWidth: 1920
-  m_WorldSpaceHeight: 1080
---- !u!4 &2035942308
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2035942305}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.3861555, y: 37.811375, z: -0.97123677}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2048709939
 GameObject:
   m_ObjectHideFlags: 0
@@ -15834,6 +15696,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DialogueSystemRef: {fileID: 31857259}
+  AutoStartOnLoad: 1
+  AutoStartDelay: 0.2
   Lines:
   - SpeakerName: 
     CharacterSprite: {fileID: 0}
@@ -16676,9 +16540,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88282ead215826f49ae498ee4a4c7699, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MusicaSource: {fileID: 0}
-  EfectosSource: {fileID: 0}
-  NombreEscenaMenu: MainMenu
+  MusicaSource: {fileID: 1107412822}
+  EfectosSource: {fileID: 1107412822}
+  NombreEscenaMenu: Menu
 --- !u!114 &2134551407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16738,6 +16602,4 @@ SceneRoots:
   - {fileID: 1784240888}
   - {fileID: 2134551408}
   - {fileID: 537221903}
-  - {fileID: 185878639}
-  - {fileID: 2035942308}
   - {fileID: 1107412823}

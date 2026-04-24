@@ -1,10 +1,7 @@
 //---------------------------------------------------------
-// Trigger narrativo de zona. Colócalo en un GameObject con Collider2D (IsTrigger).
-// Al entrar el jugador reproduce una secuencia de diálogo UNA sola vez.
-// Si RequireItem está configurado, solo se activa cuando el jugador
-// tiene la cantidad necesaria de ese objeto (sustituye a LevelWin para
-// los ascensores, unificando la lógica de requisito + cinemática + transición).
-// No usa corrutinas: compatible con la restricción del proyecto.
+// Trigger narrativo de zona. Colócalo en un GameObject con Collider2D (IsTrigger)
+// para activarlo al entrar el jugador, o marca AutoStartOnLoad para que arranque
+// automáticamente al inicio de la escena (intro de nivel).
 // Alexia Pérez Santana
 // No Way Down
 // Proyectos 1 - Curso 2025-26
@@ -17,33 +14,26 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// Trigger narrativo de zona reutilizable.
 ///
-/// Casos de uso configurables desde el Inspector:
+/// Modos de activación:
+///   · AutoStartOnLoad = true  → arranca solo al iniciar la escena (intro de nivel).
+///                               No necesita collider.
+///   · AutoStartOnLoad = false → se activa cuando el jugador entra en el collider.
 ///
-///   A) Intro de nivel (sin requisito, sin transición)
-///      · RequireItem = None, TriggerLevelTransitionOnEnd = false
-///
-///   B) Ascensor entre niveles (sustituye a LevelWin)
-///      · RequireItem = Fusibles / Cards, RequiredAmount = 3
-///      · TriggerLevelTransitionOnEnd = true, NextSceneName = "Level_2"
-///      · Si el jugador no tiene los ítems, el diálogo NO se lanza
-///        y en su lugar se muestra FeedbackText en la caja de diálogo.
-///
-///   C) Trigger narrativo sin requisito y sin transición
-///      · Igual que A, PauseWhileActive = true/false según convenga.
+/// CORRECCIONES respecto a la versión anterior:
+///   · AutoStartDelay por defecto sube a 0.5 s (el valor anterior de 0.1 s era
+///     insuficiente en escenas con muchos objetos y daba lugar a que el
+///     DialogueSystem no estuviera listo cuando se llamaba StartDialogue()).
+///   · Se añade un log de error claro cuando DialogueSystemRef no está asignado
+///     en modo AutoStart, para facilitar el diagnóstico en consola.
+///   · OnTriggerEnter2D comprueba _hasTriggered ANTES del requisito de inventario
+///     para no mostrar el feedback de "te falta X" más de una vez si ya se lanzó.
 /// </summary>
 public class NarratorDialogue : MonoBehaviour
 {
     // ---- ENUMS ----
     #region Enums
 
-    public enum ItemRequirement
-    {
-        None,
-        Fusibles,
-        Cards,
-        Keys,
-        SpecialKey
-    }
+    public enum ItemRequirement { None, Fusibles, Cards, Keys, SpecialKey }
 
     #endregion
 
@@ -51,39 +41,46 @@ public class NarratorDialogue : MonoBehaviour
     #region Atributos del Inspector
 
     [Header("Sistema de diálogo")]
-    [Tooltip("Referencia al DialogueSystem de la escena (uno por escena).")]
+    [Tooltip("DialogueSystem de la escena (uno por escena). OBLIGATORIO.")]
     [SerializeField] private DialogueSystem DialogueSystemRef;
 
+    [Header("Activación")]
+    [Tooltip("Si es true, el diálogo arranca automáticamente al iniciar la escena.\n" +
+             "Úsalo para las intros de nivel. No necesita Collider2D.\n" +
+             "Si es false, se activa cuando el jugador entra en el collider.")]
+    [SerializeField] private bool AutoStartOnLoad = false;
+
+    [Tooltip("Segundos de espera antes de arrancar el diálogo automático.\n" +
+             "0.5 s garantiza que el DialogueSystem ya esté inicializado.")]
+    [SerializeField] private float AutoStartDelay = 0.5f;
+
     [Header("Contenido narrativo")]
-    [Tooltip("Líneas que se muestran al activarse el trigger.")]
+    [Tooltip("Líneas del diálogo. Rellena en el Inspector usando StoryDialogues.cs como referencia.")]
     [SerializeField] private List<DialogueSystem.DialogueLine> Lines = new List<DialogueSystem.DialogueLine>();
 
-    [Header("Requisito de inventario")]
-    [Tooltip("Objeto que el jugador debe tener para que el trigger se active.\n" +
-             "None = sin requisito (intro de nivel, etc.).")]
+    [Header("Requisito de inventario (solo modo collider)")]
+    [Tooltip("Objeto que el jugador debe tener para activar el trigger. None = sin requisito.")]
     [SerializeField] private ItemRequirement RequireItem = ItemRequirement.None;
 
-    [Tooltip("Cantidad mínima requerida. Solo se usa si RequireItem != None.")]
+    [Tooltip("Cantidad mínima requerida.")]
     [SerializeField] private int RequiredAmount = 1;
 
-    [Tooltip("Texto que aparece en la caja de diálogo cuando el jugador NO cumple el requisito.\n" +
-             "Ejemplo: 'Necesitas 3 fusibles para activar el ascensor.'")]
+    [Tooltip("Texto cuando el jugador NO tiene los ítems.")]
     [SerializeField]
     [TextArea(1, 3)]
     private string FeedbackText = "Necesitas más objetos para continuar.";
 
-    [Tooltip("Sprite que aparece junto al FeedbackText (puede dejarse vacío).")]
+    [Tooltip("Sprite junto al FeedbackText (puede dejarse vacío).")]
     [SerializeField] private Sprite FeedbackSprite;
 
     [Header("Comportamiento")]
-    [Tooltip("Pausa el juego (timeScale = 0) mientras el diálogo está activo.")]
+    [Tooltip("Pausa el juego durante el diálogo.")]
     [SerializeField] private bool PauseWhileActive = true;
 
-    [Tooltip("Después del diálogo principal, carga la siguiente escena " +
-             "(llama a LevelManager.CompleteLevel o SceneManager según disponibilidad).")]
+    [Tooltip("Al terminar el diálogo, carga la siguiente escena.")]
     [SerializeField] private bool TriggerLevelTransitionOnEnd = false;
 
-    [Tooltip("Nombre exacto de la escena a cargar. Solo se usa si TriggerLevelTransitionOnEnd = true.")]
+    [Tooltip("Nombre de la escena a cargar. Solo si TriggerLevelTransitionOnEnd = true.")]
     [SerializeField] private string NextSceneName = "";
 
     #endregion
@@ -91,52 +88,97 @@ public class NarratorDialogue : MonoBehaviour
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados
 
-    /// <summary>Impide que el trigger se active más de una vez.</summary>
     private bool _hasTriggered = false;
-
-    /// <summary>
-    /// True mientras se muestra el feedback de "te faltan ítems".
-    /// Se usa para saber que el próximo tick de Update debe cerrar la caja
-    /// sin llamar a transición ni a SetLines.
-    /// </summary>
     private bool _showingFeedback = false;
+    private float _autoStartTimer = 0f;
+    private bool _waitingAutoStart = false;
 
     #endregion
 
-    // ---- MÉTODOS DE MONOBEHAVIOUR ----
+    // ---- MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void Start()
     {
-        if (!other.CompareTag("Player")) { return; }
-        if (DialogueSystemRef == null)
+        if (AutoStartOnLoad)
         {
-            Debug.LogWarning($"[NarratorDialogue] '{gameObject.name}': DialogueSystemRef no asignado.");
-            return;
-        }
-
-        // --- Comprobación de requisito de inventario ---
-        if (RequireItem != ItemRequirement.None)
-        {
-            Inventory inv = other.GetComponent<Inventory>();
-            if (inv == null)
+            // Validación temprana: avisa en consola si falta la referencia
+            if (DialogueSystemRef == null)
             {
-                Debug.LogWarning($"[NarratorDialogue] '{gameObject.name}': el jugador no tiene Inventory.");
+                Debug.LogError($"[NarratorDialogue] '{gameObject.name}': AutoStartOnLoad=true pero " +
+                               "DialogueSystemRef NO está asignado en el Inspector. " +
+                               "Arrastra el GameObject que tiene DialogueSystem al campo correspondiente.");
                 return;
             }
 
+            if (Lines == null || Lines.Count == 0)
+            {
+                Debug.LogError($"[NarratorDialogue] '{gameObject.name}': AutoStartOnLoad=true pero " +
+                               "el array Lines está vacío. Rellena las líneas en el Inspector.");
+                return;
+            }
+
+            _waitingAutoStart = true;
+            _autoStartTimer = AutoStartDelay;
+        }
+    }
+
+    private void Update()
+    {
+        if (!_waitingAutoStart) { return; }
+
+        _autoStartTimer -= Time.deltaTime;
+        if (_autoStartTimer <= 0f)
+        {
+            _waitingAutoStart = false;
+            LanzarDialogo();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (AutoStartOnLoad) { return; }  // modo auto: ignorar triggers de collider
+        if (_hasTriggered) { return; }  // ya se activó, no repetir
+        if (!other.CompareTag("Player")) { return; }
+
+        if (DialogueSystemRef == null)
+        {
+            Debug.LogError($"[NarratorDialogue] '{gameObject.name}': DialogueSystemRef no asignado.");
+            return;
+        }
+
+        // Comprobar requisito de inventario
+        if (RequireItem != ItemRequirement.None)
+        {
+            Inventory inv = other.GetComponent<Inventory>();
+            if (inv == null) { return; }
+
             if (!PlayerHasRequirement(inv))
             {
-                // Mostrar feedback una sola vez por entrada
-                // (se puede volver a mostrar si el jugador sale y vuelve a entrar)
                 ShowFeedback();
                 return;
             }
         }
 
-        // --- El jugador cumple el requisito (o no hay requisito) ---
+        LanzarDialogo();
+    }
+
+    #endregion
+
+    // ---- MÉTODOS PRIVADOS ----
+    #region Métodos Privados
+
+    private void LanzarDialogo()
+    {
         if (_hasTriggered) { return; }
         _hasTriggered = true;
+
+        if (DialogueSystemRef == null)
+        {
+            Debug.LogError($"[NarratorDialogue] '{gameObject.name}': DialogueSystemRef no asignado.");
+            OnMainDialogueEnd();
+            return;
+        }
 
         if (Lines == null || Lines.Count == 0)
         {
@@ -150,64 +192,27 @@ public class NarratorDialogue : MonoBehaviour
         DialogueSystemRef.StartDialogue(OnMainDialogueEnd);
     }
 
-    #endregion
-
-    // ---- CALLBACKS ----
-    #region Callbacks
-
-    /// <summary>
-    /// Callback cuando termina el diálogo principal.
-    /// Restaura el timeScale y ejecuta la transición de nivel si está configurada.
-    /// </summary>
     private void OnMainDialogueEnd()
     {
         if (PauseWhileActive) { Time.timeScale = 1f; }
 
-        // Desactivar el collider para que no se vuelva a disparar en esta sesión
         Collider2D col = GetComponent<Collider2D>();
         if (col != null) { col.enabled = false; }
 
         if (!TriggerLevelTransitionOnEnd || string.IsNullOrEmpty(NextSceneName)) { return; }
 
         if (LevelManager.HasInstance())
-        {
-            // Buscar referencias de Health e Inventory para guardar checkpoint
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player != null)
-            {
-                Health h = player.GetComponent<Health>();
-                Inventory inv = player.GetComponent<Inventory>();
-                if (h != null && inv != null)
-                {
-                    LevelManager.Instance.CompleteLevel(NextSceneName);
-                    return;
-                }
-            }
-        }
-
-        // Fallback sin LevelManager (ejecución directa desde editor)
-        SceneManager.LoadScene(NextSceneName);
+            LevelManager.Instance.CompleteLevel(NextSceneName);
+        else
+            SceneManager.LoadScene(NextSceneName);
     }
 
-    /// <summary>
-    /// Callback cuando termina el feedback de "te faltan ítems".
-    /// Solo restaura el timeScale; el collider sigue activo para que
-    /// el jugador pueda volver a intentarlo.
-    /// </summary>
     private void OnFeedbackEnd()
     {
         _showingFeedback = false;
         if (PauseWhileActive) { Time.timeScale = 1f; }
     }
 
-    #endregion
-
-    // ---- MÉTODOS PRIVADOS ----
-    #region Métodos Privados
-
-    /// <summary>
-    /// Comprueba si el jugador tiene la cantidad requerida del ítem configurado.
-    /// </summary>
     private bool PlayerHasRequirement(Inventory inv)
     {
         return RequireItem switch
@@ -220,13 +225,9 @@ public class NarratorDialogue : MonoBehaviour
         };
     }
 
-    /// <summary>
-    /// Muestra una línea de feedback (sin pausar necesariamente el juego)
-    /// para informar al jugador de qué le falta.
-    /// </summary>
     private void ShowFeedback()
     {
-        if (_showingFeedback) { return; } // ya está mostrando feedback
+        if (_showingFeedback) { return; }
         _showingFeedback = true;
 
         var feedbackLine = new DialogueSystem.DialogueLine
@@ -237,8 +238,6 @@ public class NarratorDialogue : MonoBehaviour
         };
 
         DialogueSystemRef.SetLines(new List<DialogueSystem.DialogueLine> { feedbackLine });
-
-        // El feedback siempre pausa para que el jugador lo lea con calma
         Time.timeScale = 0f;
         DialogueSystemRef.StartDialogue(OnFeedbackEnd);
     }
@@ -246,11 +245,17 @@ public class NarratorDialogue : MonoBehaviour
     #endregion
 
     // ---- GIZMO ----
-    #region Gizmo de editor
+    #region Gizmo
 
     private void OnDrawGizmos()
     {
-        // Verde si no tiene requisito, amarillo si tiene requisito de ítem
+        if (AutoStartOnLoad)
+        {
+            Gizmos.color = new Color(0.9f, 0.2f, 0.9f, 0.6f);
+            Gizmos.DrawSphere(transform.position, 0.3f);
+            return;
+        }
+
         Gizmos.color = RequireItem == ItemRequirement.None
             ? new Color(0.3f, 0.9f, 0.8f, 0.3f)
             : new Color(1f, 0.85f, 0.1f, 0.3f);

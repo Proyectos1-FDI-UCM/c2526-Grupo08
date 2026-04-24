@@ -1801,6 +1801,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DialogueSystemRef: {fileID: 654902004}
+  AutoStartOnLoad: 1
+  AutoStartDelay: 0.2
   Lines:
   - SpeakerName: 
     CharacterSprite: {fileID: 0}
@@ -7034,7 +7036,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MusicaSource: {fileID: 1011442593}
   EfectosSource: {fileID: 1011442593}
-  NombreEscenaMenu: MainMenu
+  NombreEscenaMenu: Menu
 --- !u!114 &1886463961
 MonoBehaviour:
   m_ObjectHideFlags: 0
