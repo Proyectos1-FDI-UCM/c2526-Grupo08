@@ -89,9 +89,7 @@ public class Door : MonoBehaviour
     {
         Debug.Log("Puerta abierta");
         
-        Destroy(gameObject); // Opción A: La puerta desaparece
-        // gameObject.SetActive(false); // Opción B: Se desactiva
-        // GetComponent<Animator>().SetTrigger("Open"); // Opción C: Animación
+        Destroy(gameObject); 
     }
 
     #endregion   

@@ -23,16 +23,11 @@ public class HealthSound : MonoBehaviour
     // (palabras con primera letra mayúscula, incluida la primera letra)
     // Ejemplo: MaxHealthPoints
 
-    [Header("Referencias")]
-    [SerializeField] private Health _healthComponent;
+    [Header("Configuración de Sonido")]
+    [SerializeField] private AudioClip healClip;
+    [SerializeField][Range(0, 10)] private float volume = 10f;
 
-    [Header("Configuración Sonido")]
-    [SerializeField] private AudioClip _sonidoVendas;
-    [Range(0.1f, 1f)][SerializeField] private float _volumenEfecto = 1f;
-
-    private AudioSource _audioSource;
-    private int _ultimaVida;
-
+    private bool _isQuitting = false;
 
     #endregion
 
@@ -45,17 +40,7 @@ public class HealthSound : MonoBehaviour
     // primera letra en mayúsculas)
     // Ejemplo: _maxHealthPoints
 
-    void Awake()
-    {
-        _audioSource = GetComponent<AudioSource>();
-        _audioSource.clip = _sonidoVendas;
-        _audioSource.loop = true; // Para que suene mientras dure la cura
-        _audioSource.playOnAwake = false;
-        _audioSource.volume = _volumenEfecto;
-
-        if (_healthComponent == null)
-            _healthComponent = GetComponent<Health>();
-    }
+  
 
 
     #endregion
@@ -73,8 +58,7 @@ public class HealthSound : MonoBehaviour
     /// </summary>
     void Start()
     {
-        if (_healthComponent != null)
-            _ultimaVida = _healthComponent.GetCurrentHealth();
+        
     }
 
     /// <summary>
@@ -82,29 +66,7 @@ public class HealthSound : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if (_healthComponent == null) return;
 
-        int vidaActual = _healthComponent.GetCurrentHealth();
-
-        if (vidaActual > _ultimaVida)
-        {
-            
-            if (!_audioSource.isPlaying)
-            {
-                _audioSource.Play();
-            }
-        }
-        else
-        {
-            // Si la vida no sube, paramos el sonido de vendas
-            if (_audioSource.isPlaying)
-            {
-                _audioSource.Stop();
-            }
-        }
-
-        
-        _ultimaVida = vidaActual;
     }
     #endregion
 
@@ -127,7 +89,21 @@ public class HealthSound : MonoBehaviour
     // se nombren en formato PascalCase (palabras con primera letra
     // mayúscula, incluida la primera letra)
 
+    private void OnApplicationQuit()
+    {
+        _isQuitting = true;
+    }
 
+    private void OnDestroy()
+    {
+        // Solo actuamos si el juego está corriendo y tenemos un clip asignado
+        if (!_isQuitting && healClip != null)
+        {
+            // PlayClipAtPoint crea un objeto temporal que reproduce el sonido 
+            // y se destruye solo al terminar. Así no importa que la venda ya no esté.
+            AudioSource.PlayClipAtPoint(healClip, transform.position, volume);
+        }
+    }
 
 
     #endregion
