@@ -185,17 +185,21 @@ public class Health : MonoBehaviour
 
         if (IsPlayer)
         {
-            if (LevelManager.HasInstance())
+            if (BossManager.HasInstance())
+                BossManager.Instance.OnPlayerDeath();
+            else if (LevelManager.HasInstance())
                 LevelManager.Instance.OnPlayerDeath();
             else
-                Debug.LogWarning("[Health] No hay LevelManager en la escena.");
+                Debug.LogWarning("[Health] No hay BossManager ni LevelManager en la escena.");
         }
         else if (IsBoss)
         {
-            if (LevelManager.HasInstance())
+            if (BossManager.HasInstance())
+                BossManager.Instance.OnBossDeath();
+            else if (LevelManager.HasInstance())
                 LevelManager.Instance.OnBossDeath();
             else
-                Debug.LogWarning("[Health] No hay LevelManager en la escena.");
+                Debug.LogWarning("[Health] No hay BossManager ni LevelManager en la escena.");
         }
         else
         {
