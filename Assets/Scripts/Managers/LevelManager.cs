@@ -78,6 +78,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject panelMap;
     [Header("HUD")]
     [SerializeField] private GameObject MainCanvas;
+    [Header("Panel de los controles")]
+    [SerializeField] private GameObject PanelControls;
 
     [Header("Referencias al jugador")]
     [Tooltip("Componente Health del jugador en esta escena.")]
@@ -123,6 +125,11 @@ public class LevelManager : MonoBehaviour
         if (panelMap != null)
         {
             panelMap.SetActive(false);
+        }
+
+        if (PanelControls != null)
+        {
+            PanelControls.SetActive(false);
         }
 
         Time.timeScale = 1f;
@@ -233,6 +240,7 @@ public class LevelManager : MonoBehaviour
     }
 
 
+
     #endregion
 
     // ---- MÉTODOS PÚBLICOS — CHECKPOINT ----
@@ -262,6 +270,18 @@ public class LevelManager : MonoBehaviour
         panelMap.SetActive(false);
         MainCanvas.SetActive(true);
         Time.timeScale = 1f;
+    }
+
+    public void ShowControls()
+    {
+        PanelControls.SetActive(true);
+        panelMap.SetActive(false);
+    }
+
+    public void ReturnToPauseMenu()
+    {
+        PanelControls.SetActive(false);
+        panelMap.SetActive(true);
     }
 
 
