@@ -81,8 +81,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 872213591
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 8161119353220123795, guid: f82d2b10b64f7fc4ab49a4c25438b859, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -115,6 +115,7 @@ MonoBehaviour:
   MagicPointsPrefab: {fileID: 0}
   KeyPrefab: {fileID: 0}
   IsSpecialEnemy: 0
+  ColorDuration: 0.2
 --- !u!114 &8923544564114638109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,13 +147,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e5146ba58dc5c1468275f5885592207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefabCuchilla1: {fileID: 0}
-  _prefabCuchilla2: {fileID: 0}
-  _prefabCuchilla3: {fileID: 0}
-  _avisoVisualPrefab: {fileID: 0}
-  _rangoDeteccion: 12
+  _prefabKnife1: {fileID: 0}
+  _prefabKnife2: {fileID: 0}
+  _prefabKnife3: {fileID: 0}
+  _WarningPrefab: {fileID: 0}
+  _DetectionRange: 10
   _tiempoRecarga: 3
-  _puntoDisparo: {fileID: 7944728247142047889}
+  _shootOrigin: {fileID: 0}
 --- !u!61 &26654641526328442
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -238,12 +239,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ea2e2f6b0bb504eba3d5e60fab7071, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VelocidadMovimiento: 2.5
-  SuavidadVelocidad: 4
-  DistanciaLlegada: 0.4
-  TiempoMinimoEntrePuntos: 2
-  TiempoMaximoEntrePuntos: 5
-  AreaMovimiento: {x: 8, y: 6}
+  Speed: 2.5
+  SmoothSpeed: 4
+  MinimumDistanceArrive: 0.4
+  MinimumTimeBetweenPoints: 2
+  MaxTimeBetweenPoints: 5
+  MovementArea: {x: 8, y: 6}
   ColorGizmo: {r: 0, g: 1, b: 1, a: 0.2}
 --- !u!114 &3120850960586380758
 MonoBehaviour:
@@ -257,6 +258,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a0b45279a7d4334187def1ff0249fca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _detectionRange: 12
+  _playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  _timeBetweenAttacks: 2
 --- !u!1 &6392762403397316027
 GameObject:
   m_ObjectHideFlags: 0
