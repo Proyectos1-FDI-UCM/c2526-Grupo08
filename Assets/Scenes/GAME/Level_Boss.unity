@@ -3753,7 +3753,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7a4139d4632c8f4386657f8f0ace337, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minionPrefab: {fileID: 5833783661910523780, guid: 54819649d9e38bf4f904b282db1f353f, type: 3}
+  minionPrefab: {fileID: 1233108813287940219, guid: c8c9ab22230f7504fa2f2b6479d0fd2d, type: 3}
   summonInterval: 15
   spawnPointL: {fileID: 82005666}
   spawnPointR: {fileID: 280247279}
