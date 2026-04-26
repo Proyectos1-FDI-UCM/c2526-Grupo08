@@ -6,6 +6,7 @@
 //---------------------------------------------------------
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 // Añadir aquí el resto de directivas using
 
 
@@ -23,7 +24,13 @@ public class SoundFondo : MonoBehaviour
     // (palabras con primera letra mayúscula, incluida la primera letra)
     // Ejemplo: MaxHealthPoints
 
-    private static SoundFondo instancia;
+    public static SoundFondo Instance;
+
+    public AudioClip clipMenuCreditos;
+    public AudioClip clipNivel1y2;
+    public AudioClip clipNivel3;
+
+    private AudioSource source;
 
     #endregion
 
@@ -36,17 +43,7 @@ public class SoundFondo : MonoBehaviour
     // primera letra en mayúsculas)
     // Ejemplo: _maxHealthPoints
 
-    void Awake()
-    {
-        if (instancia != null && instancia != this)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
 
-        instancia = this;
-        DontDestroyOnLoad(this.gameObject);
-    }
 
     #endregion
 
@@ -61,6 +58,24 @@ public class SoundFondo : MonoBehaviour
     /// Start is called on the frame when a script is enabled just before 
     /// any of the Update methods are called the first time.
     /// </summary>
+    /// 
+
+    void Awake()
+    {
+        // Singleton simple para que la música no se detenga al cambiar escena
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+        source = GetComponent<AudioSource>();
+    }
+
     void Start()
     {
         
@@ -71,7 +86,29 @@ public class SoundFondo : MonoBehaviour
     /// </summary>
     void Update()
     {
-        
+        string escenaActual = SceneManager.GetActiveScene().name;
+        AudioClip clipCambiado = null;
+
+        // Lógica directa por nombres
+        if (escenaActual == "Menu" )
+        {
+            clipCambiado = clipMenuCreditos;
+        }
+        else if (escenaActual == "Level_1" || escenaActual == "Level_2")
+        {
+            clipCambiado = clipNivel1y2;
+        }
+        else if (escenaActual == "Level_Boss")
+        {
+            clipCambiado = clipNivel3;
+        }
+
+        // Si el clip que debería sonar no es el que suena ahora, cámbialo
+        if (clipCambiado != null && source.clip != clipCambiado)
+        {
+            source.clip = clipCambiado;
+            source.Play();
+        }
     }
     #endregion
 
