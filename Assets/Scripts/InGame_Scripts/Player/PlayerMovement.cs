@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
     // Ejemplo: MaxHealthPoints
 
     [SerializeField]
-    private float Velocidad = 2f;
+    private float Velocidad = 8f;
     [SerializeField]
     private Sprite SpriteUp;
     [SerializeField]
@@ -57,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
     //Variables dash
     private bool _canDash = true;
     private bool _isDashing;
-    private float _dashingPower = 15f;
+    private float _dashingPower = 30f;
     private float _dashingTime = 0.2f;
     private float _dashingCooldown = 1.5f;
     private float _dashEndTime;

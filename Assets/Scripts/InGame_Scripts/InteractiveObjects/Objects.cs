@@ -11,10 +11,11 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// Componente de objeto recolectable (venda, llave, fusible).
+/// Componente de objeto recolectable (venda, llave, fusible, tarjeta, habilidades).
 /// Cuando el jugador entra en el trigger, espera a que pulse F
 /// (acción "Interact" del nuevo Input System) para añadir el
 /// objeto al inventario y destruirse.
+/// Al recoger, notifica a FeedbackUI para mostrar el panel de pickup.
 /// El tipo de objeto se configura en el Inspector.
 /// </summary>
 public class Objects : MonoBehaviour
@@ -33,7 +34,7 @@ public class Objects : MonoBehaviour
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados
 
-    /// <summary>Acción de input para interactuar (tecla F).</summary>
+    /// <summary>Acción de input para interactuar (tecla F / botón B en mando).</summary>
     private InputAction _interactAction;
 
     /// <summary>True mientras el jugador está dentro del trigger.</summary>
@@ -51,29 +52,20 @@ public class Objects : MonoBehaviour
     {
         _interactAction = InputSystem.actions.FindAction("Interact");
         if (_interactAction == null)
-        {
-            Debug.LogWarning("[Objects] Acción 'Interact' no encontrada en el Input System. " +
-                             "Usando KeyCode.F como fallback.");
-        }
+            Debug.LogWarning("[Objects] Acción 'Interact' no encontrada en el Input System.");
         else
-        {
             _interactAction.Enable();
-        }
     }
 
     private void Update()
     {
+        if (!_playerInRange || _playerInventory == null) { return; }
 
-        if (!_playerInRange || _playerInventory == null) return;
+        bool interactPressed = _interactAction != null
+            ? _interactAction.WasPressedThisFrame()
+            : Input.GetKeyDown(KeyCode.F);
 
-        bool interactPressed = false;
-
-        if (_interactAction != null)
-        {
-            interactPressed = _interactAction.WasPressedThisFrame();
-        }
-
-        if (!interactPressed) return;
+        if (!interactPressed) { return; }
 
         PickUp();
     }
@@ -97,27 +89,34 @@ public class Objects : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
-    {
-        if (_interactAction != null);
-    }
-
     #endregion
 
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
 
     /// <summary>
-    /// Añade este objeto al inventario del jugador y destruye el GameObject.
+    /// Añade este objeto al inventario del jugador, muestra el feedback visual
+    /// y destruye el GameObject.
     /// </summary>
     private void PickUp()
     {
-        Debug.Log("Recojo objeto: " + type);
+        _playerInventory.AddItem(type);
 
-        if (_playerInventory != null)
+        // Calcular la cantidad actual tras recoger el objeto
+        int cantidad = type switch
         {
-            _playerInventory.AddItem(type);
-        }
+            ObjectsType.fusible => _playerInventory.GetFusibleCount(),
+            ObjectsType.key => _playerInventory.GetKeyCount(),
+            ObjectsType.bandage => _playerInventory.GetBandageCount(),
+            ObjectsType.card => _playerInventory.GetCardCount(),
+            ObjectsType.multiAbility => -1,
+            ObjectsType.explosiveAbility => -1,
+            _ => 0
+        };
+
+        // Notificar a FeedbackUI (si está disponible en la escena)
+        if (FeedbackUI.HasInstance())
+            FeedbackUI.Instance.MostrarPickupTipo(type, cantidad);
 
         _playerInRange = false;
         _playerInventory = null;

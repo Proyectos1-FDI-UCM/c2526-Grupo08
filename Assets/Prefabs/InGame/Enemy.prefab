@@ -354,8 +354,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 872213591
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: -6601477196304980844, guid: 92c11cfde79dec14a8e8a662b7146b9e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -387,7 +387,7 @@ MonoBehaviour:
   - {fileID: 0}
   PointReachedDistance: 0.1
   Speed: 1
-  DetectionRadius: 7
+  DetectionRadius: 10
   ChaseRadius: 8
   SpriteUp: {fileID: -3529809619868476689, guid: 82029a652e94d284b91e8da42b0ca4cd, type: 3}
   SpriteDown: {fileID: -6601477196304980844, guid: 92c11cfde79dec14a8e8a662b7146b9e, type: 3}
@@ -501,11 +501,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b851fcc5972cdf46a1b65d937d55bee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletPrefab: {fileID: 5303907307814794885, guid: f0caabbfb618908489ed8cb812f64e04, type: 3}
-  _shootOrigin: {fileID: 1451823817259670384}
-  _fireInterval: 1.5
-  _soundLeadTime: 0.3
-  _shootSound: {fileID: 0}
+  BulletPrefab: {fileID: 5303907307814794885, guid: f0caabbfb618908489ed8cb812f64e04, type: 3}
+  ShootOrigin: {fileID: 4166956782553929676}
+  FireInterval: 1.5
+  SoundLeadTime: 0.3
+  ShootSound: {fileID: 0}
 --- !u!114 &1874599634827719833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -526,6 +526,7 @@ MonoBehaviour:
   MagicPointsPrefab: {fileID: 1546762712987103224, guid: bc65c4899de222a45b32da9478bf5b87, type: 3}
   KeyPrefab: {fileID: 0}
   IsSpecialEnemy: 0
+  ColorDuration: 0.3
 --- !u!1 &7981711060179588134
 GameObject:
   m_ObjectHideFlags: 0

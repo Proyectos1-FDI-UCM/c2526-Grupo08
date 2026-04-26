@@ -1,82 +1,88 @@
 //---------------------------------------------------------
-// Breve descripción del contenido del archivo
-// Responsable de la creación de este archivo
-// No way down
+// Gestiona el cambio de habilidad activa del jugador.
+// Carlos Mesa Torres
+// No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
 using UnityEngine;
 using UnityEngine.InputSystem;
-// Añadir aquí el resto de directivas using
-
 
 /// <summary>
-/// Antes de cada class, descripción de qué es y para qué sirve,
-/// usando todas las líneas que sean necesarias.
+/// Cambia entre las habilidades disponibles del jugador (cargada, multidireccional, explosiva).
+/// Solo puede seleccionarse una habilidad desbloqueada en el Inventory.
+///
+/// CORRECCIÓN respecto a la versión anterior:
+///   · Start() causaba IndexOutOfRangeException en la línea _abilityImage[_currentIndex].SetActive(true)
+///     cuando el array _abilityImage tenía menos de 1 elemento o estaba vacío.
+///     Ahora se valida que el array tiene al menos 1 elemento antes de indexarlo.
+///   · Se añade null-check en cada elemento del array dentro del bucle,
+///     para que un slot sin asignar en el Inspector no rompa la ejecución.
 /// </summary>
 public class ChangeAbility : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
-    #region Atributos del Inspector (serialized fields)
+    #region Atributos del Inspector
 
-    [Header("Abilities")]
+    [Header("Habilidades (scripts)")]
+    [Tooltip("Script de la habilidad multidireccional.")]
     [SerializeField] private MonoBehaviour _multiAbility;
+
+    [Tooltip("Script de la habilidad explosiva.")]
     [SerializeField] private MonoBehaviour _explosiveAbility;
+
+    [Tooltip("Script de la habilidad cargada (siempre disponible).")]
     [SerializeField] private MonoBehaviour _chargedattackAbility;
 
+    [Header("Iconos de UI (uno por habilidad)")]
+    [Tooltip("Array de GameObjects de icono HUD. Índice 0=cargada, 1=multi, 2=explosiva.\n" +
+             "Deben estar asignados los 3 slots.")]
     [SerializeField] private GameObject[] _abilityImage;
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // públicos y de inspector se nombren en formato PascalCase
-    // (palabras con primera letra mayúscula, incluida la primera letra)
-    // Ejemplo: MaxHealthPoints
 
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
-    #region Atributos Privados (private fields)
+    #region Atributos Privados
 
     private InputAction _changeAbilityAction;
-
     private int _currentIndex = 0;
-
     private Inventory _inventory;
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // privados se nombren en formato _camelCase (comienza con _, 
-    // primera palabra en minúsculas y el resto con la 
-    // primera letra en mayúsculas)
-    // Ejemplo: _maxHealthPoints
 
     #endregion
-    
-    // ---- MÉTODOS DE MONOBEHAVIOUR ----
+
+    // ---- MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
-    
-    // Por defecto están los típicos (Update y Start) pero:
-    // - Hay que añadir todos los que sean necesarios
-    // - Hay que borrar los que no se usen 
-    
-    /// <summary>
-    /// Start is called on the frame when a script is enabled just before 
-    /// any of the Update methods are called the first time.
-    /// </summary>
+
     private void Start()
     {
         _changeAbilityAction = InputSystem.actions.FindAction("ChangeAbility");
 
         if (_changeAbilityAction == null)
         {
-            Debug.LogError("Acción no encontrada.");
+            Debug.LogError("[ChangeAbility] Acción 'ChangeAbility' no encontrada en el InputSystem.");
             enabled = false;
             return;
         }
 
+        // CORRECCIÓN: validar array antes de indexarlo
+        if (_abilityImage == null || _abilityImage.Length == 0)
+        {
+            Debug.LogError("[ChangeAbility] El array _abilityImage está vacío o no asignado. " +
+                           "Asigna los 3 iconos de habilidad en el Inspector.");
+            enabled = false;
+            return;
+        }
+
+        // Desactivar todos los iconos y activar solo el inicial
         for (int i = 0; i < _abilityImage.Length; i++)
         {
-            _abilityImage[i].SetActive(false);
+            if (_abilityImage[i] != null)
+                _abilityImage[i].SetActive(false);
         }
-        _abilityImage[_currentIndex].SetActive(true);
+
+        // Activar el índice inicial solo si es válido
+        if (_currentIndex < _abilityImage.Length && _abilityImage[_currentIndex] != null)
+            _abilityImage[_currentIndex].SetActive(true);
 
         _inventory = GetComponent<Inventory>();
 
@@ -84,52 +90,37 @@ public class ChangeAbility : MonoBehaviour
         UpdateAbilities();
     }
 
-    /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
-    /// </summary>
     private void Update()
     {
-        if (_changeAbilityAction.WasPressedThisFrame()) 
-        {
+        if (_changeAbilityAction.WasPressedThisFrame())
             SwitchAbility();
-        }
     }
-    #endregion
-
-    // ---- MÉTODOS PÚBLICOS ----
-    #region Métodos públicos
-    // Documentar cada método que aparece aquí con ///<summary>
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
-    // Ejemplo: GetPlayerController
 
     #endregion
-    
+
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
 
     private void SwitchAbility()
     {
-        //Busca entre las habilidades hasta encontrar una desbloqueada
+        // Busca entre las habilidades hasta encontrar una desbloqueada
         for (int i = 0; i < _abilityImage.Length; i++)
         {
-            _currentIndex = (_currentIndex + 1) % _abilityImage.Length;
+            _currentIndex = (_currentIndex + 1) % 3;
 
             if (IsAbilityUnlocked(_currentIndex))
             {
+                UpdateAbilities();
                 return;
             }
         }
-        //Activa la nueva habilidad
-        UpdateAbilities();
     }
 
     private bool IsAbilityUnlocked(int index)
     {
         switch (index)
         {
-            case 0: return true;// charged siempre esta disponible
+            case 0: return true; // cargada siempre disponible
             case 1: return _inventory != null && _inventory.HasMultiAbility;
             case 2: return _inventory != null && _inventory.HasExplosiveAbility;
         }
@@ -138,21 +129,14 @@ public class ChangeAbility : MonoBehaviour
 
     private void UpdateAbilities()
     {
-        // Activa solo la habilidad seleccionada   
         if (_chargedattackAbility != null)
-        {
             _chargedattackAbility.enabled = (_currentIndex == 0);
-        }
 
         if (_multiAbility != null)
-        {
             _multiAbility.enabled = (_currentIndex == 1 && IsAbilityUnlocked(1));
-        }
 
         if (_explosiveAbility != null)
-        {
             _explosiveAbility.enabled = (_currentIndex == 2 && IsAbilityUnlocked(2));
-        }
 
         UpdateAbilityUI();
     }
@@ -161,16 +145,12 @@ public class ChangeAbility : MonoBehaviour
     {
         for (int i = 0; i < _abilityImage.Length; i++)
         {
-            _abilityImage[i].SetActive(i == _currentIndex);
+            if (_abilityImage[i] != null)
+                _abilityImage[i].SetActive(i == _currentIndex);
         }
     }
 
-    // Documentar cada método que aparece aquí
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
+    #endregion
 
-    #endregion   
-
-} // class ChangeAbility 
-// Carlos Mesa Torres
+} // class ChangeAbility
+  // Carlos Mesa Torres

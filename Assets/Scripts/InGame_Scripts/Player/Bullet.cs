@@ -116,20 +116,19 @@ public class Bullet : MonoBehaviour
             }
         }
         Destroy(gameObject);
-
     }
 
     #endregion
 
 
-        // ---- MÉTODOS PÚBLICOS ----
-        #region Métodos públicos
+    // ---- MÉTODOS PÚBLICOS ----
+    #region Métodos públicos
 
-        /// <summary>
-        /// Inicializa la dirección de la bala. Debe llamarse justo después del Instantiate,
-        /// antes de que el Start de la bala se ejecute.
-        /// </summary>
-        /// <param name="direction">Vector normalizado con la dirección de disparo.</param>
+    /// <summary>
+    /// Inicializa la dirección de la bala. Debe llamarse justo después del Instantiate,
+    /// antes de que el Start de la bala se ejecute.
+    /// </summary>
+    /// <param name="direction">Vector normalizado con la dirección de disparo.</param>
     public void Init(Vector2 direction, int damage)
     {
         _direction = direction.normalized;
@@ -148,7 +147,7 @@ public class Bullet : MonoBehaviour
     {
         _maxRange = newRange;
     }
-    
+
     #endregion
 
 } // class Bullet

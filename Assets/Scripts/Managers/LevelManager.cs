@@ -1,7 +1,5 @@
 //---------------------------------------------------------
 // Gestor de escena. Un LevelManager por cada escena de juego.
-// Gestiona todo lo local: panel de muerte, pausa, reinicio,
-// y guardado de checkpoint al completar la planta.
 // Guillermo Jiménez Díaz, Pedro P. Gómez Martín — Template-P1
 // Alexia Pérez Santana — No Way Down
 // Proyectos 1 - Curso 2025-26
@@ -13,15 +11,15 @@ using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Singleton local de escena (sin DontDestroyOnLoad).
-/// Responsabilidades:
-///   · Mostrar/ocultar el panel de muerte cuando el jugador muere.
-///   · Pausar y reanudar el juego (Time.timeScale).
-///   · Ejecutar reinicio del nivel o vuelta al menú desde los botones del panel.
-///   · Restaurar el estado del jugador desde el checkpoint al iniciar la escena.
-///   · Guardar el checkpoint en GameManager al completar la planta.
 ///
-/// Los botones del panelDeath deben apuntar a ESTE componente,
-/// que siempre existe en la escena y nunca es una referencia rota.
+/// CAMBIOS RESPECTO A LA VERSIÓN ANTERIOR:
+///   · Update() comprueba null en _showMap antes de llamar WasPressedThisFrame()
+///     → evita NullReferenceException cuando la acción no existe en el InputSystem.
+///   · Añadidos MostrarMapaEnPausa() y OcultarMapaPausa():
+///     el PauseManager los llama al pausar/reanudar para que el panelMap
+///     siga siendo responsabilidad exclusiva del LevelManager pero sea
+///     visible también durante la pausa (sin mover ni tocar panelMap a otra clase).
+///   · MainCanvas recibe null-check en Update para no dar error si no está asignado.
 /// </summary>
 public class LevelManager : MonoBehaviour
 {
@@ -30,7 +28,6 @@ public class LevelManager : MonoBehaviour
 
     private static LevelManager _instance;
 
-    /// <summary>Acceso global al LevelManager de la escena activa.</summary>
     public static LevelManager Instance
     {
         get
@@ -40,7 +37,6 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    /// <summary>Devuelve true si hay un LevelManager activo en la escena.</summary>
     public static bool HasInstance() => _instance != null;
 
     protected void Awake()
@@ -58,9 +54,7 @@ public class LevelManager : MonoBehaviour
     protected void OnDestroy()
     {
         if (this == _instance)
-        {
             _instance = null;
-        }
     }
 
     #endregion
@@ -69,111 +63,125 @@ public class LevelManager : MonoBehaviour
     #region Atributos del Inspector
 
     [Header("Panel de muerte")]
-    [Tooltip("GameObject del panel de muerte de esta escena. " +
-             "Los botones del panel deben apuntar a LevelManager, no a GameManager.")]
     [SerializeField] private GameObject panelDeath;
     [SerializeField] private GameObject panelWin;
 
     [Header("Panel del mapa")]
+    [Tooltip("Panel del mapa (canvas legacy). Se muestra al pausar y al pulsar Tab.")]
     [SerializeField] private GameObject panelMap;
+
     [Header("HUD")]
     [SerializeField] private GameObject MainCanvas;
 
+    [Header("Panel de los controles")]
+    [SerializeField] private GameObject PanelControls;
+
     [Header("Referencias al jugador")]
-    [Tooltip("Componente Health del jugador en esta escena.")]
     [SerializeField] private Health playerHealth;
-
-    [Tooltip("Componente Inventory del jugador en esta escena.")]
     [SerializeField] private Inventory playerInventory;
-
-
-    private InputAction _showMap;
-    private InputAction _hideMap;
-    private bool _mapShown;
 
     #endregion
 
-    // ---- MÉTODOS DE MONOBEHAVIOUR ----
+    // ---- ATRIBUTOS PRIVADOS ----
+    #region Atributos Privados
+
+    private InputAction _showMap;
+    private bool _mapShown = false;
+
+    /// <summary>
+    /// True mientras el mapa está visible por la pausa (gestionado por PauseManager).
+    /// Evita que la tecla Tab oculte un mapa que mostró la pausa.
+    /// </summary>
+    private bool _mapByPause = false;
+
+    #endregion
+
+    // ---- MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
     private void Start()
     {
         _showMap = InputSystem.actions.FindAction("ShowMap");
         if (_showMap == null)
-        {
-            Debug.Log("[LevelManager] Acción no encontrada");
-        }
-        _hideMap = InputSystem.actions.FindAction("HideMap");
-        if (_hideMap == null)
-        {
-            Debug.Log("[LevelManager] Acción no encontrada");
-        }
+            Debug.LogWarning("[LevelManager] Acción 'ShowMap' no encontrada en el InputSystem.");
 
-        // Asegurar que los paneles están ocultos y el juego corre al iniciar
-        if (panelDeath != null)
-        {
-            panelDeath.SetActive(false);
-        }
-
-        if (panelWin != null)
-        {
-            panelWin.SetActive(false);
-        }
-
-        if (panelMap != null)
-        {
-            panelMap.SetActive(false);
-        }
+        if (panelDeath != null) panelDeath.SetActive(false);
+        if (panelWin != null) panelWin.SetActive(false);
+        if (panelMap != null) panelMap.SetActive(false);
+        if (PanelControls != null) PanelControls.SetActive(false);
 
         Time.timeScale = 1f;
-
-        // Restaurar estado del jugador desde el checkpoint guardado
         RestoreFromCheckpoint();
     }
 
     private void Update()
     {
-        if (_showMap.WasPressedThisFrame()) // misma tecla
+        // CORRECCIÓN: null-check en _showMap antes de WasPressedThisFrame
+        if (_showMap == null) { return; }
+
+        // Si el mapa está siendo mostrado por la pausa, Tab no debe ocultarlo
+        if (_mapByPause) { return; }
+
+        if (_showMap.WasPressedThisFrame())
         {
             _mapShown = !_mapShown;
 
             if (_mapShown)
             {
-                panelMap.SetActive(true);
-                MainCanvas.SetActive(false);
+                if (panelMap != null) panelMap.SetActive(true);
+                if (MainCanvas != null) MainCanvas.SetActive(false);
                 Time.timeScale = 0f;
                 Debug.Log("Mapa mostrado");
             }
             else
             {
-                panelMap.SetActive(false);
-                MainCanvas.SetActive(true);
+                if (panelMap != null) panelMap.SetActive(false);
+                if (MainCanvas != null) MainCanvas.SetActive(true);
                 Time.timeScale = 1f;
                 Debug.Log("Mapa ocultado");
             }
         }
     }
 
+    #endregion
+
+    // ---- API PÚBLICA — MAPA EN PAUSA ----
+    #region API pública — Mapa en pausa (llamado por PauseManager)
+
+    /// <summary>
+    /// Muestra el panelMap durante la pausa. 
+    /// Llamado por PauseManager al pausar.
+    /// </summary>
+    public void MostrarMapaEnPausa()
+    {
+        if (panelMap == null) { return; }
+        _mapByPause = true;
+        panelMap.SetActive(true);
+        // No tocamos MainCanvas aquí; el overlay de pausa cubre la pantalla igualmente.
+    }
+
+    /// <summary>
+    /// Oculta el panelMap cuando se reanuda desde la pausa.
+    /// Llamado por PauseManager al reanudar.
+    /// </summary>
+    public void OcultarMapaPausa()
+    {
+        if (panelMap == null) { return; }
+        _mapByPause = false;
+        panelMap.SetActive(false);
+    }
 
     #endregion
 
-    // ---- MÉTODOS PÚBLICOS — LLAMADOS POR Health ----
+    // ---- API PÚBLICA — MUERTE Y WIN ----
     #region Métodos públicos — Muerte del jugador
 
-    /// <summary>
-    /// Muestra el panel de muerte y pausa el juego.
-    /// Llamado por Health cuando la vida del jugador llega a 0.
-    /// </summary>
     public void OnPlayerDeath()
     {
         if (panelDeath != null)
-        {
             panelDeath.SetActive(true);
-        }
         else
-        {
             Debug.LogWarning("[LevelManager] panelDeath no está asignado en el Inspector.");
-        }
 
         Time.timeScale = 0f;
     }
@@ -181,67 +189,41 @@ public class LevelManager : MonoBehaviour
     public void OnBossDeath()
     {
         if (panelWin != null)
-        {
             panelWin.SetActive(true);
-        }
         else
-        {
             Debug.LogWarning("[LevelManager] panelWin no está asignado en el Inspector.");
-        }
+
         Time.timeScale = 0f;
     }
 
     #endregion
 
-    // ---- MÉTODOS PÚBLICOS — BOTONES DEL PANEL ----
+    // ---- API PÚBLICA — BOTONES DE PANEL ----
     #region Métodos públicos — Botones del panelDeath
 
-    /// <summary>
-    /// Reinicia el nivel desde el último checkpoint.
-    /// Conectar al botón "Try Again" / "Reintentar" del panelDeath.
-    /// </summary>
     public void OnRestartButton()
     {
         Time.timeScale = 1f;
-
         if (GameManager.HasInstance())
-        {
             GameManager.Instance.RestartCurrentScene();
-        }
         else
-        {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
     }
 
-    /// <summary>
-    /// Vuelve al menú principal.
-    /// Conectar al botón "Menú" del panelDeath.
-    /// </summary>
     public void OnMenuButton()
     {
         Time.timeScale = 1f;
-
         if (GameManager.HasInstance())
-        {
             GameManager.Instance.GoToMainMenu();
-        }
         else
-        {
             SceneManager.LoadScene("Menu");
-        }
     }
-
 
     #endregion
 
-    // ---- MÉTODOS PÚBLICOS — CHECKPOINT ----
-    #region Métodos públicos — Checkpoint al completar la planta
+    // ---- API PÚBLICA — CHECKPOINT ----
+    #region Métodos públicos — Checkpoint
 
-    /// <summary>
-    /// Guarda el estado actual del jugador y carga la siguiente escena.
-    /// Llamado por LevelWin cuando el jugador activa el ascensor con los fusibles.
-    /// </summary>
     public void CompleteLevel(string nextSceneName)
     {
         if (GameManager.HasInstance() && playerHealth != null && playerInventory != null)
@@ -259,11 +241,24 @@ public class LevelManager : MonoBehaviour
 
     public void HideMap()
     {
-        panelMap.SetActive(false);
-        MainCanvas.SetActive(true);
+        if (panelMap != null) panelMap.SetActive(false);
+        if (MainCanvas != null) MainCanvas.SetActive(true);
         Time.timeScale = 1f;
+        _mapShown = false;
+        _mapByPause = false;
     }
 
+    public void ShowControls()
+    {
+        if (PanelControls != null) PanelControls.SetActive(true);
+        if (panelMap != null) panelMap.SetActive(false);
+    }
+
+    public void ReturnToPauseMenu()
+    {
+        if (PanelControls != null) PanelControls.SetActive(false);
+        if (panelMap != null) panelMap.SetActive(true);
+    }
 
     #endregion
 
@@ -272,11 +267,6 @@ public class LevelManager : MonoBehaviour
 
     private void Init() { }
 
-    /// <summary>
-    /// Restaura vida e inventario del jugador al valor del último checkpoint.
-    /// Se ejecuta al iniciar la escena, tanto en primera carga como al reiniciar.
-    /// Si no hkay GameManager (ejecución directa desde el editor), no hace nada.
-    /// </summary>
     private void RestoreFromCheckpoint()
     {
         if (!GameManager.HasInstance()) { return; }
@@ -286,8 +276,6 @@ public class LevelManager : MonoBehaviour
         playerInventory.SetBandagesFromCheckpoint(GameManager.Instance.GetSavedBandages());
         playerInventory.SetKeysFromCheckpoint(GameManager.Instance.GetSavedKeys());
     }
-
-
 
     #endregion
 

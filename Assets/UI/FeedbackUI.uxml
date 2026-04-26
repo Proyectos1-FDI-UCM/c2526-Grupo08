@@ -1,0 +1,25 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements"
+         xsi:noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd"
+         editor-extension-mode="False">
+
+    <ui:VisualElement name="feedbackRoot" class="feedback-root">
+
+        <ui:VisualElement name="doorCard" class="feedback-card">
+            <ui:VisualElement name="doorIcon" class="feedback-icon" />
+            <ui:VisualElement class="feedback-text-col">
+                <ui:Label name="doorLabel"    text="" class="feedback-label" />
+                <ui:Label name="doorSublabel" text="" class="feedback-sublabel" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <ui:VisualElement name="pickupCard" class="feedback-card feedback-card--pickup">
+            <ui:VisualElement name="pickupIcon" class="feedback-icon" />
+            <ui:VisualElement class="feedback-text-col">
+                <ui:Label name="pickupLabel"    text="" class="feedback-label" />
+                <ui:Label name="pickupSublabel" text="" class="feedback-sublabel" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+
+</ui:UXML>
