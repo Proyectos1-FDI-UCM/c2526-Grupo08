@@ -1,7 +1,5 @@
 //---------------------------------------------------------
-// Trigger narrativo de zona. Colócalo en un GameObject con Collider2D (IsTrigger)
-// para activarlo al entrar el jugador, o marca AutoStartOnLoad para que arranque
-// automáticamente al inicio de la escena (intro de nivel).
+// Trigger narrativo de zona.
 // Alexia Pérez Santana
 // No Way Down
 // Proyectos 1 - Curso 2025-26
@@ -12,80 +10,55 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Trigger narrativo de zona reutilizable.
+/// Trigger narrativo reutilizable.
 ///
 /// Modos de activación:
-///   · AutoStartOnLoad = true  → arranca solo al iniciar la escena (intro de nivel).
-///                               No necesita collider.
+///   · AutoStartOnLoad = true  → arranca automáticamente al iniciar la escena.
 ///   · AutoStartOnLoad = false → se activa cuando el jugador entra en el collider.
 ///
-/// CORRECCIONES respecto a la versión anterior:
-///   · AutoStartDelay por defecto sube a 0.5 s (el valor anterior de 0.1 s era
-///     insuficiente en escenas con muchos objetos y daba lugar a que el
-///     DialogueSystem no estuviera listo cuando se llamaba StartDialogue()).
-///   · Se añade un log de error claro cuando DialogueSystemRef no está asignado
-///     en modo AutoStart, para facilitar el diagnóstico en consola.
-///   · OnTriggerEnter2D comprueba _hasTriggered ANTES del requisito de inventario
-///     para no mostrar el feedback de "te falta X" más de una vez si ya se lanzó.
+/// CORRECCIONES:
+///   · Usa DialogueSystem.Instance si DialogueSystemRef no está asignado.
+///   · Timer con unscaledDeltaTime.
+///   · AutoStartDelay por defecto 1 s.
+///   · IMPORTANTE: si el DialogueSystem no tiene el DialogueBox asignado,
+///     el juego se quedaba congelado con timeScale=0. Ahora verificamos
+///     que el sistema está listo antes de llamar StartDialogue().
 /// </summary>
 public class NarratorDialogue : MonoBehaviour
 {
     // ---- ENUMS ----
-    #region Enums
-
     public enum ItemRequirement { None, Fusibles, Cards, Keys, SpecialKey }
 
-    #endregion
-
-    // ---- ATRIBUTOS DEL INSPECTOR ----
+    // ---- INSPECTOR ----
     #region Atributos del Inspector
 
     [Header("Sistema de diálogo")]
-    [Tooltip("DialogueSystem de la escena (uno por escena). OBLIGATORIO.")]
+    [Tooltip("Opcional. Si se deja vacío se usa DialogueSystem.Instance automáticamente.")]
     [SerializeField] private DialogueSystem DialogueSystemRef;
 
     [Header("Activación")]
-    [Tooltip("Si es true, el diálogo arranca automáticamente al iniciar la escena.\n" +
-             "Úsalo para las intros de nivel. No necesita Collider2D.\n" +
-             "Si es false, se activa cuando el jugador entra en el collider.")]
     [SerializeField] private bool AutoStartOnLoad = false;
 
-    [Tooltip("Segundos de espera antes de arrancar el diálogo automático.\n" +
-             "0.5 s garantiza que el DialogueSystem ya esté inicializado.")]
-    [SerializeField] private float AutoStartDelay = 0.5f;
+    [Tooltip("Espera en segundos antes de arrancar (unscaled). 1 s recomendado al cargar desde menú.")]
+    [SerializeField] private float AutoStartDelay = 1f;
 
     [Header("Contenido narrativo")]
-    [Tooltip("Líneas del diálogo. Rellena en el Inspector usando StoryDialogues.cs como referencia.")]
     [SerializeField] private List<DialogueSystem.DialogueLine> Lines = new List<DialogueSystem.DialogueLine>();
 
     [Header("Requisito de inventario (solo modo collider)")]
-    [Tooltip("Objeto que el jugador debe tener para activar el trigger. None = sin requisito.")]
     [SerializeField] private ItemRequirement RequireItem = ItemRequirement.None;
-
-    [Tooltip("Cantidad mínima requerida.")]
     [SerializeField] private int RequiredAmount = 1;
-
-    [Tooltip("Texto cuando el jugador NO tiene los ítems.")]
-    [SerializeField]
-    [TextArea(1, 3)]
-    private string FeedbackText = "Necesitas más objetos para continuar.";
-
-    [Tooltip("Sprite junto al FeedbackText (puede dejarse vacío).")]
+    [SerializeField][TextArea(1, 3)] private string FeedbackText = "Necesitas más objetos para continuar.";
     [SerializeField] private Sprite FeedbackSprite;
 
     [Header("Comportamiento")]
-    [Tooltip("Pausa el juego durante el diálogo.")]
     [SerializeField] private bool PauseWhileActive = true;
-
-    [Tooltip("Al terminar el diálogo, carga la siguiente escena.")]
     [SerializeField] private bool TriggerLevelTransitionOnEnd = false;
-
-    [Tooltip("Nombre de la escena a cargar. Solo si TriggerLevelTransitionOnEnd = true.")]
     [SerializeField] private string NextSceneName = "";
 
     #endregion
 
-    // ---- ATRIBUTOS PRIVADOS ----
+    // ---- PRIVADOS ----
     #region Atributos Privados
 
     private bool _hasTriggered = false;
@@ -96,38 +69,40 @@ public class NarratorDialogue : MonoBehaviour
     #endregion
 
     // ---- MONOBEHAVIOUR ----
-    #region Métodos de MonoBehaviour
+    #region MonoBehaviour
 
     private void Start()
     {
-        if (AutoStartOnLoad)
+        if (!AutoStartOnLoad) { return; }
+
+        // Resolver referencia
+        if (DialogueSystemRef == null)
+            DialogueSystemRef = DialogueSystem.Instance;
+
+        if (DialogueSystemRef == null)
         {
-            // Validación temprana: avisa en consola si falta la referencia
-            if (DialogueSystemRef == null)
-            {
-                Debug.LogError($"[NarratorDialogue] '{gameObject.name}': AutoStartOnLoad=true pero " +
-                               "DialogueSystemRef NO está asignado en el Inspector. " +
-                               "Arrastra el GameObject que tiene DialogueSystem al campo correspondiente.");
-                return;
-            }
-
-            if (Lines == null || Lines.Count == 0)
-            {
-                Debug.LogError($"[NarratorDialogue] '{gameObject.name}': AutoStartOnLoad=true pero " +
-                               "el array Lines está vacío. Rellena las líneas en el Inspector.");
-                return;
-            }
-
-            _waitingAutoStart = true;
-            _autoStartTimer = AutoStartDelay;
+            Debug.LogError($"[NarratorDialogue] '{gameObject.name}': no se encontró DialogueSystem en escena. " +
+                           "Añade un GameObject con el componente DialogueSystem.");
+            return;
         }
+
+        if (Lines == null || Lines.Count == 0)
+        {
+            Debug.LogError($"[NarratorDialogue] '{gameObject.name}': Lines está vacío. " +
+                           "Rellena las líneas en el Inspector.");
+            return;
+        }
+
+        _waitingAutoStart = true;
+        _autoStartTimer = AutoStartDelay;
+        Debug.Log($"[NarratorDialogue] '{gameObject.name}': AutoStart en {AutoStartDelay}s.");
     }
 
     private void Update()
     {
         if (!_waitingAutoStart) { return; }
 
-        _autoStartTimer -= Time.deltaTime;
+        _autoStartTimer -= Time.unscaledDeltaTime;
         if (_autoStartTimer <= 0f)
         {
             _waitingAutoStart = false;
@@ -137,22 +112,23 @@ public class NarratorDialogue : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (AutoStartOnLoad) { return; }  // modo auto: ignorar triggers de collider
-        if (_hasTriggered) { return; }  // ya se activó, no repetir
+        if (AutoStartOnLoad) { return; }
+        if (_hasTriggered) { return; }
         if (!other.CompareTag("Player")) { return; }
 
         if (DialogueSystemRef == null)
+            DialogueSystemRef = DialogueSystem.Instance;
+
+        if (DialogueSystemRef == null)
         {
-            Debug.LogError($"[NarratorDialogue] '{gameObject.name}': DialogueSystemRef no asignado.");
+            Debug.LogError($"[NarratorDialogue] '{gameObject.name}': DialogueSystem no encontrado.");
             return;
         }
 
-        // Comprobar requisito de inventario
         if (RequireItem != ItemRequirement.None)
         {
             Inventory inv = other.GetComponent<Inventory>();
             if (inv == null) { return; }
-
             if (!PlayerHasRequirement(inv))
             {
                 ShowFeedback();
@@ -171,24 +147,32 @@ public class NarratorDialogue : MonoBehaviour
     private void LanzarDialogo()
     {
         if (_hasTriggered) { return; }
-        _hasTriggered = true;
+
+        // Resolver referencia de nuevo por si Awake aún no había corrido
+        if (DialogueSystemRef == null)
+            DialogueSystemRef = DialogueSystem.Instance;
 
         if (DialogueSystemRef == null)
         {
-            Debug.LogError($"[NarratorDialogue] '{gameObject.name}': DialogueSystemRef no asignado.");
-            OnMainDialogueEnd();
+            Debug.LogError($"[NarratorDialogue] '{gameObject.name}': DialogueSystem es null al lanzar.");
             return;
         }
 
         if (Lines == null || Lines.Count == 0)
         {
-            Debug.LogWarning($"[NarratorDialogue] '{gameObject.name}': sin líneas configuradas.");
+            Debug.LogWarning($"[NarratorDialogue] '{gameObject.name}': sin líneas. Saltando diálogo.");
             OnMainDialogueEnd();
             return;
         }
 
+        _hasTriggered = true;
+
         DialogueSystemRef.SetLines(Lines);
+
+        // Pausar DESPUÉS de verificar que el sistema está listo
+        // para no congelar el juego si algo falla
         if (PauseWhileActive) { Time.timeScale = 0f; }
+
         DialogueSystemRef.StartDialogue(OnMainDialogueEnd);
     }
 
@@ -230,14 +214,14 @@ public class NarratorDialogue : MonoBehaviour
         if (_showingFeedback) { return; }
         _showingFeedback = true;
 
-        var feedbackLine = new DialogueSystem.DialogueLine
+        var line = new DialogueSystem.DialogueLine
         {
             SpeakerName = "",
             CharacterSprite = FeedbackSprite,
             Text = FeedbackText
         };
 
-        DialogueSystemRef.SetLines(new List<DialogueSystem.DialogueLine> { feedbackLine });
+        DialogueSystemRef.SetLines(new List<DialogueSystem.DialogueLine> { line });
         Time.timeScale = 0f;
         DialogueSystemRef.StartDialogue(OnFeedbackEnd);
     }

@@ -1,10 +1,7 @@
 //---------------------------------------------------------
-// Sistema de diálogo genérico. Muestra una caja en la parte inferior con
-// imagen del personaje, nombre del hablante, texto y hint de tecla.
+// Sistema de diálogo genérico por líneas. Muestra una caja
+// con imagen del personaje, nombre, texto y hint de tecla.
 // Funciona con Time.timeScale = 0 (usa unscaledDeltaTime).
-// Cualquier script puede inyectar sus propias líneas con SetLines()
-// antes de llamar StartDialogue(), de forma que un único DialogueSystem
-// por escena sirve para todos los triggers narrativos.
 // Alexia Pérez Santana
 // No Way Down
 // Proyectos 1 - Curso 2025-26
@@ -18,36 +15,82 @@ using UnityEngine.UI;
 using TMPro;
 
 /// <summary>
-/// Sistema de diálogo por líneas reutilizable.
+/// Sistema de diálogo reutilizable. Singleton local por escena.
 ///
 /// Flujo de uso:
-///   1. (Opcional) dialogueSystem.SetLines(miLista)   — inyectar líneas en runtime
-///   2. dialogueSystem.StartDialogue(miCallback)       — iniciar
-///   3. El jugador pulsa F / B para avanzar
-///   4. Al terminar la última línea se llama miCallback y la caja se oculta
+///   1. (Opcional) dialogueSystem.SetLines(miLista)
+///   2. dialogueSystem.StartDialogue(miCallback)
+///   3. El jugador pulsa Interact (F / B mando) para avanzar
+///   4. Al terminar llama miCallback y oculta la caja
 ///
-/// Si NO se llama SetLines(), usa las líneas configuradas en el Inspector
-/// (compatibilidad con SpecialEnemyInteraction y BossManager).
+/// SINGLETON: NarratorDialogue puede encontrarlo automáticamente con
+/// DialogueSystem.Instance sin necesidad de asignarlo en el Inspector.
+/// Si hay referencia directa en el Inspector, tiene prioridad.
 ///
 /// Estructura de UI esperada (asignar en Inspector):
-///   DialogueBox     → panel contenedor inferior (desactivado por defecto)
-///   CharacterImage  → Image del personaje (izquierda)
-///   SpeakerNameText → TMP_Text con el nombre del hablante (puede ser null)
-///   DialogueText    → TMP_Text con el contenido de la línea
-///   ContinueHint    → TMP_Text con el hint de tecla (inferior derecha)
+///   DialogueBox     → panel contenedor (desactivado por defecto)
+///   CharacterImage  → Image del personaje
+///   SpeakerNameText → TMP_Text con el nombre del hablante
+///   DialogueText    → TMP_Text con el texto de la línea
+///   ContinueHint    → TMP_Text con el hint de tecla
 /// </summary>
 public class DialogueSystem : MonoBehaviour
 {
+    // ---- SINGLETON ----
+    #region Singleton
+
+    private static DialogueSystem _instance;
+
+    /// <summary>Instancia única de la escena. Disponible tras Awake().</summary>
+    public static DialogueSystem Instance
+    {
+        get
+        {
+            if (_instance == null)
+                Debug.LogWarning("[DialogueSystem] No hay instancia en esta escena. " +
+                                 "Asegúrate de que el GameObject con DialogueSystem está en la escena.");
+            return _instance;
+        }
+    }
+    public static bool HasInstance() => _instance != null;
+
+    private void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Debug.LogWarning("[DialogueSystem] Ya existe una instancia. Destruyendo duplicado.");
+            Destroy(gameObject);
+            return;
+        }
+        _instance = this;
+
+        // Registrar input y ocultar la caja desde Awake para que esté listo
+        // antes de que cualquier NarratorDialogue lo busque en Start
+        _interactAction = InputSystem.actions?.FindAction("Interact");
+        if (_interactAction == null)
+            Debug.LogWarning("[DialogueSystem] Acción 'Interact' no encontrada en el InputSystem.");
+
+        if (DialogueBox != null)
+            DialogueBox.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        if (_instance == this) _instance = null;
+    }
+
+    #endregion
+
     // ---- CLASE DE DATOS ----
     #region Clase de datos
 
     [Serializable]
     public class DialogueLine
     {
-        [Tooltip("Nombre del personaje que habla. Vacío = narración sin nombre.")]
+        [Tooltip("Nombre del personaje. Vacío = narración sin nombre.")]
         public string SpeakerName;
 
-        [Tooltip("Sprite del personaje (semi-realista). Vacío = sin imagen (narración).")]
+        [Tooltip("Sprite del personaje. Vacío = sin imagen (narración pura).")]
         public Sprite CharacterSprite;
 
         [Tooltip("Texto de la línea.")]
@@ -61,28 +104,18 @@ public class DialogueSystem : MonoBehaviour
     #region Atributos del Inspector
 
     [Header("UI — Referencias")]
-    [Tooltip("Panel contenedor de la caja de diálogo.")]
     [SerializeField] private GameObject DialogueBox;
-
-    [Tooltip("Image del personaje (esquina inferior izquierda).")]
     [SerializeField] private Image CharacterImage;
-
-    [Tooltip("TMP_Text con el nombre del hablante (encima del texto). Puede dejarse vacío.")]
     [SerializeField] private TMP_Text SpeakerNameText;
-
-    [Tooltip("TMP_Text con el texto de la línea actual.")]
     [SerializeField] private TMP_Text DialogueText;
-
-    [Tooltip("TMP_Text con el hint de tecla (inferior derecha).")]
     [SerializeField] private TMP_Text ContinueHint;
 
     [Header("Líneas por defecto (Inspector)")]
-    [Tooltip("Líneas usadas cuando nadie llama SetLines() antes de StartDialogue().\n" +
+    [Tooltip("Líneas usadas si nadie llama SetLines() antes de StartDialogue().\n" +
              "SpecialEnemyInteraction y BossManager usan este campo.")]
     [SerializeField] private List<DialogueLine> DialogueLines = new List<DialogueLine>();
 
     [Header("Hint")]
-    [Tooltip("Texto del hint de tecla para continuar.")]
     [SerializeField] private string HintText = "F  /  B (mando)  →  continuar";
 
     #endregion
@@ -90,20 +123,14 @@ public class DialogueSystem : MonoBehaviour
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados
 
-    /// <summary>Lista activa durante la reproducción (inyectada o del Inspector).</summary>
     private List<DialogueLine> _activeLines;
-
     private int _currentLineIndex = 0;
     private bool _isActive = false;
     private Action _onDialogueEnd;
 
     private InputAction _interactAction;
 
-    /// <summary>
-    /// Cooldown inicial que evita que el mismo frame que abre el diálogo
-    /// también lo avance (el jugador ya tenía F pulsado).
-    /// Usa unscaledDeltaTime para funcionar con timeScale = 0.
-    /// </summary>
+    // Cooldown para evitar que el mismo frame que abre el diálogo también lo avance
     private float _inputCooldown = 0f;
     private const float INPUT_COOLDOWN = 0.25f;
 
@@ -111,16 +138,6 @@ public class DialogueSystem : MonoBehaviour
 
     // ---- MONOBEHAVIOUR ----
     #region MonoBehaviour
-
-    private void Awake()
-    {
-        _interactAction = InputSystem.actions.FindAction("Interact");
-        if (_interactAction == null)
-            Debug.LogWarning("[DialogueSystem] Acción 'Interact' no encontrada en el InputSystem.");
-
-        if (DialogueBox != null)
-            DialogueBox.SetActive(false);
-    }
 
     private void Update()
     {
@@ -142,10 +159,8 @@ public class DialogueSystem : MonoBehaviour
     #region API Pública
 
     /// <summary>
-    /// Inyecta una lista de líneas en runtime.
-    /// DEBE llamarse antes de StartDialogue().
-    /// Permite que un único DialogueSystem en escena reproduzca
-    /// cualquier secuencia sin duplicar el componente.
+    /// Inyecta líneas en runtime. Llamar ANTES de StartDialogue().
+    /// Permite reutilizar un único DialogueSystem para toda la escena.
     /// </summary>
     public void SetLines(List<DialogueLine> lines)
     {
@@ -153,10 +168,9 @@ public class DialogueSystem : MonoBehaviour
     }
 
     /// <summary>
-    /// Arranca el diálogo desde la línea 0.
-    /// Usa las líneas inyectadas por SetLines() si existen;
+    /// Arranca el diálogo. Usa las líneas de SetLines() si existen;
     /// si no, usa las del Inspector.
-    /// La pausa del timeScale la gestiona el llamador.
+    /// La gestión de timeScale la hace el llamador (NarratorDialogue).
     /// </summary>
     public void StartDialogue(Action onEnd)
     {
@@ -166,7 +180,7 @@ public class DialogueSystem : MonoBehaviour
 
         if (_activeLines == null || _activeLines.Count == 0)
         {
-            Debug.LogWarning("[DialogueSystem] No hay líneas configuradas.");
+            Debug.LogWarning("[DialogueSystem] No hay líneas configuradas para el diálogo.");
             onEnd?.Invoke();
             return;
         }
@@ -178,11 +192,14 @@ public class DialogueSystem : MonoBehaviour
 
         _interactAction?.Enable();
 
-        if (DialogueBox != null) { DialogueBox.SetActive(true); }
-        if (ContinueHint != null) { ContinueHint.text = HintText; }
+        if (DialogueBox != null) DialogueBox.SetActive(true);
+        if (ContinueHint != null) ContinueHint.text = HintText;
 
         ShowCurrentLine();
     }
+
+    /// <summary>Devuelve true si hay un diálogo activo en este momento.</summary>
+    public bool IsActive() => _isActive;
 
     #endregion
 
@@ -193,22 +210,19 @@ public class DialogueSystem : MonoBehaviour
     {
         DialogueLine line = _activeLines[_currentLineIndex];
 
-        // Nombre del personaje
         if (SpeakerNameText != null)
         {
             bool hasName = !string.IsNullOrEmpty(line.SpeakerName);
             SpeakerNameText.gameObject.SetActive(hasName);
-            if (hasName) { SpeakerNameText.text = line.SpeakerName; }
+            if (hasName) SpeakerNameText.text = line.SpeakerName;
         }
 
-        // Imagen
         if (CharacterImage != null)
         {
             CharacterImage.sprite = line.CharacterSprite;
             CharacterImage.gameObject.SetActive(line.CharacterSprite != null);
         }
 
-        // Texto
         if (DialogueText != null)
             DialogueText.text = line.Text;
     }
@@ -227,13 +241,13 @@ public class DialogueSystem : MonoBehaviour
     private void EndDialogue()
     {
         _isActive = false;
-        _activeLines = null; // limpiar para que la próxima llamada pueda inyectar nuevas líneas
+        _activeLines = null; // limpiar para la próxima secuencia
 
-        if (DialogueBox != null) { DialogueBox.SetActive(false); }
+        if (DialogueBox != null) DialogueBox.SetActive(false);
 
-        Action callback = _onDialogueEnd;
+        Action cb = _onDialogueEnd;
         _onDialogueEnd = null;
-        callback?.Invoke();
+        cb?.Invoke();
     }
 
     #endregion

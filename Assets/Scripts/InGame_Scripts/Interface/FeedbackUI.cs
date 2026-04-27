@@ -1,36 +1,52 @@
 //---------------------------------------------------------
-// Controlador de feedback visual ingame usando UI Toolkit.
+// Feedback visual ingame usando Canvas legacy (Image + TMP_Text).
+// NO usa UI Toolkit — evita los problemas de rutas USS.
 // Alexia Pérez Santana
 // No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
+using TMPro;
 
 /// <summary>
 /// Singleton local por escena.
-/// Muestra tarjetas animadas para pickup de objetos y estado de puertas.
+/// Muestra dos tarjetas animadas (slide-in desde izquierda):
+///   · PickupCard — icono + nombre + cantidad al recoger objeto
+///   · DoorCard   — icono + mensaje al acercarse a una puerta
 ///
-/// IMPORTANTE: la inicialización de UI se hace en Start (no OnEnable)
-/// porque UI Toolkit necesita un frame para procesar el UXML.
+/// ANIMACIÓN: Lerp de anchoredPosition en Update (sin coroutines).
 ///
+/// SETUP EN UNITY:
+///   Dentro del Canvas principal de la escena, crea:
+///
+///   [GameObject] FeedbackUI          ← este script
+///   ├── PickupCard (Image)           ← Image con sprite Kenney 9-sliced, anclado bottom-left
+///   │   ├── PickupIcon  (Image)      ← 48x48, sin sprite por defecto
+///   │   ├── PickupLabel (TMP_Text)   ← bold, 14px
+///   │   └── PickupSublabel (TMP_Text)← normal, 11px, color gris
+///   └── DoorCard (Image)             ← mismo setup que PickupCard
+///       ├── DoorIcon  (Image)
+///       ├── DoorLabel (TMP_Text)
+///       └── DoorSublabel (TMP_Text)
+///
+///   RectTransform de cada Card:
+///     Anchor preset: bottom-left (min/max = 0,0) | Pivot = (0, 0)
+///     PickupCard: anchoredPos = (-320, 24), Width=280, Height=80
+///     DoorCard:   anchoredPos = (-320, 116), Width=280, Height=80
+///   (el script los mueve a X=24 al mostrarlos)
+///
+///   Asignar en Inspector del FeedbackUI todos los campos de abajo.
 /// </summary>
-[RequireComponent(typeof(UIDocument))]
 public class FeedbackUI : MonoBehaviour
 {
     // ---- SINGLETON ----
     #region Singleton
-
     private static FeedbackUI _instance;
     public static FeedbackUI Instance
     {
-        get
-        {
-            if (_instance == null)
-                Debug.LogWarning("[FeedbackUI] No hay instancia en esta escena.");
-            return _instance;
-        }
+        get { if (_instance == null) Debug.LogWarning("[FeedbackUI] No hay instancia."); return _instance; }
     }
     public static bool HasInstance() => _instance != null;
 
@@ -39,20 +55,37 @@ public class FeedbackUI : MonoBehaviour
         if (_instance != null) { Destroy(gameObject); return; }
         _instance = this;
     }
-
-    private void OnDestroy()
-    {
-        if (this == _instance) { _instance = null; }
-    }
-
+    private void OnDestroy() { if (this == _instance) _instance = null; }
     #endregion
 
-    // ---- ATRIBUTOS DEL INSPECTOR ----
-    #region Atributos del Inspector
+    // ---- INSPECTOR ----
+    #region Inspector
+
+    [Header("Tarjeta Pickup")]
+    [SerializeField] private RectTransform PickupCard;
+    [SerializeField] private Image PickupIconImg;
+    [SerializeField] private TMP_Text PickupLabel;
+    [SerializeField] private TMP_Text PickupSublabel;
+
+    [Header("Tarjeta Puerta")]
+    [SerializeField] private RectTransform DoorCard;
+    [SerializeField] private Image DoorIconImg;
+    [SerializeField] private TMP_Text DoorLabel;
+    [SerializeField] private TMP_Text DoorSublabel;
+
+    [Header("Posiciones")]
+    [SerializeField] private float XVisible = 24f;
+    [SerializeField] private float XOculto = -320f;
 
     [Header("Timing")]
     [SerializeField] private float PickupDuration = 2.5f;
     [SerializeField] private float DoorDuration = 2f;
+    [SerializeField] private float AnimSpeed = 12f;
+
+    [Header("Colores del panel")]
+    [SerializeField] private Color ColorPickup = new Color(0.18f, 0.35f, 0.37f, 0.95f);
+    [SerializeField] private Color ColorBloqueada = new Color(0.40f, 0.30f, 0.08f, 0.95f);
+    [SerializeField] private Color ColorAbierta = new Color(0.12f, 0.30f, 0.30f, 0.95f);
 
     [Header("Sprites de objetos")]
     [SerializeField] private Sprite SpriteFusible;
@@ -67,217 +100,130 @@ public class FeedbackUI : MonoBehaviour
 
     #endregion
 
-    // ---- ATRIBUTOS PRIVADOS ----
-    #region Atributos Privados
-
-    private VisualElement _doorCard;
-    private VisualElement _doorIcon;
-    private Label _doorLabel;
-    private Label _doorSublabel;
-
-    private VisualElement _pickupCard;
-    private VisualElement _pickupIcon;
-    private Label _pickupLabel;
-    private Label _pickupSublabel;
-
+    // ---- PRIVADOS ----
+    #region Privados
     private float _pickupTimer = 0f;
-    private float _doorTimer = 0f;
     private bool _pickupActive = false;
+    private float _pickupTargetX;
+
+    private float _doorTimer = 0f;
     private bool _doorActive = false;
-    private bool _uiReady = false;
+    private float _doorTargetX;
 
-    private const string CSS_VISIBLE = "feedback-card--visible";
-    private const string CSS_LOCKED = "feedback-card--locked";
-    private const string CSS_UNLOCKED = "feedback-card--unlocked";
-
+    private bool _ready = false;
     #endregion
 
     // ---- MONOBEHAVIOUR ----
     #region MonoBehaviour
-
     private void Start()
     {
-        InicializarUI();
+        if (PickupCard == null || DoorCard == null)
+        {
+            Debug.LogError("[FeedbackUI] PickupCard o DoorCard no asignados en el Inspector. " +
+                           "Crea la jerarquía Canvas → FeedbackUI → PickupCard / DoorCard.");
+            return;
+        }
+
+        // Empezar fuera de pantalla
+        SetX(PickupCard, XOculto);
+        SetX(DoorCard, XOculto);
+        _pickupTargetX = XOculto;
+        _doorTargetX = XOculto;
+        _ready = true;
     }
 
     private void Update()
     {
-        if (!_uiReady) { return; }
+        if (!_ready) { return; }
 
+        // Timers
         if (_pickupActive)
         {
             _pickupTimer -= Time.deltaTime;
-            if (_pickupTimer <= 0f)
-            {
-                _pickupActive = false;
-                _pickupCard.RemoveFromClassList(CSS_VISIBLE);
-            }
+            if (_pickupTimer <= 0f) { _pickupActive = false; _pickupTargetX = XOculto; }
         }
-
         if (_doorActive)
         {
             _doorTimer -= Time.deltaTime;
-            if (_doorTimer <= 0f)
-            {
-                _doorActive = false;
-                _doorCard.RemoveFromClassList(CSS_VISIBLE);
-            }
+            if (_doorTimer <= 0f) { _doorActive = false; _doorTargetX = XOculto; }
         }
-    }
 
+        // Animación slide (Lerp, sin coroutines)
+        SetX(PickupCard, Mathf.Lerp(PickupCard.anchoredPosition.x, _pickupTargetX, Time.deltaTime * AnimSpeed));
+        SetX(DoorCard, Mathf.Lerp(DoorCard.anchoredPosition.x, _doorTargetX, Time.deltaTime * AnimSpeed));
+    }
     #endregion
 
     // ---- API PÚBLICA ----
     #region API pública
 
-    /// <summary>
-    /// Muestra la tarjeta de pickup con nombre, icono y cantidad total.
-    /// </summary>
-    public void MostrarPickup(string nombreObjeto, Sprite icono, int cantidad)
+    /// <summary>Muestra tarjeta de pickup con nombre, icono y cantidad.</summary>
+    public void MostrarPickup(string nombre, Sprite icono, int cantidad)
     {
-        if (!_uiReady) { return; }
-
-        _pickupLabel.text = nombreObjeto;
-        _pickupSublabel.text = $"Total: {cantidad}";
-        SetIconSprite(_pickupIcon, icono);
-
+        if (!_ready) { return; }
+        if (PickupLabel != null) PickupLabel.text = nombre;
+        if (PickupSublabel != null) PickupSublabel.text = cantidad >= 0 ? $"Total: {cantidad}" : "";
+        SetSprite(PickupIconImg, icono);
+        SetPanelColor(PickupCard, ColorPickup);
         _pickupTimer = PickupDuration;
         _pickupActive = true;
-        _pickupCard.AddToClassList(CSS_VISIBLE);
+        _pickupTargetX = XVisible;
     }
 
-    /// <summary>
-    /// Detecta automáticamente nombre e icono según el tipo de Objects.
-    /// </summary>
+    /// <summary>Detecta nombre e icono automáticamente según el tipo.</summary>
     public void MostrarPickupTipo(Objects.ObjectsType tipo, int cantidad)
     {
-        if (!_uiReady) { return; }
-
-        string nombre;
-        Sprite icono;
-
+        if (!_ready) { return; }
+        string nombre; Sprite icono; int c = cantidad;
         switch (tipo)
         {
-            case Objects.ObjectsType.fusible:
-                nombre = "Fusible"; icono = SpriteFusible; break;
-            case Objects.ObjectsType.key:
-                nombre = "Llave"; icono = SpriteLlave; break;
-            case Objects.ObjectsType.bandage:
-                nombre = "Venda"; icono = SpriteVenda; break;
-            case Objects.ObjectsType.card:
-                nombre = "Tarjeta de acceso"; icono = SpriteTarjeta; break;
-            case Objects.ObjectsType.multiAbility:
-                nombre = "Habilidad multidireccional"; icono = SpriteHabilidadMulti; cantidad = -1; break;
-            case Objects.ObjectsType.explosiveAbility:
-                nombre = "Habilidad explosiva"; icono = SpriteHabilidadExplosiva; cantidad = -1; break;
-            default:
-                nombre = "Objeto"; icono = null; break;
+            case Objects.ObjectsType.fusible: nombre = "Fusible"; icono = SpriteFusible; break;
+            case Objects.ObjectsType.key: nombre = "Llave"; icono = SpriteLlave; break;
+            case Objects.ObjectsType.bandage: nombre = "Venda"; icono = SpriteVenda; break;
+            case Objects.ObjectsType.card: nombre = "Tarjeta de acceso"; icono = SpriteTarjeta; break;
+            case Objects.ObjectsType.multiAbility: nombre = "Habilidad multidireccional"; icono = SpriteHabilidadMulti; c = -1; break;
+            case Objects.ObjectsType.explosiveAbility: nombre = "Habilidad explosiva"; icono = SpriteHabilidadExplosiva; c = -1; break;
+            default: nombre = "Objeto"; icono = null; break;
         }
-
-        if (cantidad < 0)
-        {
-            _pickupLabel.text = nombre;
-            _pickupSublabel.text = "";
-            SetIconSprite(_pickupIcon, icono);
-            _pickupTimer = PickupDuration;
-            _pickupActive = true;
-            _pickupCard.AddToClassList(CSS_VISIBLE);
-        }
-        else
-        {
-            MostrarPickup(nombre, icono, cantidad);
-        }
+        MostrarPickup(nombre, icono, c);
     }
 
-    /// <summary>
-    /// Muestra la tarjeta de puerta (bloqueada = amarillo / abierta = cyan).
-    /// </summary>
+    /// <summary>Muestra tarjeta de estado de puerta.</summary>
     public void MostrarPuerta(bool bloqueada, string mensaje, string submensaje = "")
     {
-        if (!_uiReady) { return; }
-
-        _doorCard.RemoveFromClassList(CSS_LOCKED);
-        _doorCard.RemoveFromClassList(CSS_UNLOCKED);
-
-        _doorLabel.text = mensaje;
-        _doorSublabel.text = submensaje;
-
-        if (bloqueada)
-        {
-            _doorCard.AddToClassList(CSS_LOCKED);
-            SetIconSprite(_doorIcon, SpritePuertaBloqueada);
-        }
-        else
-        {
-            _doorCard.AddToClassList(CSS_UNLOCKED);
-            SetIconSprite(_doorIcon, SpritePuertaAbierta);
-        }
-
+        if (!_ready) { return; }
+        if (DoorLabel != null) DoorLabel.text = mensaje;
+        if (DoorSublabel != null) DoorSublabel.text = submensaje;
+        SetSprite(DoorIconImg, bloqueada ? SpritePuertaBloqueada : SpritePuertaAbierta);
+        SetPanelColor(DoorCard, bloqueada ? ColorBloqueada : ColorAbierta);
         _doorTimer = DoorDuration;
         _doorActive = true;
-        _doorCard.AddToClassList(CSS_VISIBLE);
+        _doorTargetX = XVisible;
     }
 
     #endregion
 
-    // ---- MÉTODOS PRIVADOS ----
-    #region Métodos Privados
-
-    private void InicializarUI()
+    // ---- HELPERS ----
+    #region Helpers
+    private void SetX(RectTransform rt, float x)
     {
-        UIDocument doc = GetComponent<UIDocument>();
-        if (doc == null)
-        {
-            Debug.LogError("[FeedbackUI] No hay UIDocument en este GameObject.");
-            return;
-        }
-
-        VisualElement root = doc.rootVisualElement;
-        if (root == null)
-        {
-            Debug.LogError("[FeedbackUI] rootVisualElement es null. " +
-                           "¿Está el UXML asignado en Source Asset?");
-            return;
-        }
-
-        _doorCard = root.Q<VisualElement>("doorCard");
-        _doorIcon = root.Q<VisualElement>("doorIcon");
-        _doorLabel = root.Q<Label>("doorLabel");
-        _doorSublabel = root.Q<Label>("doorSublabel");
-
-        _pickupCard = root.Q<VisualElement>("pickupCard");
-        _pickupIcon = root.Q<VisualElement>("pickupIcon");
-        _pickupLabel = root.Q<Label>("pickupLabel");
-        _pickupSublabel = root.Q<Label>("pickupSublabel");
-
-        if (_doorCard == null || _pickupCard == null)
-        {
-            Debug.LogError("[FeedbackUI] 'doorCard' o 'pickupCard' no encontrados en el UXML. " +
-                           "Nombres esperados: doorCard, pickupCard.");
-            return;
-        }
-
-        _doorCard.RemoveFromClassList(CSS_VISIBLE);
-        _pickupCard.RemoveFromClassList(CSS_VISIBLE);
-
-        _uiReady = true;
+        if (rt == null) { return; }
+        var p = rt.anchoredPosition; p.x = x; rt.anchoredPosition = p;
     }
 
-    private void SetIconSprite(VisualElement element, Sprite sprite)
+    private void SetSprite(Image img, Sprite sprite)
     {
-        if (element == null) { return; }
-
-        if (sprite != null)
-        {
-            element.style.backgroundImage = new StyleBackground(sprite);
-            element.style.display = DisplayStyle.Flex;
-        }
-        else
-        {
-            element.style.display = DisplayStyle.None;
-        }
+        if (img == null) { return; }
+        img.sprite = sprite;
+        img.enabled = sprite != null;
     }
 
+    private void SetPanelColor(RectTransform rt, Color color)
+    {
+        if (rt == null) { return; }
+        Image img = rt.GetComponent<Image>();
+        if (img != null) img.color = color;
+    }
     #endregion
 
 } // class FeedbackUI

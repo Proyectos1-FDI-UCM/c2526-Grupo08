@@ -2106,7 +2106,7 @@ MonoBehaviour:
   m_PanelSettings: {fileID: 11400000, guid: 6287e04c8b05f2343a27225cb43b701c, type: 2}
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: 850354f752210794d98ec95446bf90f8, type: 3}
-  m_SortingOrder: 5
+  m_SortingOrder: 1
   m_WorldSpaceSizeMode: 1
   m_WorldSpaceWidth: 1920
   m_WorldSpaceHeight: 1080
@@ -3741,7 +3741,7 @@ MonoBehaviour:
   m_PanelSettings: {fileID: 11400000, guid: 6287e04c8b05f2343a27225cb43b701c, type: 2}
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: e54af70da99ab4146a6403f96ba8cd74, type: 3}
-  m_SortingOrder: 10
+  m_SortingOrder: 0
   m_WorldSpaceSizeMode: 1
   m_WorldSpaceWidth: 1920
   m_WorldSpaceHeight: 1080
@@ -3778,7 +3778,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1194569115
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6825,7 +6825,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2029204785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7097,7 +7097,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DialogueSystemRef: {fileID: 1771401683}
   AutoStartOnLoad: 1
-  AutoStartDelay: 0.2
+  AutoStartDelay: 0.1
   Lines:
   - SpeakerName: 
     CharacterSprite: {fileID: 0}
@@ -7189,7 +7189,7 @@ Transform:
   m_GameObject: {fileID: 2047608625}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: -20.32, z: -0.035666034}
+  m_LocalPosition: {x: -9.8, y: -36.9, z: -0.035666034}
   m_LocalScale: {x: 3.8375, y: 2.4375, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

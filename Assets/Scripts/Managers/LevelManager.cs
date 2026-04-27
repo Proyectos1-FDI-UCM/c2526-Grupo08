@@ -12,68 +12,58 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// Singleton local de escena (sin DontDestroyOnLoad).
 ///
-/// CAMBIOS RESPECTO A LA VERSIÓN ANTERIOR:
-///   · Update() comprueba null en _showMap antes de llamar WasPressedThisFrame()
-///     → evita NullReferenceException cuando la acción no existe en el InputSystem.
-///   · Añadidos MostrarMapaEnPausa() y OcultarMapaPausa():
-///     el PauseManager los llama al pausar/reanudar para que el panelMap
-///     siga siendo responsabilidad exclusiva del LevelManager pero sea
-///     visible también durante la pausa (sin mover ni tocar panelMap a otra clase).
-///   · MainCanvas recibe null-check en Update para no dar error si no está asignado.
+/// CORRECCIÓN DEFINITIVA del bug de barras desapareciendo al reanudar pausa:
+///   · ShowMap (Tab) y Pause (Escape) son acciones DISTINTAS. Si por error
+///     estaban mapeadas a la misma tecla, al pausar también se activaba
+///     el mapa, que desactivaba MainCanvas. Al reanudar, MainCanvas seguía oculto.
+///   · Ahora: cuando la pausa está activa (_isPausedByManager = true),
+///     Update() ignora completamente la acción ShowMap. El Canvas nunca
+///     se toca durante la pausa — solo el overlay de UI Toolkit lo cubre.
+///   · Al reanudar desde pausa, MainCanvas se fuerza a activo
+///     independientemente del estado anterior.
 /// </summary>
 public class LevelManager : MonoBehaviour
 {
     // ---- SINGLETON LOCAL ----
-    #region Singleton local de escena
+    #region Singleton
 
     private static LevelManager _instance;
-
     public static LevelManager Instance
     {
-        get
-        {
-            Debug.Assert(_instance != null, "[LevelManager] No hay instancia en esta escena.");
-            return _instance;
-        }
+        get { Debug.Assert(_instance != null, "[LevelManager] No hay instancia."); return _instance; }
     }
-
     public static bool HasInstance() => _instance != null;
 
     protected void Awake()
     {
-        if (_instance != null)
-        {
-            Debug.LogWarning("[LevelManager] Duplicado detectado. Solo debe haber un LevelManager por escena.");
-            Destroy(gameObject);
-            return;
-        }
+        if (_instance != null) { Destroy(gameObject); return; }
         _instance = this;
-        Init();
     }
 
     protected void OnDestroy()
     {
-        if (this == _instance)
-            _instance = null;
+        if (this == _instance) _instance = null;
     }
 
     #endregion
 
-    // ---- ATRIBUTOS DEL INSPECTOR ----
-    #region Atributos del Inspector
+    // ---- INSPECTOR ----
+    #region Inspector
 
-    [Header("Panel de muerte")]
+    [Header("Paneles de estado")]
     [SerializeField] private GameObject panelDeath;
     [SerializeField] private GameObject panelWin;
 
-    [Header("Panel del mapa")]
-    [Tooltip("Panel del mapa (canvas legacy). Se muestra al pausar y al pulsar Tab.")]
+    [Header("Panel del mapa (Tab)")]
+    [Tooltip("Se muestra al pulsar Tab. Durante la pausa se ignora Tab.")]
     [SerializeField] private GameObject panelMap;
 
-    [Header("HUD")]
+    [Header("HUD principal")]
+    [Tooltip("Canvas con barras de vida, magia y minimapa. " +
+             "NUNCA se desactiva durante la pausa — solo al abrir el mapa con Tab.")]
     [SerializeField] private GameObject MainCanvas;
 
-    [Header("Panel de los controles")]
+    [Header("Panel de controles")]
     [SerializeField] private GameObject PanelControls;
 
     [Header("Referencias al jugador")]
@@ -82,33 +72,32 @@ public class LevelManager : MonoBehaviour
 
     #endregion
 
-    // ---- ATRIBUTOS PRIVADOS ----
-    #region Atributos Privados
+    // ---- PRIVADOS ----
+    #region Privados
 
     private InputAction _showMap;
     private bool _mapShown = false;
-
-    /// <summary>
-    /// True mientras el mapa está visible por la pausa (gestionado por PauseManager).
-    /// Evita que la tecla Tab oculte un mapa que mostró la pausa.
-    /// </summary>
-    private bool _mapByPause = false;
+    // Flag que el PauseManager activa para que el mapa-Tab no interfiera
+    private bool _isPausedByManager = false;
 
     #endregion
 
     // ---- MONOBEHAVIOUR ----
-    #region Métodos de MonoBehaviour
+    #region MonoBehaviour
 
     private void Start()
     {
-        _showMap = InputSystem.actions.FindAction("ShowMap");
+        _showMap = InputSystem.actions?.FindAction("ShowMap");
         if (_showMap == null)
-            Debug.LogWarning("[LevelManager] Acción 'ShowMap' no encontrada en el InputSystem.");
+            Debug.LogWarning("[LevelManager] Acción 'ShowMap' no encontrada.");
 
         if (panelDeath != null) panelDeath.SetActive(false);
         if (panelWin != null) panelWin.SetActive(false);
         if (panelMap != null) panelMap.SetActive(false);
         if (PanelControls != null) PanelControls.SetActive(false);
+
+        // HUD siempre visible al iniciar
+        if (MainCanvas != null) MainCanvas.SetActive(true);
 
         Time.timeScale = 1f;
         RestoreFromCheckpoint();
@@ -116,11 +105,9 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
-        // CORRECCIÓN: null-check en _showMap antes de WasPressedThisFrame
         if (_showMap == null) { return; }
-
-        // Si el mapa está siendo mostrado por la pausa, Tab no debe ocultarlo
-        if (_mapByPause) { return; }
+        // Durante la pausa, Tab no hace nada — el PauseManager controla la UI
+        if (_isPausedByManager) { return; }
 
         if (_showMap.WasPressedThisFrame())
         {
@@ -131,98 +118,91 @@ public class LevelManager : MonoBehaviour
                 if (panelMap != null) panelMap.SetActive(true);
                 if (MainCanvas != null) MainCanvas.SetActive(false);
                 Time.timeScale = 0f;
-                Debug.Log("Mapa mostrado");
             }
             else
             {
                 if (panelMap != null) panelMap.SetActive(false);
                 if (MainCanvas != null) MainCanvas.SetActive(true);
                 Time.timeScale = 1f;
-                Debug.Log("Mapa ocultado");
             }
         }
     }
 
     #endregion
 
-    // ---- API PÚBLICA — MAPA EN PAUSA ----
-    #region API pública — Mapa en pausa (llamado por PauseManager)
+    // ---- API — PAUSA (llamado por PauseManager) ----
+    #region API pausa
 
     /// <summary>
-    /// Muestra el panelMap durante la pausa. 
-    /// Llamado por PauseManager al pausar.
+    /// Llamado por PauseManager.Pausar().
+    /// Bloquea Tab y garantiza que el HUD esté visible bajo el overlay.
     /// </summary>
-    public void MostrarMapaEnPausa()
+    public void OnGamePaused()
     {
-        if (panelMap == null) { return; }
-        _mapByPause = true;
-        panelMap.SetActive(true);
-        // No tocamos MainCanvas aquí; el overlay de pausa cubre la pantalla igualmente.
+        _isPausedByManager = true;
+        // El HUD puede quedarse activo — el overlay de pausa lo cubre igualmente
+        // NO tocamos MainCanvas aquí
     }
 
     /// <summary>
-    /// Oculta el panelMap cuando se reanuda desde la pausa.
-    /// Llamado por PauseManager al reanudar.
+    /// Llamado por PauseManager.Reanudar().
+    /// Reactiva el HUD y desbloquea Tab.
     /// </summary>
-    public void OcultarMapaPausa()
+    public void OnGameResumed()
     {
-        if (panelMap == null) { return; }
-        _mapByPause = false;
-        panelMap.SetActive(false);
+        _isPausedByManager = false;
+        _mapShown = false;
+        // Forzar el HUD visible por si algo lo había ocultado
+        if (MainCanvas != null) MainCanvas.SetActive(true);
+        if (panelMap != null) panelMap.SetActive(false);
     }
+
+    // Mantener compatibilidad con versiones anteriores del PauseManager
+    public void MostrarMapaEnPausa() => OnGamePaused();
+    public void OcultarMapaPausa() => OnGameResumed();
 
     #endregion
 
-    // ---- API PÚBLICA — MUERTE Y WIN ----
-    #region Métodos públicos — Muerte del jugador
+    // ---- API — MUERTE / WIN ----
+    #region Muerte y victoria
 
     public void OnPlayerDeath()
     {
-        if (panelDeath != null)
-            panelDeath.SetActive(true);
-        else
-            Debug.LogWarning("[LevelManager] panelDeath no está asignado en el Inspector.");
-
+        if (panelDeath != null) panelDeath.SetActive(true);
+        else Debug.LogWarning("[LevelManager] panelDeath no asignado.");
         Time.timeScale = 0f;
     }
 
     public void OnBossDeath()
     {
-        if (panelWin != null)
-            panelWin.SetActive(true);
-        else
-            Debug.LogWarning("[LevelManager] panelWin no está asignado en el Inspector.");
-
+        if (panelWin != null) panelWin.SetActive(true);
+        else Debug.LogWarning("[LevelManager] panelWin no asignado.");
         Time.timeScale = 0f;
     }
 
     #endregion
 
-    // ---- API PÚBLICA — BOTONES DE PANEL ----
-    #region Métodos públicos — Botones del panelDeath
+    // ---- API — BOTONES ----
+    #region Botones
 
     public void OnRestartButton()
     {
         Time.timeScale = 1f;
-        if (GameManager.HasInstance())
-            GameManager.Instance.RestartCurrentScene();
-        else
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (GameManager.HasInstance()) GameManager.Instance.RestartCurrentScene();
+        else SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void OnMenuButton()
     {
         Time.timeScale = 1f;
-        if (GameManager.HasInstance())
-            GameManager.Instance.GoToMainMenu();
-        else
-            SceneManager.LoadScene("Menu");
+        if (GameManager.HasInstance()) GameManager.Instance.GoToMainMenu();
+        else SceneManager.LoadScene("Menu");
     }
 
     #endregion
 
-    // ---- API PÚBLICA — CHECKPOINT ----
-    #region Métodos públicos — Checkpoint
+    // ---- API — NIVEL / CHECKPOINT ----
+    #region Nivel y checkpoint
 
     public void CompleteLevel(string nextSceneName)
     {
@@ -231,10 +211,8 @@ public class LevelManager : MonoBehaviour
             GameManager.Instance.SaveCheckpoint(
                 playerHealth.GetCurrentHealth(),
                 playerInventory.GetBandageCount(),
-                playerInventory.GetKeyCount()
-            );
+                playerInventory.GetKeyCount());
         }
-
         Time.timeScale = 1f;
         SceneManager.LoadScene(nextSceneName);
     }
@@ -245,7 +223,7 @@ public class LevelManager : MonoBehaviour
         if (MainCanvas != null) MainCanvas.SetActive(true);
         Time.timeScale = 1f;
         _mapShown = false;
-        _mapByPause = false;
+        _isPausedByManager = false;
     }
 
     public void ShowControls()
@@ -262,16 +240,13 @@ public class LevelManager : MonoBehaviour
 
     #endregion
 
-    // ---- MÉTODOS PRIVADOS ----
-    #region Métodos Privados
-
-    private void Init() { }
+    // ---- PRIVADOS ----
+    #region Privados
 
     private void RestoreFromCheckpoint()
     {
         if (!GameManager.HasInstance()) { return; }
         if (playerHealth == null || playerInventory == null) { return; }
-
         playerHealth.SetHealthFromCheckpoint(GameManager.Instance.GetSavedHealth());
         playerInventory.SetBandagesFromCheckpoint(GameManager.Instance.GetSavedBandages());
         playerInventory.SetKeysFromCheckpoint(GameManager.Instance.GetSavedKeys());

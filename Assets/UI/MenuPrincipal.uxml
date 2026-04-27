@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements"
-         xsi="http://www.w3.org/2001/XMLSchema-instance"
-         noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd"
          editor-extension-mode="False">
 
     <ui:Style src="project://database/Assets/UI/MenuPrincipal.uss" />
@@ -79,7 +79,7 @@
                 <ui:Label class="creditos-nombres" text="—" />
 
                 <ui:Label class="creditos-categoria" text="CONTENIDO DE TERCEROS" />
-                <ui:Label class="creditos-nombres" text="—" />
+                <ui:Label class="creditos-nombres" text="Kenney (UI pack)" />
 
                 <ui:Button name="btnVolverCreditos" class="btn-volver" text="← VOLVER" />
 

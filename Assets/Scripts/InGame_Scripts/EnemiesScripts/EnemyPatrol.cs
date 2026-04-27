@@ -106,6 +106,15 @@ public class EnemyPatrol : MonoBehaviour
         {
             Debug.LogWarning($"[EnemyPatrol] {gameObject.name}: no hay puntos de patrullaje asignados.");
         }
+        else
+        {
+            for (int i = 0; i < PatrolPoints.Length; i++)
+            {
+                if (PatrolPoints[i] == null)
+                    Debug.LogWarning($"[EnemyPatrol] {gameObject.name}: PatrolPoints[{i}] es null. " +
+                                     "Asigna el Transform o reduce el tamaño del array en el Inspector.");
+            }
+        }
 
         // Encontrar al jugador por tag
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -181,6 +190,12 @@ public class EnemyPatrol : MonoBehaviour
         if (PatrolPoints == null || PatrolPoints.Length == 0) { return; }
 
         Transform target = PatrolPoints[_currentPatrolIndex];
+        // Slot asignado pero vacío → saltar al siguiente punto sin excepción
+        if (target == null)
+        {
+            _currentPatrolIndex = (_currentPatrolIndex + 1) % PatrolPoints.Length;
+            return;
+        }
         Vector2 destination = target.position;
 
         MoveTowards(destination);
