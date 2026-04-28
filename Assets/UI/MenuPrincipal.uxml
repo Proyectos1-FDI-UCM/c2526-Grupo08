@@ -7,82 +7,189 @@
 
     <ui:VisualElement name="root" class="root">
 
-        <!-- ─── MENÚ PRINCIPAL ─── -->
         <ui:VisualElement name="panelMain">
-
             <ui:VisualElement class="titulo-bloque">
                 <ui:Label name="lblTitulo"    class="titulo"    text="NO WAY DOWN" />
-                <ui:Label name="lblSubtitulo" class="subtitulo" text="SUBE · SOBREVIVE · DECIDE" />
+                <ui:Label name="lblSubtitulo" class="subtitulo" text="SUBE - SOBREVIVE - DECIDE" />
                 <ui:VisualElement class="linea-deco" />
             </ui:VisualElement>
-
             <ui:VisualElement class="botones-contenedor">
-                <ui:Button name="btnIniciar"  class="btn-menu"           text="INICIAR JUEGO" />
-                <ui:Button name="btnAjustes"  class="btn-menu"           text="AJUSTES" />
-                <ui:Button name="btnCreditos" class="btn-menu"           text="CRÉDITOS" />
+                <ui:Button name="btnIniciar"   class="btn-menu"           text="INICIAR JUEGO" />
+                <ui:Button name="btnAjustes"   class="btn-menu"           text="AJUSTES" />
+                <ui:Button name="btnControles" class="btn-menu"           text="CONTROLES" />
+                <ui:Button name="btnCreditos"  class="btn-menu"           text="CREDITOS" />
                 <ui:VisualElement class="separador" />
-                <ui:Button name="btnSalir"    class="btn-menu btn-salir" text="SALIR" />
+                <ui:Button name="btnSalir"     class="btn-menu btn-salir" text="SALIR" />
             </ui:VisualElement>
-
         </ui:VisualElement>
 
-        <!-- ─── PANEL AJUSTES ─── -->
         <ui:VisualElement name="panelAjustes" class="panel-overlay">
             <ui:VisualElement class="panel-caja">
-
                 <ui:Label class="panel-titulo" text="AJUSTES" />
                 <ui:VisualElement class="panel-linea" />
-
                 <ui:VisualElement class="ajustes-fila">
-                    <ui:Label class="ajustes-label" text="Volumen música" />
-                    <ui:Slider name="sliderMusica" class="unity-slider" low-value="0" high-value="1" value="1" />
+                    <ui:Label class="ajustes-label" text="Volumen musica" />
+                    <ui:Slider name="sliderMusica" low-value="0" high-value="1" value="1" />
                 </ui:VisualElement>
-
                 <ui:VisualElement class="ajustes-fila">
                     <ui:Label class="ajustes-label" text="Volumen efectos" />
-                    <ui:Slider name="sliderEfectos" class="unity-slider" low-value="0" high-value="1" value="1" />
+                    <ui:Slider name="sliderEfectos" low-value="0" high-value="1" value="1" />
                 </ui:VisualElement>
-
                 <ui:VisualElement class="ajustes-fila">
-                    <ui:Label class="ajustes-label" text="Shake cámara" />
-                    <ui:Button name="btnShakeMenos" class="btn-step" text="−" />
+                    <ui:Label class="ajustes-label" text="Shake camara" />
+                    <ui:Button name="btnShakeMenos" class="btn-step" text="-" />
                     <ui:Label  name="lblShake"      class="ajustes-valor" text="1.0" />
                     <ui:Button name="btnShakeMas"   class="btn-step" text="+" />
                 </ui:VisualElement>
-
                 <ui:VisualElement class="ajustes-fila">
-                    <ui:Label class="ajustes-label" text="Delay cámara" />
-                    <ui:Button name="btnDelayMenos" class="btn-step" text="−" />
+                    <ui:Label class="ajustes-label" text="Delay camara" />
+                    <ui:Button name="btnDelayMenos" class="btn-step" text="-" />
                     <ui:Label  name="lblDelay"      class="ajustes-valor" text="0.5" />
                     <ui:Button name="btnDelayMas"   class="btn-step" text="+" />
                 </ui:VisualElement>
-
-                <ui:Button name="btnVolverAjustes" class="btn-volver" text="← VOLVER" />
-
+                <ui:Button name="btnVolverAjustes" class="btn-volver" text="VOLVER" />
             </ui:VisualElement>
         </ui:VisualElement>
 
-        <!-- ─── PANEL CRÉDITOS ─── -->
-        <ui:VisualElement name="panelCreditos" class="panel-overlay">
-            <ui:VisualElement class="panel-caja">
-
-                <ui:Label class="panel-titulo" text="CRÉDITOS" />
+        <ui:VisualElement name="panelControles" class="panel-overlay">
+            <ui:VisualElement class="panel-caja panel-caja--wide">
+                <ui:Label class="panel-titulo" text="CONTROLES" />
                 <ui:VisualElement class="panel-linea" />
 
-                <ui:Label class="creditos-categoria" text="DESARROLLO Y DISEÑO" />
-                <ui:Label class="creditos-nombres" text="Adriana Fernández · Alexia Pérez · Carlos Mesa · Celia García · Laura Garay · Marián Navarro" />
+                <ui:VisualElement class="ctrl-tabs">
+                    <ui:Button name="btnTabTecladoM" text="TECLADO + RATON" class="ctrl-tab ctrl-tab--active" />
+                    <ui:Button name="btnTabMandoM"   text="MANDO"           class="ctrl-tab" />
+                </ui:VisualElement>
 
-                <ui:Label class="creditos-categoria" text="ARTE" />
-                <ui:Label class="creditos-nombres" text="—" />
+                <ui:VisualElement name="ctrlTecladoM" class="ctrl-grid">
+                    <ui:VisualElement class="ctrl-col">
+                        <ui:Label text="MOVIMIENTO" class="ctrl-section-title" />
+                        <ui:VisualElement class="ctrl-row">
+                            <ui:VisualElement class="key-cluster">
+                                <ui:VisualElement class="key-row">
+                                    <ui:VisualElement class="key-spacer" />
+                                    <ui:Label text="W" class="key" />
+                                    <ui:VisualElement class="key-spacer" />
+                                </ui:VisualElement>
+                                <ui:VisualElement class="key-row">
+                                    <ui:Label text="A" class="key" />
+                                    <ui:Label text="S" class="key" />
+                                    <ui:Label text="D" class="key" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+                            <ui:Label text="Mover a Cori" class="ctrl-desc" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="ctrl-row">
+                            <ui:Label text="SHIFT" class="key key--wide" />
+                            <ui:Label text="Dash" class="ctrl-desc" />
+                        </ui:VisualElement>
+                        <ui:Label text="INTERACCION" class="ctrl-section-title" />
+                        <ui:VisualElement class="ctrl-row">
+                            <ui:Label text="F" class="key" />
+                            <ui:Label text="Interactuar / recoger" class="ctrl-desc" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="ctrl-row">
+                            <ui:Label text="E" class="key" />
+                            <ui:Label text="Usar venda" class="ctrl-desc" />
+                        </ui:VisualElement>
+                        <ui:Label text="SISTEMA" class="ctrl-section-title" />
+                        <ui:VisualElement class="ctrl-row">
+                            <ui:Label text="ESC" class="key key--wide" />
+                            <ui:Label text="Menu de pausa" class="ctrl-desc" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="ctrl-row">
+                            <ui:Label text="TAB" class="key key--wide" />
+                            <ui:Label text="Ver mapa" class="ctrl-desc" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="ctrl-col">
+                        <ui:Label text="COMBATE" class="ctrl-section-title" />
+                        <ui:VisualElement class="ctrl-row">
+                            <ui:Label text="CLIC IZQ" class="key key--wide" />
+                            <ui:Label text="Disparar (mantener = cargado)" class="ctrl-desc" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="ctrl-row">
+                            <ui:Label text="CLIC DER" class="key key--wide" />
+                            <ui:Label text="Habilidad activa" class="ctrl-desc" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="ctrl-row">
+                            <ui:Label text="RUEDA" class="key key--wide" />
+                            <ui:Label text="Cambiar habilidad" class="ctrl-desc" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="ctrl-row">
+                            <ui:Label text="CURSOR" class="key key--wide" />
+                            <ui:Label text="Apuntar" class="ctrl-desc" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
 
-                <ui:Label class="creditos-categoria" text="QA" />
-                <ui:Label class="creditos-nombres" text="—" />
+                <ui:VisualElement name="ctrlMandoM" class="ctrl-grid ctrl-panel--hidden">
+                    <ui:VisualElement class="ctrl-col">
+                        <ui:Label text="MOVIMIENTO" class="ctrl-section-title" />
+                        <ui:VisualElement class="ctrl-row">
+                            <ui:Label text="L" class="key key--btn key--round" />
+                            <ui:Label text="Stick izquierdo - mover" class="ctrl-desc" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="ctrl-row">
+                            <ui:Label text="A" class="key key--btn key--round key--green" />
+                            <ui:Label text="Dash" class="ctrl-desc" />
+                        </ui:VisualElement>
+                        <ui:Label text="INTERACCION" class="ctrl-section-title" />
+                        <ui:VisualElement class="ctrl-row">
+                            <ui:Label text="B" class="key key--btn key--round key--red" />
+                            <ui:Label text="Interactuar / recoger" class="ctrl-desc" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="ctrl-row">
+                            <ui:Label text="Y" class="key key--btn key--round key--yellow" />
+                            <ui:Label text="Usar venda" class="ctrl-desc" />
+                        </ui:VisualElement>
+                        <ui:Label text="SISTEMA" class="ctrl-section-title" />
+                        <ui:VisualElement class="ctrl-row">
+                            <ui:Label text="START" class="key key--btn" />
+                            <ui:Label text="Menu de pausa" class="ctrl-desc" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="ctrl-row">
+                            <ui:Label text="X" class="key key--btn key--round key--blue" />
+                            <ui:Label text="Ver mapa" class="ctrl-desc" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="ctrl-col">
+                        <ui:Label text="COMBATE" class="ctrl-section-title" />
+                        <ui:VisualElement class="ctrl-row">
+                            <ui:Label text="LT" class="key key--btn" />
+                            <ui:Label text="Disparar (mantener = cargado)" class="ctrl-desc" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="ctrl-row">
+                            <ui:Label text="LT" class="key key--btn" />
+                            <ui:Label text="Habilidad activa" class="ctrl-desc" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="ctrl-row">
+                            <ui:VisualElement class="key-row">
+                                <ui:Label text="LB" class="key key--btn" />
+                                <ui:Label text="RB" class="key key--btn" />
+                            </ui:VisualElement>
+                            <ui:Label text="Cambiar habilidad" class="ctrl-desc" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="ctrl-row">
+                            <ui:Label text="R" class="key key--btn key--round" />
+                            <ui:Label text="Stick derecho - apuntar" class="ctrl-desc" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
 
+                <ui:Button name="btnVolverControlesM" class="btn-volver" text="VOLVER" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <ui:VisualElement name="panelCreditos" class="panel-overlay">
+            <ui:VisualElement class="panel-caja">
+                <ui:Label class="panel-titulo" text="CREDITOS" />
+                <ui:VisualElement class="panel-linea" />
+                <ui:Label class="creditos-categoria" text="DESARROLLO Y DISENO" />
+                <ui:Label class="creditos-nombres" text="Adriana Fernandez - Alexia Perez - Carlos Mesa - Celia Garcia - Laura Garay - Marian Navarro" />
                 <ui:Label class="creditos-categoria" text="CONTENIDO DE TERCEROS" />
                 <ui:Label class="creditos-nombres" text="Kenney (UI pack)" />
-
-                <ui:Button name="btnVolverCreditos" class="btn-volver" text="← VOLVER" />
-
+                <ui:Button name="btnVolverCreditos" class="btn-volver" text="VOLVER" />
             </ui:VisualElement>
         </ui:VisualElement>
 

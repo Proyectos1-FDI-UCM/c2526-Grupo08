@@ -6,54 +6,186 @@
     <ui:Style src="project://database/Assets/UI/PauseMenu.uss" />
 
     <ui:VisualElement name="pauseOverlay" class="pause-overlay">
-
         <ui:VisualElement name="pausePanel" class="pause-panel">
 
-            <ui:Label name="pauseTitle" text="PAUSA" class="pause-title" />
-            <ui:VisualElement class="pause-divider" />
-
-            <ui:VisualElement name="pauseMain">
-                <ui:Button name="btnReanudar"  text="REANUDAR"            class="pause-btn pause-btn--primary" />
-                <ui:Button name="btnAjustes"   text="AJUSTES"             class="pause-btn" />
-                <ui:Button name="btnMenuPpal"  text="MENÚ PRINCIPAL"      class="pause-btn" />
-                <ui:Button name="btnSalir"     text="SALIR AL ESCRITORIO" class="pause-btn" />
+            <ui:VisualElement name="pauseMapCol" class="pause-map-col">
+                <ui:Label text="MAPA" class="pause-map-title" />
+                <ui:VisualElement class="pause-divider" />
+                <ui:VisualElement name="pauseMapImage" class="pause-map-image" />
+                <ui:Label text="Tu posicion se muestra en el mapa" class="pause-map-hint" />
             </ui:VisualElement>
 
-            <ui:VisualElement name="pauseAjustes" class="pause-settings">
+            <ui:VisualElement class="pause-col-divider" />
 
-                <ui:Label text="AJUSTES" class="pause-title" style="font-size:18px; margin-bottom:16px;" />
+            <ui:VisualElement name="pauseMenuCol" class="pause-menu-col">
+
+                <ui:Label text="PAUSA" class="pause-title" />
                 <ui:VisualElement class="pause-divider" />
 
-                <ui:VisualElement class="pause-setting-row">
-                    <ui:Label text="Música" class="pause-setting-label" />
-                    <ui:Slider name="sliderMusica"  low-value="0" high-value="1" value="1" class="pause-slider" />
+                <ui:VisualElement name="pauseMain">
+                    <ui:Button name="btnReanudar"  text="REANUDAR"            class="pause-btn pause-btn--primary" />
+                    <ui:Button name="btnAjustes"   text="AJUSTES"             class="pause-btn" />
+                    <ui:Button name="btnControles" text="CONTROLES"           class="pause-btn" />
+                    <ui:Button name="btnMenuPpal"  text="MENU PRINCIPAL"      class="pause-btn" />
+                    <ui:Button name="btnSalir"     text="SALIR AL ESCRITORIO" class="pause-btn" />
                 </ui:VisualElement>
 
-                <ui:VisualElement class="pause-setting-row">
-                    <ui:Label text="Efectos" class="pause-setting-label" />
-                    <ui:Slider name="sliderEfectos" low-value="0" high-value="1" value="1" class="pause-slider" />
+                <ui:VisualElement name="pauseAjustes" class="pause-subpanel">
+                    <ui:Label text="AJUSTES" class="pause-subtitle" />
+                    <ui:VisualElement class="pause-divider" />
+                    <ui:VisualElement class="pause-setting-row">
+                        <ui:Label text="Musica" class="pause-setting-label" />
+                        <ui:Slider name="sliderMusica" low-value="0" high-value="1" value="1" class="pause-slider" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="pause-setting-row">
+                        <ui:Label text="Efectos" class="pause-setting-label" />
+                        <ui:Slider name="sliderEfectos" low-value="0" high-value="1" value="1" class="pause-slider" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="pause-setting-row">
+                        <ui:Label text="Vibracion camara" class="pause-setting-label" />
+                        <ui:Button name="btnShakeMenos" text="-" class="pause-btn-small" />
+                        <ui:Label  name="lblShake"      text="1.0" class="pause-setting-value" />
+                        <ui:Button name="btnShakeMas"   text="+" class="pause-btn-small" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="pause-setting-row">
+                        <ui:Label text="Suavidad camara" class="pause-setting-label" />
+                        <ui:Button name="btnDelayMenos" text="-" class="pause-btn-small" />
+                        <ui:Label  name="lblDelay"      text="0.5" class="pause-setting-value" />
+                        <ui:Button name="btnDelayMas"   text="+" class="pause-btn-small" />
+                    </ui:VisualElement>
+                    <ui:Button name="btnVolverAjustes" text="VOLVER" class="pause-btn pause-btn-back" />
                 </ui:VisualElement>
 
-                <ui:VisualElement class="pause-setting-row">
-                    <ui:Label text="Vibración cámara" class="pause-setting-label" />
-                    <ui:Button name="btnShakeMenos" text="–" class="pause-btn-small" />
-                    <ui:Label  name="lblShake"      text="1.0" class="pause-setting-value" />
-                    <ui:Button name="btnShakeMas"   text="+" class="pause-btn-small" />
-                </ui:VisualElement>
+                <ui:VisualElement name="pauseControles" class="pause-subpanel">
+                    <ui:Label text="CONTROLES" class="pause-subtitle" />
+                    <ui:VisualElement class="pause-divider" />
 
-                <ui:VisualElement class="pause-setting-row">
-                    <ui:Label text="Suavidad cámara" class="pause-setting-label" />
-                    <ui:Button name="btnDelayMenos" text="–" class="pause-btn-small" />
-                    <ui:Label  name="lblDelay"      text="0.5" class="pause-setting-value" />
-                    <ui:Button name="btnDelayMas"   text="+" class="pause-btn-small" />
-                </ui:VisualElement>
+                    <ui:VisualElement class="ctrl-tabs">
+                        <ui:Button name="btnTabTeclado" text="TECLADO + RATON" class="ctrl-tab ctrl-tab--active" />
+                        <ui:Button name="btnTabMando"   text="MANDO"           class="ctrl-tab" />
+                    </ui:VisualElement>
 
-                <ui:Button name="btnVolverAjustes" text="← VOLVER" class="pause-btn pause-btn-back" />
+                    <ui:VisualElement name="ctrlTeclado" class="ctrl-panel">
+                        <ui:VisualElement class="ctrl-section">
+                            <ui:Label text="MOVIMIENTO" class="ctrl-section-title" />
+                            <ui:VisualElement class="ctrl-row">
+                                <ui:VisualElement class="key-cluster">
+                                    <ui:VisualElement class="key-row">
+                                        <ui:VisualElement class="key-spacer" />
+                                        <ui:Label text="W" class="key" />
+                                        <ui:VisualElement class="key-spacer" />
+                                    </ui:VisualElement>
+                                    <ui:VisualElement class="key-row">
+                                        <ui:Label text="A" class="key" />
+                                        <ui:Label text="S" class="key" />
+                                        <ui:Label text="D" class="key" />
+                                    </ui:VisualElement>
+                                </ui:VisualElement>
+                                <ui:Label text="Mover a Cori" class="ctrl-desc" />
+                            </ui:VisualElement>
+                            <ui:VisualElement class="ctrl-row">
+                                <ui:Label text="SHIFT" class="key key--wide" />
+                                <ui:Label text="Dash" class="ctrl-desc" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement class="ctrl-section">
+                            <ui:Label text="COMBATE" class="ctrl-section-title" />
+                            <ui:VisualElement class="ctrl-row">
+                                <ui:Label text="CLIC IZQ" class="key key--wide" />
+                                <ui:Label text="Disparar (mantener = cargado)" class="ctrl-desc" />
+                            </ui:VisualElement>
+                            <ui:VisualElement class="ctrl-row">
+                                <ui:Label text="CLIC DER" class="key key--wide" />
+                                <ui:Label text="Habilidad activa" class="ctrl-desc" />
+                            </ui:VisualElement>
+                            <ui:VisualElement class="ctrl-row">
+                                <ui:Label text="RUEDA" class="key key--wide" />
+                                <ui:Label text="Cambiar habilidad" class="ctrl-desc" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement class="ctrl-section">
+                            <ui:Label text="INTERACCION" class="ctrl-section-title" />
+                            <ui:VisualElement class="ctrl-row">
+                                <ui:Label text="F" class="key" />
+                                <ui:Label text="Interactuar / recoger" class="ctrl-desc" />
+                            </ui:VisualElement>
+                            <ui:VisualElement class="ctrl-row">
+                                <ui:Label text="E" class="key" />
+                                <ui:Label text="Usar venda" class="ctrl-desc" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement class="ctrl-section">
+                            <ui:Label text="SISTEMA" class="ctrl-section-title" />
+                            <ui:VisualElement class="ctrl-row">
+                                <ui:Label text="ESC" class="key key--wide" />
+                                <ui:Label text="Abrir menu de pausa" class="ctrl-desc" />
+                            </ui:VisualElement>
+                            <ui:VisualElement class="ctrl-row">
+                                <ui:Label text="TAB" class="key key--wide" />
+                                <ui:Label text="Ver mapa del nivel" class="ctrl-desc" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+
+                    <ui:VisualElement name="ctrlMando" class="ctrl-panel ctrl-panel--hidden">
+                        <ui:VisualElement class="ctrl-section">
+                            <ui:Label text="MOVIMIENTO" class="ctrl-section-title" />
+                            <ui:VisualElement class="ctrl-row">
+                                <ui:Label text="L" class="key key--btn key--round" />
+                                <ui:Label text="Stick izquierdo - mover" class="ctrl-desc" />
+                            </ui:VisualElement>
+                            <ui:VisualElement class="ctrl-row">
+                                <ui:Label text="A" class="key key--btn key--round key--green" />
+                                <ui:Label text="Dash" class="ctrl-desc" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement class="ctrl-section">
+                            <ui:Label text="COMBATE" class="ctrl-section-title" />
+                            <ui:VisualElement class="ctrl-row">
+                                <ui:Label text="LT" class="key key--btn" />
+                                <ui:Label text="Disparar (mantener = cargado)" class="ctrl-desc" />
+                            </ui:VisualElement>
+                            <ui:VisualElement class="ctrl-row">
+                                <ui:VisualElement class="key-row">
+                                    <ui:Label text="LB" class="key key--btn" />
+                                    <ui:Label text="RB" class="key key--btn" />
+                                </ui:VisualElement>
+                                <ui:Label text="Cambiar habilidad" class="ctrl-desc" />
+                            </ui:VisualElement>
+                            <ui:VisualElement class="ctrl-row">
+                                <ui:Label text="R" class="key key--btn key--round" />
+                                <ui:Label text="Stick derecho - apuntar" class="ctrl-desc" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement class="ctrl-section">
+                            <ui:Label text="INTERACCION" class="ctrl-section-title" />
+                            <ui:VisualElement class="ctrl-row">
+                                <ui:Label text="B" class="key key--btn key--round key--red" />
+                                <ui:Label text="Interactuar / recoger" class="ctrl-desc" />
+                            </ui:VisualElement>
+                            <ui:VisualElement class="ctrl-row">
+                                <ui:Label text="Y" class="key key--btn key--round key--yellow" />
+                                <ui:Label text="Usar venda" class="ctrl-desc" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement class="ctrl-section">
+                            <ui:Label text="SISTEMA" class="ctrl-section-title" />
+                            <ui:VisualElement class="ctrl-row">
+                                <ui:Label text="START" class="key key--btn" />
+                                <ui:Label text="Abrir menu de pausa" class="ctrl-desc" />
+                            </ui:VisualElement>
+                            <ui:VisualElement class="ctrl-row">
+                                <ui:Label text="X" class="key key--btn key--round key--blue" />
+                                <ui:Label text="Ver mapa del nivel" class="ctrl-desc" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+
+                    <ui:Button name="btnVolverControles" text="VOLVER" class="pause-btn pause-btn-back" />
+                </ui:VisualElement>
 
             </ui:VisualElement>
-
         </ui:VisualElement>
-
     </ui:VisualElement>
 
 </ui:UXML>

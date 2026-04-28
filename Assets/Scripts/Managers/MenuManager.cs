@@ -1,134 +1,138 @@
 //---------------------------------------------------------
 // Controlador del menú principal usando UI Toolkit.
-// Accede a los elementos con UQuery (root.Q<>)
-// Suscribe eventos con RegisterCallback 
-// La visibilidad de los paneles se controla con
-// AddToClassList / RemoveFromClassList 
 // Alexia Pérez Santana
-// No Way Down
-// Proyectos 1 - Curso 2025-26
+// — No Way Down
+// — Proyectos 1 2025-26
 //---------------------------------------------------------
 
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Gestiona la navegación del menú principal (Iniciar, Ajustes, Créditos, Salir)
-/// y los ajustes de sonido y cámara. Usa UI Toolkit: UIDocument + UQuery + eventos.
+/// Gestiona la navegación del menú principal.
+/// Paneles: Main / Ajustes / Controles / Créditos.
 ///
-/// CAMBIOS RESPECTO A LA VERSIÓN ANTERIOR:
-///   · LoadScene usa nombre de escena ("Level_1") en lugar de índice (1)
-///     para que el Build Settings no rompa la carga al reordenar escenas.
-///   · InicializarUI() lanza una advertencia amigable en lugar de error fatal
-///     cuando panelMain no existe (el juego puede funcionar sin él).
-///   · Se elimina el return inmediato si panelMain es null, permitiendo que
-///     ajustes y créditos sigan funcionando.
+/// NAVEGACIÓN POR MANDO:
+///   · UI Toolkit mueve el foco con D-Pad/Stick izquierdo automáticamente.
+///   · "B" / Cancel vuelve al panel principal desde cualquier subpanel.
+///   · Al abrir cada panel se fuerza el foco al primer elemento interactivo.
+///   · "A" / Submit selecciona el botón enfocado (comportamiento por defecto de UI Toolkit).
+///
+/// CONTROLES: panel con dos tabs (Teclado / Mando).
 /// </summary>
 [RequireComponent(typeof(UIDocument))]
 public class MenuManager : MonoBehaviour
 {
-    // ---- ATRIBUTOS DEL INSPECTOR ----
-    #region Atributos del Inspector
-
+    #region Inspector
     [Header("Audio")]
-    [Tooltip("AudioSource que controla la música de fondo.")]
     [SerializeField] private AudioSource _musicaSource;
-
-    [Tooltip("AudioSource que controla los efectos de sonido.")]
     [SerializeField] private AudioSource _efectosSource;
-
     [Header("Escena de inicio")]
-    [Tooltip("Nombre exacto de la escena del Level 1 tal como aparece en Build Settings.")]
     [SerializeField] private string NombreEscenaInicio = "Level_1";
-
     #endregion
 
-    // ---- ATRIBUTOS PRIVADOS ----
-    #region Atributos Privados
-
+    #region Privados
     private VisualElement _root;
     private VisualElement _panelMain;
     private VisualElement _panelAjustes;
+    private VisualElement _panelControles;
     private VisualElement _panelCreditos;
 
-    private float _shakeIntensity = 1f;
-    private float _followDelay = 0.5f;
+    // Tabs de controles
+    private Button _tabTecladoM;
+    private Button _tabMandoM;
+    private VisualElement _ctrlTecladoM;
+    private VisualElement _ctrlMandoM;
 
     private Label _lblShake;
     private Label _lblDelay;
-
-    private const string CSS_VISIBLE = "panel-overlay--visible";
+    private float _shakeIntensity = 1f;
+    private float _followDelay = 0.5f;
     private const float PASO_SHAKE = 0.1f;
     private const float PASO_DELAY = 0.1f;
 
+    // Primer botón de cada panel para foco con mando
+    private Button _btnIniciar;
+    private Button _btnVolverAjustes;
+    private Button _btnVolverControles;
+    private Button _btnVolverCreditos;
+
+    private const string CSS_VISIBLE = "panel-overlay--visible";
+    private const string CSS_TAB_ON = "ctrl-tab--active";
+    private const string CSS_HIDDEN = "ctrl-panel--hidden";
+
+    private InputAction _cancelAction;
     private bool _inicializado = false;
 
+    // Panel activo para que Cancel sepa a dónde volver
+    private enum Panel { Main, Ajustes, Controles, Creditos }
+    private Panel _panelActual = Panel.Main;
     #endregion
 
-    // ---- MONOBEHAVIOUR ----
     #region MonoBehaviour
-
     private void Start()
     {
         InicializarUI();
+        InicializarInput();
     }
-
     private void OnDisable()
     {
-        _root = null;
-        _inicializado = false;
+        if (_cancelAction != null) { _cancelAction.performed -= OnCancelPressed; _cancelAction.Disable(); }
     }
-
     #endregion
 
-    // ---- MÉTODOS PRIVADOS ----
-    #region Métodos Privados
+    #region Input
+    private void InicializarInput()
+    {
+        _cancelAction = InputSystem.actions?.FindAction("Cancel");
+        if (_cancelAction != null) { _cancelAction.performed += OnCancelPressed; _cancelAction.Enable(); }
+    }
 
+    private void OnCancelPressed(InputAction.CallbackContext ctx)
+    {
+        if (!_inicializado) { return; }
+        if (_panelActual != Panel.Main) OcultarPaneles();
+    }
+    #endregion
+
+    #region UI — Inicialización
     private void InicializarUI()
     {
         UIDocument doc = GetComponent<UIDocument>();
-        if (doc == null)
-        {
-            Debug.LogError("[MenuManager] No hay UIDocument en este GameObject.");
-            return;
-        }
+        if (doc == null) { Debug.LogError("[MenuManager] No hay UIDocument."); return; }
 
         _root = doc.rootVisualElement;
-        if (_root == null)
-        {
-            Debug.LogError("[MenuManager] rootVisualElement es null. " +
-                           "¿Está el UXML asignado en Source Asset del UIDocument?");
-            return;
-        }
+        if (_root == null) { Debug.LogError("[MenuManager] rootVisualElement null."); return; }
 
-        // Cachear paneles — panelMain puede no existir en variantes del UXML
         _panelMain = _root.Q<VisualElement>("panelMain");
         _panelAjustes = _root.Q<VisualElement>("panelAjustes");
+        _panelControles = _root.Q<VisualElement>("panelControles");
         _panelCreditos = _root.Q<VisualElement>("panelCreditos");
 
         if (_panelMain == null)
-            Debug.LogWarning("[MenuManager] 'panelMain' no encontrado en el UXML. " +
-                             "La transición al menú principal desde overlays no funcionará.");
+            Debug.LogWarning("[MenuManager] panelMain no encontrado. La vuelta desde overlays no funcionará.");
+        if (_panelAjustes == null) { Debug.LogError("[MenuManager] panelAjustes no encontrado."); return; }
+        if (_panelControles == null) { Debug.LogError("[MenuManager] panelControles no encontrado."); return; }
+        if (_panelCreditos == null) { Debug.LogError("[MenuManager] panelCreditos no encontrado."); return; }
 
-        if (_panelAjustes == null)
-        {
-            Debug.LogError("[MenuManager] 'panelAjustes' no encontrado en el UXML. " +
-                           "Verifica que el name en el UXML es exactamente 'panelAjustes'.");
-            return;
-        }
+        // Tabs controles
+        _tabTecladoM = _root.Q<Button>("btnTabTecladoM");
+        _tabMandoM = _root.Q<Button>("btnTabMandoM");
+        _ctrlTecladoM = _root.Q<VisualElement>("ctrlTecladoM");
+        _ctrlMandoM = _root.Q<VisualElement>("ctrlMandoM");
 
-        if (_panelCreditos == null)
-        {
-            Debug.LogError("[MenuManager] 'panelCreditos' no encontrado en el UXML.");
-            return;
-        }
-
-        // Cachear labels de ajustes de cámara
+        // Labels ajustes
         _lblShake = _root.Q<Label>("lblShake");
         _lblDelay = _root.Q<Label>("lblDelay");
 
-        // Sincronizar con GameManager si existe
+        // Botones de foco
+        _btnIniciar = _root.Q<Button>("btnIniciar");
+        _btnVolverAjustes = _root.Q<Button>("btnVolverAjustes");
+        _btnVolverControles = _root.Q<Button>("btnVolverControlesM");
+        _btnVolverCreditos = _root.Q<Button>("btnVolverCreditos");
+
         if (GameManager.HasInstance())
         {
             _shakeIntensity = GameManager.Instance.CameraShakeIntensity;
@@ -139,113 +143,135 @@ public class MenuManager : MonoBehaviour
         AsegurarPaneles();
         SuscribirEventos();
 
+        // Foco inicial para mando
+        _btnIniciar?.Focus();
+
         _inicializado = true;
     }
 
     private void AsegurarPaneles()
     {
         _panelAjustes.RemoveFromClassList(CSS_VISIBLE);
+        _panelControles.RemoveFromClassList(CSS_VISIBLE);
         _panelCreditos.RemoveFromClassList(CSS_VISIBLE);
     }
 
     private void SuscribirEventos()
     {
         // Menú principal
-        BindButton("btnIniciar", OnIniciarJuego);
-        BindButton("btnAjustes", OnAbrirAjustes);
-        BindButton("btnCreditos", OnAbrirCreditos);
-        BindButton("btnSalir", OnSalir);
+        Bind("btnIniciar", OnIniciarJuego);
+        Bind("btnAjustes", () => AbrirPanel(Panel.Ajustes));
+        Bind("btnControles", () => AbrirPanel(Panel.Controles));
+        Bind("btnCreditos", () => AbrirPanel(Panel.Creditos));
+        Bind("btnSalir", () => { Application.Quit(); Debug.Log("[MenuManager] Saliendo."); });
 
-        // Panel Ajustes
-        var sliderMusica = _root.Q<Slider>("sliderMusica");
-        var sliderEfectos = _root.Q<Slider>("sliderEfectos");
-        if (sliderMusica != null) sliderMusica.RegisterCallback<ChangeEvent<float>>(OnCambiarMusica);
-        if (sliderEfectos != null) sliderEfectos.RegisterCallback<ChangeEvent<float>>(OnCambiarEfectos);
+        // Ajustes
+        var slM = _root.Q<Slider>("sliderMusica");
+        var slE = _root.Q<Slider>("sliderEfectos");
+        if (slM != null) slM.RegisterCallback<ChangeEvent<float>>(ev => { if (_musicaSource != null) _musicaSource.volume = ev.newValue; });
+        if (slE != null) slE.RegisterCallback<ChangeEvent<float>>(ev => { if (_efectosSource != null) _efectosSource.volume = ev.newValue; });
+        Bind("btnShakeMenos", () => CambiarShake(-PASO_SHAKE));
+        Bind("btnShakeMas", () => CambiarShake(+PASO_SHAKE));
+        Bind("btnDelayMenos", () => CambiarDelay(-PASO_DELAY));
+        Bind("btnDelayMas", () => CambiarDelay(+PASO_DELAY));
+        Bind("btnVolverAjustes", OcultarPaneles);
 
-        BindButton("btnShakeMenos", () => CambiarShake(-PASO_SHAKE));
-        BindButton("btnShakeMas", () => CambiarShake(+PASO_SHAKE));
-        BindButton("btnDelayMenos", () => CambiarDelay(-PASO_DELAY));
-        BindButton("btnDelayMas", () => CambiarDelay(+PASO_DELAY));
-        BindButton("btnVolverAjustes", OnVolverAlMenu);
+        // Controles
+        if (_tabTecladoM != null) _tabTecladoM.clicked += () => CambiarTabControles(teclado: true);
+        if (_tabMandoM != null) _tabMandoM.clicked += () => CambiarTabControles(teclado: false);
+        Bind("btnVolverControlesM", OcultarPaneles);
 
-        // Panel Créditos
-        BindButton("btnVolverCreditos", OnVolverAlMenu);
+        // Créditos
+        Bind("btnVolverCreditos", OcultarPaneles);
     }
 
-    private void BindButton(string name, System.Action callback)
+    private void Bind(string name, System.Action cb)
     {
         Button btn = _root.Q<Button>(name);
-        if (btn != null)
-            btn.clicked += callback;
-        else
-            Debug.LogWarning($"[MenuManager] Botón '{name}' no encontrado en el UXML.");
+        if (btn != null) btn.clicked += cb;
+        else Debug.LogWarning($"[MenuManager] Botón '{name}' no encontrado.");
+    }
+    #endregion
+
+    #region Navegación de paneles
+    private void OnIniciarJuego()
+    {
+        System.GC.Collect();
+        SceneManager.LoadScene(NombreEscenaInicio);
     }
 
+    private void AbrirPanel(Panel panel)
+    {
+        _panelActual = panel;
+        if (_panelMain != null) _panelMain.style.display = DisplayStyle.None;
+
+        AsegurarPaneles();
+
+        switch (panel)
+        {
+            case Panel.Ajustes:
+                _panelAjustes.AddToClassList(CSS_VISIBLE);
+                RefrescarLabels();
+                _btnVolverAjustes?.Focus();
+                break;
+            case Panel.Controles:
+                _panelControles.AddToClassList(CSS_VISIBLE);
+                CambiarTabControles(teclado: true);
+                _tabTecladoM?.Focus();
+                break;
+            case Panel.Creditos:
+                _panelCreditos.AddToClassList(CSS_VISIBLE);
+                _btnVolverCreditos?.Focus();
+                break;
+        }
+    }
+
+    private void OcultarPaneles()
+    {
+        _panelActual = Panel.Main;
+        AsegurarPaneles();
+        if (_panelMain != null) _panelMain.style.display = DisplayStyle.Flex;
+        _btnIniciar?.Focus();
+    }
+
+    private void CambiarTabControles(bool teclado)
+    {
+        if (_ctrlTecladoM == null || _ctrlMandoM == null) { return; }
+        if (teclado)
+        {
+            _ctrlTecladoM.RemoveFromClassList(CSS_HIDDEN);
+            _ctrlMandoM.AddToClassList(CSS_HIDDEN);
+            _tabTecladoM?.AddToClassList(CSS_TAB_ON);
+            _tabMandoM?.RemoveFromClassList(CSS_TAB_ON);
+        }
+        else
+        {
+            _ctrlMandoM.RemoveFromClassList(CSS_HIDDEN);
+            _ctrlTecladoM.AddToClassList(CSS_HIDDEN);
+            _tabMandoM?.AddToClassList(CSS_TAB_ON);
+            _tabTecladoM?.RemoveFromClassList(CSS_TAB_ON);
+        }
+    }
+    #endregion
+
+    #region Ajustes — cámara
+    private void CambiarShake(float d)
+    {
+        _shakeIntensity = Mathf.Clamp(Mathf.Round((_shakeIntensity + d) * 10f) / 10f, 0f, 3f);
+        if (GameManager.HasInstance()) GameManager.Instance.CameraShakeIntensity = _shakeIntensity;
+        RefrescarLabels();
+    }
+    private void CambiarDelay(float d)
+    {
+        _followDelay = Mathf.Clamp(Mathf.Round((_followDelay + d) * 10f) / 10f, 0f, 2f);
+        if (GameManager.HasInstance()) GameManager.Instance.CameraFollowDelay = _followDelay;
+        RefrescarLabels();
+    }
     private void RefrescarLabels()
     {
         if (_lblShake != null) _lblShake.text = _shakeIntensity.ToString("F1");
         if (_lblDelay != null) _lblDelay.text = _followDelay.ToString("F1");
     }
-
-    private void MostrarPanel(VisualElement panel)
-    {
-        if (_panelMain != null) _panelMain.style.display = DisplayStyle.None;
-        panel.AddToClassList(CSS_VISIBLE);
-    }
-
-    private void OcultarPaneles()
-    {
-        _panelAjustes.RemoveFromClassList(CSS_VISIBLE);
-        _panelCreditos.RemoveFromClassList(CSS_VISIBLE);
-        if (_panelMain != null) _panelMain.style.display = DisplayStyle.Flex;
-    }
-
-    #endregion
-
-    // ---- CALLBACKS ----
-    #region Callbacks
-
-    private void OnIniciarJuego()
-    {
-        // Usar nombre de escena, no índice, para no depender del orden en Build Settings
-        System.GC.Collect();
-        SceneManager.LoadScene(NombreEscenaInicio);
-    }
-
-    private void OnAbrirAjustes() => MostrarPanel(_panelAjustes);
-    private void OnAbrirCreditos() => MostrarPanel(_panelCreditos);
-    private void OnVolverAlMenu() => OcultarPaneles();
-
-    private void OnSalir()
-    {
-        Application.Quit();
-        Debug.Log("[MenuManager] Saliendo del juego.");
-    }
-
-    private void OnCambiarMusica(ChangeEvent<float> ev)
-    {
-        if (_musicaSource != null) _musicaSource.volume = ev.newValue;
-    }
-
-    private void OnCambiarEfectos(ChangeEvent<float> ev)
-    {
-        if (_efectosSource != null) _efectosSource.volume = ev.newValue;
-    }
-
-    private void CambiarShake(float delta)
-    {
-        _shakeIntensity = Mathf.Clamp(Mathf.Round((_shakeIntensity + delta) * 10f) / 10f, 0f, 3f);
-        if (GameManager.HasInstance()) GameManager.Instance.CameraShakeIntensity = _shakeIntensity;
-        RefrescarLabels();
-    }
-
-    private void CambiarDelay(float delta)
-    {
-        _followDelay = Mathf.Clamp(Mathf.Round((_followDelay + delta) * 10f) / 10f, 0f, 2f);
-        if (GameManager.HasInstance()) GameManager.Instance.CameraFollowDelay = _followDelay;
-        RefrescarLabels();
-    }
-
     #endregion
 
 } // class MenuManager

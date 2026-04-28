@@ -3,7 +3,7 @@
     "name": "InputSystem_Actions",
     "maps": [
         {
-            "name": "Player",
+            "name": "es lo que me aparece en el input actions",
             "id": "df70fa95-8a34-4494-b137-73ab6b9c7d37",
             "actions": [
                 {
@@ -70,7 +70,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Menu´",
+                    "name": "Menu",
                     "type": "Button",
                     "id": "f637ba35-b56a-4d38-9775-cf5dd5af4c6f",
                     "expectedControlType": "",
@@ -418,7 +418,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Menu´",
+                    "action": "Menu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -429,7 +429,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Menu´",
+                    "action": "Menu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
