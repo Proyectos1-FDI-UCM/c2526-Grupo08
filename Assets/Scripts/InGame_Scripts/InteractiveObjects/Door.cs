@@ -3,7 +3,7 @@
 // Al colisionar con el jugador comprueba si tiene llave:
 //   · Si la tiene: abre la puerta y consume la llave.
 //   · Si no la tiene: muestra feedback visual indicando que falta la llave.
-// Marián Navarro, lex
+// Marián Navarro, Alexia Pérez Santana
 // No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
