@@ -211,6 +211,20 @@ public class Health : MonoBehaviour
         Destroy(toDestroy);
     }
 
+    public void SetMaxHealth(int newMax)
+    {
+        MaxHealth = newMax;
+        _currentHealth = newMax;
+
+        if (HealthBar != null)
+        {
+            HealthBar.SetMaxValue(MaxHealth);
+            HealthBar.SetValue(_currentHealth);
+        }
+
+        Debug.Log("[Health] Nueva vida máxima establecida a: " + newMax);
+    }
+
     #endregion
 
 } // class Health
