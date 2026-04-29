@@ -63286,9 +63286,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panelDeath: {fileID: 963144221}
   panelWin: {fileID: 1980863446}
-  panelMap: {fileID: 1502411279}
-  MainCanvas: {fileID: 1008176911}
-  PanelControls: {fileID: 1679391088}
   playerHealth: {fileID: 162771816}
   playerInventory: {fileID: 162771817}
 --- !u!4 &825990134
@@ -64582,6 +64579,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27ab07a33d3603049a8b737d0c980c4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clipMenuCreditos: {fileID: 0}
+  clipNivel1y2: {fileID: 0}
+  clipNivel3: {fileID: 0}
 --- !u!82 &1011442593
 AudioSource:
   m_ObjectHideFlags: 0
@@ -65069,8 +65069,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d90fefb98a39cf9468adaaa3363d690e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PickupCard: {fileID: 0}
+  PickupIconImg: {fileID: 0}
+  PickupLabel: {fileID: 0}
+  PickupSublabel: {fileID: 0}
+  DoorCard: {fileID: 0}
+  DoorIconImg: {fileID: 0}
+  DoorLabel: {fileID: 0}
+  DoorSublabel: {fileID: 0}
+  XVisible: 24
+  XOculto: -320
   PickupDuration: 2.5
   DoorDuration: 2
+  AnimSpeed: 12
+  ColorPickup: {r: 0.18, g: 0.35, b: 0.37, a: 0.95}
+  ColorBloqueada: {r: 0.4, g: 0.3, b: 0.08, a: 0.95}
+  ColorAbierta: {r: 0.12, g: 0.3, b: 0.3, a: 0.95}
   SpriteFusible: {fileID: -6090702972439111104, guid: 05a6ff58963cae648ad1708fdb0b2526, type: 3}
   SpriteLlave: {fileID: 3664216311134451531, guid: 501ddca1b393d9a489949090989030a8, type: 3}
   SpriteVenda: {fileID: -741464502463440612, guid: a148e7edf821e0e4c88da43d05333fa6, type: 3}
@@ -67343,6 +67357,8 @@ MonoBehaviour:
   MusicaSource: {fileID: 1011442593}
   EfectosSource: {fileID: 1011442593}
   NombreEscenaMenu: Menu
+  MapRenderTexture: {fileID: 0}
+  PlayerMarker: {fileID: 0}
 --- !u!114 &1886463961
 MonoBehaviour:
   m_ObjectHideFlags: 0
