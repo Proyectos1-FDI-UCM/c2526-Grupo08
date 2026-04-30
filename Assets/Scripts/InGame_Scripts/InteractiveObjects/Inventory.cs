@@ -27,8 +27,8 @@ public class Inventory : MonoBehaviour
     // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Atributos del Inspector
 
-    [Tooltip("Puntos de vida restaurados por cada venda. (GDD: 20 puntos)")]
-    [SerializeField] private int BandageHealth = 20;
+    [Tooltip("Puntos de vida restaurados por cada venda. (GDD: 30 puntos)")]
+    [SerializeField] private int BandageHealth = 30;
 
     #endregion
 
