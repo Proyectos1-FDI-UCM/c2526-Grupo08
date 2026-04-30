@@ -44,6 +44,8 @@ public class Door : MonoBehaviour
     [Tooltip("Texto que aparece al abrir la puerta.")]
     [SerializeField] private string MensajeAbierta = "¡Puerta abierta!";
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip sonidoAbrir;
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
@@ -85,21 +87,22 @@ public class Door : MonoBehaviour
     private void OpenDoor(Inventory inventory)
     {
         _isOpen = true;
-
-        // Consumir la llave del inventario
         inventory.hasKey = false;
 
-        // Feedback visual
+        
+        {
+            AudioSource.PlayClipAtPoint(sonidoAbrir, transform.position);
+        }
+
         if (FeedbackUI.HasInstance())
             FeedbackUI.Instance.MostrarPuerta(bloqueada: false, MensajeAbierta);
-
-        Debug.Log("[Door] Puerta abierta.");
 
         if (DestroyOnOpen)
             Destroy(gameObject);
         else
             gameObject.SetActive(false);
     }
+
 
     /// <summary>
     /// Muestra el panel de puerta bloqueada. No consume ningún recurso.
