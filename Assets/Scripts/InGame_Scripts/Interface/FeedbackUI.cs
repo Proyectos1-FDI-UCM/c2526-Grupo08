@@ -1,44 +1,24 @@
 //---------------------------------------------------------
-// Feedback visual ingame usando Canvas legacy (Image + TMP_Text).
-// NO usa UI Toolkit — evita los problemas de rutas USS.
+// Feedback visual ingame usando UI Toolkit (UXML + USS).
+// Singleton por escena. Se asocia al UIDocument FeedbackUIDoc.
 // Alexia Pérez Santana
 // No Way Down
-// Proyectos 1 - Curso 2025-26
+// — Proyectos 1 2025-26
 //---------------------------------------------------------
 
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
+using UnityEngine.UIElements;
 
 /// <summary>
-/// Singleton local por escena.
-/// Muestra dos tarjetas animadas (slide-in desde izquierda):
-///   · PickupCard — icono + nombre + cantidad al recoger objeto
-///   · DoorCard   — icono + mensaje al acercarse a una puerta
+/// Muestra tarjetas animadas de feedback:
+///   · PickupCard — al recoger un objeto (nombre + cantidad)
+///   · DoorCard   — al acercarse a una puerta (bloqueada / abierta)
 ///
-/// ANIMACIÓN: Lerp de anchoredPosition en Update (sin coroutines).
-///
-/// SETUP EN UNITY:
-///   Dentro del Canvas principal de la escena, crea:
-///
-///   [GameObject] FeedbackUI          ← este script
-///   ├── PickupCard (Image)           ← Image con sprite Kenney 9-sliced, anclado bottom-left
-///   │   ├── PickupIcon  (Image)      ← 48x48, sin sprite por defecto
-///   │   ├── PickupLabel (TMP_Text)   ← bold, 14px
-///   │   └── PickupSublabel (TMP_Text)← normal, 11px, color gris
-///   └── DoorCard (Image)             ← mismo setup que PickupCard
-///       ├── DoorIcon  (Image)
-///       ├── DoorLabel (TMP_Text)
-///       └── DoorSublabel (TMP_Text)
-///
-///   RectTransform de cada Card:
-///     Anchor preset: bottom-left (min/max = 0,0) | Pivot = (0, 0)
-///     PickupCard: anchoredPos = (-320, 24), Width=280, Height=80
-///     DoorCard:   anchoredPos = (-320, 116), Width=280, Height=80
-///   (el script los mueve a X=24 al mostrarlos)
-///
-///   Asignar en Inspector del FeedbackUI todos los campos de abajo.
+/// Llamar desde otros scripts:
+///   FeedbackUI.Instance.MostrarPickupTipo(Objects.ObjectsType.key, 2);
+///   FeedbackUI.Instance.MostrarPuerta(bloqueada: true, "Puerta bloqueada", "Necesitas una llave");
 /// </summary>
+[RequireComponent(typeof(UIDocument))]
 public class FeedbackUI : MonoBehaviour
 {
     // ---- SINGLETON ----
@@ -60,33 +40,6 @@ public class FeedbackUI : MonoBehaviour
 
     // ---- INSPECTOR ----
     #region Inspector
-
-    [Header("Tarjeta Pickup")]
-    [SerializeField] private RectTransform PickupCard;
-    [SerializeField] private Image PickupIconImg;
-    [SerializeField] private TMP_Text PickupLabel;
-    [SerializeField] private TMP_Text PickupSublabel;
-
-    [Header("Tarjeta Puerta")]
-    [SerializeField] private RectTransform DoorCard;
-    [SerializeField] private Image DoorIconImg;
-    [SerializeField] private TMP_Text DoorLabel;
-    [SerializeField] private TMP_Text DoorSublabel;
-
-    [Header("Posiciones")]
-    [SerializeField] private float XVisible = 24f;
-    [SerializeField] private float XOculto = -320f;
-
-    [Header("Timing")]
-    [SerializeField] private float PickupDuration = 2.5f;
-    [SerializeField] private float DoorDuration = 2f;
-    [SerializeField] private float AnimSpeed = 12f;
-
-    [Header("Colores del panel")]
-    [SerializeField] private Color ColorPickup = new Color(0.18f, 0.35f, 0.37f, 0.95f);
-    [SerializeField] private Color ColorBloqueada = new Color(0.40f, 0.30f, 0.08f, 0.95f);
-    [SerializeField] private Color ColorAbierta = new Color(0.12f, 0.30f, 0.30f, 0.95f);
-
     [Header("Sprites de objetos")]
     [SerializeField] private Sprite SpriteFusible;
     [SerializeField] private Sprite SpriteLlave;
@@ -98,37 +51,64 @@ public class FeedbackUI : MonoBehaviour
     [SerializeField] private Sprite SpritePuertaBloqueada;
     [SerializeField] private Sprite SpritePuertaAbierta;
 
+    [Header("Timing")]
+    [SerializeField] private float PickupDuration = 2.5f;
+    [SerializeField] private float DoorDuration = 2f;
     #endregion
 
     // ---- PRIVADOS ----
     #region Privados
+    private VisualElement _pickupCard;
+    private VisualElement _pickupIcon;
+    private Label _pickupLabel;
+    private Label _pickupSublabel;
+
+    private VisualElement _doorCard;
+    private VisualElement _doorIcon;
+    private Label _doorLabel;
+    private Label _doorSublabel;
+
     private float _pickupTimer = 0f;
     private bool _pickupActive = false;
-    private float _pickupTargetX;
-
     private float _doorTimer = 0f;
     private bool _doorActive = false;
-    private float _doorTargetX;
 
     private bool _ready = false;
+
+    private const string CSS_VISIBLE = "feedback-card--visible";
+    private const string CSS_LOCKED = "feedback-card--locked";
+    private const string CSS_UNLOCKED = "feedback-card--unlocked";
     #endregion
 
     // ---- MONOBEHAVIOUR ----
     #region MonoBehaviour
     private void Start()
     {
-        if (PickupCard == null || DoorCard == null)
+        UIDocument doc = GetComponent<UIDocument>();
+        if (doc == null) { Debug.LogError("[FeedbackUI] No hay UIDocument."); return; }
+
+        VisualElement root = doc.rootVisualElement;
+        if (root == null) { Debug.LogError("[FeedbackUI] rootVisualElement null."); return; }
+
+        _pickupCard = root.Q<VisualElement>("pickupCard");
+        _pickupIcon = root.Q<VisualElement>("pickupIcon");
+        _pickupLabel = root.Q<Label>("pickupLabel");
+        _pickupSublabel = root.Q<Label>("pickupSublabel");
+
+        _doorCard = root.Q<VisualElement>("doorCard");
+        _doorIcon = root.Q<VisualElement>("doorIcon");
+        _doorLabel = root.Q<Label>("doorLabel");
+        _doorSublabel = root.Q<Label>("doorSublabel");
+
+        if (_pickupCard == null || _doorCard == null)
         {
-            Debug.LogError("[FeedbackUI] PickupCard o DoorCard no asignados en el Inspector. " +
-                           "Crea la jerarquía Canvas → FeedbackUI → PickupCard / DoorCard.");
+            Debug.LogError("[FeedbackUI] pickupCard o doorCard no encontrados en el UXML.");
             return;
         }
 
-        // Empezar fuera de pantalla
-        SetX(PickupCard, XOculto);
-        SetX(DoorCard, XOculto);
-        _pickupTargetX = XOculto;
-        _doorTargetX = XOculto;
+        // Empezar ocultos (sin la clase visible)
+        _pickupCard.RemoveFromClassList(CSS_VISIBLE);
+        _doorCard.RemoveFromClassList(CSS_VISIBLE);
         _ready = true;
     }
 
@@ -136,21 +116,25 @@ public class FeedbackUI : MonoBehaviour
     {
         if (!_ready) { return; }
 
-        // Timers
         if (_pickupActive)
         {
             _pickupTimer -= Time.deltaTime;
-            if (_pickupTimer <= 0f) { _pickupActive = false; _pickupTargetX = XOculto; }
+            if (_pickupTimer <= 0f)
+            {
+                _pickupActive = false;
+                _pickupCard.RemoveFromClassList(CSS_VISIBLE);
+            }
         }
+
         if (_doorActive)
         {
             _doorTimer -= Time.deltaTime;
-            if (_doorTimer <= 0f) { _doorActive = false; _doorTargetX = XOculto; }
+            if (_doorTimer <= 0f)
+            {
+                _doorActive = false;
+                _doorCard.RemoveFromClassList(CSS_VISIBLE);
+            }
         }
-
-        // Animación slide (Lerp, sin coroutines)
-        SetX(PickupCard, Mathf.Lerp(PickupCard.anchoredPosition.x, _pickupTargetX, Time.deltaTime * AnimSpeed));
-        SetX(DoorCard, Mathf.Lerp(DoorCard.anchoredPosition.x, _doorTargetX, Time.deltaTime * AnimSpeed));
     }
     #endregion
 
@@ -161,20 +145,26 @@ public class FeedbackUI : MonoBehaviour
     public void MostrarPickup(string nombre, Sprite icono, int cantidad)
     {
         if (!_ready) { return; }
-        if (PickupLabel != null) PickupLabel.text = nombre;
-        if (PickupSublabel != null) PickupSublabel.text = cantidad >= 0 ? $"Total: {cantidad}" : "";
-        SetSprite(PickupIconImg, icono);
-        SetPanelColor(PickupCard, ColorPickup);
+
+        if (_pickupLabel != null) _pickupLabel.text = nombre;
+        if (_pickupSublabel != null)
+            _pickupSublabel.text = cantidad >= 0 ? $"Total: {cantidad}" : "";
+
+        SetIconSprite(_pickupIcon, icono);
+
+        _pickupCard.AddToClassList(CSS_VISIBLE);
         _pickupTimer = PickupDuration;
         _pickupActive = true;
-        _pickupTargetX = XVisible;
     }
 
-    /// <summary>Detecta nombre e icono automáticamente según el tipo.</summary>
+    /// <summary>Detecta nombre e icono automáticamente según el tipo de objeto.</summary>
     public void MostrarPickupTipo(Objects.ObjectsType tipo, int cantidad)
     {
         if (!_ready) { return; }
-        string nombre; Sprite icono; int c = cantidad;
+        string nombre;
+        Sprite icono;
+        int c = cantidad;
+
         switch (tipo)
         {
             case Objects.ObjectsType.fusible: nombre = "Fusible"; icono = SpriteFusible; break;
@@ -185,6 +175,7 @@ public class FeedbackUI : MonoBehaviour
             case Objects.ObjectsType.explosiveAbility: nombre = "Habilidad explosiva"; icono = SpriteHabilidadExplosiva; c = -1; break;
             default: nombre = "Objeto"; icono = null; break;
         }
+
         MostrarPickup(nombre, icono, c);
     }
 
@@ -192,37 +183,38 @@ public class FeedbackUI : MonoBehaviour
     public void MostrarPuerta(bool bloqueada, string mensaje, string submensaje = "")
     {
         if (!_ready) { return; }
-        if (DoorLabel != null) DoorLabel.text = mensaje;
-        if (DoorSublabel != null) DoorSublabel.text = submensaje;
-        SetSprite(DoorIconImg, bloqueada ? SpritePuertaBloqueada : SpritePuertaAbierta);
-        SetPanelColor(DoorCard, bloqueada ? ColorBloqueada : ColorAbierta);
+
+        if (_doorLabel != null) _doorLabel.text = mensaje;
+        if (_doorSublabel != null) _doorSublabel.text = submensaje;
+
+        SetIconSprite(_doorIcon, bloqueada ? SpritePuertaBloqueada : SpritePuertaAbierta);
+
+        // Cambiar color del borde según estado
+        _doorCard.RemoveFromClassList(CSS_LOCKED);
+        _doorCard.RemoveFromClassList(CSS_UNLOCKED);
+        _doorCard.AddToClassList(bloqueada ? CSS_LOCKED : CSS_UNLOCKED);
+
+        _doorCard.AddToClassList(CSS_VISIBLE);
         _doorTimer = DoorDuration;
         _doorActive = true;
-        _doorTargetX = XVisible;
     }
 
     #endregion
 
     // ---- HELPERS ----
     #region Helpers
-    private void SetX(RectTransform rt, float x)
+    private void SetIconSprite(VisualElement iconEl, Sprite sprite)
     {
-        if (rt == null) { return; }
-        var p = rt.anchoredPosition; p.x = x; rt.anchoredPosition = p;
-    }
-
-    private void SetSprite(Image img, Sprite sprite)
-    {
-        if (img == null) { return; }
-        img.sprite = sprite;
-        img.enabled = sprite != null;
-    }
-
-    private void SetPanelColor(RectTransform rt, Color color)
-    {
-        if (rt == null) { return; }
-        Image img = rt.GetComponent<Image>();
-        if (img != null) img.color = color;
+        if (iconEl == null) { return; }
+        if (sprite != null)
+        {
+            iconEl.style.backgroundImage = new StyleBackground(sprite);
+            iconEl.style.display = DisplayStyle.Flex;
+        }
+        else
+        {
+            iconEl.style.display = DisplayStyle.None;
+        }
     }
     #endregion
 

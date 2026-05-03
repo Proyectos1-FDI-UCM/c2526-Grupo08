@@ -7325,6 +7325,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1958377677}
   m_CullTransparentMesh: 1
+--- !u!1 &1980304858
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1980304860}
+  - component: {fileID: 1980304859}
+  m_Layer: 0
+  m_Name: FeedbackUI_Prefab
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1980304859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980304858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d90fefb98a39cf9468adaaa3363d690e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PickupCard: {fileID: 0}
+  PickupIconImg: {fileID: 0}
+  PickupLabel: {fileID: 0}
+  PickupSublabel: {fileID: 0}
+  DoorCard: {fileID: 0}
+  DoorIconImg: {fileID: 0}
+  DoorLabel: {fileID: 0}
+  DoorSublabel: {fileID: 0}
+  XVisible: 24
+  XOculto: -320
+  PickupDuration: 2.5
+  DoorDuration: 2
+  AnimSpeed: 12
+  ColorPickup: {r: 0.18, g: 0.35, b: 0.37, a: 0.95}
+  ColorBloqueada: {r: 0.4, g: 0.3, b: 0.08, a: 0.95}
+  ColorAbierta: {r: 0.12, g: 0.3, b: 0.3, a: 0.95}
+  SpriteFusible: {fileID: 0}
+  SpriteLlave: {fileID: 0}
+  SpriteVenda: {fileID: 0}
+  SpriteTarjeta: {fileID: 0}
+  SpriteLlaveEspecial: {fileID: 0}
+  SpriteHabilidadMulti: {fileID: 0}
+  SpriteHabilidadExplosiva: {fileID: 0}
+  SpritePuertaBloqueada: {fileID: 0}
+  SpritePuertaAbierta: {fileID: 0}
+--- !u!4 &1980304860
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980304858}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 515.8, y: 293.3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1985650570
 GameObject:
   m_ObjectHideFlags: 0
@@ -8577,3 +8646,4 @@ SceneRoots:
   - {fileID: 1056134712}
   - {fileID: 297423529}
   - {fileID: 120716784}
+  - {fileID: 1980304860}
