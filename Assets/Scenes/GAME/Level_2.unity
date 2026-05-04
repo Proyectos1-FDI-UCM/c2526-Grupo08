@@ -7694,6 +7694,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 27838318}
     m_Modifications:
+    - target: {fileID: 3057326525927857283, guid: fc5392323a3f2754ea44f5b4389e418a, type: 3}
+      propertyPath: RequireItem
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3926570985523734301, guid: fc5392323a3f2754ea44f5b4389e418a, type: 3}
       propertyPath: DialogueSystemRef
       value: 
@@ -10298,7 +10302,7 @@ RectTransform:
   m_Father: {fileID: 1093913772}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: -2.8000183, y: 0.2999897}
   m_SizeDelta: {x: -178.433, y: -16.4692}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -436308,7 +436312,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1768968353
 Transform:
   m_ObjectHideFlags: 0
@@ -439821,7 +439825,7 @@ RectTransform:
   m_Father: {fileID: 2054398913}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 8.5, y: 0}
   m_SizeDelta: {x: -17, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
