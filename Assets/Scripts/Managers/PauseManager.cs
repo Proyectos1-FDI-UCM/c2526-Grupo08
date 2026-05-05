@@ -1,6 +1,8 @@
 //---------------------------------------------------------
 // Controlador del menú de pausa con UI Toolkit.
-// Alexia Pérez Santana — No Way Down — Proyectos 1 2025-26
+// Alexia Pérez Santana
+// — No Way Down
+// — Proyectos 1 2025-26
 //---------------------------------------------------------
 
 using UnityEngine;
@@ -24,8 +26,7 @@ public class PauseManager : MonoBehaviour
     private void OnDestroy()
     {
         if (_instance == this) _instance = null;
-        if (_openMenuAction != null) _openMenuAction.performed -= OnPausePressed;
-        if (_exitMenuAction != null) _exitMenuAction.performed -= OnCancelPressed;
+        LimpiarInput();
     }
     #endregion
 
@@ -33,14 +34,14 @@ public class PauseManager : MonoBehaviour
     [Header("Audio")]
     [SerializeField] private AudioSource MusicaSource;
     [SerializeField] private AudioSource EfectosSource;
-    [Header("Escena de menu")]
+    [Header("Escena de menú")]
     [SerializeField] private string NombreEscenaMenu = "Menu";
     [Header("Mapa en pausa")]
     [SerializeField] private RenderTexture MapRenderTexture;
     [SerializeField] private GameObject PlayerMarker;
     #endregion
 
-    #region Privados
+    #region Privados — UI
     private VisualElement _overlay;
     private VisualElement _vistaMain;
     private VisualElement _vistaAjustes;
@@ -70,20 +71,21 @@ public class PauseManager : MonoBehaviour
     private const string CSS_SUBPANEL = "pause-subpanel--visible";
     private const string CSS_TAB_ON = "ctrl-tab--active";
     private const string CSS_HIDDEN = "ctrl-panel--hidden";
+    #endregion
 
-    private InputAction _openMenuAction;
-    private InputAction _exitMenuAction;
+    #region Privados — Input
+    private InputSystem_Actions _actions;
     #endregion
 
     #region MonoBehaviour
     private void Start()
     {
-        InicializarUI();
         InicializarInput();
+        InicializarUI();
     }
     #endregion
 
-    #region API publica
+    #region API pública
     public void TogglePausa()
     {
         if (!_uiReady) { return; }
@@ -94,38 +96,25 @@ public class PauseManager : MonoBehaviour
     #region Input
     private void InicializarInput()
     {
-        // Buscar el action map Player y habilitarlo explicitamente
-        foreach (var asset in Resources.FindObjectsOfTypeAll<InputActionAsset>())
-        {
-            var playerMap = asset.FindActionMap("Player", throwIfNotFound: false);
-            if (playerMap == null) continue;
+        _actions = new InputSystem_Actions();
 
-            playerMap.Enable();
-            _openMenuAction = playerMap.FindAction("Menu", throwIfNotFound: false);
-            _exitMenuAction = playerMap.FindAction("ExitMenu", throwIfNotFound: false);
-            break;
-        }
+        // Player.OpenMenu = Start (Xbox/PS) / ESC (teclado)
+        _actions.Player.Enable();
+        _actions.Player.OpenMenu.performed += OnPausePressed;
 
-        // Fallback
-        if (_openMenuAction == null)
-            _openMenuAction = InputSystem.actions?.FindAction("Menu");
+        // UI.ExitMenu = B (Xbox) / Circle (PS) / Escape (teclado) — solo activo en pausa
+        _actions.UI.ExitMenu.performed += OnExitMenuPressed;
 
-        if (_openMenuAction == null)
-        {
-            Debug.LogError("[PauseManager] Accion 'Menu' no encontrada.");
-            return;
-        }
+        Debug.Log("[PauseManager] Input OK — Player.OpenMenu + UI.ExitMenu.");
+    }
 
-        _openMenuAction.performed += OnPausePressed;
-        _openMenuAction.Enable();
-
-        if (_exitMenuAction != null)
-        {
-            _exitMenuAction.performed += OnCancelPressed;
-            _exitMenuAction.Enable();
-        }
-
-        Debug.Log($"[PauseManager] Input OK — Menu={_openMenuAction != null} Exit={_exitMenuAction != null}");
+    private void LimpiarInput()
+    {
+        if (_actions == null) { return; }
+        _actions.Player.OpenMenu.performed -= OnPausePressed;
+        _actions.UI.ExitMenu.performed -= OnExitMenuPressed;
+        _actions.Dispose();
+        _actions = null;
     }
 
     private void OnPausePressed(InputAction.CallbackContext ctx)
@@ -134,7 +123,7 @@ public class PauseManager : MonoBehaviour
         TogglePausa();
     }
 
-    private void OnCancelPressed(InputAction.CallbackContext ctx)
+    private void OnExitMenuPressed(InputAction.CallbackContext ctx)
     {
         if (!_uiReady || !_isPaused) { return; }
         switch (_vistaActual)
@@ -146,7 +135,7 @@ public class PauseManager : MonoBehaviour
     }
     #endregion
 
-    #region UI Inicializacion
+    #region UI Inicialización
     private void InicializarUI()
     {
         UIDocument doc = GetComponent<UIDocument>();
@@ -196,7 +185,7 @@ public class PauseManager : MonoBehaviour
         RefrescarLabels();
         SuscribirEventos(root);
         _uiReady = true;
-        Debug.Log("[PauseManager] UI lista v");
+        Debug.Log("[PauseManager] UI lista.");
     }
 
     private void SuscribirEventos(VisualElement root)
@@ -229,21 +218,24 @@ public class PauseManager : MonoBehaviour
     {
         Button btn = root.Q<Button>(name);
         if (btn != null) btn.clicked += cb;
-        else Debug.LogWarning($"[PauseManager] Boton '{name}' no encontrado.");
+        else Debug.LogWarning($"[PauseManager] Botón '{name}' no encontrado.");
     }
     #endregion
 
-    #region Logica de pausa
+    #region Lógica de pausa
     private void Pausar()
     {
-        Debug.Log("[PauseManager] Pausar() ejecutado");
         _isPaused = true;
         Time.timeScale = 0f;
         _overlay.AddToClassList(CSS_OVERLAY);
-        Debug.Log($"[PauseManager] Clases overlay: {string.Join(",", _overlay.GetClasses())}");
+
+        // Habilitar action map UI para que el mando navegue el menú de pausa
+        _actions.UI.Enable();
+
         MostrarMain();
         if (PlayerMarker != null) PlayerMarker.SetActive(true);
         if (LevelManager.HasInstance()) LevelManager.Instance.OnGamePaused();
+        Debug.Log("[PauseManager] Juego pausado.");
     }
 
     private void Reanudar()
@@ -251,6 +243,10 @@ public class PauseManager : MonoBehaviour
         _isPaused = false;
         Time.timeScale = 1f;
         _overlay.RemoveFromClassList(CSS_OVERLAY);
+
+        // Deshabilitar action map UI al volver al juego
+        _actions.UI.Disable();
+
         if (PlayerMarker != null) PlayerMarker.SetActive(false);
         if (LevelManager.HasInstance()) LevelManager.Instance.OnGameResumed();
     }
@@ -258,6 +254,7 @@ public class PauseManager : MonoBehaviour
     private void IrAlMenu()
     {
         Time.timeScale = 1f;
+        LimpiarInput();
         SceneManager.LoadScene(NombreEscenaMenu);
     }
 

@@ -3,7 +3,7 @@
     "name": "InputSystem_Actions",
     "maps": [
         {
-            "name": "es lo que me aparece en el input actions",
+            "name": "Actions",
             "id": "df70fa95-8a34-4494-b137-73ab6b9c7d37",
             "actions": [
                 {
@@ -118,6 +118,15 @@
                     "name": "ShowMap",
                     "type": "Button",
                     "id": "bfa38935-d5c6-48b7-a505-03cf693a41b3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Hack",
+                    "type": "Button",
+                    "id": "b3ce82ba-02fc-472c-a121-43bbbdb9db06",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -529,6 +538,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "ShowMap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "444debe4-5b9e-426d-a750-7abaf9e75669",
+                    "path": "<Keyboard>/leftAlt",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Hack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
