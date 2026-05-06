@@ -2,8 +2,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd"
          editor-extension-mode="False">
+
     <ui:Style src="project://database/Assets/UI/MenuPrincipal.uss" />
+
     <ui:VisualElement name="root" class="root">
+
         <ui:VisualElement name="panelMain">
             <ui:VisualElement class="titulo-bloque">
                 <ui:Label name="lblTitulo"    class="titulo"    text="NO WAY DOWN" />
@@ -19,6 +22,7 @@
                 <ui:Button name="btnSalir"     class="btn-menu btn-salir" text="SALIR" />
             </ui:VisualElement>
         </ui:VisualElement>
+
         <ui:VisualElement name="panelAjustes" class="panel-overlay">
             <ui:VisualElement class="panel-caja">
                 <ui:Label class="panel-titulo" text="AJUSTES" />
@@ -46,14 +50,17 @@
                 <ui:Button name="btnVolverAjustes" class="btn-volver" text="VOLVER" />
             </ui:VisualElement>
         </ui:VisualElement>
+
         <ui:VisualElement name="panelControles" class="panel-overlay">
             <ui:VisualElement class="panel-caja panel-caja--wide">
                 <ui:Label class="panel-titulo" text="CONTROLES" />
                 <ui:VisualElement class="panel-linea" />
+
                 <ui:VisualElement class="ctrl-tabs">
                     <ui:Button name="btnTabTecladoM" text="TECLADO + RATON" class="ctrl-tab ctrl-tab--active" />
                     <ui:Button name="btnTabMandoM"   text="MANDO"           class="ctrl-tab" />
                 </ui:VisualElement>
+
                 <ui:VisualElement name="ctrlTecladoM" class="ctrl-grid">
                     <ui:VisualElement class="ctrl-col">
                         <ui:Label text="MOVIMIENTO" class="ctrl-section-title" />
@@ -115,6 +122,7 @@
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
+
                 <ui:VisualElement name="ctrlMandoM" class="ctrl-grid ctrl-panel--hidden">
                     <ui:VisualElement class="ctrl-col">
                         <ui:Label text="MOVIMIENTO" class="ctrl-section-title" />
@@ -152,7 +160,7 @@
                             <ui:Label text="Disparar (mantener = cargado)" class="ctrl-desc" />
                         </ui:VisualElement>
                         <ui:VisualElement class="ctrl-row">
-                            <ui:Label text="RT" class="key key--btn" />
+                            <ui:Label text="LT" class="key key--btn" />
                             <ui:Label text="Habilidad activa" class="ctrl-desc" />
                         </ui:VisualElement>
                         <ui:VisualElement class="ctrl-row">
@@ -168,9 +176,11 @@
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
+
                 <ui:Button name="btnVolverControlesM" class="btn-volver" text="VOLVER" />
             </ui:VisualElement>
         </ui:VisualElement>
+
         <ui:VisualElement name="panelCreditos" class="panel-overlay">
             <ui:VisualElement class="panel-caja">
                 <ui:Label class="panel-titulo" text="CREDITOS" />
@@ -182,6 +192,7 @@
                 <ui:Button name="btnVolverCreditos" class="btn-volver" text="VOLVER" />
             </ui:VisualElement>
         </ui:VisualElement>
+
     </ui:VisualElement>
 
 </ui:UXML>

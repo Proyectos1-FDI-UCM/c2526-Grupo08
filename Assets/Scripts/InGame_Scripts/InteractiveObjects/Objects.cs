@@ -79,6 +79,8 @@ public class Objects : MonoBehaviour
         {
             _playerInRange = true;
             _playerInventory = inventory;
+
+            _playerMovement = other.GetComponent<PlayerMovement>();
         }
     }
 
@@ -88,6 +90,8 @@ public class Objects : MonoBehaviour
         {
             _playerInRange = false;
             _playerInventory = null;
+
+            _playerMovement = null;
         }
     }
 
