@@ -43,6 +43,9 @@ public class Objects : MonoBehaviour
     /// <summary>Referencia al inventario del jugador cuando está en rango.</summary>
     private Inventory _playerInventory;
 
+    //animación de PickUp
+    private PlayerMovement _playerMovement;
+
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
@@ -77,6 +80,8 @@ public class Objects : MonoBehaviour
         {
             _playerInRange = true;
             _playerInventory = inventory;
+
+            _playerMovement = other.GetComponent<PlayerMovement>();
         }
     }
 
@@ -86,6 +91,8 @@ public class Objects : MonoBehaviour
         {
             _playerInRange = false;
             _playerInventory = null;
+
+            _playerMovement = null;
         }
     }
 
@@ -101,6 +108,13 @@ public class Objects : MonoBehaviour
     private void PickUp()
     {
         _playerInventory.AddItem(type);
+
+        //animacion de PickUp
+
+        if (_playerMovement != null)
+        {
+            _playerMovement.PlayPickup();
+        }
 
         // Calcular la cantidad actual tras recoger el objeto
         int cantidad = type switch

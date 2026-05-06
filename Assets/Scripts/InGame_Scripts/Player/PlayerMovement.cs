@@ -37,6 +37,8 @@ public class PlayerMovement : MonoBehaviour
     private Sprite SpriteLeft;
     [SerializeField] 
     private TrailRenderer tr;
+    [SerializeField]
+    private float _dashingTime = 0.2f;
 
     #endregion
 
@@ -58,13 +60,14 @@ public class PlayerMovement : MonoBehaviour
     private bool _canDash = true;
     private bool _isDashing;
     private float _dashingPower = 30f;
-    private float _dashingTime = 0.2f;
     private float _dashingCooldown = 1.5f;
     private float _dashEndTime;
     private float _dashCooldownEnd;
+    private bool _isPickingUp;
     private Vector2 _dashDir;
     private Vector2 _lastMoveDirection = Vector2.right;
-
+    
+    private Animator _animator;
     private InputAction MoveAction;
     private InputAction DashAction;
 
@@ -97,6 +100,8 @@ public class PlayerMovement : MonoBehaviour
         _health = GetComponent<Health>();
 
         _chargedAttack = GetComponent<ChargedAttack>();
+
+        _animator = GetComponent<Animator>();
 
         MoveAction = InputSystem.actions.FindAction("Move");
         if (MoveAction == null)
@@ -151,6 +156,7 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        //ChargeAttack
         if (_chargedAttack != null && _chargedAttack.IsCharging())
         {
             _rb.linearVelocity = Vector2.zero;
@@ -200,29 +206,26 @@ public class PlayerMovement : MonoBehaviour
             dir =  WorldPos - transform.position;
         }
 
-        //Detectamos la dirección en la que se encuentra el ratón y dependiendo de esta cambiamos el sprite.
-        if ((Mathf.Abs(dir.x) > Mathf.Abs(dir.y)))
+        //animaciones
+        
+        dir = dir.normalized;
+
+        _animator.SetFloat("MoveX", dir.x);
+        _animator.SetFloat("MoveY", dir.y);
+        _animator.SetFloat("Speed", Movement.magnitude);
+
+        Vector3 scale = transform.localScale;
+
+        if (dir.x < 0)
         {
-            if (dir.x > 0 || dir.x > 0)
-            {
-                ChangeSprite(Direction.Right);
-            }
-            else
-            {
-                ChangeSprite(Direction.Left);
-            }
+            scale.x = -Mathf.Abs(scale.x);
         }
-        else
+        else if (dir.x > 0)
         {
-            if (dir.y > 0 || dir.y > 0)
-            {
-                ChangeSprite(Direction.Up);
-            }
-            else
-            {
-                ChangeSprite(Direction.Down);
-            }
+            scale.x = Mathf.Abs(scale.x);
         }
+
+        transform.localScale = scale;
     }
 
 
@@ -233,6 +236,40 @@ public class PlayerMovement : MonoBehaviour
     // se nombren en formato PascalCase (palabras con primera letra
     // mayúscula, incluida la primera letra)
     // Ejemplo: GetPlayerController
+
+    public void PlayDash()
+    {
+        _isDashing = true;
+        _animator.SetBool("IsDashing", true);
+
+        Invoke(nameof(DashEnd), _dashingTime);
+    }
+
+    public void DashEnd()
+    {
+        _isDashing = false;
+        _animator.SetBool("IsDashing", false);
+    }
+
+    public void PickupEnd()
+    {
+        Debug.Log("END PICKUP EJECUTADO");
+        _isPickingUp = false;
+        _animator.SetBool("IsPickingUp", false);
+    }
+
+    public void PlayPickup()
+    {
+        Debug.Log("Pickup activado");
+
+        _isPickingUp = true;
+
+        _animator.SetBool("IsPickingUp", true);
+
+        _rb.linearVelocity = Vector2.zero;
+
+        Invoke(nameof(PickupEnd), 0.6f);
+    }
 
     #endregion
 
@@ -347,7 +384,7 @@ public class PlayerMovement : MonoBehaviour
 
                     _spriteRenderer.sprite = SpriteLeft;
 
-                    SetScaleX(Mathf.Abs(CurrentScale.x));
+                    SetScaleX(-Mathf.Abs(CurrentScale.x));
 
                     break;
 
@@ -355,7 +392,7 @@ public class PlayerMovement : MonoBehaviour
 
                     _spriteRenderer.sprite = SpriteLeft;
 
-                    SetScaleX(-Mathf.Abs(CurrentScale.x));
+                    SetScaleX(Mathf.Abs(CurrentScale.x));
 
                     break;
             }
