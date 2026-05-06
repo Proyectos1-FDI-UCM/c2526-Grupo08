@@ -27,7 +27,7 @@ using UnityEngine.SceneManagement;
 public class NarratorDialogue : MonoBehaviour
 {
     // ---- ENUMS ----
-    public enum ItemRequirement { None, Fusibles, Cards, Keys, SpecialKey }
+    public enum ItemRequirement { None, Fusibles, Cards, Key, SpecialKey }
 
     // ---- INSPECTOR ----
     #region Atributos del Inspector
@@ -203,7 +203,7 @@ public class NarratorDialogue : MonoBehaviour
         {
             ItemRequirement.Fusibles => inv.GetFusibleCount() >= RequiredAmount,
             ItemRequirement.Cards => inv.GetCardCount() >= RequiredAmount,
-            ItemRequirement.Keys => inv.GetKeyCount() >= RequiredAmount,
+            ItemRequirement.Key => inv.GetKeyCount() >= RequiredAmount,
             ItemRequirement.SpecialKey => inv.hasSpecialKey,
             _ => true
         };
