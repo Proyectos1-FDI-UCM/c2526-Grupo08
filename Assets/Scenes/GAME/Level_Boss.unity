@@ -768,17 +768,14 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1817978666}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3713208540947770867, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1166503986}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
 --- !u!114 &162771816 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -3823790945834989697, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
   m_PrefabInstance: {fileID: 162771815}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1166503970}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7059f633451648b49bdb49418f3a5bef, type: 3}
@@ -789,7 +786,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -7483780444665984982, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
   m_PrefabInstance: {fileID: 162771815}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1166503970}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7369cb899eb80b43ad06b1b5c5a30a5, type: 3}
@@ -65356,25 +65353,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1158096752}
   m_CullTransparentMesh: 1
---- !u!1 &1166503970 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3713208540947770867, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
-  m_PrefabInstance: {fileID: 162771815}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1166503986
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1166503970}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb36484b80218b048b513b543d46cac1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TargetHealth: {fileID: 162771816}
-  NewMaxHealthValue: 100000
 --- !u!1 &1175202298
 GameObject:
   m_ObjectHideFlags: 0
