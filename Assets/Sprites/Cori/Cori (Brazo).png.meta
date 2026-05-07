@@ -130,218 +130,20 @@ TextureImporter:
       name: Cori (Brazo)_0
       rect:
         serializedVersion: 2
-        x: 299
-        y: 815
-        width: 6
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 394
+        y: 248
+        width: 121
+        height: 303
+      alignment: 9
+      pivot: {x: 0.56, y: 0.94}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 904825fcd44797d10800000000000000
+      spriteID: b75ab8c64533059478741e1dfd5d0393
       internalID: 2123856576821494793
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cori (Brazo)_1
-      rect:
-        serializedVersion: 2
-        x: 303
-        y: 823
-        width: 50
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 825a3bdfaa41cef20800000000000000
-      internalID: 3453157738919732520
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cori (Brazo)_2
-      rect:
-        serializedVersion: 2
-        x: 292
-        y: 788
-        width: 8
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 2d2cbef8478448b10800000000000000
-      internalID: 1982789401417859794
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cori (Brazo)_3
-      rect:
-        serializedVersion: 2
-        x: 390
-        y: 193
-        width: 160
-        height: 418
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3bef4ee3ec2c21fd0800000000000000
-      internalID: -2372619862596583757
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cori (Brazo)_4
-      rect:
-        serializedVersion: 2
-        x: 511
-        y: 336
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 15c85f7666416c9e0800000000000000
-      internalID: -1601570187420267439
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cori (Brazo)_5
-      rect:
-        serializedVersion: 2
-        x: 525
-        y: 318
-        width: 8
-        height: 35
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 0fc2224656d018310800000000000000
-      internalID: 1405419287839124720
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cori (Brazo)_6
-      rect:
-        serializedVersion: 2
-        x: 503
-        y: 306
-        width: 7
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 35b5d350b8ffcf3e0800000000000000
-      internalID: -2018457560415380653
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cori (Brazo)_7
-      rect:
-        serializedVersion: 2
-        x: 522
-        y: 289
-        width: 7
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c286831291d86d340800000000000000
-      internalID: 4888249584628295724
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cori (Brazo)_8
-      rect:
-        serializedVersion: 2
-        x: 375
-        y: 121
-        width: 34
-        height: 57
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d688892ea76611920800000000000000
-      internalID: 2959259108132817005
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cori (Brazo)_9
-      rect:
-        serializedVersion: 2
-        x: 509
-        y: 165
-        width: 10
-        height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 0aa38d5a1fcaff1f0800000000000000
-      internalID: -1008897637638194528
       vertices: []
       indices: 
       edges: []
@@ -350,7 +152,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: d0cb3f0a4b78f974e98e8025971042d1
     internalID: 0
     vertices: []
     indices: 

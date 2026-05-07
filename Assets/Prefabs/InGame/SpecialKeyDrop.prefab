@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6304388400646895773}
   - component: {fileID: 1475110551447285554}
-  - component: {fileID: 2146896931890556438}
   - component: {fileID: 5996070143464828141}
+  - component: {fileID: 2152775082112167745}
   m_Layer: 0
   m_Name: SpecialKeyDrop
   m_TagString: Untagged
@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.6286635, y: 0.82344633, z: 5.530428}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.45406294, y: 0.42530105, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: -248388291
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: -4338090237889075295, guid: 82749643d2a3c0a4c8c1605934edfbb1, type: 3}
+  m_Sprite: {fileID: -8510988036646350222, guid: e919cd55a89b82748b94f3f7ec5b028a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -89,8 +89,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &2146896931890556438
-CircleCollider2D:
+--- !u!114 &5996070143464828141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4296618808425056567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2adc3135ea11414f8c0480f99217098, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PickupPrompt: {fileID: 0}
+--- !u!61 &2152775082112167745
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -124,17 +137,14 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
---- !u!114 &5996070143464828141
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4296618808425056567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2adc3135ea11414f8c0480f99217098, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PickupPrompt: {fileID: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.41, y: 0.99}
+    newSize: {x: 7.27, y: 4.09}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 2.41, y: 0.99}
+  m_EdgeRadius: 0

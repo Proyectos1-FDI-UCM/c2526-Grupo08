@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a9468437e93009649a024af053f9501e
+guid: 03c4e7df10f04814dad6d2732243cfb3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6920774517809546509
-    second: IMG_0091_0
+      213: 1921652125850697459
+    second: poiuhgbn_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,23 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: IMG_0091_0
+      name: poiuhgbn_0
       rect:
         serializedVersion: 2
-        x: 372
-        y: 475
-        width: 279
-        height: 95
+        x: 71
+        y: 33
+        width: 138
+        height: 272
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3faf26f6e3874ff90800000000000000
-      internalID: -6920774517809546509
+      spriteID: 3fe74375d641baa10800000000000000
+      internalID: 1921652125850697459
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: b455b5e86769d1b4c892d49201554d62
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      IMG_0091_0: -6920774517809546509
+      poiuhgbn_0: 1921652125850697459
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
