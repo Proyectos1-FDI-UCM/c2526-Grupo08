@@ -1812,15 +1812,15 @@ MonoBehaviour:
   AutoStartOnLoad: 1
   AutoStartDelay: 0.2
   Lines:
-  - SpeakerName: 
+  - SpeakerName: Narrador
     CharacterSprite: {fileID: 0}
     Text: " \"Al otro lado de esa puerta estaba la persona que hab\xEDa dado\r\n\xF3rdenes
       a todos los que Cori hab\xEDa derrotado esta noche.\""
-  - SpeakerName: 
+  - SpeakerName: Narrador
     CharacterSprite: {fileID: 0}
     Text: "\"La persona por la que hab\xEDa entrado a este mugriento edificio.\""
   - SpeakerName: Cori
-    CharacterSprite: {fileID: 0}
+    CharacterSprite: {fileID: -6089904925381806283, guid: 6dc2f1c67f5f90446a8047409feaf950, type: 3}
     Text: " \"Raven\u2026 \xBFqu\xE9 te ha pasado?\""
   RequireItem: 0
   RequiredAmount: 0
@@ -2008,42 +2008,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DialogueSystemRef: {fileID: 654902004}
   GoodEndingLines:
-  - SpeakerName: 
-    CharacterSprite: {fileID: 0}
+  - SpeakerName: Cori
+    CharacterSprite: {fileID: -7229776202695200124, guid: d89aefe5019a022458e52d1b1f18f551, type: 3}
     Text: "\"\xBFR-Raven\u2026? \xBFDe verdad eres t\xFA?\""
   - SpeakerName: Raven
-    CharacterSprite: {fileID: 0}
+    CharacterSprite: {fileID: 1890495452687468731, guid: f45365cfe5206564ca9fa41ebe0bfed3, type: 3}
     Text: "\"\xBFTe parece que tengo cara de alguien m\xE1s?\""
   - SpeakerName: Cori
-    CharacterSprite: {fileID: 0}
+    CharacterSprite: {fileID: -6089904925381806283, guid: 6dc2f1c67f5f90446a8047409feaf950, type: 3}
     Text: " \"No\u2026 Pero vi\xE9ndote es como si no te conociera en absoluto.\""
   - SpeakerName: Raven
-    CharacterSprite: {fileID: 0}
+    CharacterSprite: {fileID: 2869468747568150148, guid: d550d20a71fbb2843a1658f06bd69afc, type: 3}
     Text: "\"\xBFTe has acobardado? Acaba conmigo si eres tan valiente. \xA1Ven aqu\xED!\""
   - SpeakerName: Cori
-    CharacterSprite: {fileID: 0}
+    CharacterSprite: {fileID: -7654643618546397851, guid: 30f7201a1b9347b4ab4686554de81298, type: 3}
     Text: "\"\xA1Basta! Entr\xE9 a este mugriento edificio con el \xFAnico objetivo\r\nde
       traerte de vuelta, y me niego a salir de \xE9l sin cumplirlo.\""
   - SpeakerName: Raven
-    CharacterSprite: {fileID: 0}
+    CharacterSprite: {fileID: -2598977208605638129, guid: 7963ad6976cec6341830906a5461d2b5, type: 3}
     Text: "\"Veo que tu terquedad tan solo ha aumentado desde que saliste\r\nde la
       polic\xEDa\u2026\""
-  - SpeakerName: 
+  - SpeakerName: Narrador
     CharacterSprite: {fileID: 0}
     Text: "\"Sin l\xEDder, la organizaci\xF3n de Raven fue desmantelada a lo largo\r\nde
       esa madrugada. Los rehenes fueron liberados.\r\nRaven y Cori ahora trabajan
       juntas, y planean hacerlo durante\r\nmucho m\xE1s tiempo.\""
   BadEndingLines:
-  - SpeakerName: 
-    CharacterSprite: {fileID: 0}
+  - SpeakerName: Narrador
+    CharacterSprite: {fileID: -8654682091581505451, guid: 86920751fd5c4034b8a2f3676e1fa477, type: 3}
     Text: " \"El resto de la noche transcurri\xF3 de forma silenciosa.\r\nAnte el
       cuerpo inerte de Cori, Raven no pudo m\xE1s que observar.\""
-  - SpeakerName: 
-    CharacterSprite: {fileID: 0}
+  - SpeakerName: Narrador
+    CharacterSprite: {fileID: -151877455614395062, guid: f9066fd8e8671b443826de472ba4dbe2, type: 3}
     Text: "\"Tir\xF3 sus armas y cay\xF3 de rodillas.\r\nRaven era consciente de
       que su hermana podr\xEDa llegar hasta ella,\r\ny pens\xF3 que estaba dispuesta
       a acabar con ella si se cruzaba en su camino.\""
-  - SpeakerName: 
+  - SpeakerName: Narrador
     CharacterSprite: {fileID: 0}
     Text: "\"Y ahora que se hab\xEDa hecho realidad, el mundo perdi\xF3 su color\r\nantes
       de que ella pudiera darse cuenta.\r\nNadie supo nada m\xE1s de la organizaci\xF3n
@@ -2920,8 +2920,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 79.74994, y: 11.39991}
-  m_SizeDelta: {x: 159.4999, y: 202.7998}
+  m_AnchoredPosition: {x: 101.918, y: 33.567978}
+  m_SizeDelta: {x: 203.836, y: 247.1359}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &730474553
 MonoBehaviour:
@@ -65156,22 +65156,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d90fefb98a39cf9468adaaa3363d690e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PickupCard: {fileID: 0}
-  PickupIconImg: {fileID: 0}
-  PickupLabel: {fileID: 0}
-  PickupSublabel: {fileID: 0}
-  DoorCard: {fileID: 0}
-  DoorIconImg: {fileID: 0}
-  DoorLabel: {fileID: 0}
-  DoorSublabel: {fileID: 0}
-  XVisible: 24
-  XOculto: -320
-  PickupDuration: 2.5
-  DoorDuration: 2
-  AnimSpeed: 12
-  ColorPickup: {r: 0.18, g: 0.35, b: 0.37, a: 0.95}
-  ColorBloqueada: {r: 0.4, g: 0.3, b: 0.08, a: 0.95}
-  ColorAbierta: {r: 0.12, g: 0.3, b: 0.3, a: 0.95}
   SpriteFusible: {fileID: -6090702972439111104, guid: 05a6ff58963cae648ad1708fdb0b2526, type: 3}
   SpriteLlave: {fileID: 3664216311134451531, guid: 501ddca1b393d9a489949090989030a8, type: 3}
   SpriteVenda: {fileID: -741464502463440612, guid: a148e7edf821e0e4c88da43d05333fa6, type: 3}
@@ -65181,6 +65165,8 @@ MonoBehaviour:
   SpriteHabilidadExplosiva: {fileID: 9048997433866386892, guid: 01de14ccb44fbb344a56405ff17b0623, type: 3}
   SpritePuertaBloqueada: {fileID: -3548610865192063708, guid: e27e3a2a5a51db54ab591a454fc52a05, type: 3}
   SpritePuertaAbierta: {fileID: -6832189706618455083, guid: b4361cc45a7abe4428caa0b95f0070df, type: 3}
+  PickupDuration: 2.5
+  DoorDuration: 2
 --- !u!114 &1140746159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68119,8 +68105,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 89.84631, y: 0}
-  m_SizeDelta: {x: -219.6927, y: 50}
+  m_AnchoredPosition: {x: 97.87494, y: 0}
+  m_SizeDelta: {x: -235.75, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2045328706
 MonoBehaviour:

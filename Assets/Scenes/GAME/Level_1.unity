@@ -2559,8 +2559,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 79.74994, y: 11.39991}
-  m_SizeDelta: {x: 159.4999, y: 202.7998}
+  m_AnchoredPosition: {x: 102.201355, y: 41.86972}
+  m_SizeDelta: {x: 204.4027, y: 263.7393}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &608280159
 CanvasRenderer:
@@ -6184,8 +6184,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 89.84631, y: 0}
-  m_SizeDelta: {x: -219.6927, y: 50}
+  m_AnchoredPosition: {x: 97.87494, y: 0}
+  m_SizeDelta: {x: -235.75, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1721264319
 CanvasRenderer:
@@ -7469,31 +7469,31 @@ MonoBehaviour:
   AutoStartOnLoad: 1
   AutoStartDelay: 0.1
   Lines:
-  - SpeakerName: 
+  - SpeakerName: Narrador
     CharacterSprite: {fileID: 0}
-    Text: "  \"Cori perdi\xF3 la cuenta de las veces que su vista hab\xEDa viajado
+    Text: " \"Cori perdi\xF3 la cuenta de las veces que su vista hab\xEDa viajado
       de aquel\r\nedificio abandonado a la direcci\xF3n que sujetaba en su mano.\r\nNochebuena.
       Hoy de todos los d\xEDas.\""
-  - SpeakerName: 
+  - SpeakerName: Narrador
     CharacterSprite: {fileID: 0}
     Text: "\"Con suerte, las familias se reun\xEDan en fechas como esta.\r\nTodo
       su esfuerzo, todos sus secretos callados hab\xEDan sido \xFAnicamente\r\npara
       este momento. Entr\xF3 al edificio sin pensarlo dos veces.\""
   - SpeakerName: Cori
-    CharacterSprite: {fileID: 0}
+    CharacterSprite: {fileID: -7301773207540950569, guid: 72037d277700fa24e8c1fc8a447e6b53, type: 3}
     Text: " \"Inicio de la operaci\xF3n: ya estoy en el edificio.\""
   - SpeakerName: Control
-    CharacterSprite: {fileID: 0}
+    CharacterSprite: {fileID: 4408675507112254870, guid: f821db50f785c314e93658507600d5f3, type: 3}
     Text: "\"Entendido. Si no encuentras a su l\xEDder antes de las seis,\r\nregresa
       tal y como acordamos. \xBFEntendido?\""
   - SpeakerName: Cori
-    CharacterSprite: {fileID: 0}
+    CharacterSprite: {fileID: -4992821509900215011, guid: 868eaecb20a63a640845b42f480089da, type: 3}
     Text: "\"S\xED, se\xF1or.\""
   - SpeakerName: Control
-    CharacterSprite: {fileID: 0}
+    CharacterSprite: {fileID: 4408675507112254870, guid: f821db50f785c314e93658507600d5f3, type: 3}
     Text: "\"Cori\u2026 espero tanto como t\xFA que tu hermana realmente est\xE9\r\nentre
       los rehenes.\""
-  - SpeakerName: 
+  - SpeakerName: Narrador
     CharacterSprite: {fileID: 0}
     Text: "\"Cori cort\xF3 la transmisi\xF3n. No quer\xEDa pensar en la posibilidad\r\nde
       que ella no estuviera all\xED.\""
@@ -7952,16 +7952,16 @@ MonoBehaviour:
   AutoStartOnLoad: 0
   AutoStartDelay: 0.1
   Lines:
-  - SpeakerName: 
+  - SpeakerName: Narrador
     CharacterSprite: {fileID: 0}
     Text: "\"El ascensor cruji\xF3 al ponerse en marcha.\r\nCori cont\xF3 los segundos
       en silencio mientras las paredes\r\nde metal oxidado ascend\xEDan a su alrededor.\""
-  - SpeakerName: 
+  - SpeakerName: Narrador
     CharacterSprite: {fileID: 0}
     Text: "\"Segunda planta. El edificio empeoraba con cada piso:\r\ntechos desmoronados,
       cables a la vista, y m\xE1s guardias.\""
   - SpeakerName: Cori
-    CharacterSprite: {fileID: 0}
+    CharacterSprite: {fileID: -4992821509900215011, guid: 868eaecb20a63a640845b42f480089da, type: 3}
     Text: "\"Aqu\xED arriba hay m\xE1s movimiento. Tienen algo que proteger.\""
   RequireItem: 1
   RequiredAmount: 3
@@ -8010,6 +8010,5 @@ SceneRoots:
   - {fileID: 1771401684}
   - {fileID: 297423529}
   - {fileID: 120716784}
-  - {fileID: 1980304860}
   - {fileID: 1789515612}
   - {fileID: 115773937}

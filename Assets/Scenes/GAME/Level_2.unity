@@ -521,36 +521,36 @@ MonoBehaviour:
     Text: "Tras una ardua batalla, Cori not\xF3 un movimiento por el rabillo del
       ojo. El hombre gravemente herido intentaba incorporarse, tocando botones de
       un aparato oculto bajo su chaleco."
-  - SpeakerName: Kori
-    CharacterSprite: {fileID: -6601477196304980844, guid: 92c11cfde79dec14a8e8a662b7146b9e, type: 3}
+  - SpeakerName: Cori
+    CharacterSprite: {fileID: 1027435269764664986, guid: d934b63d131c7124db8582d01f09497c, type: 3}
     Text: "\xBFQu\xE9 te cre\xEDas, que no te iba a ver? Tienes que ser primerizo
       para hacer algo tan imb\xE9cil. Dime qu\xE9 hac\xEDas. Ahora."
-  - SpeakerName: Random
-    CharacterSprite: {fileID: -4773062881699269690, guid: 620384c1321ba1349b10d913d89c2273, type: 3}
+  - SpeakerName: Soldado
+    CharacterSprite: {fileID: -7344043376728424638, guid: e0a4f349fa433fd478739e6bc4e51d27, type: 3}
     Text: "\xA1La jefa\u2026! Hablaba\u2026 Iba a hablar con la jefa."
-  - SpeakerName: Kori
-    CharacterSprite: {fileID: -6601477196304980844, guid: 92c11cfde79dec14a8e8a662b7146b9e, type: 3}
+  - SpeakerName: Cori
+    CharacterSprite: {fileID: -7301773207540950569, guid: 72037d277700fa24e8c1fc8a447e6b53, type: 3}
     Text: "\xBFCon que la jefa, eh? Yo tambi\xE9n quiero \"hablar\" con ella. Tiene
       un bot\xEDn que me interesa."
-  - SpeakerName: Random
-    CharacterSprite: {fileID: -4773062881699269690, guid: 620384c1321ba1349b10d913d89c2273, type: 3}
+  - SpeakerName: Soldado
+    CharacterSprite: {fileID: 3697559366838435654, guid: 1e0da763a9664e64da0363069d0a79af, type: 3}
     Text: Me niego. Si digo algo que no debo, estoy muerto.
-  - SpeakerName: Kori
-    CharacterSprite: {fileID: -6601477196304980844, guid: 92c11cfde79dec14a8e8a662b7146b9e, type: 3}
+  - SpeakerName: Cori
+    CharacterSprite: {fileID: 1027435269764664986, guid: d934b63d131c7124db8582d01f09497c, type: 3}
     Text: "\xBFY? Ya lo est\xE1s de todas formas."
-  - SpeakerName: Random
-    CharacterSprite: {fileID: -4773062881699269690, guid: 620384c1321ba1349b10d913d89c2273, type: 3}
+  - SpeakerName: Soldado
+    CharacterSprite: {fileID: -5895514099515216418, guid: 7bcfeaefa10580543a4212e6aae22f21, type: 3}
     Text: "Ese tono que tanto odio\u2026 Me recuerdas a mi jefa."
-  - SpeakerName: Kori
-    CharacterSprite: {fileID: -6601477196304980844, guid: 92c11cfde79dec14a8e8a662b7146b9e, type: 3}
+  - SpeakerName: Cori
+    CharacterSprite: {fileID: 1027435269764664986, guid: d934b63d131c7124db8582d01f09497c, type: 3}
     Text: "\xBFPero me vas a decir d\xF3nde est\xE1 o no? Esta es tu \xFAltima oportunidad."
-  - SpeakerName: Random
-    CharacterSprite: {fileID: -4773062881699269690, guid: 620384c1321ba1349b10d913d89c2273, type: 3}
+  - SpeakerName: Soldado
+    CharacterSprite: {fileID: 3697559366838435654, guid: 1e0da763a9664e64da0363069d0a79af, type: 3}
     Text: "No te puedo decir d\xF3nde est\xE1. Pero en la sala de reuniones del final
       a la izquierda estuvo esta ma\xF1ana y anot\xF3 algunas cosas. No s\xE9 si
       te servir\xE1n de algo."
-  - SpeakerName: Kori
-    CharacterSprite: {fileID: -6601477196304980844, guid: 92c11cfde79dec14a8e8a662b7146b9e, type: 3}
+  - SpeakerName: Cori
+    CharacterSprite: {fileID: -2645759636355516012, guid: a1a25fa1f46f3f44db865326beafdefa, type: 3}
     Text: "No s\xE9 de qui\xE9n se est\xE1 burlando este cretino. Si de la jefa...
       o de m\xED."
   HintText: "F  /  B (mando)  \u2192  continuar"
@@ -8126,8 +8126,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 89.84631, y: 0}
-  m_SizeDelta: {x: -219.6927, y: 50}
+  m_AnchoredPosition: {x: 97.87494, y: 0}
+  m_SizeDelta: {x: -235.75, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1115419591
 CanvasRenderer:
@@ -9625,8 +9625,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 79.74994, y: 11.39991}
-  m_SizeDelta: {x: 159.4999, y: 202.7998}
+  m_AnchoredPosition: {x: 104.6246, y: 29.6435}
+  m_SizeDelta: {x: 209.2492, y: 239.2869}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1396418251
 CanvasRenderer:
@@ -436360,15 +436360,15 @@ MonoBehaviour:
   AutoStartOnLoad: 0
   AutoStartDelay: 0.1
   Lines:
-  - SpeakerName: 
+  - SpeakerName: Narrador
     CharacterSprite: {fileID: 0}
     Text: " \"Tercera planta. El ascensor se detuvo con un golpe seco.\r\nDesde aqu\xED
       Cori pod\xEDa o\xEDr algo\u2026 \xBFrespiraci\xF3n? \xBFPasos?\""
-  - SpeakerName: 
+  - SpeakerName: Narrador
     CharacterSprite: {fileID: 0}
     Text: "\"Los rehenes estaban cerca. Y tambi\xE9n lo estaba quien los reten\xEDa.\""
   - SpeakerName: Cori
-    CharacterSprite: {fileID: 0}
+    CharacterSprite: {fileID: -4992821509900215011, guid: 868eaecb20a63a640845b42f480089da, type: 3}
     Text: '"Ya casi. Aguanta."'
   RequireItem: 2
   RequiredAmount: 2
@@ -436502,11 +436502,11 @@ MonoBehaviour:
   AutoStartDelay: 0.1
   Lines:
   - SpeakerName: Cori
-    CharacterSprite: {fileID: 0}
+    CharacterSprite: {fileID: -4992821509900215011, guid: 868eaecb20a63a640845b42f480089da, type: 3}
     Text: "\"Consegu\xED informaci\xF3n sobre experimentos con el mineral.\r\nQuer\xEDan
       dominar a todas las organizaciones con estas armas.\"\""
   - SpeakerName: Control
-    CharacterSprite: {fileID: 0}
+    CharacterSprite: {fileID: 4408675507112254870, guid: f821db50f785c314e93658507600d5f3, type: 3}
     Text: '"Buen trabajo, Cori. Sigue inspeccionando hasta encontrar
 
       a los
@@ -439020,12 +439020,12 @@ MonoBehaviour:
   AutoStartOnLoad: 1
   AutoStartDelay: 0.2
   Lines:
-  - SpeakerName: 
+  - SpeakerName: Narrador
     CharacterSprite: {fileID: 0}
     Text: " \"La segunda planta era un caos. Trozos de techo ca\xEDdos,\r\ncables
       a la vista. Alguien hab\xEDa luchado aqu\xED antes que ella.\""
   - SpeakerName: Cori
-    CharacterSprite: {fileID: 0}
+    CharacterSprite: {fileID: -7301773207540950569, guid: 72037d277700fa24e8c1fc8a447e6b53, type: 3}
     Text: "\"Necesito la tarjeta de acceso para llegar a la zona confidencial.\r\nAqu\xED
       tiene que haber algo.\""
   RequireItem: 0
