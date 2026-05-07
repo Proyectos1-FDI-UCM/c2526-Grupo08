@@ -9,149 +9,120 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Este es el script para la primera habilidad del boss (los cristales del suelo)
 [AddComponentMenu("Scripts/Boss/AbilityBoss1")]
 public class AbilityBoss1 : MonoBehaviour
 {
-    // ---- COSAS PARA ARRASTRAR AL INSPECTOR ----
-    #region Atributos del Inspector (serialized fields)
+    #region Atributos del Inspector
+    [Header("Prefabs")]
+    [SerializeField] private GameObject WarningPrefab;
+    [SerializeField] private GameObject CrystalPrefab;
 
-    [Header("Cosas que necesito")]
-    [SerializeField] private GameObject WarningPrefab; // El circulito de aviso
-    [SerializeField] private GameObject CrystalPrefab; // El cristal que hace daño
+    [Header("Configuración del Tiempo")]
+    [Tooltip("Cada cuántos segundos aparece un cristal nuevo automáticamente")]
+    [SerializeField] private float SpawnRate = 1.5f;
+    [Tooltip("Cuánto tarda el cristal en salir tras el aviso")]
+    [SerializeField] private float TelegraphDuration = 1.0f;
 
-    [Header("Ajustes del ataque")]
-    [SerializeField] private float TelegraphDuration = 1.0f; // Cuanto tarda en salir el cristal
-    [SerializeField] private int CrystalDamage = 30; // El daño que quita
+    [Header("Área de Juego")]
+    [SerializeField] private bool IsActive = false; // Empieza en falso hasta que el Controller lo active
+    [SerializeField] private Vector2 SpawnRange = new Vector2(10f, 10f);
+    [SerializeField] private Transform CenterOfAttackArea;
 
-    [Header("Donde aparecen")]
-    [SerializeField] private bool IsActive = true; // Para que no ataque si no toca
-    [SerializeField] private Vector2 SpawnRange = new Vector2(10f, 10f); // El tamaño de la zona
-
+    private Vector3 _fixedAreaCenter;
+    private float _spawnTimer; // Reloj interno para el SpawnRate
     #endregion
 
-    // ---- VARIABLES INTERNAS ----
-    #region Atributos Privados
-
-    // Clase para guardar los datos de cada ataque que se está preparando
-    class ActiveAttack
-    {
-        public GameObject WarningInstance; // El clon del aviso
-        public Vector3 Position;           // Donde va a salir
-        public float Timer;                // El tiempo que lleva puesto
-    }
-
-    // Una lista para controlar todos los cristales que van a salir
     private List<ActiveAttack> _pendingAttacks = new List<ActiveAttack>();
 
-    #endregion
-
-    // ---- FUNCIONES DE UNITY ----
-    #region Métodos de MonoBehaviour
+    class ActiveAttack
+    {
+        public GameObject WarningInstance;
+        public Vector3 Position;
+        public float Timer;
+    }
 
     private void Start()
     {
-        // De momento no necesito poner nada aquí
+        // Forzamos que esté desactivado al arrancar el juego
+        IsActive = false;
+        _spawnTimer = 0f;
+
+        // Lógica del centro que ya tenías
+        if (CenterOfAttackArea != null)
+            _fixedAreaCenter = CenterOfAttackArea.position;
+        else
+            _fixedAreaCenter = transform.position;
     }
 
-    void Update()
+    private void Update()
     {
-        // Miramos todos los ataques que están esperando en la lista
-        // Lo hago al revés para que no pete al borrar elementos
+        // 1. Si no está activa, no hace nada
+        if (!IsActive) return;
+
+        // 2. Generador automático de avisos (Esto ya lo tenías)
+        _spawnTimer += Time.deltaTime;
+        if (_spawnTimer >= SpawnRate)
+        {
+            SpawnRandomCrystal();
+            _spawnTimer = 0f;
+        }
+
+        // 3. --- ¡ESTO ES LO QUE TE FALTA Y DEBES PEGAR! ---
+        // Revisamos la lista de ataques pendientes para ver si el aviso ha terminado
         for (int i = _pendingAttacks.Count - 1; i >= 0; i--)
         {
             ActiveAttack attack = _pendingAttacks[i];
-
-            // Vamos sumando el tiempo que pasa
             attack.Timer += Time.deltaTime;
 
-            // Si ya ha pasado el tiempo de aviso, soltamos el cristal
+            // Si el tiempo del aviso (TelegraphDuration) ha pasado...
             if (attack.Timer >= TelegraphDuration)
             {
+                // ¡LLAMAMOS A LA FUNCIÓN QUE CREA EL CRISTAL!
                 ExecuteAttack(attack);
-                _pendingAttacks.RemoveAt(i); // Lo quitamos de la lista porque ya ha salido
+
+                // Lo quitamos de la lista para que no se repita
+                _pendingAttacks.RemoveAt(i);
             }
         }
     }
 
-    #endregion
-
-    // ---- FUNCIONES QUE LLAMO DESDE OTROS SCRIPTS ----
-    #region Métodos públicos
-
-    // Para activar o desactivar el ataque según la fase del boss
     public void SetAbilityActive(bool state)
     {
         IsActive = state;
+        _spawnTimer = 0f; // Reiniciamos el tiempo al activar la fase
     }
 
-    // Esta es la función que hay que llamar para que empiece a tirar cristales
-    public void ExecuteGroundCrystals()
-    {
-        // Si el boss está activo, tiramos uno aleatorio
-        if (IsActive)
-        {
-            SpawnRandomCrystal();
-        }
-    }
-
-    #endregion
-
-    // ---- MI LÓGICA PROPIA ----
-    #region Métodos Privados
-
-    // Para ver el cuadradito rojo en el editor y saber por donde salen los cristales
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = new Color(1, 0, 0, 0.25f);
-        Gizmos.DrawCube(transform.position, new Vector3(SpawnRange.x, SpawnRange.y, 0.1f));
-    }
-
-    // Función para elegir un sitio al azar y poner el aviso
     private void SpawnRandomCrystal()
     {
-        // Calculo un sitio random dentro del rango que hemos puesto
         float randomX = Random.Range(-SpawnRange.x / 2f, SpawnRange.x / 2f);
         float randomY = Random.Range(-SpawnRange.y / 2f, SpawnRange.y / 2f);
-        Vector3 randomPos = transform.position + new Vector3(randomX, randomY, 0f);
+        Vector3 randomPos = _fixedAreaCenter + new Vector3(randomX, randomY, 0f);
 
-        // Si tenemos el prefab del aviso, lo creamos y lo metemos en la lista
         if (WarningPrefab != null)
         {
-            ActiveAttack newAttack = new ActiveAttack
+            _pendingAttacks.Add(new ActiveAttack
             {
                 Position = randomPos,
                 Timer = 0f,
                 WarningInstance = Instantiate(WarningPrefab, randomPos, Quaternion.identity)
-            };
-
-            _pendingAttacks.Add(newAttack);
+            });
         }
     }
 
-    // Aquí es donde el aviso desaparece y sale el cristal de verdad
     private void ExecuteAttack(ActiveAttack attack)
     {
-        // Borramos el aviso de la escena
-        if (attack.WarningInstance != null)
-        {
-            Destroy(attack.WarningInstance);
-        }
-
-        // Creamos el cristal en el sitio que habíamos guardado
+        if (attack.WarningInstance != null) Destroy(attack.WarningInstance);
         if (CrystalPrefab != null)
         {
             GameObject crystal = Instantiate(CrystalPrefab, attack.Position, Quaternion.identity);
-
-            // TODO: Falta pasarle el CrystalDamage al script del propio cristal
-
-            // Intentamos obtener el script Crystal para pasarle el daño
-            if (crystal.TryGetComponent<Crystal>(out Crystal crystalScript))
-            {
-                crystalScript.damage = CrystalDamage;
-            }
+            // Aquí podrías pasarle el daño si el script del cristal lo requiere
         }
     }
 
-    #endregion
+    private void OnDrawGizmosSelected()
+    {
+        Vector3 pos = Application.isPlaying ? _fixedAreaCenter : (CenterOfAttackArea != null ? CenterOfAttackArea.position : transform.position);
+        Gizmos.color = new Color(0.5f, 0, 1f, 0.3f); // Morado transparente
+        Gizmos.DrawCube(pos, new Vector3(SpawnRange.x, SpawnRange.y, 0.1f));
+    }
 }

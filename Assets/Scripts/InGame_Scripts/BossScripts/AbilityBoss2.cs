@@ -52,18 +52,24 @@ public class AbilityBoss2 : MonoBehaviour
 
     void Update()
     {
-        // Solo empezamos la cuenta atrás si el boss ha visto al jugador
+        // Si esta variable no es true, el timer nunca baja de 5
         if (_isPlayerDetected)
         {
             _timer -= Time.deltaTime;
 
-            // Cuando el tiempo llega a cero, intentamos invocar
             if (_timer <= 0f)
             {
                 ExecuteSummoning();
-                _timer = summonInterval; // Reiniciamos el reloj
+                _timer = summonInterval;
             }
         }
+    }
+
+    public void ActivarInvocacion()
+    {
+        _isPlayerDetected = true; // Esto permite que el Update empiece a contar
+        _timer = 0.5f;            // Forzamos a que salgan casi al instante al activar la fase
+        Debug.Log("AbilityBoss2: ¡Recibida orden de activación de minions!");
     }
 
     #endregion

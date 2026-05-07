@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 4f42cf0d28b4de746bee8acb7349f396
+guid: cc16a018ff907354988e7df0ef918db5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5000927251509650613
-    second: Back_0
+      213: -5385536641072663933
+    second: azul_0
+  - first:
+      213: -4966600200579269321
+    second: azul_1
+  - first:
+      213: 3856591694698872537
+    second: azul_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +106,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Back_0
+      name: azul_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1024
-        height: 1024
+        x: 5
+        y: 10
+        width: 107
+        height: 123
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +121,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5b4adc5d6dcd66540800000000000000
-      internalID: 5000927251509650613
+      spriteID: 382730075fab245b0800000000000000
+      internalID: -5385536641072663933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: azul_1
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 8
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 73db6178e67131bb0800000000000000
+      internalID: -4966600200579269321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: azul_2
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 7
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9de7f3696bd558530800000000000000
+      internalID: 3856591694698872537
       vertices: []
       indices: 
       edges: []
@@ -135,7 +185,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Back_0: 5000927251509650613
+      azul_0: -5385536641072663933
+      azul_1: -4966600200579269321
+      azul_2: 3856591694698872537
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
