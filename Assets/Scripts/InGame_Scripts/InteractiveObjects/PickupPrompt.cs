@@ -19,7 +19,7 @@ using TMPro;
 ///
 /// El texto se genera automáticamente según el dispositivo activo:
 ///   - Teclado/ratón  → "F — recoger"
-///   - Mando          → "B — recoger"
+///   - Mando          → "X — recoger"
 ///
 /// SETUP EN INSPECTOR:
 ///   · PromptText  → TMP_Text hijo de este GameObject (o asignado manualmente).
@@ -46,7 +46,7 @@ public class PickupPrompt : MonoBehaviour
     [SerializeField] private string KeyboardText = "F — recoger";
 
     [Tooltip("Texto mostrado cuando se usa mando")]
-    [SerializeField] private string GamepadText = "B — recoger";
+    [SerializeField] private string GamepadText = "X — recoger";
 
     #endregion
 
