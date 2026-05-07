@@ -119,9 +119,15 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 9
+<<<<<<< Updated upstream
         y: 432
         width: 1012
         height: 190
+=======
+        y: 433
+        width: 1015
+        height: 189
+>>>>>>> Stashed changes
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,7 +146,11 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
+<<<<<<< Updated upstream
     spriteID: f13916ba786cc4a4d80956a2aca9c688
+=======
+    spriteID: 1b10916738d211d42846c57989a54e4d
+>>>>>>> Stashed changes
     internalID: 0
     vertices: []
     indices: 
