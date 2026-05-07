@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7841405810204075796}
   - component: {fileID: 3285416853978551690}
-  - component: {fileID: 3926570985523734301}
   m_Layer: 0
   m_Name: Trigger
   m_TagString: Untagged
@@ -79,29 +78,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.61502564, y: 0.13964418}
   m_EdgeRadius: 0
---- !u!114 &3926570985523734301
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7621951820038513056}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77c02a8530f3c204a86879a5bdb092fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DialogueSystemRef: {fileID: 0}
-  AutoStartOnLoad: 0
-  AutoStartDelay: 1
-  Lines: []
-  RequireItem: 3
-  RequiredAmount: 1
-  FeedbackText: Necesitas una llave para continuar.
-  FeedbackSprite: {fileID: 0}
-  PauseWhileActive: 1
-  TriggerLevelTransitionOnEnd: 0
-  NextSceneName: 
 --- !u!1 &8707144702343454981
 GameObject:
   m_ObjectHideFlags: 0
@@ -114,7 +90,6 @@ GameObject:
   - component: {fileID: 4889157544275924118}
   - component: {fileID: 8035082657100017346}
   - component: {fileID: 5780956463215256499}
-  - component: {fileID: 4487388834517839466}
   m_Layer: 0
   m_Name: 'Door '
   m_TagString: Untagged
@@ -256,15 +231,3 @@ MonoBehaviour:
   SubmensajeBloqueada: Necesitas una llave
   MensajeAbierta: "\xA1Puerta abierta!"
   sonidoAbrir: {fileID: 0}
---- !u!114 &4487388834517839466
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8707144702343454981}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa428ba978c43064a861e3b3c8c4309f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
