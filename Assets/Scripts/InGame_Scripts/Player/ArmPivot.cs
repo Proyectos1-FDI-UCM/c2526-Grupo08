@@ -95,9 +95,9 @@ public class ArmPivot : MonoBehaviour
         {
             _armRenderer.enabled = true;
 
-            if (moveY > 1f)
+            if (moveY > 0.9f)
                 transform.position = _pivotUp.position;
-            else if (moveY < -1f)
+            else if (moveY < -0.9f)
                 transform.position = _pivotDown.position;
             else if (speed > 0.1f)
                 transform.position = _pivotRightWalk.position;
