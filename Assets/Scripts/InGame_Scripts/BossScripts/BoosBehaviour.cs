@@ -71,6 +71,8 @@ public class BoosBehaviour : MonoBehaviour
     /// <summary>Tiempo aleatorio hasta el próximo cambio de punto.</summary>
     private float _timeUntilChange;
 
+    private bool _isActive = false;
+
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
@@ -100,6 +102,8 @@ public class BoosBehaviour : MonoBehaviour
     /// </summary>
     private void Update()
     {
+        if (!_isActive) return;
+
         ActualizeTimer();
         MoveTowardsObjective();
     }
@@ -188,6 +192,14 @@ public class BoosBehaviour : MonoBehaviour
         SmoothSpeed *= multiplicador; //Esto para que el jefe cambie de dirección agresivamente
 
         Debug.Log($"<color=cyan>[Boss] Velocidad aumentada a: {Speed}</color>");
+    }
+    public void SetMovementActive(bool state)
+    {
+        _isActive = state;
+        if (!state && _rb != null)
+        {
+            _rb.linearVelocity = Vector2.zero; // Detenemos al jefe por completo
+        }
     }
 
     #endregion
