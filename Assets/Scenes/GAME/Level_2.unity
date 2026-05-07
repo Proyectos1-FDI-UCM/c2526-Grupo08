@@ -615,7 +615,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &41595828
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11506,7 +11506,7 @@ MonoBehaviour:
   BandagePrefab: {fileID: 2428699537291792986, guid: a0453340797963f44b0c3e8597ae9f7c, type: 3}
   BandageCount: 2
   DropSpread: 0.4
-  SpecialKeyDropPrefab: {fileID: 4296618808425056567, guid: 28714e20fdc8af9459ae7897a9f6d8a3, type: 3}
+  SpecialKeyDropPrefab: {fileID: 165464511}
   DialogueSystemRef: {fileID: 31857259}
 --- !u!114 &1489553462
 MonoBehaviour:
@@ -11541,7 +11541,7 @@ MonoBehaviour:
   IsPlayer: 0
   IsBoss: 0
   MagicPointsPrefab: {fileID: 1546762712987103224, guid: bc65c4899de222a45b32da9478bf5b87, type: 3}
-  KeyPrefab: {fileID: 4296618808425056567, guid: 28714e20fdc8af9459ae7897a9f6d8a3, type: 3}
+  KeyPrefab: {fileID: 165464511}
   IsSpecialEnemy: 1
   ColorDuration: 0.3
 --- !u!114 &1489553464
