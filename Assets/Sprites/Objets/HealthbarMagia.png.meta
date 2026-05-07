@@ -107,19 +107,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 9
-<<<<<<< Updated upstream
-        y: 435
-        width: 1006
-        height: 187
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-=======
-        y: 384
-        width: 1006
-        height: 238
+        y: 0
+        width: 0
+        height: 0
       alignment: 0
       pivot: {x: 0, y: 0}
->>>>>>> Stashed changes
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -132,40 +124,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-<<<<<<< Updated upstream
-=======
-    - serializedVersion: 2
-      name: HealthbarMagia_1
-      rect:
-        serializedVersion: 2
-        x: 340
-        y: 198
-        width: 81
-        height: 29
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5eea9f644969a7fa0800000000000000
-      internalID: -5802159606323368219
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
->>>>>>> Stashed changes
     outline: []
     customData: 
     physicsShape: []
     bones: []
-<<<<<<< Updated upstream
-    spriteID: caa273f1f79053a48959c393294d88dd
-=======
     spriteID: 
->>>>>>> Stashed changes
     internalID: 0
     vertices: []
     indices: 
@@ -176,7 +139,6 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       HealthbarMagia_0: -1416103975199961586
-      HealthbarMagia_1: -5802159606323368219
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

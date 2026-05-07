@@ -119,17 +119,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 9
-<<<<<<< Updated upstream
-        y: 432
-        width: 1012
-        height: 190
-=======
-        y: 433
-        width: 1015
-        height: 189
->>>>>>> Stashed changes
+        y: 0
+        width: 0
+        height: 0
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -146,11 +140,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-<<<<<<< Updated upstream
-    spriteID: f13916ba786cc4a4d80956a2aca9c688
-=======
-    spriteID: 1b10916738d211d42846c57989a54e4d
->>>>>>> Stashed changes
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -160,12 +150,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Healthbar_0: 492294312700710392
       Healthbar_1: -4820266478397548756
-      Healthbar_2: 1433150741489427827
-      Healthbar_3: -8947679856231861078
-      Healthbar_4: 2507519226623998461
-      Healthbar_5: -2623376977026066100
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
