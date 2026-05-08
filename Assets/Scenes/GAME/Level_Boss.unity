@@ -64139,7 +64139,7 @@ PrefabInstance:
     - target: {fileID: 6492319383594088878, guid: fdfaf40956812ed44a80db05742cc084, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 7121997863481189679, guid: 4e1719485d8d7d6488278c7bd394dee3, type: 3}
+      objectReference: {fileID: -8316465234370331450, guid: 3af2fac67aa65f44f88981f7a9a32a55, type: 3}
     - target: {fileID: 6492319383594088878, guid: fdfaf40956812ed44a80db05742cc084, type: 3}
       propertyPath: m_SortingLayer
       value: 5
