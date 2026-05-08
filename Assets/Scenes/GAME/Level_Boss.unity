@@ -496,7 +496,7 @@ Transform:
   m_GameObject: {fileID: 82005665}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12, y: 4, z: 0}
+  m_LocalPosition: {x: -7.96, y: -1.23, z: 0}
   m_LocalScale: {x: 3.331775, y: 3.3587215, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1503,7 +1503,7 @@ Transform:
   m_GameObject: {fileID: 280247278}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12, y: 4, z: 0.024138726}
+  m_LocalPosition: {x: 6.86, y: -1.13, z: 0.024138726}
   m_LocalScale: {x: 3.331775, y: 3.3587215, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1559,7 +1559,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09b3d3bb33ec32d40b41ccf455d38173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInventory: {fileID: 0}
+  playerInventory: {fileID: 162771817}
   bandageText: {fileID: 337225273}
 --- !u!114 &337225273
 MonoBehaviour:
@@ -1581,7 +1581,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -63724,6 +63724,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 835110176}
   m_CullTransparentMesh: 1
+--- !u!1 &865904929
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 865904930}
+  m_Layer: 0
+  m_Name: CenterOfAbility1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &865904930
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 865904929}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -15.12, y: -0.01, z: -0.06880398}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &886794006
 GameObject:
   m_ObjectHideFlags: 0
@@ -64054,12 +64085,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6134085449428234767, guid: fdfaf40956812ed44a80db05742cc084, type: 3}
+      propertyPath: IsPlayer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6134085449428234767, guid: fdfaf40956812ed44a80db05742cc084, type: 3}
       propertyPath: HealthBar
       value: 
       objectReference: {fileID: 1578591702}
     - target: {fileID: 6134085449428234767, guid: fdfaf40956812ed44a80db05742cc084, type: 3}
       propertyPath: MaxHealth
-      value: 1000
+      value: 1500
       objectReference: {fileID: 0}
     - target: {fileID: 6392762403397316027, guid: fdfaf40956812ed44a80db05742cc084, type: 3}
       propertyPath: m_Layer
@@ -64219,8 +64254,8 @@ MonoBehaviour:
   SpawnRate: 1.5
   TelegraphDuration: 1
   IsActive: 1
-  SpawnRange: {x: 15, y: 15}
-  CenterOfAttackArea: {fileID: 0}
+  SpawnRange: {x: 25, y: 25}
+  CenterOfAttackArea: {fileID: 865904930}
 --- !u!114 &940375072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64233,7 +64268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7a4139d4632c8f4386657f8f0ace337, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minionPrefab: {fileID: 1233108813287940219, guid: c8c9ab22230f7504fa2f2b6479d0fd2d, type: 3}
+  minionPrefab: {fileID: 5833783661910523780, guid: 54819649d9e38bf4f904b282db1f353f, type: 3}
   summonInterval: 15
   spawnPointL: {fileID: 82005666}
   spawnPointR: {fileID: 280247279}
@@ -68607,3 +68642,4 @@ SceneRoots:
   - {fileID: 1011442594}
   - {fileID: 1834370557}
   - {fileID: 1122282033}
+  - {fileID: 865904930}

@@ -1,4 +1,4 @@
-//-------------------------------------------------------------------------
+//-------------------------------------------------------------------------//-------------------------------------------------------------------------
 // Archivo: AbilityBoss1.cs
 // Descripción: Sistema de gestión para la primera habilidad especial del jefe.
 //              Controla el spawn de cristales con pre-aviso visual.

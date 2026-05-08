@@ -242,8 +242,8 @@ Transform:
   m_GameObject: {fileID: 5833783661910523780}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.4683, y: 50.4432, z: 0.024138726}
-  m_LocalScale: {x: 0.37635845, y: 0.36198735, z: 1}
+  m_LocalPosition: {x: -1.8458, y: 51.0173, z: 0.024138726}
+  m_LocalScale: {x: 0.8077782, y: 0.78106016, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1451823817259670384}
@@ -388,8 +388,8 @@ MonoBehaviour:
   - {fileID: 0}
   PointReachedDistance: 0.1
   Speed: 1
-  DetectionRadius: 10
-  ChaseRadius: 22.65
+  DetectionRadius: 18.2
+  ChaseRadius: 24.1
 --- !u!82 &8814943539516669448
 AudioSource:
   m_ObjectHideFlags: 0
