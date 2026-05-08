@@ -224,5 +224,5 @@ public class BossPhaseController : MonoBehaviour
         Debug.Log("Phase 3 Activated: Enrage mode (x1.5 Speed).");
     }
 }// class BossPhaseController 
-// namespace
-#endregion
+ // namespace
+    #endregion
