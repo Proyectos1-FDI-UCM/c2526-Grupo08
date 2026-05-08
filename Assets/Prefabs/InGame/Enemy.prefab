@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 0.68000364, y: -158.60027}
+  m_SizeDelta: {x: 59.79, y: 30.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4385946082873834731
 CanvasRenderer:
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -5576685416563272651, guid: 80be25edf44b7cc4dabb7474fb7771e8, type: 3}
+  m_Sprite: {fileID: 2359876862036862018, guid: 0786b29931bd00b4093014be9e700aef, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -225,6 +225,7 @@ GameObject:
   - component: {fileID: 8814943539516669448}
   - component: {fileID: 3542012006394043804}
   - component: {fileID: 1874599634827719833}
+  - component: {fileID: 6463022588235810892}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -241,8 +242,8 @@ Transform:
   m_GameObject: {fileID: 5833783661910523780}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.559, y: 50.474, z: 0.024138726}
-  m_LocalScale: {x: 0.2688, y: 0.337, z: 1}
+  m_LocalPosition: {x: -1.4683, y: 50.4432, z: 0.024138726}
+  m_LocalScale: {x: 0.37635845, y: 0.36198735, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1451823817259670384}
@@ -357,7 +358,7 @@ SpriteRenderer:
   m_SortingLayerID: 872213591
   m_SortingLayer: 5
   m_SortingOrder: 0
-  m_Sprite: {fileID: -6601477196304980844, guid: 92c11cfde79dec14a8e8a662b7146b9e, type: 3}
+  m_Sprite: {fileID: -4950037403236200298, guid: 1ec3ed8888d07164599aa598c9981495, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -389,9 +390,6 @@ MonoBehaviour:
   Speed: 1
   DetectionRadius: 10
   ChaseRadius: 22.65
-  SpriteUp: {fileID: -3529809619868476689, guid: 82029a652e94d284b91e8da42b0ca4cd, type: 3}
-  SpriteDown: {fileID: -6601477196304980844, guid: 92c11cfde79dec14a8e8a662b7146b9e, type: 3}
-  SpriteLeft: {fileID: -4166221654935951731, guid: 2410e3987812ba749bda081a43f2da72, type: 3}
 --- !u!82 &8814943539516669448
 AudioSource:
   m_ObjectHideFlags: 0
@@ -527,6 +525,28 @@ MonoBehaviour:
   KeyPrefab: {fileID: 0}
   IsSpecialEnemy: 0
   ColorDuration: 0.3
+--- !u!95 &6463022588235810892
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5833783661910523780}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7c50401eb797d6d47900d834c00c1305, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7981711060179588134
 GameObject:
   m_ObjectHideFlags: 0
@@ -562,8 +582,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5064144, y: 0.43413922}
   m_AnchorMax: {x: 0.5064144, y: 0.43413922}
-  m_AnchoredPosition: {x: 0.13921303, y: -3.144832}
-  m_SizeDelta: {x: 89.29, y: 80.6}
+  m_AnchoredPosition: {x: -3.5, y: -137}
+  m_SizeDelta: {x: 55.72, y: 30.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8351438655464505803
 MonoBehaviour:
