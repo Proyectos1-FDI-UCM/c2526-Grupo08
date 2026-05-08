@@ -72,6 +72,11 @@ public class DocumentReader : MonoBehaviour
              "Si está vacío se busca automáticamente con la tag 'Player'.")]
     [SerializeField] private PlayerMovement PlayerMovementRef;
 
+    [Header("Diálogo post-lectura")]
+    [Tooltip("NarratorDialogue que se dispara al cerrar el documento por primera vez. " +
+             "Arrastra aquí el GameObject Trigger_PostDoc.")]
+    [SerializeField] private NarratorDialogue PostReadDialogue;
+
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
@@ -95,6 +100,9 @@ public class DocumentReader : MonoBehaviour
     /// </summary>
     private float _inputCooldown = 0f;
     private const float INPUT_COOLDOWN_DURATION = 0.25f;
+
+    /// <summary>True tras la primera lectura completa. Evita relanzar el diálogo al releer.</summary>
+    private bool _hasReadOnce = false;
 
     #endregion
 
@@ -248,6 +256,17 @@ public class DocumentReader : MonoBehaviour
         if (PlayerMovementRef != null) PlayerMovementRef.enabled = true;
 
         if (DocumentCanvas != null) DocumentCanvas.SetActive(false);
+
+        // Lanzar el diálogo post-lectura la primera vez que se cierra el documento
+        if (!_hasReadOnce && PostReadDialogue != null)
+        {
+            _hasReadOnce = true;
+            PostReadDialogue.TriggerFromCode();
+        }
+        else
+        {
+            _hasReadOnce = true;
+        }
 
         // Recalcular proximidad para mostrar el prompt si el jugador sigue cerca
         UpdateProximity();
