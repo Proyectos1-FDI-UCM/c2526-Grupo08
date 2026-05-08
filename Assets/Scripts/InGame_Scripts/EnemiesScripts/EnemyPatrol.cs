@@ -41,16 +41,6 @@ public class EnemyPatrol : MonoBehaviour
     [Tooltip("Radio del área extendida de persecución (3 + 1.5 casillas)")]
     [SerializeField] private float ChaseRadius = 4.5f;
 
-    [Header("Sprites direccionales")]
-    [Tooltip("Sprite cuando el enemigo mira/camina hacia arriba")]
-    [SerializeField] private Sprite SpriteUp;
-
-    [Tooltip("Sprite cuando el enemigo mira/camina hacia abajo")]
-    [SerializeField] private Sprite SpriteDown;
-
-    [Tooltip("Sprite cuando el enemigo mira/camina hacia la izquierda (se espeja para la derecha)")]
-    [SerializeField] private Sprite SpriteLeft;
-
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
@@ -58,9 +48,6 @@ public class EnemyPatrol : MonoBehaviour
 
     /// <summary>Rigidbody2D del enemigo para moverlo con física</summary>
     private Rigidbody2D _rb;
-
-    /// <summary>SpriteRenderer del enemigo para cambiar el sprite</summary>
-    private SpriteRenderer _spriteRenderer;
 
     /// <summary>Transform del jugador cuando es detectado</summary>
     private Transform _playerTransform;
@@ -81,13 +68,8 @@ public class EnemyPatrol : MonoBehaviour
     /// </summary>
     public bool IsChasing => _chaseActivated;
 
-    /// <summary>
-    /// Enum de dirección, igual que en PlayerMovement para mantener consistencia
-    /// </summary>
-    private enum Direction { Up, Down, Right, Left }
-
-    /// <summary>Dirección actual del sprite, para evitar cambios innecesarios cada frame</summary>
-    private Direction _currentDirection = Direction.Down;
+    // Animación del enemigo
+    private Animator _animator;
 
     #endregion
 
@@ -100,7 +82,7 @@ public class EnemyPatrol : MonoBehaviour
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _animator = GetComponent<Animator>();
 
         if (PatrolPoints == null || PatrolPoints.Length == 0)
         {
@@ -239,85 +221,22 @@ public class EnemyPatrol : MonoBehaviour
     /// <param name="moveDirection">Vector de dirección de movimiento</param>
     private void UpdateSpriteFromDirection(Vector2 moveDirection)
     {
-        // Si el vector es casi cero no cambiamos el sprite (el enemigo está parado)
-        if (moveDirection.sqrMagnitude < 0.01f) { return; }
-
-        if (Mathf.Abs(moveDirection.x) > Mathf.Abs(moveDirection.y))
+        if (moveDirection.sqrMagnitude < 0.01f)
         {
-            // Movimiento principalmente horizontal
-            if (moveDirection.x > 0)
-            {
-                ChangeSprite(Direction.Right);
-            }
-            else
-            {
-                ChangeSprite(Direction.Left);
-            }
-        }
-        else
-        {
-            // Movimiento principalmente vertical
-            if (moveDirection.y > 0)
-            {
-                ChangeSprite(Direction.Up);
-            }
-            else
-            {
-                ChangeSprite(Direction.Down);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Cambia el sprite y el flip horizontal según la dirección indicada.
-    /// Usa el mismo patrón que PlayerMovement: SpriteLeft se espeja para la derecha
-    /// invirtiendo la escala X del GameObject.
-    /// Solo actúa si la dirección es distinta a la actual, para no hacer cambios innecesarios.
-    /// </summary>
-    /// <param name="newDirection">Nueva dirección a aplicar</param>
-    private void ChangeSprite(Direction newDirection)
-    {
-        if (newDirection == _currentDirection) { return; }
-
-        Vector3 currentScale = gameObject.transform.localScale;
-
-        switch (newDirection)
-        {
-            case Direction.Up:
-                _spriteRenderer.sprite = SpriteUp;
-                SetScaleX(Mathf.Abs(currentScale.x));
-                break;
-
-            case Direction.Down:
-                _spriteRenderer.sprite = SpriteDown;
-                SetScaleX(Mathf.Abs(currentScale.x));
-                break;
-
-            case Direction.Left:
-                _spriteRenderer.sprite = SpriteLeft;
-                SetScaleX(Mathf.Abs(currentScale.x));
-                break;
-
-            case Direction.Right:
-                // Se usa el mismo sprite que izquierda pero con la escala X negativa (espejado)
-                _spriteRenderer.sprite = SpriteLeft;
-                SetScaleX(-Mathf.Abs(currentScale.x));
-                break;
+            _animator.SetFloat("Speed", 0f);
+            return;
         }
 
-        _currentDirection = newDirection;
-    }
+        _animator.SetFloat("Speed", 1f);
+        _animator.SetFloat("MoveX", moveDirection.normalized.x);
+        _animator.SetFloat("MoveY", moveDirection.normalized.y);
 
-    /// <summary>
-    /// Ajusta la escala X del GameObject para espejar el sprite horizontalmente.
-    /// Mismo método que en PlayerMovement.
-    /// </summary>
-    /// <param name="x">Valor positivo para normal, negativo para espejado</param>
-    private void SetScaleX(float x)
-    {
-        Vector3 scale = gameObject.transform.localScale;
-        scale.x = x;
-        gameObject.transform.localScale = scale;
+        Vector3 scale = transform.localScale;
+        if (moveDirection.x > 0)
+            scale.x = Mathf.Abs(scale.x);
+        else if (moveDirection.x < 0)
+            scale.x = -Mathf.Abs(scale.x);
+        transform.localScale = scale;
     }
 
     /// <summary>
@@ -380,3 +299,5 @@ public class EnemyPatrol : MonoBehaviour
     #endregion
 
 } // class EnemyPatrol
+//Adriana Fernández Luna
+//Alexia Perez Santana

@@ -1,7 +1,7 @@
 //---------------------------------------------------------
 // Movimiento base del jefe: deambula de forma aleatoria
 // por el área de combate con transiciones suaves de velocidad.
-// Alexia Perez y Marián Navarro
+// Alexia Perez, Marián Navarro, Adriana Fernández Luna
 // No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
@@ -73,6 +73,9 @@ public class BoosBehaviour : MonoBehaviour
 
     private bool _isActive = false;
 
+    //Llamamos al animator para que el boss tenga sus animaciones
+    private Animator _animator;
+
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
@@ -85,6 +88,7 @@ public class BoosBehaviour : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
     }
 
     /// <summary>
@@ -106,6 +110,7 @@ public class BoosBehaviour : MonoBehaviour
 
         ActualizeTimer();
         MoveTowardsObjective();
+        UpdateAnimation();
     }
 
     /// <summary>
@@ -200,6 +205,27 @@ public class BoosBehaviour : MonoBehaviour
         {
             _rb.linearVelocity = Vector2.zero; // Detenemos al jefe por completo
         }
+    }
+    private void UpdateAnimation()
+    {
+        Vector2 velocity = _rb.linearVelocity;
+
+        if (velocity.sqrMagnitude < 0.01f)
+        {
+            _animator.SetFloat("Speed", 0f);
+            return;
+        }
+
+        _animator.SetFloat("Speed", 1f);
+        _animator.SetFloat("MoveX", velocity.normalized.x);
+        _animator.SetFloat("MoveY", velocity.normalized.y);
+
+        Vector3 scale = transform.localScale;
+        if (velocity.x > 0)
+            scale.x = Mathf.Abs(scale.x);
+        else if (velocity.x < 0)
+            scale.x = -Mathf.Abs(scale.x);
+        transform.localScale = scale;
     }
 
     #endregion
