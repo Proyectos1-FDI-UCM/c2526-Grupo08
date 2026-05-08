@@ -2623,27 +2623,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d90fefb98a39cf9468adaaa3363d690e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PickupCard: {fileID: 0}
-  PickupIconImg: {fileID: 0}
-  PickupLabel: {fileID: 0}
-  PickupSublabel: {fileID: 0}
-  DoorCard: {fileID: 0}
-  DoorIconImg: {fileID: 0}
-  DoorLabel: {fileID: 0}
-  DoorSublabel: {fileID: 0}
-  XVisible: 24
-  XOculto: -320
   PickupDuration: 2.5
   DoorDuration: 2
-  AnimSpeed: 12
-  ColorPickup: {r: 0.18, g: 0.35, b: 0.37, a: 0.95}
-  ColorBloqueada: {r: 0.4, g: 0.3, b: 0.08, a: 0.95}
-  ColorAbierta: {r: 0.12, g: 0.3, b: 0.3, a: 0.95}
-  SpriteFusible: {fileID: -6090702972439111104, guid: 05a6ff58963cae648ad1708fdb0b2526, type: 3}
-  SpriteLlave: {fileID: 3664216311134451531, guid: 501ddca1b393d9a489949090989030a8, type: 3}
-  SpriteVenda: {fileID: -741464502463440612, guid: a148e7edf821e0e4c88da43d05333fa6, type: 3}
+  SpriteFusible: {fileID: -1942915522859564246, guid: 9c33b419c6a1d9f48af3a7aadb46d062, type: 3}
+  SpriteLlave: {fileID: 3905542462183888473, guid: 52a2b298bb058414291bc1b30cf937b0, type: 3}
+  SpriteVenda: {fileID: 6079100261352513132, guid: d487f4c85045f344586ff2ba27a89c6b, type: 3}
   SpriteTarjeta: {fileID: 746447300835577954, guid: 41d0dc96ec422704f920709d3089c189, type: 3}
-  SpriteLlaveEspecial: {fileID: -4338090237889075295, guid: 82749643d2a3c0a4c8c1605934edfbb1, type: 3}
+  SpriteLlaveEspecial: {fileID: -8510988036646350222, guid: e919cd55a89b82748b94f3f7ec5b028a, type: 3}
   SpriteHabilidadMulti: {fileID: -8524480863828330132, guid: 529a73d2fb886884bb793a5d5c98f14f, type: 3}
   SpriteHabilidadExplosiva: {fileID: 9048997433866386892, guid: 01de14ccb44fbb344a56405ff17b0623, type: 3}
   SpritePuertaBloqueada: {fileID: -3548610865192063708, guid: e27e3a2a5a51db54ab591a454fc52a05, type: 3}
