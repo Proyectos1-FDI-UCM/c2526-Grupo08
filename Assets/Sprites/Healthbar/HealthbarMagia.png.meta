@@ -111,7 +111,7 @@ TextureImporter:
         width: 1006
         height: 238
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -124,33 +124,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: HealthbarMagia_1
-      rect:
-        serializedVersion: 2
-        x: 340
-        y: 198
-        width: 81
-        height: 29
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5eea9f644969a7fa0800000000000000
-      internalID: -5802159606323368219
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 8f181ec56d4fe514cabb892fd764bf30
     internalID: 0
     vertices: []
     indices: 
