@@ -141,6 +141,25 @@ public class NarratorDialogue : MonoBehaviour
 
     #endregion
 
+    // ---- MÉTODOS PÚBLICOS ----
+    #region Métodos públicos
+
+    /// <summary>
+    /// Permite lanzar este NarratorDialogue desde código (ej: DocumentReader al cerrar el documento).
+    /// Solo se dispara si no se ha disparado ya (_hasTriggered).
+    /// </summary>
+    public void TriggerFromCode()
+    {
+        if (_hasTriggered) { return; }
+
+        if (DialogueSystemRef == null)
+            DialogueSystemRef = DialogueSystem.Instance;
+
+        LanzarDialogo();
+    }
+
+    #endregion
+
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
 
