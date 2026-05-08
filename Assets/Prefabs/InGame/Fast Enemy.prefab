@@ -297,6 +297,7 @@ GameObject:
   - component: {fileID: 1594075614612555143}
   - component: {fileID: 6043667586783673719}
   - component: {fileID: 3342202735167012824}
+  - component: {fileID: 3107925177961254414}
   m_Layer: 7
   m_Name: Fast Enemy
   m_TagString: Untagged
@@ -314,7 +315,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -8.3, y: 0.71, z: 0.024138726}
-  m_LocalScale: {x: 0.2688, y: 0.337, z: 1}
+  m_LocalScale: {x: 0.35393384, y: 0.3458968, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 333879969557514339}
@@ -428,7 +429,7 @@ SpriteRenderer:
   m_SortingLayerID: 872213591
   m_SortingLayer: 5
   m_SortingOrder: 0
-  m_Sprite: {fileID: -6601477196304980844, guid: 92c11cfde79dec14a8e8a662b7146b9e, type: 3}
+  m_Sprite: {fileID: -4950037403236200298, guid: e77b75d229173094ab415b29b536bb6a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -460,9 +461,6 @@ MonoBehaviour:
   Speed: 2
   DetectionRadius: 5
   ChaseRadius: 6
-  SpriteUp: {fileID: -3529809619868476689, guid: 82029a652e94d284b91e8da42b0ca4cd, type: 3}
-  SpriteDown: {fileID: -6601477196304980844, guid: 92c11cfde79dec14a8e8a662b7146b9e, type: 3}
-  SpriteLeft: {fileID: -4166221654935951731, guid: 2410e3987812ba749bda081a43f2da72, type: 3}
 --- !u!82 &2041718833564584480
 AudioSource:
   m_ObjectHideFlags: 0
@@ -634,6 +632,28 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 4
+--- !u!95 &3107925177961254414
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5964128453782390543}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3ac8bbd89a439ba418afb519873bcfba, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6293787068710208642
 GameObject:
   m_ObjectHideFlags: 0
