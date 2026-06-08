@@ -50,6 +50,7 @@ public class SpecialEnemyDeath : MonoBehaviour
     private EnemyShoot _shoot;
     private EnemyMeleeAttack _attack;
     private SpecialEnemyInteraction _interaction;
+    private Animator _animator;
 
 
     #endregion
@@ -64,6 +65,7 @@ public class SpecialEnemyDeath : MonoBehaviour
         _shoot = GetComponent<EnemyShoot>();
         _attack = GetComponent<EnemyMeleeAttack>();
         _interaction = GetComponent<SpecialEnemyInteraction>();
+        _animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -109,6 +111,9 @@ public class SpecialEnemyDeath : MonoBehaviour
             _rb.linearVelocity = Vector2.zero;
             _rb.bodyType = RigidbodyType2D.Kinematic; // evitar que resbale
         }
+
+        if (_animator != null)
+            _animator.SetFloat("Speed", 0f);
 
         // Desactivar comportamientos de combate
         if (_patrol != null) _patrol.enabled = false;

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3027554074107626299}
   - component: {fileID: 4130573629069765873}
   m_Layer: 0
-  m_Name: Cuchillas 1
+  m_Name: Daggers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 80.03, y: 0.15, z: 0}
-  m_LocalScale: {x: 0.4517, y: 0.5248, z: 1}
+  m_LocalScale: {x: 0.5921349, y: 0.66585076, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: -294707417
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: -6920774517809546509, guid: a9468437e93009649a024af053f9501e, type: 3}
+  m_Sprite: {fileID: -5547001472518929869, guid: 6720cde493c52354dbc4d09dec2a43a4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -170,7 +170,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 10.24, y: 10.24}
+    oldSize: {x: 2.54, y: 0.78}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -178,7 +178,8 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -1.1433787, y: 0.477841}
-      - {x: -1.1423588, y: -0.28866667}
-      - {x: 1.394144, y: 0.07623163}
+    - - {x: -1.160921, y: 0.40429994}
+      - {x: -1.1688542, y: -0.27099577}
+      - {x: 1.342762, y: 0.082287386}
+      - {x: 1.342762, y: 0.08690487}
   m_UseDelaunayMesh: 0

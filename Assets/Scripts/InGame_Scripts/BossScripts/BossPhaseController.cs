@@ -31,6 +31,9 @@ public class BossPhaseController : MonoBehaviour
     [Tooltip("Idle time between attacks to prevent overlapping.")]
     [SerializeField] private float _timeBetweenAttacks = 2.0f;
 
+    [Header("Combat Timing")]
+    [SerializeField] private float _initialDelay = 5.0f; // Los 5 segundos de espera
+
 
 
     #endregion
@@ -72,27 +75,31 @@ public class BossPhaseController : MonoBehaviour
 
     private void Update()
     {
-        // 1. Initial State: Wait for Cori to enter the room
+        // 1. Si no hay Cori, no hacemos nada más
         if (!_isPlayerDetected)
         {
             CheckForPlayer();
             return;
         }
 
-        int currentHealth = _health.GetCurrentHealth();
+        // --- ¡ESTO ES LO NUEVO! ---
+        // Siempre leemos la vida, incluso durante la espera inicial, 
+        // para que las fases se activen si le pegamos mientras espera.
+        CheckHealthAndPhases();
 
-        // 2. Phase Threshold Logic
-        if (currentHealth < 500 && currentHealth >= 200 && !_phase2Activated)
+        // 2. Gestión de la espera inicial de 5 segundos
+        if (_attackCooldownTimer > 0)
         {
-            ActivatePhase2();
+            _attackCooldownTimer -= Time.deltaTime;
+            return; // Durante estos 5 segundos, el Boss no se mueve ni ataca, pero SÍ escucha su vida
         }
 
-        if (currentHealth < 200 && !_phase3Activated)
+        // 3. Si llegamos aquí, los 5 segundos han terminado: ¡A PELEAR!
+        if (_movement != null)
         {
-            ActivatePhase3();
+            _movement.SetMovementActive(true);
         }
 
-        // 3. Combat Loop: Prevent overlapping attacks
         HandleAttackCycle();
     }
     #endregion
@@ -122,13 +129,35 @@ public class BossPhaseController : MonoBehaviour
         // Es mejor que Destroy porque así no rompe scripts que le estén mirando
         gameObject.SetActive(false);
     }
+
+    private void CheckHealthAndPhases()
+    {
+        int currentHealth = _health.GetCurrentHealth();
+
+        // FASE 2: Empieza cuando la vida baja de 1000 (y es mayor que 500)
+        if (currentHealth <= 1000 && currentHealth > 500 && !_phase2Activated)
+        {
+            ActivatePhase2();
+        }
+
+        // FASE 3 (Enrage): Empieza cuando la vida baja de 500
+        if (currentHealth <= 500 && !_phase3Activated)
+        {
+            ActivatePhase3();
+        }
+    }
     private void CheckForPlayer()
     {
         Collider2D player = Physics2D.OverlapCircle(transform.position, _detectionRange, _playerLayer);
         if (player != null)
         {
             _isPlayerDetected = true;
-            Debug.Log("Player Detected: Raven combat started.");
+
+            // --- CAMBIO CLAVE ---
+            // En lugar de empezar en 0, le decimos que espere el delay inicial
+            _attackCooldownTimer = _initialDelay;
+
+            Debug.Log("Player Detected: Raven waiting " + _initialDelay + "s before attacking.");
         }
     }
 
@@ -156,16 +185,15 @@ public class BossPhaseController : MonoBehaviour
 
     private void ExecuteRandomAttack()
     {
-        // Phase 1 has 2 attacks. Phase 2 & 3 have 4 attacks total.
-        int attackCount = _phase2Activated ? 4 : 2;
-        int choice = Random.Range(0, attackCount);
+        // 0 = Dash, 1 = Cuchillas, 2 = Minions (solo en Fase 2)
+        int maxAttack = _phase2Activated ? 3 : 2;
+        int choice = Random.Range(0, maxAttack);
 
         switch (choice)
         {
-            case 0: _dash.ExecuteDashAttack(); break;    
+            case 0: _dash.ExecuteDashAttack(); break;
             case 1: _blades.ExecuteBladeAttack(); break;
-            case 2: _crystals.ExecuteGroundCrystals(); break; 
-            case 3: _summons.ExecuteSummoning(); break;      
+            case 2: _summons.ExecuteSummoning(); break; // Los minions ahora sí saldrán
         }
     }
 
@@ -173,10 +201,11 @@ public class BossPhaseController : MonoBehaviour
     {
         _phase2Activated = true;
         if (_crystals != null) _crystals.SetAbilityActive(true);
-        if (_summons != null) _summons.enabled = true;
 
-        _timeBetweenAttacks *= 0.85f; // Slightly faster pacing
-        Debug.Log("Phase 2 Activated: Ground Crystals and Minions available.");
+        // ACTIVAR MINIONS AQUÍ
+        if (_summons != null) _summons.ActivarInvocacion();
+
+        _timeBetweenAttacks *= 0.85f;
     }
 
     private void ActivatePhase3()
@@ -195,5 +224,5 @@ public class BossPhaseController : MonoBehaviour
         Debug.Log("Phase 3 Activated: Enrage mode (x1.5 Speed).");
     }
 }// class BossPhaseController 
-// namespace
-#endregion
+ // namespace
+    #endregion

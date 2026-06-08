@@ -6,6 +6,7 @@
 //---------------------------------------------------------
 
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// Clase que modifica el límite de vida máxima del componente Health
@@ -25,6 +26,7 @@ public class Hack : MonoBehaviour
     #region Atributos Privados (private fields)
 
     private bool _isHealthComponentReady;
+    private InputAction _hack;
 
     #endregion
 
@@ -33,6 +35,7 @@ public class Hack : MonoBehaviour
 
     void Start()
     {
+        _hack = InputSystem.actions.FindAction("Hack");
         if (TargetHealth == null)
         {
             TargetHealth = GetComponent<Health>();
@@ -44,7 +47,7 @@ public class Hack : MonoBehaviour
     void Update()
     {
         // Usamos GetKeyDown para que solo ocurra una vez al pulsar la tecla
-        if (_isHealthComponentReady && Input.GetKeyDown(KeyCode.LeftAlt))
+        if (_isHealthComponentReady && _hack.WasPressedThisFrame())
         {
             IncreaseLimit();
         }

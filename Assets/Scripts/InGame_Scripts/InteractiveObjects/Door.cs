@@ -3,7 +3,7 @@
 // Al colisionar con el jugador comprueba si tiene llave:
 //   · Si la tiene: abre la puerta y consume la llave.
 //   · Si no la tiene: muestra feedback visual indicando que falta la llave.
-// Marián Navarro, lex
+// Marián Navarro, Alexia
 // No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
@@ -13,10 +13,6 @@ using UnityEngine;
 /// <summary>
 /// Puerta que requiere una llave genérica para abrirse.
 /// Al intentar pasar, el jugador recibe feedback visual a través de FeedbackUI.
-///
-/// Modos de apertura (configurables en Inspector):
-///   · Destruir    → la puerta desaparece del mundo
-///   · Desactivar  → el GameObject se desactiva (recomendado si hay animaciones)
 ///
 /// SETUP EN INSPECTOR:
 ///   · Añade este script al GameObject de la puerta.
@@ -34,15 +30,9 @@ public class Door : MonoBehaviour
              "Si es false, el GameObject se desactiva (útil para animaciones futuras).")]
     [SerializeField] private bool DestroyOnOpen = true;
 
-    [Header("Feedback")]
-    [Tooltip("Texto principal que aparece en el panel cuando la puerta está bloqueada.")]
-    [SerializeField] private string MensajeBloqueada = "Puerta bloqueada";
-
-    [Tooltip("Texto secundario cuando está bloqueada (motivo).")]
-    [SerializeField] private string SubmensajeBloqueada = "Necesitas una llave";
-
-    [Tooltip("Texto que aparece al abrir la puerta.")]
-    [SerializeField] private string MensajeAbierta = "¡Puerta abierta!";
+    [Header("Feedback — Texto bloqueada")]
+    [Tooltip("Texto que aparece en el diálogo cuando el jugador no tiene llave.")]
+    [SerializeField] private string MensajeBloqueada = "Necesitas una llave para abrir esta puerta.";
 
     [Header("Audio")]
     [SerializeField] private AudioClip sonidoAbrir;
@@ -89,13 +79,10 @@ public class Door : MonoBehaviour
         _isOpen = true;
         inventory.hasKey = false;
 
-        
+        if (sonidoAbrir != null)
         {
             AudioSource.PlayClipAtPoint(sonidoAbrir, transform.position);
         }
-
-        if (FeedbackUI.HasInstance())
-            FeedbackUI.Instance.MostrarPuerta(bloqueada: false, MensajeAbierta);
 
         if (DestroyOnOpen)
             Destroy(gameObject);
@@ -109,8 +96,22 @@ public class Door : MonoBehaviour
     /// </summary>
     private void MostrarFeedbackBloqueada()
     {
-        if (FeedbackUI.HasInstance())
-            FeedbackUI.Instance.MostrarPuerta(bloqueada: true, MensajeBloqueada, SubmensajeBloqueada);
+        if (!DialogueSystem.HasInstance()) { return; }
+        if (DialogueSystem.Instance.IsActive()) { return; }
+
+        var linea = new System.Collections.Generic.List<DialogueSystem.DialogueLine>
+        {
+            new DialogueSystem.DialogueLine
+            {
+                SpeakerName = "",
+                CharacterSprite = null,
+                Text = MensajeBloqueada
+            }
+        };
+
+        DialogueSystem.Instance.SetLines(linea);
+        Time.timeScale = 0f;
+        DialogueSystem.Instance.StartDialogue(() => Time.timeScale = 1f);
 
         Debug.Log("[Door] Bloqueada: el jugador no tiene llave.");
     }

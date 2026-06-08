@@ -237,38 +237,21 @@ public class PlayerMovement : MonoBehaviour
     // mayúscula, incluida la primera letra)
     // Ejemplo: GetPlayerController
 
-    public void PlayDash()
-    {
-        _isDashing = true;
-        _animator.SetBool("IsDashing", true);
-
-        Invoke(nameof(DashEnd), _dashingTime);
-    }
-
-    public void DashEnd()
-    {
-        _isDashing = false;
-        _animator.SetBool("IsDashing", false);
-    }
-
-    public void PickupEnd()
-    {
-        Debug.Log("END PICKUP EJECUTADO");
-        _isPickingUp = false;
-        _animator.SetBool("IsPickingUp", false);
-    }
-
     public void PlayPickup()
     {
         Debug.Log("Pickup activado");
-
-        _isPickingUp = true;
 
         _animator.SetBool("IsPickingUp", true);
 
         _rb.linearVelocity = Vector2.zero;
 
         Invoke(nameof(PickupEnd), 0.6f);
+    }
+    public void PickupEnd()
+    {
+        Debug.Log("END PICKUP EJECUTADO");
+
+        _animator.SetBool("IsPickingUp", false);
     }
 
     #endregion
@@ -315,6 +298,8 @@ public class PlayerMovement : MonoBehaviour
         {
             _health.SetImmune(true);
         }
+
+        _animator.SetBool("IsDashing", true);
     }
 
     private void EndDash()
@@ -329,6 +314,8 @@ public class PlayerMovement : MonoBehaviour
         {
             _health.SetImmune(false);
         }
+
+        _animator.SetBool("IsDashing", false);
     }
 
     private void Flip()

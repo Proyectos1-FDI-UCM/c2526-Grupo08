@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7841405810204075796}
   - component: {fileID: 3285416853978551690}
-  - component: {fileID: 3926570985523734301}
   m_Layer: 0
   m_Name: Trigger
   m_TagString: Untagged
@@ -67,7 +66,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.000000044703484, y: 0.008555867}
+  m_Offset: {x: 0.038966194, y: -0.0010574907}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -77,31 +76,8 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.59363234, y: 0.24952944}
+  m_Size: {x: 0.61502564, y: 0.13964418}
   m_EdgeRadius: 0
---- !u!114 &3926570985523734301
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7621951820038513056}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77c02a8530f3c204a86879a5bdb092fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DialogueSystemRef: {fileID: 0}
-  AutoStartOnLoad: 0
-  AutoStartDelay: 1
-  Lines: []
-  RequireItem: 3
-  RequiredAmount: 1
-  FeedbackText: Necesitas una llave para continuar.
-  FeedbackSprite: {fileID: 0}
-  PauseWhileActive: 1
-  TriggerLevelTransitionOnEnd: 0
-  NextSceneName: 
 --- !u!1 &8707144702343454981
 GameObject:
   m_ObjectHideFlags: 0
@@ -114,10 +90,8 @@ GameObject:
   - component: {fileID: 4889157544275924118}
   - component: {fileID: 8035082657100017346}
   - component: {fileID: 5780956463215256499}
-  - component: {fileID: 4487388834517839466}
-  - component: {fileID: 3057326525927857283}
   m_Layer: 0
-  m_Name: Door 1
+  m_Name: 'Door '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -132,8 +106,8 @@ Transform:
   m_GameObject: {fileID: 8707144702343454981}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -12.7, y: 3.302, z: 5.543095}
-  m_LocalScale: {x: 2.2489896, y: 44.52491, z: 1}
+  m_LocalPosition: {x: 45.74, y: -47.49, z: 5.543095}
+  m_LocalScale: {x: 4.2803473, y: 155.40819, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7841405810204075796}
@@ -224,11 +198,11 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.019098818, y: 0}
+  m_Offset: {x: 0.049473934, y: 0.0002142787}
   m_SpriteTilingProperty:
     border: {x: 0.049999997, y: 0.049999997, z: 0.049999997, w: 0.049999997}
     pivot: {x: 0.5, y: 0.5}
@@ -238,7 +212,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.1549329, y: 0.2}
+  m_Size: {x: 0.38778508, y: 0.15875453}
   m_EdgeRadius: 0
 --- !u!114 &5780956463215256499
 MonoBehaviour:
@@ -257,38 +231,3 @@ MonoBehaviour:
   SubmensajeBloqueada: Necesitas una llave
   MensajeAbierta: "\xA1Puerta abierta!"
   sonidoAbrir: {fileID: 0}
---- !u!114 &4487388834517839466
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8707144702343454981}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa428ba978c43064a861e3b3c8c4309f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3057326525927857283
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8707144702343454981}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77c02a8530f3c204a86879a5bdb092fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DialogueSystemRef: {fileID: 0}
-  AutoStartOnLoad: 0
-  AutoStartDelay: 1
-  Lines: []
-  RequireItem: 3
-  RequiredAmount: 1
-  FeedbackText: "Necesitas m\xE1s objetos para continuar."
-  FeedbackSprite: {fileID: 0}
-  PauseWhileActive: 1
-  TriggerLevelTransitionOnEnd: 0
-  NextSceneName: 

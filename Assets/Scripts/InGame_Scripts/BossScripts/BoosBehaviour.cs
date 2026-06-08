@@ -71,6 +71,12 @@ public class BoosBehaviour : MonoBehaviour
     /// <summary>Tiempo aleatorio hasta el próximo cambio de punto.</summary>
     private float _timeUntilChange;
 
+    //Llamamos al animator para que se pueda mover
+    private Animator _animator;
+    private Vector2 _currentDirection;
+
+    private bool _isActive = false;
+
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
@@ -83,6 +89,7 @@ public class BoosBehaviour : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
     }
 
     /// <summary>
@@ -100,8 +107,11 @@ public class BoosBehaviour : MonoBehaviour
     /// </summary>
     private void Update()
     {
+        if (!_isActive) return;
+
         ActualizeTimer();
         MoveTowardsObjective();
+        UpdateAnimation();
     }
 
     /// <summary>
@@ -178,16 +188,47 @@ public class BoosBehaviour : MonoBehaviour
 
         _timerChangePoint = 0f;
         _timeUntilChange = Random.Range(MinimumTimeBetweenPoints, MaxTimeBetweenPoints);
+        _currentDirection = (_goalPoint - (Vector2)transform.position).normalized;
     }
 
     public void BuffSpeed(float multiplicador) //Esto lo ha hecho Marián por si hay dudas
     {
-        
+
         Speed *= multiplicador;
 
         SmoothSpeed *= multiplicador; //Esto para que el jefe cambie de dirección agresivamente
 
         Debug.Log($"<color=cyan>[Boss] Velocidad aumentada a: {Speed}</color>");
+    }
+    public void SetMovementActive(bool state)
+    {
+        _isActive = state;
+        if (!state && _rb != null)
+        {
+            _rb.linearVelocity = Vector2.zero; // Detenemos al jefe por completo
+        }
+    }
+
+    private void UpdateAnimation()
+    {
+        Vector2 direction = _currentDirection;
+
+        if (_rb.linearVelocity.sqrMagnitude < 0.01f)
+        {
+            _animator.SetFloat("Speed", 0f);
+            return;
+        }
+
+        _animator.SetFloat("Speed", 1f);
+        _animator.SetFloat("MoveX", direction.x, 0.15f, Time.deltaTime);
+        _animator.SetFloat("MoveY", direction.y, 0.15f, Time.deltaTime);
+
+        Vector3 scale = transform.localScale;
+        if (direction.x > 0)
+            scale.x = Mathf.Abs(scale.x);
+        else if (direction.x < 0)
+            scale.x = -Mathf.Abs(scale.x);
+        transform.localScale = scale;
     }
 
     #endregion
