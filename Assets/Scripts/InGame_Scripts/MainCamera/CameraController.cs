@@ -113,19 +113,22 @@ public class CameraController : MonoBehaviour
     {
         if (_target == null) return;
 
-        // Leer follow delay desde GameManager si está disponible, si no usar el del Inspector
-        float followDelay = GameManager.HasInstance()
-            ? GameManager.Instance.CameraFollowDelay
-            : _followDelay;
+   
 
-        // --- Seguimiento suavizado ---
-        Vector3 desiredPosition = new Vector3(_target.position.x, _target.position.y, _depthZ);
+        if (GameManager.HasInstance())
+        {
+            _followDelay = GameManager.Instance.GetCameraFollowDelay();
+        }
+        
+
+            // --- Seguimiento suavizado ---
+            Vector3 desiredPosition = new Vector3(_target.position.x, _target.position.y, _depthZ);
 
         _basePosition = Vector3.SmoothDamp(
             transform.position,
             desiredPosition,
             ref _smoothVelocity,
-            followDelay
+            _followDelay
         );
 
         // Aplicamos límites de sala si están activados
@@ -148,10 +151,13 @@ public class CameraController : MonoBehaviour
                 // La intensidad se reduce progresivamente conforme avanza el temblor.
                 // Se multiplica por el modificador de ajustes (0 = sin shake, 1 = completo).
                 float progress = _shakeElapsed / _shakeDuration;
-                float shakeMultiplier = GameManager.HasInstance()
-                    ? GameManager.Instance.CameraShakeIntensity
-                    : 1f;
-                float currentIntensity = _shakeIntensity * shakeMultiplier * (1f - progress);
+                
+                if (GameManager.HasInstance())
+                {
+                    _shakeIntensity = GameManager.Instance.GetShakeDelay();
+                }
+
+                float currentIntensity = _shakeIntensity * (1f - progress);
 
                 float offsetX = Random.Range(-currentIntensity, currentIntensity);
                 float offsetY = Random.Range(-currentIntensity, currentIntensity);

@@ -98,14 +98,16 @@ public class GameManager : MonoBehaviour
     /// CameraController multiplica su _shakeIntensity base por este valor.
     /// Modificado desde SettingsMenu y persistente entre escenas.
     /// </summary>
-    public float CameraShakeIntensity = 1f;
+    [SerializeField]
+    private float CameraShakeIntensity = 1f;
 
     /// <summary>
     /// Retraso del seguimiento de cámara en segundos.
     /// CameraController usa este valor como smoothTime en SmoothDamp.
     /// Modificado desde SettingsMenu y persistente entre escenas.
     /// </summary>
-    public float CameraFollowDelay = 0.5f;
+    [SerializeField]
+    private float CameraFollowDelay = 0.5f;
 
     #endregion
 
@@ -164,6 +166,9 @@ public class GameManager : MonoBehaviour
 
     /// <summary>Devuelve la vida guardada en el último checkpoint.</summary>
     public int GetSavedHealth() => _savedHealth;
+
+    public float GetShakeDelay() => CameraShakeIntensity;
+    public float GetCameraFollowDelay() => CameraFollowDelay;
 
     /// <summary>Devuelve las vendas guardadas en el último checkpoint.</summary>
     public int GetSavedBandages() => _savedBandages;

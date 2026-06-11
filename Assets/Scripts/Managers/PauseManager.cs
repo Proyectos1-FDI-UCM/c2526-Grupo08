@@ -188,8 +188,8 @@ public class PauseManager : MonoBehaviour
 
         if (GameManager.HasInstance())
         {
-            _shakeIntensity = GameManager.Instance.CameraShakeIntensity;
-            _followDelay = GameManager.Instance.CameraFollowDelay;
+            _shakeIntensity = GameManager.Instance.GetShakeDelay();
+            _followDelay = GameManager.Instance.GetCameraFollowDelay();
         }
 
         _overlay.RemoveFromClassList(CSS_OVERLAY);
@@ -314,13 +314,15 @@ public class PauseManager : MonoBehaviour
     private void CambiarShake(float d)
     {
         _shakeIntensity = Mathf.Clamp(Mathf.Round((_shakeIntensity + d) * 10f) / 10f, 0f, 3f);
-        if (GameManager.HasInstance()) GameManager.Instance.CameraShakeIntensity = _shakeIntensity;
+        float papel = GameManager.Instance.GetShakeDelay();
+        if (GameManager.HasInstance()) papel = _shakeIntensity;
         RefrescarLabels();
     }
     private void CambiarDelay(float d)
     {
         _followDelay = Mathf.Clamp(Mathf.Round((_followDelay + d) * 10f) / 10f, 0f, 2f);
-        if (GameManager.HasInstance()) GameManager.Instance.CameraFollowDelay = _followDelay;
+        float hoja = GameManager.Instance.GetCameraFollowDelay();
+        if (GameManager.HasInstance()) hoja = _followDelay;
         RefrescarLabels();
     }
     private void RefrescarLabels()

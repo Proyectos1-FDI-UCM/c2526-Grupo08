@@ -48,13 +48,18 @@ public class SettingsMenu : MonoBehaviour
     public class SettingsEntry
     {
         [Tooltip("Botón para reducir el valor")]
-        public Button ButtonMinus;
+        [SerializeField]
+        private Button ButtonMinus;
 
         [Tooltip("Botón para aumentar el valor")]
-        public Button ButtonPlus;
+        [SerializeField]
+        private Button ButtonPlus;
 
         [Tooltip("TMP_Text que muestra el valor actual")]
-        public TMP_Text ValueLabel;
+        [SerializeField]
+        private TMP_Text ValueLabel;
+        public TMP_Text GetTMPText() => ValueLabel;
+
     }
 
     #endregion
@@ -120,9 +125,10 @@ public class SettingsMenu : MonoBehaviour
     {
         if (!GameManager.HasInstance()) return;
 
-        float nuevo = Mathf.Round((GameManager.Instance.CameraShakeIntensity - ShakeStep) * 100f) / 100f;
-        GameManager.Instance.CameraShakeIntensity = Mathf.Clamp(nuevo, ShakeMin, ShakeMax);
-        ActualizarLabel(ShakeEntry, GameManager.Instance.CameraShakeIntensity);
+        float nuevo = Mathf.Round((GameManager.Instance.GetShakeDelay() - ShakeStep) * 100f) / 100f;
+        float shake = GameManager.Instance.GetShakeDelay();
+        shake = Mathf.Clamp(nuevo, ShakeMin, ShakeMax);
+        ActualizarLabel(ShakeEntry, GameManager.Instance.GetCameraFollowDelay());
     }
 
     /// <summary>
@@ -132,9 +138,10 @@ public class SettingsMenu : MonoBehaviour
     {
         if (!GameManager.HasInstance()) return;
 
-        float nuevo = Mathf.Round((GameManager.Instance.CameraShakeIntensity + ShakeStep) * 100f) / 100f;
-        GameManager.Instance.CameraShakeIntensity = Mathf.Clamp(nuevo, ShakeMin, ShakeMax);
-        ActualizarLabel(ShakeEntry, GameManager.Instance.CameraShakeIntensity);
+        float nuevo = Mathf.Round((GameManager.Instance.GetShakeDelay() + ShakeStep) * 100f) / 100f;
+        float shake = GameManager.Instance.GetShakeDelay();
+        shake = Mathf.Clamp(nuevo, ShakeMin, ShakeMax);
+        ActualizarLabel(ShakeEntry, GameManager.Instance.GetShakeDelay());
     }
 
     #endregion
@@ -149,9 +156,10 @@ public class SettingsMenu : MonoBehaviour
     {
         if (!GameManager.HasInstance()) { return; }
 
-        float nuevo = Mathf.Round((GameManager.Instance.CameraFollowDelay - FollowDelayStep) * 100f) / 100f;
-        GameManager.Instance.CameraFollowDelay = Mathf.Clamp(nuevo, FollowDelayMin, FollowDelayMax);
-        ActualizarLabel(FollowDelayEntry, GameManager.Instance.CameraFollowDelay);
+        float nuevo = Mathf.Round((GameManager.Instance.GetCameraFollowDelay() - FollowDelayStep) * 100f) / 100f;
+        float follow = GameManager .Instance.GetCameraFollowDelay();
+        follow = Mathf.Clamp(nuevo, FollowDelayMin, FollowDelayMax);
+        ActualizarLabel(FollowDelayEntry, GameManager.Instance.GetCameraFollowDelay());
     }
 
     /// <summary>
@@ -161,9 +169,10 @@ public class SettingsMenu : MonoBehaviour
     {
         if (!GameManager.HasInstance()) return;
 
-        float nuevo = Mathf.Round((GameManager.Instance.CameraFollowDelay + FollowDelayStep) * 100f) / 100f;
-        GameManager.Instance.CameraFollowDelay = Mathf.Clamp(nuevo, FollowDelayMin, FollowDelayMax);
-        ActualizarLabel(FollowDelayEntry, GameManager.Instance.CameraFollowDelay);
+        float nuevo = Mathf.Round((GameManager.Instance.GetCameraFollowDelay() + FollowDelayStep) * 100f) / 100f;
+        float follow = GameManager.Instance.GetCameraFollowDelay();
+        follow = Mathf.Clamp(nuevo, FollowDelayMin, FollowDelayMax);
+        ActualizarLabel(FollowDelayEntry, GameManager.Instance.GetCameraFollowDelay());
     }
 
     #endregion
@@ -179,8 +188,8 @@ public class SettingsMenu : MonoBehaviour
     {
         if (!GameManager.HasInstance()) return;
 
-        ActualizarLabel(ShakeEntry, GameManager.Instance.CameraShakeIntensity);
-        ActualizarLabel(FollowDelayEntry, GameManager.Instance.CameraFollowDelay);
+        ActualizarLabel(ShakeEntry, GameManager.Instance.GetShakeDelay());
+        ActualizarLabel(FollowDelayEntry, GameManager.Instance.GetCameraFollowDelay());
     }
 
     /// <summary>
@@ -188,8 +197,8 @@ public class SettingsMenu : MonoBehaviour
     /// </summary>
     private void ActualizarLabel(SettingsEntry entry, float value)
     {
-        if (entry == null || entry.ValueLabel == null) { return; }
-        entry.ValueLabel.text = value.ToString(NumberFormat);
+        if (entry == null || entry.GetTMPText() == null) { return; }
+        entry.GetTMPText().text = value.ToString(NumberFormat);
     }
 
     #endregion
