@@ -1059,11 +1059,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 403039830}
   m_CullTransparentMesh: 1
---- !u!1 &442061834 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1469997904821743668, guid: bbef65fce9591074c97438857818f654, type: 3}
-  m_PrefabInstance: {fileID: 2178005016528384406}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &500141100
 GameObject:
   m_ObjectHideFlags: 0
@@ -2143,34 +2138,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DialogueBox: {fileID: 322985341}
   CharacterImage: {fileID: 568347859}
+  SpeakerNameText: {fileID: 0}
   DialogueText: {fileID: 1794719971}
   ContinueHint: {fileID: 1982819013}
   DialogueLines:
-  - CharacterSprite: {fileID: 0}
+  - SpeakerName: 
+    CharacterSprite: {fileID: 0}
     Text: "Tras una ardua batalla, Cori not\xF3 un movimiento por el rabillo del
       ojo. El hombre gravemente herido intentaba incorporarse, tocando botones de
       un aparato oculto bajo su chaleco."
-  - CharacterSprite: {fileID: -6601477196304980844, guid: 92c11cfde79dec14a8e8a662b7146b9e, type: 3}
+  - SpeakerName: 
+    CharacterSprite: {fileID: -6601477196304980844, guid: 92c11cfde79dec14a8e8a662b7146b9e, type: 3}
     Text: "\xBFQu\xE9 te cre\xEDas, que no te iba a ver? Tienes que ser primerizo
       para hacer algo tan imb\xE9cil. Dime qu\xE9 hac\xEDas. Ahora."
-  - CharacterSprite: {fileID: -4773062881699269690, guid: 620384c1321ba1349b10d913d89c2273, type: 3}
+  - SpeakerName: 
+    CharacterSprite: {fileID: -4773062881699269690, guid: 620384c1321ba1349b10d913d89c2273, type: 3}
     Text: "\xA1La jefa\u2026! Hablaba\u2026 Iba a hablar con la jefa."
-  - CharacterSprite: {fileID: -6601477196304980844, guid: 92c11cfde79dec14a8e8a662b7146b9e, type: 3}
+  - SpeakerName: 
+    CharacterSprite: {fileID: -6601477196304980844, guid: 92c11cfde79dec14a8e8a662b7146b9e, type: 3}
     Text: "\xBFCon que la jefa, eh? Yo tambi\xE9n quiero \"hablar\" con ella. Tiene
       un bot\xEDn que me interesa."
-  - CharacterSprite: {fileID: -4773062881699269690, guid: 620384c1321ba1349b10d913d89c2273, type: 3}
+  - SpeakerName: 
+    CharacterSprite: {fileID: -4773062881699269690, guid: 620384c1321ba1349b10d913d89c2273, type: 3}
     Text: Me niego. Si digo algo que no debo, estoy muerto.
-  - CharacterSprite: {fileID: -6601477196304980844, guid: 92c11cfde79dec14a8e8a662b7146b9e, type: 3}
+  - SpeakerName: 
+    CharacterSprite: {fileID: -6601477196304980844, guid: 92c11cfde79dec14a8e8a662b7146b9e, type: 3}
     Text: "\xBFY? Ya lo est\xE1s de todas formas."
-  - CharacterSprite: {fileID: -4773062881699269690, guid: 620384c1321ba1349b10d913d89c2273, type: 3}
+  - SpeakerName: 
+    CharacterSprite: {fileID: -4773062881699269690, guid: 620384c1321ba1349b10d913d89c2273, type: 3}
     Text: "Ese tono que tanto odio\u2026 Me recuerdas a mi jefa."
-  - CharacterSprite: {fileID: -6601477196304980844, guid: 92c11cfde79dec14a8e8a662b7146b9e, type: 3}
+  - SpeakerName: 
+    CharacterSprite: {fileID: -6601477196304980844, guid: 92c11cfde79dec14a8e8a662b7146b9e, type: 3}
     Text: "\xBFPero me vas a decir d\xF3nde est\xE1 o no? Esta es tu \xFAltima oportunidad."
-  - CharacterSprite: {fileID: -4773062881699269690, guid: 620384c1321ba1349b10d913d89c2273, type: 3}
+  - SpeakerName: 
+    CharacterSprite: {fileID: -4773062881699269690, guid: 620384c1321ba1349b10d913d89c2273, type: 3}
     Text: "No te puedo decir d\xF3nde est\xE1. Pero en la sala de reuniones del final
       a la izquierda estuvo esta ma\xF1ana y anot\xF3 algunas cosas. No s\xE9 si
       te servir\xE1n de algo."
-  - CharacterSprite: {fileID: -6601477196304980844, guid: 92c11cfde79dec14a8e8a662b7146b9e, type: 3}
+  - SpeakerName: 
+    CharacterSprite: {fileID: -6601477196304980844, guid: 92c11cfde79dec14a8e8a662b7146b9e, type: 3}
     Text: "No s\xE9 de qui\xE9n se est\xE1 burlando este cretino. Si de la jefa...
       o de m\xED."
   HintText: "F  /  B (mando)  \u2192  continuar"
@@ -2500,6 +2506,7 @@ MonoBehaviour:
     ejemplo, su color es igual que su color favorito.' \u2014 Cori guard\xF3 la carpeta
     en su capa.\""
   PlayerMovementRef: {fileID: 2859081414169848663}
+  PostReadDialogue: {fileID: 0}
 --- !u!58 &1512277363
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4694,9 +4701,6 @@ MonoBehaviour:
   Speed: 1
   DetectionRadius: 3
   ChaseRadius: 4.5
-  SpriteUp: {fileID: -3529809619868476689, guid: 82029a652e94d284b91e8da42b0ca4cd, type: 3}
-  SpriteDown: {fileID: -6601477196304980844, guid: 92c11cfde79dec14a8e8a662b7146b9e, type: 3}
-  SpriteLeft: {fileID: -4166221654935951731, guid: 2410e3987812ba749bda081a43f2da72, type: 3}
 --- !u!212 &2125206677
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4924,111 +4928,6 @@ MonoBehaviour:
   KeyPrefab: {fileID: 0}
   IsSpecialEnemy: 0
   ColorDuration: 0.3
---- !u!1001 &2178005016528384406
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 702173291379024771, guid: bbef65fce9591074c97438857818f654, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1.5642
-      objectReference: {fileID: 0}
-    - target: {fileID: 702173291379024771, guid: bbef65fce9591074c97438857818f654, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.626
-      objectReference: {fileID: 0}
-    - target: {fileID: 702173291379024771, guid: bbef65fce9591074c97438857818f654, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.024138726
-      objectReference: {fileID: 0}
-    - target: {fileID: 702173291379024771, guid: bbef65fce9591074c97438857818f654, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 702173291379024771, guid: bbef65fce9591074c97438857818f654, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 702173291379024771, guid: bbef65fce9591074c97438857818f654, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 702173291379024771, guid: bbef65fce9591074c97438857818f654, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 702173291379024771, guid: bbef65fce9591074c97438857818f654, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 702173291379024771, guid: bbef65fce9591074c97438857818f654, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 702173291379024771, guid: bbef65fce9591074c97438857818f654, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 828124766189768975, guid: bbef65fce9591074c97438857818f654, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 828124766189768975, guid: bbef65fce9591074c97438857818f654, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1418080930847816776, guid: bbef65fce9591074c97438857818f654, type: 3}
-      propertyPath: KeyPrefab
-      value: 
-      objectReference: {fileID: 6370220561489869585}
-    - target: {fileID: 1469997904821743668, guid: bbef65fce9591074c97438857818f654, type: 3}
-      propertyPath: m_Name
-      value: EnemyEspecial
-      objectReference: {fileID: 0}
-    - target: {fileID: 8705300059719160101, guid: bbef65fce9591074c97438857818f654, type: 3}
-      propertyPath: PromptUI
-      value: 
-      objectReference: {fileID: 775023301}
-    - target: {fileID: 8705300059719160101, guid: bbef65fce9591074c97438857818f654, type: 3}
-      propertyPath: OptionsPanel
-      value: 
-      objectReference: {fileID: 403039830}
-    - target: {fileID: 8705300059719160101, guid: bbef65fce9591074c97438857818f654, type: 3}
-      propertyPath: ParentCanvas
-      value: 
-      objectReference: {fileID: 1055572464}
-    - target: {fileID: 8705300059719160101, guid: bbef65fce9591074c97438857818f654, type: 3}
-      propertyPath: DialogueSystemRef
-      value: 
-      objectReference: {fileID: 1127098247}
-    - target: {fileID: 8705300059719160101, guid: bbef65fce9591074c97438857818f654, type: 3}
-      propertyPath: SpecialKeyDropPrefab
-      value: 
-      objectReference: {fileID: 6370220561489869585}
-    - target: {fileID: 9140188718464681711, guid: bbef65fce9591074c97438857818f654, type: 3}
-      propertyPath: 'PatrolPoints.Array.data[0]'
-      value: 
-      objectReference: {fileID: 1916581277}
-    - target: {fileID: 9140188718464681711, guid: bbef65fce9591074c97438857818f654, type: 3}
-      propertyPath: 'PatrolPoints.Array.data[1]'
-      value: 
-      objectReference: {fileID: 81138822}
-    - target: {fileID: 9140188718464681711, guid: bbef65fce9591074c97438857818f654, type: 3}
-      propertyPath: 'PatrolPoints.Array.data[2]'
-      value: 
-      objectReference: {fileID: 2043361813}
-    - target: {fileID: 9140188718464681711, guid: bbef65fce9591074c97438857818f654, type: 3}
-      propertyPath: 'PatrolPoints.Array.data[3]'
-      value: 
-      objectReference: {fileID: 355640755}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: bbef65fce9591074c97438857818f654, type: 3}
 --- !u!1001 &2859081414169848662
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5056,7 +4955,7 @@ PrefabInstance:
     - target: {fileID: -3823790945834989697, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: EnemyGameObject
       value: 
-      objectReference: {fileID: 442061834}
+      objectReference: {fileID: 0}
     - target: {fileID: -3823790945834989697, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: MagicPointsPrefab
       value: 
@@ -5248,7 +5147,6 @@ SceneRoots:
   - {fileID: 1850527423}
   - {fileID: 1055572465}
   - {fileID: 1127098248}
-  - {fileID: 2178005016528384406}
   - {fileID: 26385875}
   - {fileID: 6370220561489869584}
   - {fileID: 367016479}

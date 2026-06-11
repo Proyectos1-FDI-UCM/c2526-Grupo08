@@ -437658,6 +437658,21 @@ MonoBehaviour:
   PauseWhileActive: 1
   TriggerLevelTransitionOnEnd: 1
   NextSceneName: Level_Boss
+--- !u!114 &1776992704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1776992699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b16e8380cfa47047af8c0b16e1e3387, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextSceneName: Level_Boss
+  requiredItem: 1
+  requiredAmount: 2
 --- !u!1001 &1778253692
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -437890,6 +437905,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8348200431167188786, guid: eb9e61577eaff8e45af7982409102376, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1776992703}
+    - targetCorrespondingSourceObject: {fileID: 8348200431167188786, guid: eb9e61577eaff8e45af7982409102376, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1776992704}
   m_SourcePrefab: {fileID: 100100000, guid: eb9e61577eaff8e45af7982409102376, type: 3}
 --- !u!4 &1790886574 stripped
 Transform:
