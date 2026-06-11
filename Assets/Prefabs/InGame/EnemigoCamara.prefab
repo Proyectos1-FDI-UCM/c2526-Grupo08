@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3797789623946725183}
   - component: {fileID: 8136243842017716074}
   - component: {fileID: 4531694248479771828}
-  m_Layer: 7
+  m_Layer: 13
   m_Name: EnemyCamara
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,8 +76,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 872213591
-  m_SortingLayer: 5
+  m_SortingLayerID: 1821607801
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.8962264, g: 0.20714669, b: 0.20714669, a: 0.50980395}
@@ -181,7 +181,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7229757840001111713}
-  m_Layer: 7
+  m_Layer: 13
   m_Name: Punto 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,7 +212,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 685176425577108201}
-  m_Layer: 7
+  m_Layer: 13
   m_Name: EnemigoCamara
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -247,7 +247,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1639446724794915323}
-  m_Layer: 7
+  m_Layer: 13
   m_Name: Punto 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -278,7 +278,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7615556331239334701}
-  m_Layer: 7
+  m_Layer: 13
   m_Name: Punto 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}

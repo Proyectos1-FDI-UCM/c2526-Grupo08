@@ -18,7 +18,7 @@ TagManager:
   - ExplosiveBullet
   - IconPlayer
   - knife
-  - 
+  - camera
   - 
   - 
   - 
@@ -50,7 +50,7 @@ TagManager:
   - name: Objects
     uniqueID: 4046579005
     locked: 0
-  - name: Bullet
+  - name: 
     uniqueID: 4000259879
     locked: 0
   - name: Wall
@@ -64,6 +64,12 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 1435715633
+    locked: 0
+  - name: CameraEnemy
+    uniqueID: 1821607801
+    locked: 0
+  - name: Bullet
+    uniqueID: 1235674861
     locked: 0
   m_RenderingLayers:
   - Default
