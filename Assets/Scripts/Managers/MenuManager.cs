@@ -27,9 +27,14 @@ public class MenuManager : MonoBehaviour
 {
     #region Inspector
     [Header("Audio")]
+    [Tooltip("AudioSource usado para la música del menú. Su volumen se controla desde el slider de Ajustes.")]
     [SerializeField] private AudioSource _musicaSource;
+
+    [Tooltip("AudioSource usado para los efectos de sonido del menú. Su volumen se controla desde el slider de Ajustes.")]
     [SerializeField] private AudioSource _efectosSource;
+
     [Header("Escena de inicio")]
+    [Tooltip("Nombre de la escena que se carga al pulsar 'Iniciar Juego'.")]
     [SerializeField] private string NombreEscenaInicio = "Level_1";
     #endregion
 
@@ -72,11 +77,27 @@ public class MenuManager : MonoBehaviour
     #endregion
 
     #region MonoBehaviour
+    /// <summary>
+    /// Start is called on the frame when a script is enabled just before
+    /// any of the Update methods are called the first time.
+    /// Aquí solo se obtiene el UIDocument/rootVisualElement; la consulta de
+    /// los paneles concretos se retrasa un frame (ver InicializarUI).
+    /// </summary>
     private void Start()
     {
-        InicializarUI();
+        UIDocument doc = GetComponent<UIDocument>();
+        if (doc == null) { Debug.LogError("[MenuManager] No hay UIDocument."); return; }
+
+        _root = doc.rootVisualElement;
+        if (_root == null) { Debug.LogError("[MenuManager] rootVisualElement null."); return; }
+
         InicializarInput();
+
+        // Retrasamos un frame la inicialización de los paneles para que
+        // UI Toolkit haya terminado de construir el árbol visual del UXML.
+        _root.schedule.Execute(InicializarUI);
     }
+
     private void OnDisable()
     {
         if (_cancelAction != null) { _cancelAction.performed -= OnCancelPressed; _cancelAction.Disable(); }
@@ -84,6 +105,10 @@ public class MenuManager : MonoBehaviour
     #endregion
 
     #region Input
+    /// <summary>
+    /// Suscribe la acción "Cancel" del Input System para volver al panel
+    /// principal desde cualquier subpanel.
+    /// </summary>
     private void InicializarInput()
     {
         _cancelAction = InputSystem.actions?.FindAction("Cancel");
@@ -98,14 +123,13 @@ public class MenuManager : MonoBehaviour
     #endregion
 
     #region UI — Inicialización
+    /// <summary>
+    /// Obtiene las referencias a todos los paneles y controles del UXML,
+    /// suscribe los eventos de los botones y deja el menú listo para usarse.
+    /// Se ejecuta un frame después de Start() mediante _root.schedule.Execute.
+    /// </summary>
     private void InicializarUI()
     {
-        UIDocument doc = GetComponent<UIDocument>();
-        if (doc == null) { Debug.LogError("[MenuManager] No hay UIDocument."); return; }
-
-        _root = doc.rootVisualElement;
-        if (_root == null) { Debug.LogError("[MenuManager] rootVisualElement null."); return; }
-
         _panelMain = _root.Q<VisualElement>("panelMain");
         _panelAjustes = _root.Q<VisualElement>("panelAjustes");
         _panelControles = _root.Q<VisualElement>("panelControles");
@@ -149,6 +173,10 @@ public class MenuManager : MonoBehaviour
         _inicializado = true;
     }
 
+    /// <summary>
+    /// Quita la clase CSS de visibilidad a todos los subpaneles para que
+    /// solo se muestre el panel principal al arrancar.
+    /// </summary>
     private void AsegurarPaneles()
     {
         _panelAjustes.RemoveFromClassList(CSS_VISIBLE);
@@ -156,6 +184,9 @@ public class MenuManager : MonoBehaviour
         _panelCreditos.RemoveFromClassList(CSS_VISIBLE);
     }
 
+    /// <summary>
+    /// Suscribe los callbacks de todos los botones y sliders del menú.
+    /// </summary>
     private void SuscribirEventos()
     {
         // Menú principal
@@ -185,6 +216,10 @@ public class MenuManager : MonoBehaviour
         Bind("btnVolverCreditos", OcultarPaneles);
     }
 
+    /// <summary>
+    /// Busca un botón por nombre y le asigna el callback indicado.
+    /// Si no se encuentra, avisa por consola.
+    /// </summary>
     private void Bind(string name, System.Action cb)
     {
         Button btn = _root.Q<Button>(name);
@@ -194,12 +229,18 @@ public class MenuManager : MonoBehaviour
     #endregion
 
     #region Navegación de paneles
+    /// <summary>
+    /// Inicia la partida cargando la escena configurada en NombreEscenaInicio.
+    /// </summary>
     private void OnIniciarJuego()
     {
         System.GC.Collect();
         SceneManager.LoadScene(NombreEscenaInicio);
     }
 
+    /// <summary>
+    /// Oculta el panel principal y muestra el subpanel indicado.
+    /// </summary>
     private void AbrirPanel(Panel panel)
     {
         _panelActual = panel;
@@ -226,6 +267,9 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Oculta todos los subpaneles y vuelve a mostrar el panel principal.
+    /// </summary>
     private void OcultarPaneles()
     {
         _panelActual = Panel.Main;
@@ -234,6 +278,10 @@ public class MenuManager : MonoBehaviour
         _btnIniciar?.Focus();
     }
 
+    /// <summary>
+    /// Cambia entre la pestaña de controles de Teclado y la de Mando dentro
+    /// del panel de Controles.
+    /// </summary>
     private void CambiarTabControles(bool teclado)
     {
         if (_ctrlTecladoM == null || _ctrlMandoM == null) { return; }
@@ -255,6 +303,9 @@ public class MenuManager : MonoBehaviour
     #endregion
 
     #region Ajustes — cámara
+    /// <summary>
+    /// Aumenta o reduce la intensidad del shake de cámara y la guarda en GameManager.
+    /// </summary>
     private void CambiarShake(float d)
     {
         _shakeIntensity = Mathf.Clamp(Mathf.Round((_shakeIntensity + d) * 10f) / 10f, 0f, 3f);
@@ -262,6 +313,10 @@ public class MenuManager : MonoBehaviour
         if (GameManager.HasInstance()) pez = _shakeIntensity;
         RefrescarLabels();
     }
+
+    /// <summary>
+    /// Aumenta o reduce el retraso de seguimiento de cámara y lo guarda en GameManager.
+    /// </summary>
     private void CambiarDelay(float d)
     {
         _followDelay = Mathf.Clamp(Mathf.Round((_followDelay + d) * 10f) / 10f, 0f, 2f);
@@ -269,6 +324,10 @@ public class MenuManager : MonoBehaviour
         if (GameManager.HasInstance()) tupu = _followDelay;
         RefrescarLabels();
     }
+
+    /// <summary>
+    /// Actualiza los labels de Ajustes con los valores actuales de shake y delay.
+    /// </summary>
     private void RefrescarLabels()
     {
         if (_lblShake != null) _lblShake.text = _shakeIntensity.ToString("F1");

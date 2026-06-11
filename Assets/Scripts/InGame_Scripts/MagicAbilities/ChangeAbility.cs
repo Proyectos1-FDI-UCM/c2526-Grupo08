@@ -11,13 +11,6 @@ using UnityEngine.InputSystem;
 /// <summary>
 /// Cambia entre las habilidades disponibles del jugador (cargada, multidireccional, explosiva).
 /// Solo puede seleccionarse una habilidad desbloqueada en el Inventory.
-///
-/// CORRECCIÓN respecto a la versión anterior:
-///   · Start() causaba IndexOutOfRangeException en la línea _abilityImage[_currentIndex].SetActive(true)
-///     cuando el array _abilityImage tenía menos de 1 elemento o estaba vacío.
-///     Ahora se valida que el array tiene al menos 1 elemento antes de indexarlo.
-///   · Se añade null-check en cada elemento del array dentro del bucle,
-///     para que un slot sin asignar en el Inspector no rompa la ejecución.
 /// </summary>
 public class ChangeAbility : MonoBehaviour
 {
@@ -43,6 +36,18 @@ public class ChangeAbility : MonoBehaviour
 
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados
+
+    /// <summary>Número total de habilidades disponibles (cargada, multi, explosiva).</summary>
+    private const int AbilityCount = 3;
+
+    /// <summary>Índice de la habilidad cargada (siempre disponible).</summary>
+    private const int ChargedIndex = 0;
+
+    /// <summary>Índice de la habilidad multidireccional.</summary>
+    private const int MultiIndex = 1;
+
+    /// <summary>Índice de la habilidad explosiva.</summary>
+    private const int ExplosiveIndex = 2;
 
     private InputAction _changeAbilityAction;
     private int _currentIndex = 0;
@@ -101,12 +106,17 @@ public class ChangeAbility : MonoBehaviour
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
 
+    /// <summary>
+    /// Avanza al siguiente índice de habilidad de forma cíclica y se detiene
+    /// en la primera que esté desbloqueada. Como la cargada (índice 0) siempre
+    /// está desbloqueada, el bucle siempre termina como máximo tras AbilityCount
+    /// iteraciones.
+    /// </summary>
     private void SwitchAbility()
     {
-        // Busca entre las habilidades hasta encontrar una desbloqueada
-        for (int i = 0; i < _abilityImage.Length; i++)
+        for (int i = 0; i < AbilityCount; i++)
         {
-            _currentIndex = (_currentIndex + 1) % 3;
+            _currentIndex = (_currentIndex + 1) % AbilityCount;
 
             if (IsAbilityUnlocked(_currentIndex))
             {
@@ -120,9 +130,9 @@ public class ChangeAbility : MonoBehaviour
     {
         switch (index)
         {
-            case 0: return true; // cargada siempre disponible
-            case 1: return _inventory != null && _inventory.HasMultiAbility;
-            case 2: return _inventory != null && _inventory.HasExplosiveAbility;
+            case ChargedIndex: return true; // cargada siempre disponible
+            case MultiIndex: return _inventory != null && _inventory.HasMultiAbility;
+            case ExplosiveIndex: return _inventory != null && _inventory.HasExplosiveAbility;
         }
         return false;
     }

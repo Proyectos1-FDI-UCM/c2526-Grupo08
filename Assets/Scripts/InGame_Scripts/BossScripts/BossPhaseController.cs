@@ -23,18 +23,51 @@ public class BossPhaseController : MonoBehaviour
     // (palabras con primera letra mayúscula, incluida la primera letra)
     // Ejemplo: MaxHealthPoints
     [Header("Detection Settings")]
-    [Tooltip("Detection range to trigger the fight when Cori enters.")]
+    [Tooltip("Radio de detección dentro del cual se activa el combate al entrar Cori.")]
     [SerializeField] private float _detectionRange = 12f;
+
+    [Tooltip("Capa física en la que se encuentra el jugador, usada para OverlapCircle.")]
     [SerializeField] private LayerMask _playerLayer;
 
     [Header("Combat Timing")]
-    [Tooltip("Idle time between attacks to prevent overlapping.")]
+    [Tooltip("Tiempo de espera entre ataques para evitar que se solapen.")]
     [SerializeField] private float _timeBetweenAttacks = 2.0f;
 
-    [Header("Combat Timing")]
-    [SerializeField] private float _initialDelay = 5.0f; // Los 5 segundos de espera
+    [Tooltip("Tiempo de espera inicial (en segundos) tras detectar al jugador antes de empezar a atacar.")]
+    [SerializeField] private float _initialDelay = 5.0f;
 
 
+    #endregion
+
+    // ---- CONSTANTES ----
+    #region Constantes
+
+    /// <summary>Vida por debajo de la cual se activa la Fase 2.</summary>
+    private const int Phase2HealthThreshold = 1000;
+
+    /// <summary>Vida por debajo de la cual se activa la Fase 3 (Enrage).</summary>
+    private const int Phase3HealthThreshold = 500;
+
+    /// <summary>Multiplicador aplicado al tiempo entre ataques al activar la Fase 2 (lo reduce un 15%).</summary>
+    private const float Phase2AttackSpeedMultiplier = 0.85f;
+
+    /// <summary>Multiplicador de velocidad y daño aplicado en la Fase 3 (Enrage).</summary>
+    private const float Phase3SpeedMultiplier = 1.5f;
+
+    /// <summary>Número de ataques posibles en Fase 1 (Dash, Cuchillas).</summary>
+    private const int AttackCountPhase1 = 2;
+
+    /// <summary>Número de ataques posibles a partir de la Fase 2 (Dash, Cuchillas, Minions).</summary>
+    private const int AttackCountPhase2 = 3;
+
+    /// <summary>Índice del ataque de Dash en ExecuteRandomAttack.</summary>
+    private const int AttackDash = 0;
+
+    /// <summary>Índice del ataque de Cuchillas en ExecuteRandomAttack.</summary>
+    private const int AttackBlades = 1;
+
+    /// <summary>Índice del ataque de invocación de Minions en ExecuteRandomAttack.</summary>
+    private const int AttackSummons = 2;
 
     #endregion
 
@@ -121,56 +154,46 @@ public class BossPhaseController : MonoBehaviour
     // se nombren en formato PascalCase (palabras con primera letra
     // mayúscula, incluida la primera letra)
 
+    /// <summary>Desactiva al jefe al ser derrotado, sin destruirlo para evitar referencias rotas.</summary>
     private void MuerteBoss()
     {
         Debug.Log("Raven derrotado. Desactivando objeto...");
-
-        // Desactivamos el objeto para que desaparezca y no de errores de referencia
-        // Es mejor que Destroy porque así no rompe scripts que le estén mirando
         gameObject.SetActive(false);
     }
 
+    /// <summary>Comprueba la vida actual del jefe y activa la Fase 2/3 si corresponde.</summary>
     private void CheckHealthAndPhases()
     {
         int currentHealth = _health.GetCurrentHealth();
 
-        // FASE 2: Empieza cuando la vida baja de 1000 (y es mayor que 500)
-        if (currentHealth <= 1000 && currentHealth > 500 && !_phase2Activated)
+        // FASE 2: empieza cuando la vida baja de Phase2HealthThreshold
+        // (y aún no ha entrado en Fase 3)
+        if (currentHealth <= Phase2HealthThreshold && currentHealth > Phase3HealthThreshold && !_phase2Activated)
         {
             ActivatePhase2();
         }
 
-        // FASE 3 (Enrage): Empieza cuando la vida baja de 500
-        if (currentHealth <= 500 && !_phase3Activated)
+        // FASE 3 (Enrage): empieza cuando la vida baja de Phase3HealthThreshold
+        if (currentHealth <= Phase3HealthThreshold && !_phase3Activated)
         {
             ActivatePhase3();
         }
     }
+
+    /// <summary>Comprueba si el jugador está dentro del radio de detección y, si es así, inicia la espera previa al combate.</summary>
     private void CheckForPlayer()
     {
         Collider2D player = Physics2D.OverlapCircle(transform.position, _detectionRange, _playerLayer);
         if (player != null)
         {
             _isPlayerDetected = true;
-
-            // --- CAMBIO CLAVE ---
-            // En lugar de empezar en 0, le decimos que espere el delay inicial
             _attackCooldownTimer = _initialDelay;
 
             Debug.Log("Player Detected: Raven waiting " + _initialDelay + "s before attacking.");
         }
     }
 
-    private void Awake()
-    {
-        _health = GetComponent<Health>();
-        _movement = GetComponent<BoosBehaviour>();
-        _dash = GetComponent<BossFisrtShoot>();
-        _blades = GetComponent<SecondAttackBoss>();
-        _crystals = GetComponent<AbilityBoss1>();
-        _summons = GetComponent<AbilityBoss2>();
-    }
-
+    /// <summary>Gestiona el cooldown entre ataques y lanza un ataque aleatorio cuando termina.</summary>
     private void HandleAttackCycle()
     {
         if (_attackCooldownTimer > 0)
@@ -183,46 +206,45 @@ public class BossPhaseController : MonoBehaviour
         _attackCooldownTimer = _timeBetweenAttacks;
     }
 
+    /// <summary>Elige y ejecuta un ataque aleatorio entre los disponibles según la fase actual.</summary>
     private void ExecuteRandomAttack()
     {
-        // 0 = Dash, 1 = Cuchillas, 2 = Minions (solo en Fase 2)
-        int maxAttack = _phase2Activated ? 3 : 2;
+        int maxAttack = _phase2Activated ? AttackCountPhase2 : AttackCountPhase1;
         int choice = Random.Range(0, maxAttack);
 
         switch (choice)
         {
-            case 0: _dash.ExecuteDashAttack(); break;
-            case 1: _blades.ExecuteBladeAttack(); break;
-            case 2: _summons.ExecuteSummoning(); break; // Los minions ahora sí saldrán
+            case AttackDash: _dash.ExecuteDashAttack(); break;
+            case AttackBlades: _blades.ExecuteBladeAttack(); break;
+            case AttackSummons: _summons.ExecuteSummoning(); break;
         }
     }
 
+    /// <summary>Activa la Fase 2: desbloquea cristales y minions, y acelera el ritmo de ataque.</summary>
     private void ActivatePhase2()
     {
         _phase2Activated = true;
         if (_crystals != null) _crystals.SetAbilityActive(true);
 
-        // ACTIVAR MINIONS AQUÍ
         if (_summons != null) _summons.ActivarInvocacion();
 
-        _timeBetweenAttacks *= 0.85f;
+        _timeBetweenAttacks *= Phase2AttackSpeedMultiplier;
     }
 
+    /// <summary>Activa la Fase 3 (Enrage): aumenta velocidad de movimiento/ataques y reduce el tiempo entre ataques.</summary>
     private void ActivatePhase3()
     {
         _phase3Activated = true;
-        float multiplier = 1.5f;
 
-        // Buff speeds
-        if (_movement != null) _movement.BuffSpeed(multiplier);
-        if (_dash != null) _dash.AplicarBuffFaseFinal(multiplier);
-        if (_blades != null) _blades.AplicarBuffFaseFinal(multiplier);
+        if (_movement != null) _movement.BuffSpeed(Phase3SpeedMultiplier);
+        if (_dash != null) _dash.AplicarBuffFaseFinal(Phase3SpeedMultiplier);
+        if (_blades != null) _blades.AplicarBuffFaseFinal(Phase3SpeedMultiplier);
 
-        // Drastically reduce time between attacks
-        _timeBetweenAttacks /= multiplier;
+        _timeBetweenAttacks /= Phase3SpeedMultiplier;
 
-        Debug.Log("Phase 3 Activated: Enrage mode (x1.5 Speed).");
+        Debug.Log($"Phase 3 Activated: Enrage mode (x{Phase3SpeedMultiplier} Speed).");
     }
+  
 }// class BossPhaseController 
  // namespace
-    #endregion
+#endregion
