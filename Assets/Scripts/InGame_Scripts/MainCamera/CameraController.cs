@@ -131,14 +131,13 @@ public class CameraController : MonoBehaviour
             _followDelay
         );
 
-        // Aplicamos límites de sala si están activados
+        // Aplicamos límites de sala si están activados.
+        // Se calculan a partir de _boundsMin/_boundsMax directamente,
+        // sin valores hardcodeados adicionales.
         if (_useBounds)
         {
-            float halfWidth = 9f;
-            float halfHeight = 5f;
-
-            _basePosition.x = Mathf.Clamp(_basePosition.x, _boundsMin.x + halfWidth, _boundsMax.x - halfWidth);
-            _basePosition.y = Mathf.Clamp(_basePosition.y, _boundsMin.y + halfHeight, _boundsMax.y - halfHeight);
+            _basePosition.x = Mathf.Clamp(_basePosition.x, _boundsMin.x, _boundsMax.x);
+            _basePosition.y = Mathf.Clamp(_basePosition.y, _boundsMin.y, _boundsMax.y);
         }
 
         // --- Efecto de temblor ---
