@@ -111,7 +111,6 @@ public class PlayerShoot : MonoBehaviour
         // Disparar si el botón está pulsado y el cooldown ha pasado
         if (_attackAction.IsInProgress() && _fireCooldownTimer >= FireRate)
         {
-            Debug.Log("[S]");
             Shoot();
             _fireCooldownTimer = 0f;
         }

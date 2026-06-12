@@ -81,7 +81,7 @@ public class BossPhaseController : MonoBehaviour
     // Ejemplo: _maxHealthPoints
 
     private Health _health;
-    private BoosBehaviour _movement;
+    private BossBehaviour _movement;
     private BossFisrtShoot _dash;
     private SecondAttackBoss _blades;
     private AbilityBoss1 _crystals;

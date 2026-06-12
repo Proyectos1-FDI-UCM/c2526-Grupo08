@@ -192,7 +192,7 @@ public class BossManager : MonoBehaviour
         BossPhaseController phase = BossGameObject.GetComponent<BossPhaseController>();
         if (phase != null) { phase.enabled = false; }
 
-        BoosBehaviour movement = BossGameObject.GetComponent<BoosBehaviour>();
+        BossBehaviour movement = BossGameObject.GetComponent<BossBehaviour>();
         if (movement != null) { movement.enabled = false; }
 
         Rigidbody2D rb = BossGameObject.GetComponent<Rigidbody2D>();

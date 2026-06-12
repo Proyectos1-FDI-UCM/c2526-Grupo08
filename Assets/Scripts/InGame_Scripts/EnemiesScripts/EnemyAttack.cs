@@ -45,6 +45,9 @@ public class EnemyMeleeAttack : MonoBehaviour
     [Header("Referencias")]
     [SerializeField] private EnemyPatrol _enemyPatrol;
 
+    [Header("Referencia al jugador")]
+    [SerializeField] private GameObject _player;
+
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
@@ -137,9 +140,10 @@ public class EnemyMeleeAttack : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         // Detecta si lo que entró en el área es el jugador
-        if (other.CompareTag("Player"))
+        if (other.gameObject.GetComponent<PlayerMovement>() != null)
         {
             _playerInRange = true;
+            _player = other.gameObject;
             Debug.Log("Jugador entró en el área de ataque.");
         }
     }
@@ -147,7 +151,7 @@ public class EnemyMeleeAttack : MonoBehaviour
     private void OnTriggerStay2D(Collider2D other)
     {
         // Por seguridad, si el jugador sigue dentro, mantenemos el flag en true
-        if (other.CompareTag("Player"))
+        if (other.gameObject.GetComponent<PlayerMovement>() != null)
         {
             _playerInRange = true;
         }
@@ -156,7 +160,7 @@ public class EnemyMeleeAttack : MonoBehaviour
     private void OnTriggerExit2D(Collider2D other)
     {
         // Cuando el jugador sale del área, deja de recibir daño
-        if (other.CompareTag("Player"))
+        if (other.gameObject.GetComponent<PlayerMovement>() != null)
         {
             _playerInRange = false;
             Debug.Log("Jugador salió del área de ataque.");
@@ -172,11 +176,10 @@ public class EnemyMeleeAttack : MonoBehaviour
     /// </summary>
     private void ApplyDamage()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player == null) { return; }
+        if (_player == null) { return; }
 
-        Health health = player.GetComponent<Health>();
-        if (health != null)
+        Health health = _player.GetComponent<Health>();
+        if (health != null && _player != null)
         {
             health.Damage((int)_damageAmount);
             Debug.Log($"[EnemyMeleeAttack] Daño de {(int)_damageAmount} enviado al script Health.");

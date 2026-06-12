@@ -13,7 +13,7 @@ using UnityEngine;
 /// Antes de cada class, descripción de qué es y para qué sirve,
 /// usando todas las líneas que sean necesarias.
 /// </summary>
-public class CristlesBoss : MonoBehaviour
+public class CristalesBoss : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Atributos del Inspector (serialized fields)
@@ -93,7 +93,7 @@ public class CristlesBoss : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         _health = other.GetComponent<Health>();
-        if (other.CompareTag("Player") && _health != null)
+        if (other.gameObject.GetComponent<PlayerMovement>() && _health != null)
         {
             _health.Damage(_damage);
         }

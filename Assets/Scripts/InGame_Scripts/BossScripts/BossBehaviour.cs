@@ -17,7 +17,7 @@ using UnityEngine;
 /// script retoma el control en el siguiente frame.
 /// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
-public class BoosBehaviour : MonoBehaviour
+public class BossBehaviour : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Atributos del Inspector (serialized fields)

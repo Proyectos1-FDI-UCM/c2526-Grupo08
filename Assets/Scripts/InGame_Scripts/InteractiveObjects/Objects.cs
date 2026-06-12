@@ -66,9 +66,7 @@ public class Objects : MonoBehaviour
     {
         if (!_playerInRange || _playerInventory == null) { return; }
 
-        bool interactPressed = _interactAction != null
-            ? _interactAction.WasPressedThisFrame()
-            : Input.GetKeyDown(KeyCode.F);
+        bool interactPressed = _interactAction.WasPressedThisFrame();
 
         if (!interactPressed) { return; }
 

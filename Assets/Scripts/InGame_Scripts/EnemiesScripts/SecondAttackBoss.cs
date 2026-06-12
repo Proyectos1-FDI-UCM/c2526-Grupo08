@@ -24,9 +24,9 @@ public class SecondAttackBoss : MonoBehaviour
     // Ejemplo: MaxHealthPoints
 
     [Header("Prefabs")]
-    [SerializeField] private CristlesBoss _prefabKnife1;
-    [SerializeField] private CristlesBoss _prefabKnife2;
-    [SerializeField] private CristlesBoss _prefabKnife3;
+    [SerializeField] private CristalesBoss _prefabKnife1;
+    [SerializeField] private CristalesBoss _prefabKnife2;
+    [SerializeField] private CristalesBoss _prefabKnife3;
     [SerializeField] private GameObject _WarningPrefab;
 
     [Header("Configuración")]
@@ -34,6 +34,8 @@ public class SecondAttackBoss : MonoBehaviour
     [SerializeField] private float _tiempoRecarga = 3f;
     [SerializeField] private Transform _shootOrigin;
 
+    [Header("Referencia al jugador")]
+    [SerializeField] private GameObject _player;
 
     #endregion
 
@@ -70,18 +72,9 @@ public class SecondAttackBoss : MonoBehaviour
     /// </summary>
     void Start()
     {
-        GameObject p = GameObject.FindGameObjectWithTag("Player");
-        if (p != null) _jugador = p.transform;
+        if (_player != null) _jugador = _player.transform;
     }
 
-
-    /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
-    /// </summary>
-    void Update()
-    {
-        
-    }
     #endregion
 
     // ---- MÉTODOS PÚBLICOS ----
@@ -112,9 +105,9 @@ public class SecondAttackBoss : MonoBehaviour
         Vector2 direccion1 = (_posicionObjetivo - _shootOrigin.position).normalized;
         Vector2 dir2 = Quaternion.AngleAxis(45, Vector3.forward) * direccion1;
         Vector2 dir3 = Quaternion.AngleAxis(-45, Vector3.forward) * direccion1;
-        CristlesBoss c1 = Instantiate(_prefabKnife1, _shootOrigin.position, Quaternion.identity);
-        CristlesBoss c2 = Instantiate(_prefabKnife2, _shootOrigin.position, Quaternion.AngleAxis(45, direccion1.normalized));
-        CristlesBoss c3 = Instantiate(_prefabKnife3, _shootOrigin.position, Quaternion.AngleAxis(-45, direccion1.normalized));
+        CristalesBoss c1 = Instantiate(_prefabKnife1, _shootOrigin.position, Quaternion.identity);
+        CristalesBoss c2 = Instantiate(_prefabKnife2, _shootOrigin.position, Quaternion.AngleAxis(45, direccion1.normalized));
+        CristalesBoss c3 = Instantiate(_prefabKnife3, _shootOrigin.position, Quaternion.AngleAxis(-45, direccion1.normalized));
         c1.Lanzar(direccion1.normalized);
         c2.Lanzar(dir2);
         c3.Lanzar(dir3);

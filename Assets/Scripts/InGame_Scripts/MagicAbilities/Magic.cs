@@ -63,7 +63,6 @@ public class Magic : MonoBehaviour
     /// </summary>
     void Start()
     {
-
         _currentMagic = MaxMagic;
 
         if (MagicBar != null)

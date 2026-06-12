@@ -41,6 +41,9 @@ public class EnemyPatrol : MonoBehaviour
     [Tooltip("Radio del área extendida de persecución (3 + 1.5 casillas)")]
     [SerializeField] private float ChaseRadius = 4.5f;
 
+    [Header("Referencia al jugador")]
+    [SerializeField] private GameObject _player;
+
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
@@ -98,15 +101,13 @@ public class EnemyPatrol : MonoBehaviour
             }
         }
 
-        // Encontrar al jugador por tag
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
+        if (_player != null)
         {
-            _playerTransform = player.transform;
+            _playerTransform = _player.transform;
         }
         else
         {
-            Debug.LogWarning($"[EnemyPatrol] {gameObject.name}: no se encontró ningún GameObject con tag 'Player'.");
+            Debug.LogWarning($"[EnemyPatrol] {gameObject.name}: no se encontró ningún GameObject 'Player'.");
         }
     }
 

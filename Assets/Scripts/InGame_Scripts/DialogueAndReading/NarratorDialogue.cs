@@ -114,7 +114,7 @@ public class NarratorDialogue : MonoBehaviour
     {
         if (AutoStartOnLoad) { return; }
         if (_hasTriggered) { return; }
-        if (!other.CompareTag("Player")) { return; }
+        if (!other.gameObject.GetComponent<PlayerMovement>()) { return; }
 
         if (DialogueSystemRef == null)
             DialogueSystemRef = DialogueSystem.Instance;

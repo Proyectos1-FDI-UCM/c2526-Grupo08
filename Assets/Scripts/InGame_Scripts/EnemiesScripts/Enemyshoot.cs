@@ -46,6 +46,9 @@ public class EnemyShoot : MonoBehaviour
     [Tooltip("Sonido que se reproduce como advertencia antes de que salga la bala.")]
     [SerializeField] private AudioClip ShootSound;
 
+    [Header("Referencia al jugador")]
+    [SerializeField] private GameObject _player;
+
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
@@ -88,15 +91,13 @@ public class EnemyShoot : MonoBehaviour
         _enemyPatrol = GetComponent<EnemyPatrol>();
         _audioSource = GetComponent<AudioSource>();
 
-        // Buscar al jugador por tag
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
+        if (_player != null)
         {
-            _playerTransform = player.transform;
+            _playerTransform = _player.transform;
         }
         else
         {
-            Debug.LogWarning($"[EnemyShoot] {gameObject.name}: no se encontró ningún GameObject con tag 'Player'.");
+            Debug.LogWarning($"[EnemyShoot] {gameObject.name}: no se encontró ningún GameObject 'Player'.");
         }
 
         // Validar prefab

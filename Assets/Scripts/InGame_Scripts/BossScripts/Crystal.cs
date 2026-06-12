@@ -7,8 +7,6 @@
 
 using UnityEngine;
 // Añadir aquí el resto de directivas using
-
-
 /// <summary>
 /// Antes de cada class, descripción de qué es y para qué sirve,
 /// usando todas las líneas que sean necesarias.
@@ -30,9 +28,8 @@ public class Crystal : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // 1. Primero, comprobamos si lo que hemos tocado es el Jugador usando su Tag.
-        // IMPORTANTE: Asegúrate de que tu objeto Jugador tiene el Tag "Player".
-        if (other.CompareTag("Player"))
+        // 1. Primero, comprobamos si lo que hemos tocado es el Jugador usando su layer (6).
+        if (other.gameObject.GetComponent<PlayerMovement>() != null)
         {
             Health playerHealth = other.GetComponent<Health>();
 
