@@ -25,10 +25,12 @@ public class SoundFondo : MonoBehaviour
     // Ejemplo: MaxHealthPoints
 
     public static SoundFondo Instance;
-
-    public AudioClip clipMenuCreditos;
-    public AudioClip clipNivel1y2;
-    public AudioClip clipNivel3;
+    [SerializeField]
+    private AudioClip clipMenuCreditos;
+    [SerializeField]
+    private AudioClip clipNivel1y2;
+    [SerializeField]
+    private AudioClip clipNivel3;
 
     private AudioSource source;
 
