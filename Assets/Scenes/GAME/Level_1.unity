@@ -1962,19 +1962,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6460544076485711238, guid: fe28f413482703f4ab4c3bf3b2d7cf95, type: 3}
       propertyPath: m_Size.x
-      value: 1.2338992
+      value: 1.7626765
       objectReference: {fileID: 0}
     - target: {fileID: 6460544076485711238, guid: fe28f413482703f4ab4c3bf3b2d7cf95, type: 3}
       propertyPath: m_Size.y
-      value: 2.7447555
+      value: 3.3506079
       objectReference: {fileID: 0}
     - target: {fileID: 6460544076485711238, guid: fe28f413482703f4ab4c3bf3b2d7cf95, type: 3}
       propertyPath: m_Offset.x
-      value: 0.007954618
+      value: 0.039681144
       objectReference: {fileID: 0}
     - target: {fileID: 6460544076485711238, guid: fe28f413482703f4ab4c3bf3b2d7cf95, type: 3}
       propertyPath: m_Offset.y
-      value: 0.019670727
+      value: -0.04833251
+      objectReference: {fileID: 0}
+    - target: {fileID: 6460544076485711238, guid: fe28f413482703f4ab4c3bf3b2d7cf95, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7617537910415394187, guid: fe28f413482703f4ab4c3bf3b2d7cf95, type: 3}
       propertyPath: _player

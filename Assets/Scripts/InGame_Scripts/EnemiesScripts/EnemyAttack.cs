@@ -105,7 +105,6 @@ public class EnemyMeleeAttack : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        Debug.Log($"IsChasing: {_enemyPatrol.IsChasing}");
         if (!_enemyPatrol.IsChasing)
         {
             ResetTimer();
@@ -113,9 +112,6 @@ public class EnemyMeleeAttack : MonoBehaviour
         }
 
         _attackTimer += Time.deltaTime;
-
-        Debug.Log($"Timer: {_attackTimer} / {_attackInterval}");
-        Debug.Log($"PlayerInRange: {_playerInRange}");
 
         // Fase 1: reproducir sonido de advertencia
         if (!_soundPlayed && _attackTimer >= _attackInterval - _soundLeadTime)
@@ -130,16 +126,11 @@ public class EnemyMeleeAttack : MonoBehaviour
         // Fase 2: aplicar daño y reiniciar ciclo
         if (_attackTimer >= _attackInterval)
         {
-            Debug.Log("Intervalo alcanzado");
             if (_playerInRange)
             {
-                Debug.Log("Voy a llamar a ApplyDamage");
                 ApplyDamage();
             }
-            else
-            {
-                Debug.Log("No ataco porque PlayerInRange es false");
-            }
+
             ResetTimer();
         }
     }
@@ -186,13 +177,11 @@ public class EnemyMeleeAttack : MonoBehaviour
     /// </summary>
     private void ApplyDamage()
     {
-        Debug.Log("ApplyDamage ejecutado");
         if (_player == null) { Debug.Log("Player es null"); return; }
 
         Health health = _player.GetComponent<Health>();
         if (health != null)
         {
-            Debug.Log("Aplicando daño");
             health.Damage((int)_damageAmount);
             Debug.Log($"[EnemyMeleeAttack] Daño de {(int)_damageAmount} enviado al script Health.");
         }
