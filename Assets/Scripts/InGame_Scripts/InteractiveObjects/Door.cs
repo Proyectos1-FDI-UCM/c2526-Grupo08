@@ -35,6 +35,7 @@ public class Door : MonoBehaviour
     [SerializeField] private string MensajeBloqueada = "Necesitas una llave para abrir esta puerta.";
 
     [Header("Audio")]
+    [Tooltip("Sonido que se reproduce al abrir la puerta con la llave.")]
     [SerializeField] private AudioClip sonidoAbrir;
     #endregion
 
@@ -48,7 +49,10 @@ public class Door : MonoBehaviour
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
-
+    /// <summary>
+    /// Si el jugador colisiona con la puerta y tiene llave, la abre y la
+    /// consume; si no tiene llave, muestra el feedback de puerta bloqueada.
+    /// </summary>
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (_isOpen) { return; }

@@ -1,58 +1,79 @@
 //-------------------------------------------------------------------------
-// Archivo: AbilityBoss2.cs
-// Descripción: Script para que el boss invoque súbditos (minions)
-//              durante la pelea en los puntos de spawn.
-// Responsable: Laura Garay
-// Proyecto: No way down Proyectos 1 - Curso 2025-26
+// Script para que el jefe invoque esbirros (minions) por sus dos flancos
+// durante la pelea, de forma periódica mientras la habilidad está activa.
+// Laura Garay Zubiaguirre
+// No Way Down
+// Proyectos 1 - Curso 2025-26
 //-------------------------------------------------------------------------
 
-using System.Collections.Generic;
 using UnityEngine;
 
-// Este es el script para la segunda habilidad: invocar bichos a los lados
+/// <summary>
+/// Segunda habilidad especial del jefe: invoca un esbirro en spawnPointL
+/// y otro en spawnPointR. Si la oleada anterior sigue viva, no invoca una
+/// nueva. Una vez activada (ActivarInvocacion o StartCounting), repite la
+/// invocación automáticamente cada summonInterval segundos mientras la
+/// oleada anterior ya ha desaparecido.
+/// </summary>
 [AddComponentMenu("Scripts/Boss/AbilityBoss2")]
 public class AbilityBoss2 : MonoBehaviour
 {
-    // ---- COSAS QUE TENGO QUE ARRASTRAR AL UNITY ----
+    // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Atributos del Inspector (serialized fields)
 
-
     [Header("Ajustes de Invocación")]
-    [Tooltip("El prefab del esbirro que va a aparecer.")]
+    [Tooltip("Prefab del esbirro que aparecerá en cada invocación.")]
     [SerializeField] private GameObject minionPrefab;
 
     [Tooltip("Segundos entre cada invocación automática.")]
     [SerializeField] private float summonInterval = 15f;
 
+    [Tooltip("Tiempo en segundos antes de la primera invocación al activar la habilidad con ActivarInvocacion.")]
+    [SerializeField] private float initialSummonDelay = 0.5f;
+
     [Header("Puntos de Spawn")]
+    [Tooltip("Punto de aparición del esbirro del flanco izquierdo.")]
     [SerializeField] private Transform spawnPointL;
+
+    [Tooltip("Punto de aparición del esbirro del flanco derecho.")]
     [SerializeField] private Transform spawnPointR;
 
     #endregion
 
-    // ---- VARIABLES INTERNAS (POR SI HACEN FALTA LUEGO) ----
+    // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados
 
+    /// <summary>Esbirro invocado en el flanco izquierdo en la última oleada.</summary>
     private GameObject _leftMinion;
+
+    /// <summary>Esbirro invocado en el flanco derecho en la última oleada.</summary>
     private GameObject _rightMinion;
 
+    /// <summary>Cuenta atrás hasta la siguiente invocación automática.</summary>
     private float _timer;
-    private bool _isPlayerDetected = false;
 
+    /// <summary>Indica si la cuenta atrás de invocación está activa.</summary>
+    private bool _isPlayerDetected = false;
 
     #endregion
 
-    // ---- FUNCIONES DE MONOBEHAVIOUR ----
+    // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
+    /// <summary>
+    /// Inicializa el temporizador con el intervalo de invocación configurado.
+    /// </summary>
     private void Start()
     {
-        _timer = summonInterval; // Inicializamos el temporizador con el intervalo que pusimos en el Inspector
+        _timer = summonInterval;
     }
 
+    /// <summary>
+    /// Mientras la cuenta atrás está activa, descuenta el tiempo y, al
+    /// llegar a 0, invoca una nueva oleada y reinicia el temporizador.
+    /// </summary>
     void Update()
     {
-        // Si esta variable no es true, el timer nunca baja de 5
         if (_isPlayerDetected)
         {
             _timer -= Time.deltaTime;
@@ -65,26 +86,33 @@ public class AbilityBoss2 : MonoBehaviour
         }
     }
 
+    #endregion
+
+    // ---- MÉTODOS PÚBLICOS ----
+    #region Métodos públicos
+
+    /// <summary>
+    /// Activa la cuenta atrás de invocación y la fuerza a que la primera
+    /// oleada salga casi de inmediato (initialSummonDelay segundos).
+    /// Llamado por BossPhaseController al entrar en la fase correspondiente.
+    /// </summary>
     public void ActivarInvocacion()
     {
-        _isPlayerDetected = true; // Esto permite que el Update empiece a contar
-        _timer = 0.5f;            // Forzamos a que salgan casi al instante al activar la fase
+        _isPlayerDetected = true;
+        _timer = initialSummonDelay;
         Debug.Log("AbilityBoss2: ¡Recibida orden de activación de minions!");
     }
 
-    #endregion
-
-    // ---- FUNCIONES QUE SE LLAMAN DESDE FUERA ----
-    #region Métodos públicos
-
-    // Esta función hace el trabajo sucio de crear los minions
+    /// <summary>
+    /// Invoca una nueva oleada de esbirros (uno por cada flanco) si la
+    /// oleada anterior ya ha desaparecido y hay referencias asignadas
+    /// en el Inspector.
+    /// </summary>
     public void SummonMinions()
     {
-        // Miramos si los esbirros de la oleada anterior siguen vivos
         bool leftAlive = _leftMinion != null;
         bool rightAlive = _rightMinion != null;
 
-        // Si alguno sigue vivo, no invocamos más para no saturar
         if (leftAlive || rightAlive)
         {
             Debug.Log("AbilityBoss2: Todavía hay esbirros vivos. Saltando esta oleada.");
@@ -104,13 +132,19 @@ public class AbilityBoss2 : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Activa la cuenta atrás de invocación sin forzar una invocación
+    /// inmediata (a diferencia de ActivarInvocacion).
+    /// </summary>
     public void StartCounting()
     {
         _isPlayerDetected = true;
         Debug.Log("AbilityBoss2: Cuenta atrás activada. Esbirros cada " + summonInterval + " segundos.");
     }
 
-    // Esta es la función principal que activará el ataque
+    /// <summary>
+    /// Punto de entrada principal del ataque: invoca una nueva oleada de esbirros.
+    /// </summary>
     public void ExecuteSummoning()
     {
         SummonMinions();
@@ -118,10 +152,10 @@ public class AbilityBoss2 : MonoBehaviour
 
     #endregion
 
-    // ---- FUNCIONES EXTRA ----
+    // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
-
-    // Aquí irían las cosas de apoyo si el ataque fuera más complejo
-
+    // Esta clase no tiene métodos privados.
     #endregion
-}
+
+} // class AbilityBoss2
+  // Laura Garay Zubiaguirre

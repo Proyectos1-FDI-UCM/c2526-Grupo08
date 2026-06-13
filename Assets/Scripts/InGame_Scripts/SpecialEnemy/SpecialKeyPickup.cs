@@ -37,6 +37,7 @@ public class SpecialKeyPickup : MonoBehaviour
     /// <summary>Referencia al inventario del jugador en rango.</summary>
     private Inventory _playerInventory;
 
+    /// <summary>Acción de Input System para interactuar (tecla F / botón equivalente en mando).</summary>
     private InputAction _interactAction;
 
     #endregion
@@ -44,12 +45,16 @@ public class SpecialKeyPickup : MonoBehaviour
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
+    /// <summary>
+    /// Obtiene y activa la acción "Interact" del Input System y oculta el
+    /// prompt de recogida al iniciar.
+    /// </summary>
     private void Start()
     {
         _interactAction = InputSystem.actions.FindAction("Interact");
         if (_interactAction == null)
-        { 
-            Debug.LogWarning("[SpecialKeyPickup] Acción 'Interact' no encontrada."); 
+        {
+            Debug.LogWarning("[SpecialKeyPickup] Acción 'Interact' no encontrada.");
         }
         else
         {
@@ -59,6 +64,10 @@ public class SpecialKeyPickup : MonoBehaviour
         if (PickupPrompt != null) { PickupPrompt.SetActive(false); }
     }
 
+    /// <summary>
+    /// Mientras el jugador está en rango, comprueba si ha pulsado la
+    /// acción de interactuar para recoger la llave especial.
+    /// </summary>
     private void Update()
     {
         if (!_playerInRange || _playerInventory == null) { return; }
@@ -66,11 +75,15 @@ public class SpecialKeyPickup : MonoBehaviour
         bool interactPressed = _interactAction.WasPressedThisFrame();
 
         if (interactPressed)
-        { 
-            PickUp(); 
+        {
+            PickUp();
         }
     }
 
+    /// <summary>
+    /// Si lo que entra en el trigger tiene componente Inventory (el jugador),
+    /// lo marca en rango, cachea su Inventory y muestra el prompt de recogida.
+    /// </summary>
     private void OnTriggerEnter2D(Collider2D other)
     {
         Inventory inv = other.GetComponent<Inventory>();
@@ -81,6 +94,10 @@ public class SpecialKeyPickup : MonoBehaviour
         if (PickupPrompt != null) { PickupPrompt.SetActive(true); }
     }
 
+    /// <summary>
+    /// Si el jugador sale del trigger, deja de estar en rango, se limpia la
+    /// referencia al inventario y se oculta el prompt de recogida.
+    /// </summary>
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.GetComponent<Inventory>() == null) { return; }
@@ -107,3 +124,4 @@ public class SpecialKeyPickup : MonoBehaviour
     #endregion
 
 } // class SpecialKeyPickup
+  // Alexia Pérez Santana

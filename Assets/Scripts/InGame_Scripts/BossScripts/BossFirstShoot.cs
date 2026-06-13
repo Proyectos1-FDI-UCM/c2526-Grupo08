@@ -1,56 +1,83 @@
 //---------------------------------------------------------
-// Breve descripción del contenido del archivo
-// Marian Navarro Santoyo
-// No way down
+// Ataque de Dash del jefe: al ejecutarse, frena ligeramente la velocidad
+// actual del jefe y le aplica un impulso de física hacia el jugador.
+// Si colisiona con algo que tenga Health, le aplica daño.
+// Marián Navarro Santoyo
+// No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
 using UnityEngine;
-// Añadir aquí el resto de directivas using
-
 
 /// <summary>
-/// Antes de cada class, descripción de qué es y para qué sirve,
+/// Ataque de Dash del jefe (Raven). ExecuteDashAttack es llamado por
+/// BossPhaseController como uno de los ataques aleatorios: reduce la
+/// velocidad actual del Rigidbody2D y le aplica un impulso hacia
+/// targetPlayer. Si el jefe colisiona con un objeto con componente
+/// Health durante el dash, le aplica damageAmount puntos de daño.
+/// AplicarBuffFaseFinal aumenta la fuerza del dash y su frecuencia
+/// al activarse la Fase 3 (Enrage).
 /// </summary>
 public class BossFirstShoot : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Atributos del Inspector (serialized fields)
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // públicos y de inspector se nombren en formato PascalCase
-    // (palabras con primera letra mayúscula, incluida la primera letra)
-    // Ejemplo: MaxHealthPoints
 
     [Header("References")]
+    [Tooltip("Transform del jugador, hacia el que se dirige el Dash.")]
     [SerializeField] private Transform targetPlayer;
 
     [Header("Timer Settings (Seconds)")]
+    [Tooltip("Tiempo mínimo de espera considerado al calcular el próximo dash (reservado, ver nota en CalculateNextDash).")]
     [SerializeField] private float minWaitTime = 7f;
+
+    [Tooltip("Tiempo máximo de espera considerado al calcular el próximo dash (reservado, ver nota en CalculateNextDash).")]
     [SerializeField] private float maxWaitTime = 15f;
+
+    [Tooltip("Duración prevista del dash en segundos (reservado para una futura limitación de duración).")]
     [SerializeField] private float dashDuration = 3f;
 
     [Header("Movement Settings")]
-    [SerializeField] private float dashForce = 20f;   // La fuerza del impulso inicial
-    [SerializeField] private float dashDrag = 3f;    // Fricción para que se detenga tras el dash
+    [Tooltip("Fuerza del impulso aplicado al Rigidbody2D al ejecutar el dash.")]
+    [SerializeField] private float dashForce = 20f;
+
+    [Tooltip("Fricción lineal (linearDamping) del Rigidbody2D, para que el jefe se frene tras el dash.")]
+    [SerializeField] private float dashDrag = 3f;
+
+    [Tooltip("Puntos de daño que aplica el jefe al colisionar con algo que tenga Health durante el dash.")]
     [SerializeField] private int damageAmount = 30;
 
-    private Rigidbody2D rb;
-    private float nextDashTime;
-
-
+    [Header("Dash")]
+    [Tooltip("Fracción de la velocidad actual que conserva el jefe justo antes de aplicar el impulso del dash.")]
+    [SerializeField] private float dashVelocityRetention = 0.3f;
 
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados (private fields)
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // privados se nombren en formato _camelCase (comienza con _, 
-    // primera palabra en minúsculas y el resto con la 
-    // primera letra en mayúsculas)
-    // Ejemplo: _maxHealthPoints
 
+    /// <summary>Rigidbody2D del jefe, configurado en Awake para el dash.</summary>
+    private Rigidbody2D rb;
+
+    /// <summary>
+    /// Instante (Time.time) calculado por CalculateNextDash para un posible
+    /// próximo dash. Actualmente no se consulta en ningún Update: el
+    /// disparo del dash lo decide BossPhaseController llamando a
+    /// ExecuteDashAttack directamente. Se conserva por si en el futuro
+    /// se quiere un dash también automático.
+    /// </summary>
+    private float nextDashTime;
+
+    #endregion
+
+    // ---- MÉTODOS DE MONOBEHAVIOUR ----
+    #region Métodos de MonoBehaviour
+
+    /// <summary>
+    /// Cachea el Rigidbody2D y lo configura para el dash (sin gravedad,
+    /// con fricción, rotación bloqueada e interpolación), y calcula el
+    /// primer tiempo de espera reservado.
+    /// </summary>
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -65,73 +92,66 @@ public class BossFirstShoot : MonoBehaviour
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
         CalculateNextDash();
-
     }
-
-
-
-
-    #endregion
-
-    // ---- MÉTODOS DE MONOBEHAVIOUR ----
-    #region Métodos de MonoBehaviour
-
-    // Por defecto están los típicos (Update y Start) pero:
-    // - Hay que añadir todos los que sean necesarios
-    // - Hay que borrar los que no se usen 
-
-    /// <summary>
-    /// Start is called on the frame when a script is enabled just before 
-    /// any of the Update methods are called the first time.
-    /// </summary>
-
 
     #endregion
 
     // ---- MÉTODOS PÚBLICOS ----
     #region Métodos públicos
-    // Documentar cada método que aparece aquí con ///<summary>
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
-    // Ejemplo: GetPlayerController
+
+    /// <summary>
+    /// Ejecuta el ataque de Dash: reduce la velocidad actual del jefe a
+    /// dashVelocityRetention y le aplica un impulso de fuerza dashForce
+    /// en dirección a targetPlayer.
+    /// </summary>
     public void ExecuteDashAttack()
     {
         if (targetPlayer == null) return; // Seguridad
 
         Vector2 dashDirection = (targetPlayer.position - transform.position).normalized;
 
-        rb.linearVelocity *= 0.3f;
+        rb.linearVelocity *= dashVelocityRetention;
         rb.AddForce(dashDirection * dashForce, ForceMode2D.Impulse);
 
         Debug.Log("¡Raven ejecutando Dash desde el Controlador de Fases!");
     }
 
-    public void AplicarBuffFaseFinal(float multiplicador) // Esto lo ha hecho Marián
+    /// <summary>
+    /// Aplica el buff de la Fase 3 (Enrage): aumenta la fuerza del dash y
+    /// reduce los tiempos de espera mínimo y máximo dividiéndolos por
+    /// multiplicador.
+    /// </summary>
+    /// <param name="multiplicador">Factor de potenciación de la Fase 3.</param>
+    public void AplicarBuffFaseFinal(float multiplicador)
     {
         dashForce *= multiplicador;
         minWaitTime /= multiplicador;
         maxWaitTime /= multiplicador;
-        Debug.Log("[BossFisrtShoot] Buff de velocidad de ataque aplicado.");
+        Debug.Log("[BossFirstShoot] Buff de velocidad de ataque aplicado.");
     }
+
     #endregion
 
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
-    // Documentar cada método que aparece aquí
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
 
+    /// <summary>
+    /// Calcula un tiempo de espera aleatorio entre minWaitTime y maxWaitTime
+    /// y lo guarda en nextDashTime. Ver nota en el campo nextDashTime.
+    /// </summary>
     private void CalculateNextDash()
     {
         float wait = Random.Range(minWaitTime, maxWaitTime);
         nextDashTime = Time.time + wait;
     }
 
+    /// <summary>
+    /// Al colisionar físicamente con algo que tenga componente Health
+    /// (por ejemplo el jugador durante el dash), le aplica damageAmount
+    /// puntos de daño.
+    /// </summary>
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
         Health healthComponent = collision.gameObject.GetComponent<Health>();
 
         if (healthComponent != null)
@@ -143,6 +163,5 @@ public class BossFirstShoot : MonoBehaviour
 
     #endregion
 
-}
-// class BossFisrtShoot 
-// namespace
+} // class BossFirstShoot
+  // Marián Navarro Santoyo

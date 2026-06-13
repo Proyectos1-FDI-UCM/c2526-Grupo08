@@ -21,7 +21,20 @@ using UnityEngine.InputSystem;
 public class Objects : MonoBehaviour
 {
     // ---- TIPOS DE OBJETO ----
+
+    /// <summary>Tipos de objeto recolectable que puede representar este componente.</summary>
     public enum ObjectsType { bandage, key, fusible, card, multiAbility, explosiveAbility }
+
+    // ---- CONSTANTES ----
+    #region Constantes
+
+    /// <summary>
+    /// Valor que se pasa a FeedbackUI cuando el objeto recogido es un
+    /// desbloqueo de habilidad (no tiene una "cantidad" asociada en el inventario).
+    /// </summary>
+    private const int NoCountSentinel = -1;
+
+    #endregion
 
     // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Atributos del Inspector
@@ -43,16 +56,17 @@ public class Objects : MonoBehaviour
     /// <summary>Referencia al inventario del jugador cuando está en rango.</summary>
     private Inventory _playerInventory;
 
-    //llama a player movement para las animaciones
+    /// <summary>Referencia a PlayerMovement del jugador en rango, usada para reproducir la animación de pickup.</summary>
     private PlayerMovement _playerMovement;
-
-
 
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
+    /// <summary>
+    /// Obtiene y activa la acción "Interact" del Input System.
+    /// </summary>
     private void Start()
     {
         _interactAction = InputSystem.actions.FindAction("Interact");
@@ -62,6 +76,10 @@ public class Objects : MonoBehaviour
             _interactAction.Enable();
     }
 
+    /// <summary>
+    /// Mientras el jugador está en rango, comprueba si ha pulsado la
+    /// acción de interactuar para recoger el objeto.
+    /// </summary>
     private void Update()
     {
         if (!_playerInRange || _playerInventory == null) { return; }
@@ -73,6 +91,10 @@ public class Objects : MonoBehaviour
         PickUp();
     }
 
+    /// <summary>
+    /// Si lo que entra en el trigger tiene componente Inventory (el jugador),
+    /// lo marca como en rango y cachea sus referencias.
+    /// </summary>
     private void OnTriggerEnter2D(Collider2D other)
     {
         Inventory inventory = other.GetComponent<Inventory>();
@@ -84,6 +106,9 @@ public class Objects : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Si el jugador sale del trigger, deja de estar en rango y se limpian las referencias cacheadas.
+    /// </summary>
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.GetComponent<Inventory>() != null)
@@ -100,14 +125,14 @@ public class Objects : MonoBehaviour
     #region Métodos Privados
 
     /// <summary>
-    /// Añade este objeto al inventario del jugador, muestra el feedback visual
-    /// y destruye el GameObject.
+    /// Añade este objeto al inventario del jugador, reproduce la animación
+    /// de pickup, muestra el feedback visual correspondiente y destruye el GameObject.
     /// </summary>
     private void PickUp()
     {
         _playerInventory.AddItem(type);
 
-        //animacion de PickUp
+        // Animación de pickup
         if (_playerMovement != null)
             _playerMovement.PlayPickup();
 
@@ -118,8 +143,8 @@ public class Objects : MonoBehaviour
             ObjectsType.key => _playerInventory.GetKeyCount(),
             ObjectsType.bandage => _playerInventory.GetBandageCount(),
             ObjectsType.card => _playerInventory.GetCardCount(),
-            ObjectsType.multiAbility => -1,
-            ObjectsType.explosiveAbility => -1,
+            ObjectsType.multiAbility => NoCountSentinel,
+            ObjectsType.explosiveAbility => NoCountSentinel,
             _ => 0
         };
 

@@ -8,7 +8,6 @@
 //---------------------------------------------------------
 
 using UnityEngine;
-using UnityEngine.Rendering;
 
 /// <summary>
 /// Gestiona los dos estados del enemigo móvil: PATRULLA y PERSECUCION.
@@ -43,7 +42,12 @@ public class EnemyPatrol : MonoBehaviour
     [SerializeField] private float ChaseRadius = 4.5f;
 
     [Header("Referencia al jugador")]
+    [Tooltip("GameObject del jugador, usado para calcular distancia de detección y persecución.")]
     [SerializeField] private GameObject _player;
+
+    [Header("Animación")]
+    [Tooltip("Magnitud mínima al cuadrado del vector de movimiento para considerar que el enemigo se está moviendo.")]
+    [SerializeField] private float MinMoveDirectionSqr = 0.01f;
 
     #endregion
 
@@ -223,7 +227,7 @@ public class EnemyPatrol : MonoBehaviour
     /// <param name="moveDirection">Vector de dirección de movimiento</param>
     private void UpdateSpriteFromDirection(Vector2 moveDirection)
     {
-        if (moveDirection.sqrMagnitude < 0.01f)
+        if (moveDirection.sqrMagnitude < MinMoveDirectionSqr)
         {
             _animator.SetFloat("Speed", 0f);
             return;

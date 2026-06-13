@@ -12,7 +12,7 @@ using UnityEngine;
 /// Controla el movimiento base del jefe.
 /// Elige puntos aleatorios dentro del área de combate y se desplaza
 /// hacia ellos con interpolación suave de velocidad (sin Coroutines).
-/// Coexiste con BossFisrtShoot: el dash de ese script sobreescribe
+/// Coexiste con BossFirstShoot: el dash de ese script sobreescribe
 /// la velocidad temporalmente; cuando el damping la reduce, este
 /// script retoma el control en el siguiente frame.
 /// </summary>
@@ -51,6 +51,13 @@ public class BossBehaviour : MonoBehaviour
     [Tooltip("Color del área de movimiento en el editor.")]
     [SerializeField] private Color ColorGizmo = new Color(0f, 1f, 1f, 0.2f);
 
+    [Header("Animación")]
+    [Tooltip("Magnitud al cuadrado de la velocidad por debajo de la cual se considera que el jefe está parado.")]
+    [SerializeField] private float MinMoveSqrMagnitude = 0.01f;
+
+    [Tooltip("Tiempo de suavizado (dampTime) usado al actualizar MoveX/MoveY en el Animator.")]
+    [SerializeField] private float AnimatorDampTime = 0.15f;
+
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
@@ -71,10 +78,13 @@ public class BossBehaviour : MonoBehaviour
     /// <summary>Tiempo aleatorio hasta el próximo cambio de punto.</summary>
     private float _timeUntilChange;
 
-    //Llamamos al animator para que se pueda mover
+    /// <summary>Animator del jefe, usado para reflejar el movimiento en sus animaciones.</summary>
     private Animator _animator;
+
+    /// <summary>Última dirección de movimiento hacia el punto objetivo, usada para la animación.</summary>
     private Vector2 _currentDirection;
 
+    /// <summary>Indica si el movimiento del jefe está activo. Lo controla BossPhaseController.</summary>
     private bool _isActive = false;
 
     #endregion
@@ -83,8 +93,8 @@ public class BossBehaviour : MonoBehaviour
     #region Métodos de MonoBehaviour
 
     /// <summary>
-    /// Cachea el Rigidbody2D antes que Start para que esté disponible
-    /// desde el primer frame.
+    /// Cachea el Rigidbody2D y el Animator antes que Start para que estén
+    /// disponibles desde el primer frame.
     /// </summary>
     private void Awake()
     {
@@ -119,7 +129,6 @@ public class BossBehaviour : MonoBehaviour
     /// </summary>
     private void OnDrawGizmosSelected()
     {
-        // Usamos la posición actual en editor; en runtime usamos _centroArea
         Vector3 centro = Application.isPlaying ? (Vector3)_areaCenter : transform.position;
 
         Gizmos.color = ColorGizmo;
@@ -134,6 +143,40 @@ public class BossBehaviour : MonoBehaviour
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawSphere(_goalPoint, 0.2f);
+        }
+    }
+
+    #endregion
+
+    // ---- MÉTODOS PÚBLICOS ----
+    #region Métodos públicos
+
+    /// <summary>
+    /// Multiplica la velocidad base y la suavidad por multiplicador.
+    /// Usado por las fases del jefe para volverlo más agresivo.
+    /// </summary>
+    /// <param name="multiplicador">Factor por el que se multiplican Speed y SmoothSpeed.</param>
+    public void BuffSpeed(float multiplicador)
+    {
+        Speed *= multiplicador;
+
+        // Multiplicamos también SmoothSpeed para que el jefe cambie de dirección más agresivamente
+        SmoothSpeed *= multiplicador;
+
+        Debug.Log($"<color=cyan>[Boss] Velocidad aumentada a: {Speed}</color>");
+    }
+
+    /// <summary>
+    /// Activa o desactiva el movimiento del jefe. Si se desactiva, detiene
+    /// inmediatamente el Rigidbody2D.
+    /// </summary>
+    /// <param name="state">True para activar el movimiento, false para detenerlo.</param>
+    public void SetMovementActive(bool state)
+    {
+        _isActive = state;
+        if (!state && _rb != null)
+        {
+            _rb.linearVelocity = Vector2.zero;
         }
     }
 
@@ -168,12 +211,11 @@ public class BossBehaviour : MonoBehaviour
         Vector2 direccion = (_goalPoint - (Vector2)transform.position).normalized;
         Vector2 velocidadDeseada = direccion * Speed;
 
-        // Lerp entre la velocidad actual y la deseada para suavizar
         _rb.linearVelocity = Vector2.Lerp(_rb.linearVelocity, velocidadDeseada, SmoothSpeed * Time.deltaTime);
     }
 
     /// <summary>
-    /// Elige un punto aleatorio dentro del rectángulo centrado en _centroArea
+    /// Elige un punto aleatorio dentro del rectángulo centrado en _areaCenter
     /// y reinicia el timer con un tiempo aleatorio entre los límites configurados.
     /// </summary>
     private void ChooseNewPoint()
@@ -191,36 +233,23 @@ public class BossBehaviour : MonoBehaviour
         _currentDirection = (_goalPoint - (Vector2)transform.position).normalized;
     }
 
-    public void BuffSpeed(float multiplicador) //Esto lo ha hecho Marián por si hay dudas
-    {
-        Speed *= multiplicador;
-
-        SmoothSpeed *= multiplicador; //Esto para que el jefe cambie de dirección agresivamente
-
-        Debug.Log($"<color=cyan>[Boss] Velocidad aumentada a: {Speed}</color>");
-    }
-    public void SetMovementActive(bool state)
-    {
-        _isActive = state;
-        if (!state && _rb != null)
-        {
-            _rb.linearVelocity = Vector2.zero; // Detenemos al jefe por completo
-        }
-    }
-
+    /// <summary>
+    /// Actualiza los parámetros del Animator (Speed, MoveX, MoveY) y el
+    /// volteo del sprite según la dirección hacia el punto objetivo.
+    /// </summary>
     private void UpdateAnimation()
     {
         Vector2 direction = _currentDirection;
 
-        if (_rb.linearVelocity.sqrMagnitude < 0.01f)
+        if (_rb.linearVelocity.sqrMagnitude < MinMoveSqrMagnitude)
         {
             _animator.SetFloat("Speed", 0f);
             return;
         }
 
         _animator.SetFloat("Speed", 1f);
-        _animator.SetFloat("MoveX", direction.x, 0.15f, Time.deltaTime);
-        _animator.SetFloat("MoveY", direction.y, 0.15f, Time.deltaTime);
+        _animator.SetFloat("MoveX", direction.x, AnimatorDampTime, Time.deltaTime);
+        _animator.SetFloat("MoveY", direction.y, AnimatorDampTime, Time.deltaTime);
 
         Vector3 scale = transform.localScale;
         if (direction.x > 0)
@@ -232,4 +261,5 @@ public class BossBehaviour : MonoBehaviour
 
     #endregion
 
-} // class BoosBehaviour
+} // class BossBehaviour
+  // Alexia Perez y Marián Navarro

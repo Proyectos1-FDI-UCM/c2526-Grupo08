@@ -7,7 +7,6 @@
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -35,11 +34,19 @@ public class Inventory : MonoBehaviour
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados
 
+    /// <summary>Número de vendas en el inventario.</summary>
     private int _bandage = 0;
+
+    /// <summary>Número de llaves genéricas en el inventario.</summary>
     private int _key = 0;
+
+    /// <summary>Número de fusibles en el inventario.</summary>
     private int _fusible = 0;
+
+    /// <summary>Número de tarjetas en el inventario.</summary>
     private int _card = 0;
 
+    /// <summary>Componente Health del jugador, usado para aplicar la curación de las vendas.</summary>
     private Health _health;
 
     /// <summary>
@@ -52,7 +59,10 @@ public class Inventory : MonoBehaviour
     /// <summary>Evita registrar el evento dos veces.</summary>
     private bool _inputRegistered = false;
 
+    /// <summary>True si el jugador tiene desbloqueado el disparo multidireccional.</summary>
     private bool _hasMultiAbility = false;
+
+    /// <summary>True si el jugador tiene desbloqueado el disparo explosivo.</summary>
     private bool _hasExplosiveAbility = false;
 
     #endregion
@@ -60,6 +70,10 @@ public class Inventory : MonoBehaviour
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
+    /// <summary>
+    /// Cachea el componente Health del jugador y obtiene/registra la
+    /// acción "Healing" del Input System.
+    /// </summary>
     private void Start()
     {
         _health = GetComponent<Health>();
@@ -76,14 +90,14 @@ public class Inventory : MonoBehaviour
         RegisterInput();
     }
 
-    private void Update() { }
-
+    /// <summary>Vuelve a registrar la acción de curar al reactivarse el componente.</summary>
     private void OnEnable()
     {
         if (_healthAction != null)
             RegisterInput();
     }
 
+    /// <summary>Desregistra la acción de curar al desactivarse el componente.</summary>
     private void OnDisable()
     {
         UnregisterInput();
@@ -115,7 +129,7 @@ public class Inventory : MonoBehaviour
     // ---- Llave genérica (puertas comunes) — de Marián ----
 
     /// <summary>True si el jugador tiene al menos una llave genérica.</summary>
-    public bool hasKey = false;
+    public bool hasKey { get; set; } = false;
 
     /// <summary>
     /// Registra que el jugador ha recogido una llave genérica.
@@ -135,7 +149,7 @@ public class Inventory : MonoBehaviour
     /// especial al ser amenazado. Solo existe una en toda la partida.
     /// La usa SecretDoor.cs para abrir la habitación secreta.
     /// </summary>
-    public bool hasSpecialKey = false;
+    public bool hasSpecialKey { get; set; } = false;
 
     /// <summary>
     /// Registra que el jugador ha recogido la llave especial.
@@ -213,6 +227,7 @@ public class Inventory : MonoBehaviour
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
 
+    /// <summary>Habilita la acción "Healing" y suscribe OnUseBandage, si no estaba ya registrada.</summary>
     private void RegisterInput()
     {
         if (_inputRegistered || _healthAction == null) return;
@@ -221,6 +236,7 @@ public class Inventory : MonoBehaviour
         _inputRegistered = true;
     }
 
+    /// <summary>Desuscribe OnUseBandage y deshabilita la acción "Healing", si estaba registrada.</summary>
     private void UnregisterInput()
     {
         if (!_inputRegistered || _healthAction == null) return;
@@ -229,8 +245,13 @@ public class Inventory : MonoBehaviour
         _inputRegistered = false;
     }
 
+    /// <summary>Callback de la acción "Healing": intenta usar una venda.</summary>
     private void OnUseBandage(InputAction.CallbackContext context) => UseBandage();
 
+    /// <summary>
+    /// Si hay vendas disponibles, consume una y cura al jugador BandageHealth
+    /// puntos mediante Health.Healing(); si no hay vendas, lo indica por consola.
+    /// </summary>
     private void UseBandage()
     {
         if (_health == null) return;

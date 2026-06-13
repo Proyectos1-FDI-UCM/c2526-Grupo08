@@ -1,27 +1,31 @@
 //---------------------------------------------------------
-// Breve descripción del contenido del archivo
+// Controla las fases de combate del jefe (Raven): detecta al jugador,
+// gestiona el ciclo de ataques aleatorios y activa las fases 2 (cristales
+// + minions, ataques más rápidos) y 3 (Enrage: más velocidad y daño)
+// según la vida restante del jefe.
 // Marián Navarro y Laura Garay
-// No way down
+// No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
 using UnityEngine;
-// Añadir aquí el resto de directivas using
-
 
 /// <summary>
-/// Antes de cada class, descripción de qué es y para qué sirve,
-/// usando todas las líneas que sean necesarias.
+/// Controlador central de la pelea contra el jefe (Raven).
+/// Mientras el jugador no ha sido detectado, comprueba periódicamente si
+/// está dentro de _detectionRange. Al detectarlo, espera _initialDelay
+/// segundos (escuchando ya los cambios de fase por vida) antes de activar
+/// el movimiento y empezar el ciclo de ataques aleatorios
+/// (Dash, Cuchillas y, a partir de la Fase 2, Minions).
+/// Cuando la vida baja de Phase2HealthThreshold activa la Fase 2
+/// (cristales + minions, ataques más rápidos), y cuando baja de
+/// Phase3HealthThreshold activa la Fase 3 (Enrage: más velocidad y daño).
 /// </summary>
 public class BossPhaseController : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Atributos del Inspector (serialized fields)
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // públicos y de inspector se nombren en formato PascalCase
-    // (palabras con primera letra mayúscula, incluida la primera letra)
-    // Ejemplo: MaxHealthPoints
+
     [Header("Detection Settings")]
     [Tooltip("Radio de detección dentro del cual se activa el combate al entrar Cori.")]
     [SerializeField] private float _detectionRange = 12f;
@@ -35,7 +39,6 @@ public class BossPhaseController : MonoBehaviour
 
     [Tooltip("Tiempo de espera inicial (en segundos) tras detectar al jugador antes de empezar a atacar.")]
     [SerializeField] private float _initialDelay = 5.0f;
-
 
     #endregion
 
@@ -73,23 +76,38 @@ public class BossPhaseController : MonoBehaviour
 
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados (private fields)
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // privados se nombren en formato _camelCase (comienza con _, 
-    // primera palabra en minúsculas y el resto con la 
-    // primera letra en mayúsculas)
-    // Ejemplo: _maxHealthPoints
 
+    /// <summary>Componente Health del jefe, usado para leer la vida actual y comprobar las fases.</summary>
     private Health _health;
+
+    /// <summary>Componente de movimiento del jefe, activado tras la espera inicial y potenciado en Fase 3.</summary>
     private BossBehaviour _movement;
+
+    /// <summary>Componente del ataque de Dash, ejecutado en ExecuteRandomAttack y potenciado en Fase 3.</summary>
     private BossFirstShoot _dash;
+
+    /// <summary>Componente del ataque de Cuchillas, ejecutado en ExecuteRandomAttack y potenciado en Fase 3.</summary>
     private SecondAttackBoss _blades;
+
+    /// <summary>Componente de la habilidad de cristales, activada al entrar en Fase 2.</summary>
     private AbilityBoss1 _crystals;
+
+    /// <summary>Componente de invocación de minions, activada al entrar en Fase 2.</summary>
     private AbilityBoss2 _summons;
 
+    /// <summary>True una vez activada la Fase 2.</summary>
     private bool _phase2Activated = false;
+
+    /// <summary>True una vez activada la Fase 3 (Enrage).</summary>
     private bool _phase3Activated = false;
+
+    /// <summary>True una vez que el jugador ha sido detectado dentro de _detectionRange.</summary>
     private bool _isPlayerDetected = false;
+
+    /// <summary>
+    /// Temporizador compartido: tras detectar al jugador cuenta la espera
+    /// inicial (_initialDelay), y después el cooldown entre ataques (_timeBetweenAttacks).
+    /// </summary>
     private float _attackCooldownTimer = 0f;
 
     #endregion
@@ -97,10 +115,9 @@ public class BossPhaseController : MonoBehaviour
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
-    // Por defecto están los típicos (Update y Start) pero:
-    // - Hay que añadir todos los que sean necesarios
-    // - Hay que borrar los que no se usen 
-
+    /// <summary>
+    /// Cachea todos los componentes del jefe necesarios para gestionar el combate.
+    /// </summary>
     private void Start()
     {
         _health = GetComponent<Health>();
@@ -109,35 +126,36 @@ public class BossPhaseController : MonoBehaviour
         _blades = GetComponent<SecondAttackBoss>();
         _crystals = GetComponent<AbilityBoss1>();
         _summons = GetComponent<AbilityBoss2>();
-
     }
 
     /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
+    /// Mientras no se ha detectado al jugador, comprueba periódicamente si
+    /// está dentro del radio de detección. Una vez detectado, comprueba
+    /// siempre los cambios de fase por vida (incluso durante la espera
+    /// inicial), espera _initialDelay segundos antes de activar el
+    /// movimiento, y a partir de entonces gestiona el ciclo de ataques.
     /// </summary>
-
     private void Update()
     {
-        // 1. Si no hay Cori, no hacemos nada más
+        // Si no hay Cori, no hacemos nada más
         if (!_isPlayerDetected)
         {
             CheckForPlayer();
             return;
         }
 
-        // --- ¡ESTO ES LO NUEVO! ---
-        // Siempre leemos la vida, incluso durante la espera inicial, 
+        // Siempre leemos la vida, incluso durante la espera inicial,
         // para que las fases se activen si le pegamos mientras espera.
         CheckHealthAndPhases();
 
-        // 2. Gestión de la espera inicial de 5 segundos
+        // Gestión de la espera inicial (_initialDelay segundos)
         if (_attackCooldownTimer > 0)
         {
             _attackCooldownTimer -= Time.deltaTime;
-            return; // Durante estos 5 segundos, el Boss no se mueve ni ataca, pero SÍ escucha su vida
+            return; // Durante esta espera el jefe no se mueve ni ataca, pero sí escucha su vida
         }
 
-        // 3. Si llegamos aquí, los 5 segundos han terminado: ¡A PELEAR!
+        // La espera inicial ha terminado: el jefe empieza a moverse y atacar
         if (_movement != null)
         {
             _movement.SetMovementActive(true);
@@ -145,31 +163,16 @@ public class BossPhaseController : MonoBehaviour
 
         HandleAttackCycle();
     }
+
     #endregion
 
     // ---- MÉTODOS PÚBLICOS ----
     #region Métodos públicos
-    // Documentar cada método que aparece aquí con ///<summary>
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
-    // Ejemplo: GetPlayerController
-
+    // Esta clase no expone métodos públicos.
     #endregion
 
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
-    // Documentar cada método que aparece aquí
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
-
-    /// <summary>Desactiva al jefe al ser derrotado, sin destruirlo para evitar referencias rotas.</summary>
-    private void MuerteBoss()
-    {
-        Debug.Log("Raven derrotado. Desactivando objeto...");
-        gameObject.SetActive(false);
-    }
 
     /// <summary>Comprueba la vida actual del jefe y activa la Fase 2/3 si corresponde.</summary>
     private void CheckHealthAndPhases()
@@ -254,7 +257,8 @@ public class BossPhaseController : MonoBehaviour
 
         Debug.Log($"Phase 3 Activated: Enrage mode (x{Phase3SpeedMultiplier} Speed).");
     }
-  
-}// class BossPhaseController 
- // namespace
-#endregion
+
+    #endregion
+
+} // class BossPhaseController
+  // Marián Navarro y Laura Garay

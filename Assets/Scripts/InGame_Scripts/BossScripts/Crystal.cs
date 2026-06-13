@@ -1,45 +1,76 @@
 //---------------------------------------------------------
-// Gestiona el tiempo que permanece el cristal en el juego y luego se destruye. Tambien detecta si ha chocado con el jugador
+// Gestiona el tiempo de vida de un cristal lanzado por el jefe:
+// se destruye solo tras lifeTime segundos, y si golpea al jugador
+// antes de eso, le aplica daño.
 // Laura Garay Zubiaguirre
 // No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
 using UnityEngine;
-// Añadir aquí el resto de directivas using
-/// <summary>
-/// Antes de cada class, descripción de qué es y para qué sirve,
-/// usando todas las líneas que sean necesarias.
-/// </summary>
 
+/// <summary>
+/// Proyectil de cristal del jefe (usado por AbilityBoss1).
+/// Al instanciarse, programa su propia destrucción tras lifeTime segundos.
+/// Si colisiona con el jugador antes de destruirse, le aplica damage
+/// puntos de daño mediante su componente Health.
+/// </summary>
 public class Crystal : MonoBehaviour
 {
+    // ---- ATRIBUTOS DEL INSPECTOR ----
+    #region Atributos del Inspector
+
     [Header("Configuración")]
-    public int damage = 30;
+    [Tooltip("Puntos de daño que aplica el cristal al jugador si lo golpea.")]
+    [SerializeField] private int damage = 30;
 
     [Tooltip("Tiempo en segundos antes de que el cristal desaparezca solo.")]
-    public float lifeTime = 2.0f;
+    [SerializeField] private float lifeTime = 2.0f;
 
+    #endregion
+
+    // ---- MÉTODOS DE MONOBEHAVIOUR ----
+    #region Métodos de MonoBehaviour
+
+    /// <summary>
+    /// Programa la destrucción automática del cristal tras lifeTime segundos.
+    /// </summary>
     void Start()
     {
-        // Se destruye el cristal
         Destroy(gameObject, lifeTime);
     }
 
+    /// <summary>
+    /// Si lo que entra en contacto con el cristal es el jugador, le aplica
+    /// damage puntos de daño mediante su componente Health.
+    /// </summary>
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // 1. Primero, comprobamos si lo que hemos tocado es el Jugador usando su layer (6).
+        // Comprobamos si lo que hemos tocado es el Jugador
         if (other.gameObject.GetComponent<PlayerMovement>() != null)
         {
             Health playerHealth = other.GetComponent<Health>();
 
             if (playerHealth != null)
             {
-                playerHealth.Damage(damage); //llamamos a health para quitar X daño al jugador
+                playerHealth.Damage(damage);
 
-                // pa ver que funciona
                 Debug.Log($"<color=red>¡Cristal golpeó al Jugador!</color> Daño aplicado: {damage}");
             }
         }
     }
-}
+
+    #endregion
+
+    // ---- MÉTODOS PÚBLICOS ----
+    #region Métodos públicos
+    // Esta clase no expone métodos públicos.
+    #endregion
+
+    // ---- MÉTODOS PRIVADOS ----
+    #region Métodos Privados
+    // Esta clase no tiene métodos privados.
+    #endregion
+
+} // class Crystal
+  // Laura Garay Zubiaguirre

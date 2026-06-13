@@ -47,7 +47,12 @@ public class EnemyShoot : MonoBehaviour
     [SerializeField] private AudioClip ShootSound;
 
     [Header("Referencia al jugador")]
+    [Tooltip("GameObject del jugador, usado como objetivo del disparo.")]
     [SerializeField] private GameObject _player;
+
+    [Header("Daño")]
+    [Tooltip("Daño que aplica la bala del enemigo al impactar. (GDD: igual que la bala del jugador, 20)")]
+    [SerializeField] private int BulletDamage = 20;
 
     #endregion
 
@@ -188,7 +193,7 @@ public class EnemyShoot : MonoBehaviour
         Bullet bullet = bulletObj.GetComponent<Bullet>();
         if (bullet != null)
         {
-            bullet.Init(direction, 20);
+            bullet.Init(direction, BulletDamage);
         }
         else
         {

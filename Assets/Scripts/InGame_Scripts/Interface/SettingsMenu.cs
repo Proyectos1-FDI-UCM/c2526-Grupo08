@@ -4,7 +4,6 @@
 // actual en tiempo real al pulsar cualquiera de los dos botones.
 // Los valores se guardan en GameManager para que persistan entre escenas.
 // Alexia Pérez Santana
-
 // No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
@@ -58,8 +57,9 @@ public class SettingsMenu : MonoBehaviour
         [Tooltip("TMP_Text que muestra el valor actual")]
         [SerializeField]
         private TMP_Text ValueLabel;
-        public TMP_Text GetTMPText() => ValueLabel;
 
+        /// <summary>Devuelve el TMP_Text que muestra el valor actual de esta entrada.</summary>
+        public TMP_Text GetTMPText() => ValueLabel;
     }
 
     #endregion
@@ -99,17 +99,26 @@ public class SettingsMenu : MonoBehaviour
 
     #endregion
 
+    // ---- CONSTANTES ----
+    #region Constantes
+
+    /// <summary>Factor usado para redondear los valores a 2 decimales (Mathf.Round(x * RoundingFactor) / RoundingFactor).</summary>
+    private const float RoundingFactor = 100f;
+
+    #endregion
+
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
+    /// <summary>Sincroniza los labels con los valores actuales de GameManager al iniciar.</summary>
     private void Start()
     {
         RefrescarUI();
     }
 
+    /// <summary>Cada vez que se activa el panel, sincroniza los labels con los valores actuales.</summary>
     private void OnEnable()
     {
-        // Cada vez que se abre el panel, sincronizar los textos con los valores actuales
         RefrescarUI();
     }
 
@@ -125,10 +134,9 @@ public class SettingsMenu : MonoBehaviour
     {
         if (!GameManager.HasInstance()) return;
 
-        float nuevo = Mathf.Round((GameManager.Instance.GetShakeDelay() - ShakeStep) * 100f) / 100f;
-        float shake = GameManager.Instance.GetShakeDelay();
-        shake = Mathf.Clamp(nuevo, ShakeMin, ShakeMax);
-        ActualizarLabel(ShakeEntry, GameManager.Instance.GetCameraFollowDelay());
+        float nuevo = Mathf.Round((GameManager.Instance.GetShakeDelay() - ShakeStep) * RoundingFactor) / RoundingFactor;
+        float shake = Mathf.Clamp(nuevo, ShakeMin, ShakeMax);
+        ActualizarLabel(ShakeEntry, shake);
     }
 
     /// <summary>
@@ -138,10 +146,9 @@ public class SettingsMenu : MonoBehaviour
     {
         if (!GameManager.HasInstance()) return;
 
-        float nuevo = Mathf.Round((GameManager.Instance.GetShakeDelay() + ShakeStep) * 100f) / 100f;
-        float shake = GameManager.Instance.GetShakeDelay();
-        shake = Mathf.Clamp(nuevo, ShakeMin, ShakeMax);
-        ActualizarLabel(ShakeEntry, GameManager.Instance.GetShakeDelay());
+        float nuevo = Mathf.Round((GameManager.Instance.GetShakeDelay() + ShakeStep) * RoundingFactor) / RoundingFactor;
+        float shake = Mathf.Clamp(nuevo, ShakeMin, ShakeMax);
+        ActualizarLabel(ShakeEntry, shake);
     }
 
     #endregion
@@ -156,10 +163,9 @@ public class SettingsMenu : MonoBehaviour
     {
         if (!GameManager.HasInstance()) { return; }
 
-        float nuevo = Mathf.Round((GameManager.Instance.GetCameraFollowDelay() - FollowDelayStep) * 100f) / 100f;
-        float follow = GameManager .Instance.GetCameraFollowDelay();
-        follow = Mathf.Clamp(nuevo, FollowDelayMin, FollowDelayMax);
-        ActualizarLabel(FollowDelayEntry, GameManager.Instance.GetCameraFollowDelay());
+        float nuevo = Mathf.Round((GameManager.Instance.GetCameraFollowDelay() - FollowDelayStep) * RoundingFactor) / RoundingFactor;
+        float follow = Mathf.Clamp(nuevo, FollowDelayMin, FollowDelayMax);
+        ActualizarLabel(FollowDelayEntry, follow);
     }
 
     /// <summary>
@@ -169,10 +175,9 @@ public class SettingsMenu : MonoBehaviour
     {
         if (!GameManager.HasInstance()) return;
 
-        float nuevo = Mathf.Round((GameManager.Instance.GetCameraFollowDelay() + FollowDelayStep) * 100f) / 100f;
-        float follow = GameManager.Instance.GetCameraFollowDelay();
-        follow = Mathf.Clamp(nuevo, FollowDelayMin, FollowDelayMax);
-        ActualizarLabel(FollowDelayEntry, GameManager.Instance.GetCameraFollowDelay());
+        float nuevo = Mathf.Round((GameManager.Instance.GetCameraFollowDelay() + FollowDelayStep) * RoundingFactor) / RoundingFactor;
+        float follow = Mathf.Clamp(nuevo, FollowDelayMin, FollowDelayMax);
+        ActualizarLabel(FollowDelayEntry, follow);
     }
 
     #endregion
@@ -182,7 +187,7 @@ public class SettingsMenu : MonoBehaviour
 
     /// <summary>
     /// Actualiza todos los labels con los valores actuales de GameManager.
-    /// Se llama en OnEnable para sincronizar al abrir el panel.
+    /// Se llama en Start/OnEnable para sincronizar al abrir el panel.
     /// </summary>
     private void RefrescarUI()
     {
@@ -204,3 +209,4 @@ public class SettingsMenu : MonoBehaviour
     #endregion
 
 } // class SettingsMenu
+  // Alexia Pérez Santana

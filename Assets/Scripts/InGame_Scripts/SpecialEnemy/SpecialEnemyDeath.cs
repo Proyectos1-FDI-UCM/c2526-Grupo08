@@ -12,7 +12,7 @@ using UnityEngine;
 /// <summary>
 /// Se activa cuando Health llama a OnDefeated() en lugar de destruir el enemigo.
 /// Desactiva EnemyPatrol, EnemyShoot y EnemyAttack, congela el Rigidbody2D
-/// y rota el sprite 90 grados para indicar que está en el suelo.
+/// y rota el sprite hasta FallRotationZ grados para indicar que está en el suelo.
 /// Habilita SpecialEnemyInteraction para que el jugador pueda acercarse.
 /// </summary>
 public class SpecialEnemyDeath : MonoBehaviour
@@ -31,6 +31,9 @@ public class SpecialEnemyDeath : MonoBehaviour
     [Tooltip("Velocidad de la rotación de caída (grados por segundo)")]
     [SerializeField] private float FallRotationSpeed = 200f;
 
+    [Tooltip("Diferencia angular en grados por debajo de la cual se considera que la rotación de caída ha terminado.")]
+    [SerializeField] private float FallRotationTolerance = 0.5f;
+
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
@@ -45,19 +48,32 @@ public class SpecialEnemyDeath : MonoBehaviour
     /// <summary>Rotación objetivo en Z cuando termina la caída.</summary>
     private Quaternion _targetRotation;
 
+    /// <summary>Rigidbody2D del enemigo, se congela al ser derrotado.</summary>
     private Rigidbody2D _rb;
-    private EnemyPatrol _patrol;
-    private EnemyShoot _shoot;
-    private EnemyMeleeAttack _attack;
-    private SpecialEnemyInteraction _interaction;
-    private Animator _animator;
 
+    /// <summary>Script de patrulla, desactivado al ser derrotado.</summary>
+    private EnemyPatrol _patrol;
+
+    /// <summary>Script de disparo, desactivado al ser derrotado.</summary>
+    private EnemyShoot _shoot;
+
+    /// <summary>Script de ataque cuerpo a cuerpo, desactivado al ser derrotado.</summary>
+    private EnemyMeleeAttack _attack;
+
+    /// <summary>Script de interacción, habilitado cuando termina la animación de caída.</summary>
+    private SpecialEnemyInteraction _interaction;
+
+    /// <summary>Animator del enemigo, usado para detener la animación de movimiento.</summary>
+    private Animator _animator;
 
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
+    /// <summary>
+    /// Cachea todos los componentes propios necesarios para la secuencia de derrota.
+    /// </summary>
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -68,6 +84,11 @@ public class SpecialEnemyDeath : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
+    /// <summary>
+    /// Mientras el enemigo está derrotado y la caída no ha terminado, rota
+    /// gradualmente hacia _targetRotation. Al completarse, habilita la
+    /// interacción del jugador con el enemigo.
+    /// </summary>
     private void Update()
     {
         if (!_isDefeated || _fallComplete) { return; }
@@ -80,7 +101,7 @@ public class SpecialEnemyDeath : MonoBehaviour
         );
 
         // Comprobar si ha terminado la rotación
-        if (Quaternion.Angle(transform.rotation, _targetRotation) < 0.5f)
+        if (Quaternion.Angle(transform.rotation, _targetRotation) < FallRotationTolerance)
         {
             transform.rotation = _targetRotation;
             _fallComplete = true;
@@ -144,3 +165,4 @@ public class SpecialEnemyDeath : MonoBehaviour
     #endregion
 
 } // class SpecialEnemyDeath
+  // Alexia Pérez Santana

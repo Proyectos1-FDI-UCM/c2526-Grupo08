@@ -1,8 +1,8 @@
 //---------------------------------------------------------
 // Controlador del menú principal usando UI Toolkit.
 // Alexia Pérez Santana
-// — No Way Down
-// — Proyectos 1 2025-26
+// No Way Down
+// Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
 using UnityEngine;
@@ -25,7 +25,9 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(UIDocument))]
 public class MainMenu : MonoBehaviour
 {
+    // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Inspector
+
     [Header("Audio")]
     [Tooltip("AudioSource usado para la música del menú. Su volumen se controla desde el slider de Ajustes.")]
     [SerializeField] private AudioSource _musicaSource;
@@ -36,52 +38,110 @@ public class MainMenu : MonoBehaviour
     [Header("Escena de inicio")]
     [Tooltip("Nombre de la escena que se carga al pulsar 'Iniciar Juego'.")]
     [SerializeField] private string NombreEscenaInicio = "Level_1";
+
     #endregion
 
+    // ---- ATRIBUTOS PRIVADOS ----
     #region Privados
+
+    /// <summary>rootVisualElement del UIDocument de este menú.</summary>
     private VisualElement _root;
+
+    /// <summary>Panel principal (botones Iniciar/Ajustes/Controles/Créditos/Salir).</summary>
     private VisualElement _panelMain;
+
+    /// <summary>Subpanel de Ajustes.</summary>
     private VisualElement _panelAjustes;
+
+    /// <summary>Subpanel de Controles.</summary>
     private VisualElement _panelControles;
+
+    /// <summary>Subpanel de Créditos.</summary>
     private VisualElement _panelCreditos;
 
     // Tabs de controles
+
+    /// <summary>Botón de la pestaña "Teclado" del panel de Controles.</summary>
     private Button _tabTecladoM;
+
+    /// <summary>Botón de la pestaña "Mando" del panel de Controles.</summary>
     private Button _tabMandoM;
+
+    /// <summary>Contenido de controles de teclado.</summary>
     private VisualElement _ctrlTecladoM;
+
+    /// <summary>Contenido de controles de mando.</summary>
     private VisualElement _ctrlMandoM;
 
+    /// <summary>Label que muestra el valor numérico de intensidad de shake.</summary>
     private Label _lblShake;
+
+    /// <summary>Label que muestra el valor numérico de follow delay de cámara.</summary>
     private Label _lblDelay;
+
+    /// <summary>Intensidad de shake de cámara mostrada/editada en el panel de Ajustes.</summary>
     private float _shakeIntensity = 1f;
+
+    /// <summary>Follow delay de cámara mostrado/editado en el panel de Ajustes.</summary>
     private float _followDelay = 0.5f;
+
+    /// <summary>Incremento aplicado por cada pulsación de los botones +/- de shake.</summary>
     private const float PASO_SHAKE = 0.1f;
+
+    /// <summary>Incremento aplicado por cada pulsación de los botones +/- de follow delay.</summary>
     private const float PASO_DELAY = 0.1f;
 
+    /// <summary>Valor máximo permitido para la intensidad de shake.</summary>
+    private const float ShakeMax = 3f;
+
+    /// <summary>Valor máximo permitido para el follow delay de cámara.</summary>
+    private const float DelayMax = 2f;
+
+    /// <summary>Factor usado para redondear shake/delay a un decimal (Mathf.Round(x * RoundingFactor) / RoundingFactor).</summary>
+    private const float RoundingFactor = 10f;
+
     // Primer botón de cada panel para foco con mando
+
+    /// <summary>Botón "Iniciar Juego", recibe el foco al volver al panel principal.</summary>
     private Button _btnIniciar;
+
+    /// <summary>Botón "Volver" del panel de Ajustes.</summary>
     private Button _btnVolverAjustes;
+
+    /// <summary>Botón "Volver" del panel de Controles.</summary>
     private Button _btnVolverControles;
+
+    /// <summary>Botón "Volver" del panel de Créditos.</summary>
     private Button _btnVolverCreditos;
 
     private const string CSS_VISIBLE = "panel-overlay--visible";
     private const string CSS_TAB_ON = "ctrl-tab--active";
     private const string CSS_HIDDEN = "ctrl-panel--hidden";
 
+    /// <summary>Acción de Input System que vuelve al panel principal desde un subpanel (Cancel).</summary>
     private InputAction _cancelAction;
+
+    /// <summary>True una vez que InicializarUI ha encontrado todos los elementos necesarios del UXML.</summary>
     private bool _inicializado = false;
 
     // Panel activo para que Cancel sepa a dónde volver
+
+    /// <summary>Paneles disponibles en el menú principal.</summary>
     private enum Panel { Main, Ajustes, Controles, Creditos }
+
+    /// <summary>Panel actualmente visible.</summary>
     private Panel _panelActual = Panel.Main;
+
     #endregion
 
+    // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region MonoBehaviour
+
     /// <summary>
-    /// Start is called on the frame when a script is enabled just before
-    /// any of the Update methods are called the first time.
-    /// Aquí solo se obtiene el UIDocument/rootVisualElement; la consulta de
-    /// los paneles concretos se retrasa un frame (ver InicializarUI).
+    /// Obtiene el UIDocument/rootVisualElement, inicializa el input de
+    /// Cancel y retrasa un frame la consulta de los paneles concretos
+    /// (ver InicializarUI) para que UI Toolkit haya terminado de construir
+    /// el árbol visual del UXML.
     /// </summary>
     private void Start()
     {
@@ -93,18 +153,20 @@ public class MainMenu : MonoBehaviour
 
         InicializarInput();
 
-        // Retrasamos un frame la inicialización de los paneles para que
-        // UI Toolkit haya terminado de construir el árbol visual del UXML.
         _root.schedule.Execute(InicializarUI);
     }
 
+    /// <summary>Desuscribe y desactiva la acción de Cancel al desactivar este componente.</summary>
     private void OnDisable()
     {
         if (_cancelAction != null) { _cancelAction.performed -= OnCancelPressed; _cancelAction.Disable(); }
     }
+
     #endregion
 
+    // ---- INPUT ----
     #region Input
+
     /// <summary>
     /// Suscribe la acción "Cancel" del Input System para volver al panel
     /// principal desde cualquier subpanel.
@@ -115,14 +177,18 @@ public class MainMenu : MonoBehaviour
         if (_cancelAction != null) { _cancelAction.performed += OnCancelPressed; _cancelAction.Enable(); }
     }
 
+    /// <summary>Al pulsar Cancel en un subpanel, vuelve al panel principal.</summary>
     private void OnCancelPressed(InputAction.CallbackContext ctx)
     {
         if (!_inicializado) { return; }
         if (_panelActual != Panel.Main) OcultarPaneles();
     }
+
     #endregion
 
+    // ---- UI — INICIALIZACIÓN ----
     #region UI — Inicialización
+
     /// <summary>
     /// Obtiene las referencias a todos los paneles y controles del UXML,
     /// suscribe los eventos de los botones y deja el menú listo para usarse.
@@ -226,9 +292,12 @@ public class MainMenu : MonoBehaviour
         if (btn != null) btn.clicked += cb;
         else Debug.LogWarning($"[MenuManager] Botón '{name}' no encontrado.");
     }
+
     #endregion
 
+    // ---- NAVEGACIÓN DE PANELES ----
     #region Navegación de paneles
+
     /// <summary>
     /// Inicia la partida cargando la escena configurada en NombreEscenaInicio.
     /// </summary>
@@ -300,28 +369,29 @@ public class MainMenu : MonoBehaviour
             _tabTecladoM?.RemoveFromClassList(CSS_TAB_ON);
         }
     }
+
     #endregion
 
+    // ---- AJUSTES — CÁMARA ----
     #region Ajustes — cámara
+
     /// <summary>
-    /// Aumenta o reduce la intensidad del shake de cámara y la guarda en GameManager.
+    /// Aumenta o reduce la intensidad del shake de cámara (redondeada a un
+    /// decimal y limitada entre 0 y ShakeMax) y refresca el label.
     /// </summary>
     private void CambiarShake(float d)
     {
-        _shakeIntensity = Mathf.Clamp(Mathf.Round((_shakeIntensity + d) * 10f) / 10f, 0f, 3f);
-        float pez = GameManager.Instance.GetShakeDelay();
-        if (GameManager.HasInstance()) pez = _shakeIntensity;
+        _shakeIntensity = Mathf.Clamp(Mathf.Round((_shakeIntensity + d) * RoundingFactor) / RoundingFactor, 0f, ShakeMax);
         RefrescarLabels();
     }
 
     /// <summary>
-    /// Aumenta o reduce el retraso de seguimiento de cámara y lo guarda en GameManager.
+    /// Aumenta o reduce el retraso de seguimiento de cámara (redondeado a un
+    /// decimal y limitado entre 0 y DelayMax) y refresca el label.
     /// </summary>
     private void CambiarDelay(float d)
     {
-        _followDelay = Mathf.Clamp(Mathf.Round((_followDelay + d) * 10f) / 10f, 0f, 2f);
-        float tupu = GameManager.Instance.GetCameraFollowDelay();
-        if (GameManager.HasInstance()) tupu = _followDelay;
+        _followDelay = Mathf.Clamp(Mathf.Round((_followDelay + d) * RoundingFactor) / RoundingFactor, 0f, DelayMax);
         RefrescarLabels();
     }
 
@@ -333,6 +403,8 @@ public class MainMenu : MonoBehaviour
         if (_lblShake != null) _lblShake.text = _shakeIntensity.ToString("F1");
         if (_lblDelay != null) _lblDelay.text = _followDelay.ToString("F1");
     }
+
     #endregion
 
-} // class MenuManager
+} // class MainMenu
+  // Alexia Pérez Santana

@@ -30,6 +30,26 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
+    // ---- CONSTANTES ----
+    #region Constantes — valores por defecto
+
+    /// <summary>Vida inicial/por defecto del jugador. (GDD: jugador 200)</summary>
+    private const int DefaultHealth = 200;
+
+    /// <summary>Vendas iniciales/por defecto.</summary>
+    private const int DefaultBandages = 0;
+
+    /// <summary>Llaves iniciales/por defecto.</summary>
+    private const int DefaultKeys = 0;
+
+    /// <summary>Intensidad de shake de cámara por defecto (1 = completa).</summary>
+    private const float DefaultShakeIntensity = 1f;
+
+    /// <summary>Retraso de seguimiento de cámara por defecto, en segundos.</summary>
+    private const float DefaultFollowDelay = 0.5f;
+
+    #endregion
+
     // ---- SINGLETON ----
     #region Singleton
 
@@ -51,6 +71,11 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public static bool HasInstance() => _instance != null;
 
+    /// <summary>
+    /// Si ya existe una instancia, destruye este duplicado. Si no, se
+    /// establece como la instancia única, se marca como persistente entre
+    /// escenas (DontDestroyOnLoad) y se inicializan los valores por defecto.
+    /// </summary>
     protected void Awake()
     {
         if (_instance != null)
@@ -64,6 +89,7 @@ public class GameManager : MonoBehaviour
         Init();
     }
 
+    /// <summary>Limpia la referencia estática si esta instancia es la activa.</summary>
     protected void OnDestroy()
     {
         if (this == _instance)
@@ -76,13 +102,13 @@ public class GameManager : MonoBehaviour
     #region Datos persistentes entre escenas — Checkpoint
 
     /// <summary>Vida del jugador en el último checkpoint.</summary>
-    private int _savedHealth = 200;
+    private int _savedHealth = DefaultHealth;
 
     /// <summary>Vendas en el último checkpoint.</summary>
-    private int _savedBandages = 0;
+    private int _savedBandages = DefaultBandages;
 
     /// <summary>Llaves en el último checkpoint.</summary>
-    private int _savedKeys = 0;
+    private int _savedKeys = DefaultKeys;
 
     /// <summary>Si el jugador tiene desbloqueado el disparo multidireccional.</summary>
     private bool _hasMultishot = false;
@@ -92,22 +118,17 @@ public class GameManager : MonoBehaviour
     // ---- AJUSTES DE USUARIO — CÁMARA ----
     #region Ajustes de usuario — Cámara
 
-    /// <summary>
-    /// Intensidad del efecto de temblor de cámara.
-    /// 0 = sin temblor, 1 = intensidad máxima.
-    /// CameraController multiplica su _shakeIntensity base por este valor.
-    /// Modificado desde SettingsMenu y persistente entre escenas.
-    /// </summary>
+    [Tooltip("Intensidad del efecto de temblor de cámara. 0 = sin temblor, 1 = intensidad máxima. " +
+             "CameraController multiplica su _shakeIntensity base por este valor. " +
+             "Modificado desde SettingsMenu y persistente entre escenas.")]
     [SerializeField]
-    private float CameraShakeIntensity = 1f;
+    private float CameraShakeIntensity = DefaultShakeIntensity;
 
-    /// <summary>
-    /// Retraso del seguimiento de cámara en segundos.
-    /// CameraController usa este valor como smoothTime en SmoothDamp.
-    /// Modificado desde SettingsMenu y persistente entre escenas.
-    /// </summary>
+    [Tooltip("Retraso del seguimiento de cámara en segundos. " +
+             "CameraController usa este valor como smoothTime en SmoothDamp. " +
+             "Modificado desde SettingsMenu y persistente entre escenas.")]
     [SerializeField]
-    private float CameraFollowDelay = 0.5f;
+    private float CameraFollowDelay = DefaultFollowDelay;
 
     #endregion
 
@@ -167,7 +188,10 @@ public class GameManager : MonoBehaviour
     /// <summary>Devuelve la vida guardada en el último checkpoint.</summary>
     public int GetSavedHealth() => _savedHealth;
 
+    /// <summary>Devuelve la intensidad de shake de cámara configurada (0-1).</summary>
     public float GetShakeDelay() => CameraShakeIntensity;
+
+    /// <summary>Devuelve el retraso de seguimiento de cámara configurado, en segundos.</summary>
     public float GetCameraFollowDelay() => CameraFollowDelay;
 
     /// <summary>Devuelve las vendas guardadas en el último checkpoint.</summary>
@@ -187,18 +211,23 @@ public class GameManager : MonoBehaviour
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
 
+    /// <summary>
+    /// Restaura todos los datos persistentes y ajustes de cámara a sus
+    /// valores por defecto. Llamado una vez desde Awake al crear el singleton.
+    /// </summary>
     private void Init()
     {
-        _savedHealth = 200;
-        _savedBandages = 0;
-        _savedKeys = 0;
+        _savedHealth = DefaultHealth;
+        _savedBandages = DefaultBandages;
+        _savedKeys = DefaultKeys;
         _hasMultishot = false;
 
         // Valores por defecto de los ajustes de cámara
-        CameraShakeIntensity = 1f;
-        CameraFollowDelay = 0.5f;
+        CameraShakeIntensity = DefaultShakeIntensity;
+        CameraFollowDelay = DefaultFollowDelay;
     }
 
     #endregion
 
 } // class GameManager
+  // Alexia Pérez Santana

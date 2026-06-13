@@ -67,6 +67,11 @@ public class PickupPrompt : MonoBehaviour
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
+    /// <summary>
+    /// Busca el TMP_Text en los hijos si no se asignó en el Inspector,
+    /// comprueba que el objeto tiene un Collider2D trigger (para que
+    /// funcionen OnTrigger*) y oculta el prompt al iniciar.
+    /// </summary>
     private void Awake()
     {
         // Buscar TMP_Text automáticamente si no se asignó en Inspector
@@ -96,6 +101,11 @@ public class PickupPrompt : MonoBehaviour
         OcultarPrompt();
     }
 
+    /// <summary>
+    /// Mientras el jugador está en rango y el objeto no ha sido recogido,
+    /// sigue la posición del objeto y actualiza el texto según el
+    /// dispositivo de entrada activo.
+    /// </summary>
     private void Update()
     {
         if (_pickedUp || !_playerInRange) return;
@@ -107,6 +117,9 @@ public class PickupPrompt : MonoBehaviour
         ActualizarTextoDispositivo();
     }
 
+    /// <summary>
+    /// Si el jugador entra en el trigger, marca que está en rango y muestra el prompt.
+    /// </summary>
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (_pickedUp) return;
@@ -116,6 +129,9 @@ public class PickupPrompt : MonoBehaviour
         MostrarPrompt();
     }
 
+    /// <summary>
+    /// Si el jugador sale del trigger, marca que ya no está en rango y oculta el prompt.
+    /// </summary>
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.GetComponent<Inventory>() == null) return;
@@ -124,6 +140,9 @@ public class PickupPrompt : MonoBehaviour
         OcultarPrompt();
     }
 
+    /// <summary>
+    /// Marca el objeto como recogido para que el prompt no vuelva a mostrarse.
+    /// </summary>
     private void OnDestroy()
     {
         // El objeto ha sido destruido (recogido): el prompt desaparece con él.

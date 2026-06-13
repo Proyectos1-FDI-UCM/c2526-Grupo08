@@ -47,7 +47,10 @@ public class SecretDoor : MonoBehaviour
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
-
+    /// <summary>
+    /// Cada frame, si el texto de feedback está visible, descuenta
+    /// FeedbackDuration y lo oculta al llegar a 0.
+    /// </summary>
     private void Update()
     {
         // Ocultar el texto de feedback cuando expire el timer
@@ -62,6 +65,10 @@ public class SecretDoor : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Si el jugador colisiona con la puerta y tiene la llave especial,
+    /// la abre; si no, muestra el feedback de puerta bloqueada.
+    /// </summary>
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Inventory inventory = collision.gameObject.GetComponent<Inventory>();
