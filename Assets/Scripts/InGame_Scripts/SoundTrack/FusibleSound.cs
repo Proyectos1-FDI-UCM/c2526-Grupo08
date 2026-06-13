@@ -32,10 +32,6 @@ public class FusibleSound : MonoBehaviour
         _appIsRunning = true;
     }
 
-    private void Update()
-    {
-
-    }
     #endregion
 
     // ---- MÉTODOS PRIVADOS ----
