@@ -75,10 +75,6 @@ public class WalkSound : MonoBehaviour
         if (_playerMovement == null)
             _playerMovement = GetComponent<PlayerMovement>();
     }
-    void Start()
-    {
-        
-    }
 
     /// <summary>
     /// Update is called every frame, if the MonoBehaviour is enabled.

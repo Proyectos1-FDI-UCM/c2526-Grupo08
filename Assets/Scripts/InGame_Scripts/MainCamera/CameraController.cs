@@ -113,16 +113,14 @@ public class CameraController : MonoBehaviour
     {
         if (_target == null) return;
 
-   
-
         if (GameManager.HasInstance())
         {
             _followDelay = GameManager.Instance.GetCameraFollowDelay();
         }
-        
 
-            // --- Seguimiento suavizado ---
-            Vector3 desiredPosition = new Vector3(_target.position.x, _target.position.y, _depthZ);
+
+        // --- Seguimiento suavizado ---
+        Vector3 desiredPosition = new Vector3(_target.position.x, _target.position.y, _depthZ);
 
         _basePosition = Vector3.SmoothDamp(
             transform.position,
@@ -150,7 +148,7 @@ public class CameraController : MonoBehaviour
                 // La intensidad se reduce progresivamente conforme avanza el temblor.
                 // Se multiplica por el modificador de ajustes (0 = sin shake, 1 = completo).
                 float progress = _shakeElapsed / _shakeDuration;
-                
+
                 if (GameManager.HasInstance())
                 {
                     _shakeIntensity = GameManager.Instance.GetShakeDelay();

@@ -8,6 +8,7 @@
 //---------------------------------------------------------
 
 using UnityEngine;
+using UnityEngine.Rendering;
 
 /// <summary>
 /// Gestiona los dos estados del enemigo móvil: PATRULLA y PERSECUCION.
@@ -143,7 +144,7 @@ public class EnemyPatrol : MonoBehaviour
     {
         if (_playerTransform == null) { return; }
 
-        float distanceToPlayer = Vector2.Distance(transform.position, _playerTransform.position);
+        float distanceToPlayer = Vector2.SqrMagnitude(transform.position - _playerTransform.position);
 
         if (!_chaseActivated)
         {
@@ -185,7 +186,7 @@ public class EnemyPatrol : MonoBehaviour
         UpdateSpriteFromDirection(destination - (Vector2)transform.position);
 
         // Comprobar si ha llegado al punto actual
-        if (Vector2.Distance(transform.position, destination) <= PointReachedDistance)
+        if (Vector2.SqrMagnitude((Vector2)transform.position - destination) <= PointReachedDistance)
         {
             _currentPatrolIndex = (_currentPatrolIndex + 1) % PatrolPoints.Length;
         }
@@ -258,7 +259,7 @@ public class EnemyPatrol : MonoBehaviour
 
         for (int i = 0; i < PatrolPoints.Length; i++)
         {
-            float dist = Vector2.Distance(transform.position, PatrolPoints[i].position);
+            float dist = Vector2.SqrMagnitude(transform.position - PatrolPoints[i].position);
             if (dist < minDistance)
             {
                 minDistance = dist;

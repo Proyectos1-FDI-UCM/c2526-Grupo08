@@ -27,9 +27,6 @@ public class MagicSound : MonoBehaviour
     [SerializeField] private AudioClip pickupClip;
     [Range(0f, 1f)][SerializeField] private float volume = 1f;
 
-    [Header("Configuración de Detección")]
-    [Tooltip("Escribe el Tag del jugador (normalmente 'Player')")]
-    [SerializeField] private string playerTag = "Player";
 
     #endregion
 
@@ -55,18 +52,6 @@ public class MagicSound : MonoBehaviour
     /// Start is called on the frame when a script is enabled just before 
     /// any of the Update methods are called the first time.
     /// </summary>
-    void Start()
-    {
-        
-    }
-
-    /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
-    /// </summary>
-    void Update()
-    {
-        
-    }
     #endregion
 
     // ---- MÉTODOS PÚBLICOS ----
@@ -88,12 +73,10 @@ public class MagicSound : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-       
-        if (other.CompareTag(playerTag) || other.GetComponent<Magic>() != null)
+        if (other.GetComponent<PlayerMovement>() || other.GetComponent<Magic>() != null)
         {
             if (pickupClip != null)
             {
-                
                 AudioSource.PlayClipAtPoint(pickupClip, transform.position, volume);
             }
         }

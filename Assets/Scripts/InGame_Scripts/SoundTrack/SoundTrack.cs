@@ -60,10 +60,7 @@ public class SoundTrack : MonoBehaviour
     /// Start is called on the frame when a script is enabled just before 
     /// any of the Update methods are called the first time.
     /// </summary>
-    void Start()
-    {
-        
-    }
+
 
     /// <summary>
     /// Update is called every frame, if the MonoBehaviour is enabled.
@@ -96,7 +93,6 @@ public class SoundTrack : MonoBehaviour
 
     private void Shoot()
     {
-        
         GameObject bulletObj = Instantiate(_bulletPrefab, _firePoint.position, _firePoint.rotation);
         Bullet bullet = bulletObj.GetComponent<Bullet>();
 

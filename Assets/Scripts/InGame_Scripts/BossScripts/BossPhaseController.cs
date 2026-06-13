@@ -82,7 +82,7 @@ public class BossPhaseController : MonoBehaviour
 
     private Health _health;
     private BossBehaviour _movement;
-    private BossFisrtShoot _dash;
+    private BossFirstShoot _dash;
     private SecondAttackBoss _blades;
     private AbilityBoss1 _crystals;
     private AbilityBoss2 _summons;
@@ -101,6 +101,16 @@ public class BossPhaseController : MonoBehaviour
     // - Hay que añadir todos los que sean necesarios
     // - Hay que borrar los que no se usen 
 
+    private void Start()
+    {
+        _health = GetComponent<Health>();
+        _movement = GetComponent<BossBehaviour>();
+        _dash = GetComponent<BossFirstShoot>();
+        _blades = GetComponent<SecondAttackBoss>();
+        _crystals = GetComponent<AbilityBoss1>();
+        _summons = GetComponent<AbilityBoss2>();
+
+    }
 
     /// <summary>
     /// Update is called every frame, if the MonoBehaviour is enabled.

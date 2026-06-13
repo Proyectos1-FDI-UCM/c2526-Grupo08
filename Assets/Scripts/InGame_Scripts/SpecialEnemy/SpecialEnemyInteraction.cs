@@ -145,7 +145,7 @@ public class SpecialEnemyInteraction : MonoBehaviour
         if (!_interactionEnabled || _playerTransform == null) { return; }
         if (_dialogueActive) { return; }
 
-        float dist = Vector2.Distance(transform.position, _playerTransform.position);
+        float dist = Vector2.SqrMagnitude(transform.position - _playerTransform.position);
         _playerInRange = dist <= InteractionRadius;
 
         if (!_optionsOpen)

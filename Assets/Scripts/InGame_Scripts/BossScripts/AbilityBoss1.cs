@@ -67,8 +67,7 @@ public class AbilityBoss1 : MonoBehaviour
             _spawnTimer = 0f;
         }
 
-        // 3. --- ¡ESTO ES LO QUE TE FALTA Y DEBES PEGAR! ---
-        // Revisamos la lista de ataques pendientes para ver si el aviso ha terminado
+        // 3. Revisamos la lista de ataques pendientes para ver si el aviso ha terminado
         for (int i = _pendingAttacks.Count - 1; i >= 0; i--)
         {
             ActiveAttack attack = _pendingAttacks[i];
@@ -77,7 +76,6 @@ public class AbilityBoss1 : MonoBehaviour
             // Si el tiempo del aviso (TelegraphDuration) ha pasado...
             if (attack.Timer >= TelegraphDuration)
             {
-                // ¡LLAMAMOS A LA FUNCIÓN QUE CREA EL CRISTAL!
                 ExecuteAttack(attack);
 
                 // Lo quitamos de la lista para que no se repita

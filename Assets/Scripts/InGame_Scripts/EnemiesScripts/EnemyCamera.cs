@@ -98,7 +98,7 @@ public class EnemyCamera : MonoBehaviour
         Vector2 direction = (target - (Vector2)transform.position).normalized;
         _rb.linearVelocity = direction * Speed;
 
-        if (Vector2.Distance(transform.position, target) <= PointReachedDistance)
+        if (Vector2.SqrMagnitude((Vector2)transform.position - target) <= PointReachedDistance)
         {
             _currentPoint = (_currentPoint + 1) % WayPoints.Length;
         }

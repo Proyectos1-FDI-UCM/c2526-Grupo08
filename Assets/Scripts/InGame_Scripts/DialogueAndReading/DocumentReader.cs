@@ -77,6 +77,9 @@ public class DocumentReader : MonoBehaviour
              "Arrastra aquí el GameObject Trigger_PostDoc.")]
     [SerializeField] private NarratorDialogue PostReadDialogue;
 
+    [Header("Referencia al jugador")]
+    [SerializeField] private GameObject player;
+
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
@@ -114,7 +117,6 @@ public class DocumentReader : MonoBehaviour
         // Buscar al jugador automáticamente si no se asignó en Inspector
         if (PlayerMovementRef == null)
         {
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
             if (player != null)
             {
                 _playerTransform = player.transform;
@@ -181,7 +183,7 @@ public class DocumentReader : MonoBehaviour
     {
         if (_playerTransform == null) { return; }
 
-        bool inRange = Vector2.Distance(transform.position, _playerTransform.position) <= InteractionRadius;
+        bool inRange = Vector2.SqrMagnitude(transform.position - _playerTransform.position) <= InteractionRadius;
 
         if (inRange != _playerInRange)
         {

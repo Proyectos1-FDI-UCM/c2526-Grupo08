@@ -12,7 +12,7 @@ using UnityEngine;
 /// <summary>
 /// Antes de cada class, descripción de qué es y para qué sirve,
 /// </summary>
-public class BossFisrtShoot : MonoBehaviour
+public class BossFirstShoot : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Atributos del Inspector (serialized fields)
@@ -68,7 +68,7 @@ public class BossFisrtShoot : MonoBehaviour
 
     }
 
-   
+
 
 
     #endregion
@@ -84,19 +84,6 @@ public class BossFisrtShoot : MonoBehaviour
     /// Start is called on the frame when a script is enabled just before 
     /// any of the Update methods are called the first time.
     /// </summary>
-    void Start()
-    {
-       
-    }
-
-    /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
-    /// </summary>
-    void Update()
-    {
-    }
-
-
 
 
     #endregion
@@ -108,20 +95,6 @@ public class BossFisrtShoot : MonoBehaviour
     // se nombren en formato PascalCase (palabras con primera letra
     // mayúscula, incluida la primera letra)
     // Ejemplo: GetPlayerController
-
-    #endregion
-
-    // ---- MÉTODOS PRIVADOS ----
-    #region Métodos Privados
-    // Documentar cada método que aparece aquí
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
-
-    #endregion
-
-
-
     public void ExecuteDashAttack()
     {
         if (targetPlayer == null) return; // Seguridad
@@ -134,7 +107,21 @@ public class BossFisrtShoot : MonoBehaviour
         Debug.Log("¡Raven ejecutando Dash desde el Controlador de Fases!");
     }
 
+    public void AplicarBuffFaseFinal(float multiplicador) // Esto lo ha hecho Marián
+    {
+        dashForce *= multiplicador;
+        minWaitTime /= multiplicador;
+        maxWaitTime /= multiplicador;
+        Debug.Log("[BossFisrtShoot] Buff de velocidad de ataque aplicado.");
+    }
+    #endregion
 
+    // ---- MÉTODOS PRIVADOS ----
+    #region Métodos Privados
+    // Documentar cada método que aparece aquí
+    // El convenio de nombres de Unity recomienda que estos métodos
+    // se nombren en formato PascalCase (palabras con primera letra
+    // mayúscula, incluida la primera letra)
 
     private void CalculateNextDash()
     {
@@ -144,7 +131,7 @@ public class BossFisrtShoot : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        
+
         Health healthComponent = collision.gameObject.GetComponent<Health>();
 
         if (healthComponent != null)
@@ -154,14 +141,7 @@ public class BossFisrtShoot : MonoBehaviour
         }
     }
 
-    public void AplicarBuffFaseFinal(float multiplicador) // Esto lo ha hecho Marián
-    {
-        dashForce *= multiplicador;
-        minWaitTime /= multiplicador;
-        maxWaitTime /= multiplicador;
-        Debug.Log("[BossFisrtShoot] Buff de velocidad de ataque aplicado.");
-    }
-   
+    #endregion
 
 }
 // class BossFisrtShoot 

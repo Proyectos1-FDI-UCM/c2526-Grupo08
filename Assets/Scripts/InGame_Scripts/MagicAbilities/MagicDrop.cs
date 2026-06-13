@@ -74,7 +74,6 @@ public class MagicDrop : MonoBehaviour
         if (_magic != null)
         {
             _magic.IncreaseMagicAmount(MagicPoint);
-            Debug.Log("El jugador tocó el magic drop");
             Destroy(this.gameObject);
         }
     }

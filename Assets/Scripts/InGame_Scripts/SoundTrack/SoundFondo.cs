@@ -78,10 +78,6 @@ public class SoundFondo : MonoBehaviour
         source = GetComponent<AudioSource>();
     }
 
-    void Start()
-    {
-        
-    }
 
     /// <summary>
     /// Update is called every frame, if the MonoBehaviour is enabled.

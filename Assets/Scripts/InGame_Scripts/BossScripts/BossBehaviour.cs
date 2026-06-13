@@ -193,7 +193,6 @@ public class BossBehaviour : MonoBehaviour
 
     public void BuffSpeed(float multiplicador) //Esto lo ha hecho Marián por si hay dudas
     {
-
         Speed *= multiplicador;
 
         SmoothSpeed *= multiplicador; //Esto para que el jefe cambie de dirección agresivamente
