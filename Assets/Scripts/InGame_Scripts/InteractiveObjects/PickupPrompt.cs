@@ -154,7 +154,8 @@ public class PickupPrompt : MonoBehaviour
 
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
-
+    
+    /// <summary>Muestra el prompt actualizando primero su texto según el dispositivo activo.</summary>
     private void MostrarPrompt()
     {
         if (PromptText == null) return;
@@ -162,6 +163,7 @@ public class PickupPrompt : MonoBehaviour
         PromptText.gameObject.SetActive(true);
     }
 
+    /// <summary>Oculta el prompt.</summary>
     private void OcultarPrompt()
     {
         if (PromptText == null) return;
