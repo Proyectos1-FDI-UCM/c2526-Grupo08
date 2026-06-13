@@ -23,7 +23,7 @@ using UnityEngine.SceneManagement;
 /// CONTROLES: panel con dos tabs (Teclado / Mando).
 /// </summary>
 [RequireComponent(typeof(UIDocument))]
-public class MenuManager : MonoBehaviour
+public class MainMenu : MonoBehaviour
 {
     #region Inspector
     [Header("Audio")]
