@@ -60,9 +60,9 @@
                     <ui:Label text="CONTROLES" class="pause-subtitle" />
                     <ui:VisualElement class="pause-divider" />
 
-                    <ui:VisualElement class="ctrl-tabs">
-                        <ui:Button name="btnTabTeclado" text="TECLADO + RATON" class="ctrl-tab ctrl-tab--active" />
-                        <ui:Button name="btnTabMando"   text="MANDO"           class="ctrl-tab" />
+                   <ui:VisualElement class="ctrl-tabs">
+                        <ui:Button name="btnTabTeclado" text="TECLADO + RATON" class="ctrl-tab ctrl-tab--active ctrl-tab--first" />
+                        <ui:Button name="btnTabMando"   text="MANDO"           class="ctrl-tab ctrl-tab--last" />
                     </ui:VisualElement>
 
                     <ui:VisualElement name="ctrlTeclado" class="ctrl-panel">

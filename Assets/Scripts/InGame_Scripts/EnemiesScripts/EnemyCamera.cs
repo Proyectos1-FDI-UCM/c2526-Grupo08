@@ -1,70 +1,70 @@
 //---------------------------------------------------------
-// Breve descripción del contenido del archivo
+// Controla la patrulla del enemigo entre waypoints y detecta
+// al jugador para infligirle daño letal en caso de colisión.
 // Adriana Fernández Luna
 // No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
 using UnityEngine;
-// Añadir aquí el resto de directivas using
-
 
 /// <summary>
-/// Antes de cada class, descripción de qué es y para qué sirve,
-/// usando todas las líneas que sean necesarias.
+/// Hace que el enemigo se mueva entre una serie de waypoints (patrulla)
+/// y, si el jugador entra en contacto con su zona de detección,
+/// le aplica daño igual a su vida actual (muerte instantánea).
 /// </summary>
 public class EnemyCamera : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Atributos del Inspector (serialized fields)
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // públicos y de inspector se nombren en formato PascalCase
-    // (palabras con primera letra mayúscula, incluida la primera letra)
-    // Ejemplo: MaxHealthPoints
 
     [Header("Waypoints")]
+    [Tooltip("Lista ordenada de puntos por los que patrulla el enemigo, en bucle.")]
     [SerializeField] private Transform[] WayPoints;
 
+    [Tooltip("Distancia al cuadrado al waypoint a partir de la cual se considera alcanzado.")]
     [SerializeField] private float PointReachedDistance = 0.1f;
 
     [Header("Movimiento")]
+    [Tooltip("Velocidad de desplazamiento del enemigo entre waypoints.")]
     [SerializeField] private float Speed = 2f;
 
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados (private fields)
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // privados se nombren en formato _camelCase (comienza con _, 
-    // primera palabra en minúsculas y el resto con la 
-    // primera letra en mayúsculas)
-    // Ejemplo: _maxHealthPoints
 
+    /// <summary>Rigidbody2D del enemigo, cacheado en Start().</summary>
     private Rigidbody2D _rb;
+
+    /// <summary>Índice del waypoint actual hacia el que se dirige el enemigo.</summary>
     private int _currentPoint = 0;
+
+    /// <summary>Componente Health del jugador, cacheado en Start() para no buscarlo en cada colisión.</summary>
+    private Health _playerHealth;
 
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
-    // Por defecto están los típicos (Update y Start) pero:
-    // - Hay que añadir todos los que sean necesarios
-    // - Hay que borrar los que no se usen 
-
     /// <summary>
-    /// Start is called on the frame when a script is enabled just before 
-    /// any of the Update methods are called the first time.
+    /// Cachea el Rigidbody2D propio y el componente Health del jugador
+    /// (buscado una sola vez por tag "Player").
     /// </summary>
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+            _playerHealth = player.GetComponent<Health>();
+        else
+            Debug.LogWarning("[EnemyCamera] No se ha encontrado ningún GameObject con tag 'Player'.");
     }
 
     /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
+    /// Cada frame, hace avanzar al enemigo hacia su waypoint actual.
     /// </summary>
     void Update()
     {
@@ -74,21 +74,16 @@ public class EnemyCamera : MonoBehaviour
 
     // ---- MÉTODOS PÚBLICOS ----
     #region Métodos públicos
-    // Documentar cada método que aparece aquí con ///<summary>
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
-    // Ejemplo: GetPlayerController
-
+    // Esta clase no expone métodos públicos.
     #endregion
 
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
-    // Documentar cada método que aparece aquí
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
 
+    /// <summary>
+    /// Mueve al enemigo hacia el waypoint actual y avanza al siguiente
+    /// cuando se alcanza la distancia mínima (PointReachedDistance).
+    /// </summary>
     private void Patrol()
     {
         if (WayPoints == null || WayPoints.Length == 0) { return; }
@@ -104,21 +99,20 @@ public class EnemyCamera : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Si el jugador entra en contacto con la zona de detección del enemigo,
+    /// le aplica daño igual a su vida actual (muerte instantánea).
+    /// </summary>
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.GetComponent<PlayerMovement>() != null)
+        if (other.CompareTag("Player") && _playerHealth != null)
         {
-            Health playerHealth = other.GetComponent<Health>();
-
-            if (playerHealth != null)
-            {
-                int vidaActual = playerHealth.GetCurrentHealth();
-                playerHealth.Damage(vidaActual);
-            }
+            int vidaActual = _playerHealth.GetCurrentHealth();
+            _playerHealth.Damage(vidaActual);
         }
     }
     #endregion
 }
 
-// class EnemyCamera 
+// class EnemyCamera
 // Adriana Fernández Luna

@@ -217,8 +217,8 @@
     transition-property: background-color, color;
     transition-duration: 0.12s;
 }
-.ctrl-tab:first-child { border-radius: 4px 0 0 4px; }
-.ctrl-tab:last-child  { border-radius: 0 4px 4px 0; margin-left: -1px; }
+.ctrl-tab--first { border-radius: 4px 0 0 4px; }
+.ctrl-tab--last  { border-radius: 0 4px 4px 0; margin-left: -1px; }
 .ctrl-tab:hover, .ctrl-tab:focus { background-color: var(--color-panel-alt); color: var(--color-text); }
 .ctrl-tab--active {
     background-color: var(--color-mid);

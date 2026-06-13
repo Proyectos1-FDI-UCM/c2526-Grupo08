@@ -5,91 +5,129 @@
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
-using System.Collections;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
-// Añadir aquí el resto de directivas using
 
 /// <summary>
 /// Controla el movimiento bidimensional del jugador en 8 direcciones
 /// utilizando entrada de teclado (WASD) y mando (joystick izquierdo).
 /// El desplazamiento se realiza a velocidad constante en todas las
 /// direcciones, independientemente de la intensidad del joystick.
+/// También gestiona el dash, la animación de apuntado (mando/ratón)
+/// y la animación de recoger objetos.
 /// </summary>
 public class PlayerMovement : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Atributos del Inspector (serialized fields)
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // públicos y de inspector se nombren en formato PascalCase
-    // (palabras con primera letra mayúscula, incluida la primera letra)
-    // Ejemplo: MaxHealthPoints
 
+    [Tooltip("Velocidad de desplazamiento del jugador (en unidades/segundo).")]
     [SerializeField]
     private float Velocidad = 8f;
+
+    [Tooltip("Sprite del jugador mirando hacia arriba.")]
     [SerializeField]
     private Sprite SpriteUp;
+
+    [Tooltip("Sprite del jugador mirando hacia abajo.")]
     [SerializeField]
     private Sprite SpriteDown;
+
+    [Tooltip("Sprite del jugador mirando hacia la izquierda (se invierte en X para la derecha).")]
     [SerializeField]
     private Sprite SpriteLeft;
-    [SerializeField] 
+
+    [Tooltip("TrailRenderer que se activa mientras el jugador está haciendo dash.")]
+    [SerializeField]
     private TrailRenderer tr;
+
+    [Tooltip("Duración en segundos del dash.")]
     [SerializeField]
     private float _dashingTime = 0.2f;
+
+    [Header("Apuntado")]
+    [Tooltip("Magnitud mínima del stick derecho del mando para usarlo como dirección de apuntado " +
+             "(por debajo de este valor se usa la posición del ratón).")]
+    [SerializeField]
+    private float GamepadAimDeadzone = 0.1f;
+
+    [Header("Recoger objetos")]
+    [Tooltip("Duración en segundos de la animación de recoger un objeto antes de volver al estado normal.")]
+    [SerializeField]
+    private float PickupDuration = 0.6f;
 
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados (private fields)
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // privados se nombren en formato _camelCase (comienza con _, 
-    // primera palabra en minúsculas y el resto con la 
-    // primera letra en mayúsculas)
-    // Ejemplo: _maxHealthPoints
 
-    #endregion
+    /// <summary>Rigidbody2D del jugador, usado para aplicar la velocidad de movimiento y dash.</summary>
     private Rigidbody2D _rb;
 
+    /// <summary>Vector de movimiento normalizado leído del Input System en el frame actual.</summary>
     private Vector2 Movement;
 
-    //Variables dash
+    // Variables dash
+
+    /// <summary>True si el dash está disponible (no está en cooldown).</summary>
     private bool _canDash = true;
+
+    /// <summary>True mientras el jugador está ejecutando el dash.</summary>
     private bool _isDashing;
+
+    /// <summary>Velocidad aplicada al jugador durante el dash.</summary>
     private float _dashingPower = 30f;
+
+    /// <summary>Tiempo de espera en segundos antes de poder volver a hacer dash.</summary>
     private float _dashingCooldown = 1.5f;
-    private float _dashEndTime;
-    private float _dashCooldownEnd;
+
+    /// <summary>Permite controlar si el jugador está en animación de recoger objeto.</summary>
     private bool _isPickingUp;
+
+    /// <summary>Instante (Time.time) en el que termina el dash actual.</summary>
+    private float _dashEndTime;
+
+    /// <summary>Instante (Time.time) en el que vuelve a estar disponible el dash.</summary>
+    private float _dashCooldownEnd;
+
+    /// <summary>Dirección normalizada en la que se realiza el dash actual.</summary>
     private Vector2 _dashDir;
+
+    /// <summary>Última dirección de movimiento distinta de cero, usada como dirección del dash si el jugador está quieto.</summary>
     private Vector2 _lastMoveDirection = Vector2.right;
-    
+
+    /// <summary>Animator del jugador, usado para los parámetros de movimiento, dash y pickup.</summary>
     private Animator _animator;
+
+    /// <summary>Acción de Input System para el movimiento (WASD / stick izquierdo).</summary>
     private InputAction MoveAction;
+
+    /// <summary>Acción de Input System para el dash.</summary>
     private InputAction DashAction;
 
+    /// <summary>SpriteRenderer del jugador, usado por ChangeSprite (actualmente sin uso activo).</summary>
     private SpriteRenderer _spriteRenderer;
 
+    /// <summary>Componente Health del jugador, usado para activar/desactivar la inmunidad durante el dash.</summary>
     private Health _health;
 
+    /// <summary>Componente ChargedAttack del jugador; si está cargando un ataque, se bloquea el movimiento y el dash.</summary>
     private ChargedAttack _chargedAttack;
+
+    /// <summary>Direcciones posibles para ChangeSprite (actualmente sin uso activo).</summary>
     private enum Direction { Up, Down, Right, Left }
+
+    /// <summary>Dirección actual del sprite, usada por ChangeSprite (actualmente sin uso activo).</summary>
     private Direction CurrentDirection = Direction.Left;
 
+    #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
-    // Por defecto están los típicos (Update y Start) pero:
-    // - Hay que añadir todos los que sean necesarios
-    // - Hay que borrar los que no se usen 
-
     /// <summary>
-    /// Start is called on the frame when a script is enabled just before 
-    /// any of the Update methods are called the first time.
+    /// Cachea los componentes necesarios y obtiene las acciones de
+    /// movimiento y dash del Input System.
     /// </summary>
     void Awake()
     {
@@ -117,6 +155,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Activa las acciones de Input System y se suscribe al evento de dash.
+    /// </summary>
     private void OnEnable()
     {
         MoveAction.Enable();
@@ -127,6 +168,10 @@ public class PlayerMovement : MonoBehaviour
             DashAction.performed += OnDash;
         }
     }
+
+    /// <summary>
+    /// Desactiva las acciones de Input System y elimina la suscripción al dash.
+    /// </summary>
     private void OnDisable()
     {
         MoveAction.Disable();
@@ -138,6 +183,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Comprueba cada frame si el dash o su cooldown han terminado.
+    /// </summary>
     private void Update()
     {
         if (_isDashing && Time.time >= _dashEndTime)
@@ -151,12 +199,14 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    
-    #endregion
-
+    /// <summary>
+    /// Aplica el movimiento físico del jugador (normal o dash), calcula
+    /// la dirección de apuntado (mando o ratón) para las animaciones,
+    /// y voltea el sprite según la dirección horizontal de apuntado.
+    /// </summary>
     void FixedUpdate()
     {
-        //ChargeAttack
+        // ChargeAttack
         if (_chargedAttack != null && _chargedAttack.IsCharging())
         {
             _rb.linearVelocity = Vector2.zero;
@@ -164,7 +214,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Movement = MoveAction.ReadValue<Vector2>().normalized;
-        
+
         if (Movement != Vector2.zero)
         {
             _lastMoveDirection = Movement;
@@ -181,33 +231,31 @@ public class PlayerMovement : MonoBehaviour
             VelocidadFinal = Movement * Velocidad;
         }
 
-        //Aplicamos la velocidad
+        // Aplicamos la velocidad
         _rb.linearVelocity = VelocidadFinal;
 
         Vector2 dir;
 
-
-        //Tomamos el vector del joystick
+        // Tomamos el vector del joystick
         Vector2 gamepad = Vector2.zero;
         if (Gamepad.current != null)
         {
-            gamepad = Gamepad.current.rightStick.ReadValue(); //Leído directamente del gamepad para que no se errores
+            gamepad = Gamepad.current.rightStick.ReadValue(); // Leído directamente del gamepad para evitar errores
         }
 
-        if (gamepad.magnitude > 0.1f)
+        if (gamepad.magnitude > GamepadAimDeadzone)
         {
             dir = gamepad;
         }
-        else 
+        else
         {
-            //Transformamos las coordenadas del mouse a la pantalla en la variable Mouse
+            // Transformamos las coordenadas del mouse a la pantalla en la variable Mouse
             Vector3 ScreenPos = Mouse.current.position.ReadValue();
             Vector3 WorldPos = Camera.main.ScreenToWorldPoint(ScreenPos);
-            dir =  WorldPos - transform.position;
+            dir = WorldPos - transform.position;
         }
 
-        //animaciones
-        
+        // Animaciones
         dir = dir.normalized;
 
         _animator.SetFloat("MoveX", dir.x);
@@ -228,15 +276,16 @@ public class PlayerMovement : MonoBehaviour
         transform.localScale = scale;
     }
 
+    #endregion
 
     // ---- MÉTODOS PÚBLICOS ----
     #region Métodos públicos
-    // Documentar cada método que aparece aquí con ///<summary>
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
-    // Ejemplo: GetPlayerController
 
+    /// <summary>
+    /// Inicia la animación de "recoger objeto": detiene al jugador,
+    /// activa el parámetro IsPickingUp del Animator y lo desactiva
+    /// automáticamente tras PickupDuration segundos.
+    /// </summary>
     public void PlayPickup()
     {
         Debug.Log("Pickup activado");
@@ -245,8 +294,14 @@ public class PlayerMovement : MonoBehaviour
 
         _rb.linearVelocity = Vector2.zero;
 
-        Invoke(nameof(PickupEnd), 0.6f);
+        Invoke(nameof(PickupEnd), PickupDuration);
     }
+
+    /// <summary>
+    /// Finaliza la animación de "recoger objeto" desactivando el
+    /// parámetro IsPickingUp del Animator. Llamado automáticamente
+    /// desde PlayPickup mediante Invoke.
+    /// </summary>
     public void PickupEnd()
     {
         Debug.Log("END PICKUP EJECUTADO");
@@ -258,12 +313,11 @@ public class PlayerMovement : MonoBehaviour
 
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
-    // Método empleado para invertir el sprite del jugador de derecha a izquierda
-    // tan solo cambiamos la escala del sprite a negativo para que funcione
-    // dependiendo de en donde esta el cursor/left joystick
-    //Se trató de implementar en cuatro direcciones pero fue mejor de otra manera
-    //Se conserva en caso de algún cambio en los sprites del futuro.
 
+    /// <summary>
+    /// Gestiona la entrada de la acción de dash: si no se está cargando
+    /// un ataque cargado y el dash está disponible, lo inicia.
+    /// </summary>
     private void OnDash(InputAction.CallbackContext context)
     {
         if (_chargedAttack != null && _chargedAttack.IsCharging())
@@ -277,6 +331,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Activa el estado de dash: fija la dirección, el temporizador de
+    /// fin de dash y de cooldown, activa el TrailRenderer, hace al
+    /// jugador inmune al daño y activa la animación correspondiente.
+    /// </summary>
     private void StartDash()
     {
         _isDashing = true;
@@ -285,7 +344,7 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
-        
+
         _canDash = false;
         _dashEndTime = Time.time + _dashingTime;
         _dashCooldownEnd = Time.time + _dashingCooldown;
@@ -302,6 +361,10 @@ public class PlayerMovement : MonoBehaviour
         _animator.SetBool("IsDashing", true);
     }
 
+    /// <summary>
+    /// Finaliza el estado de dash: desactiva el TrailRenderer, quita la
+    /// inmunidad al daño y desactiva la animación de dash.
+    /// </summary>
     private void EndDash()
     {
         _isDashing = false;
@@ -318,19 +381,22 @@ public class PlayerMovement : MonoBehaviour
         _animator.SetBool("IsDashing", false);
     }
 
+    /// <summary>
+    /// Invierte el sprite del jugador en el eje X.
+    /// Reservado para posibles cambios futuros en los sprites; no se usa
+    /// actualmente porque el volteo se gestiona en FixedUpdate.
+    /// </summary>
     private void Flip()
     {
-
         Vector3 CurrentScale = gameObject.transform.localScale;
-
-        Debug.Log("No ha hecho flip");
         CurrentScale.x = -CurrentScale.x;
-        Debug.Log("ha hecho flip");
-
         gameObject.transform.localScale = CurrentScale;
-
     }
 
+    /// <summary>
+    /// Establece directamente la escala X del jugador (usado por ChangeSprite
+    /// para voltear el sprite sin afectar a la escala Y).
+    /// </summary>
     private void SetScaleX(float x)
     {
         Vector3 Scale = gameObject.transform.localScale;
@@ -338,63 +404,47 @@ public class PlayerMovement : MonoBehaviour
         gameObject.transform.localScale = Scale;
     }
 
-    //Método que cambia de sprite o rota este dependiendo de la constante enum
-    //Empleamos este método para poder usar la variable enum que
-    //a su vez permite ahorrar cuando no hay nueva direción a la que moverse
-
+    /// <summary>
+    /// Cambia el sprite del jugador según la dirección indicada y ajusta
+    /// la escala X para reflejarlo correctamente. Reservado para un
+    /// posible sistema de sprites direccional; no se usa actualmente.
+    /// </summary>
     private void ChangeSprite(Direction New)
     {
         if (New != CurrentDirection)
         {
             Vector3 CurrentScale = gameObject.transform.localScale;
-            //Debug.Log("Sprite era" + CurrentDirection);
 
             switch (New)
             {
                 case Direction.Up:
-
                     _spriteRenderer.sprite = SpriteUp;
-
                     SetScaleX(Mathf.Abs(CurrentScale.x));
-
                     break;
 
                 case Direction.Down:
-
                     _spriteRenderer.sprite = SpriteDown;
-
                     SetScaleX(Mathf.Abs(CurrentScale.x));
-
                     break;
 
                 case Direction.Left:
-
                     _spriteRenderer.sprite = SpriteLeft;
-
                     SetScaleX(-Mathf.Abs(CurrentScale.x));
-
                     break;
 
                 case Direction.Right:
-
                     _spriteRenderer.sprite = SpriteLeft;
-
                     SetScaleX(Mathf.Abs(CurrentScale.x));
-
                     break;
             }
 
             CurrentDirection = New;
-
-            //Debug.Log("Sprite ha cambiado a " + CurrentDirection);
-
         }
-
     }
 
     #endregion
 
-} // class Movement 
-// Adriana Fernández Luna
-//Celia García Riaza
-//Carlos Mesa Torres
+} // class PlayerMovement
+  // Adriana Fernández Luna
+  // Celia García Riaza
+  // Carlos Mesa Torres

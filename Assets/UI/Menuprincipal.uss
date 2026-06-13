@@ -295,8 +295,8 @@
     transition-property: background-color, color;
     transition-duration: 0.12s;
 }
-.ctrl-tab:first-child { border-radius: 4px 0 0 4px; }
-.ctrl-tab:last-child  { border-radius: 0 4px 4px 0; margin-left: -1px; }
+.ctrl-tab--first { border-radius: 4px 0 0 4px; }
+.ctrl-tab--last  { border-radius: 0 4px 4px 0; margin-left: -1px; }
 .ctrl-tab:hover, .ctrl-tab:focus { background-color: #2e4f4d; color: #d4f0ee; }
 .ctrl-tab--active {
     background-color: #2f7a74;
@@ -318,7 +318,7 @@
     flex-direction: column;
     padding-right: 20px;
 }
-.ctrl-col:last-child { padding-right: 0; }
+.ctrl-col--last { padding-right: 0; }
 .ctrl-panel--hidden  { display: none; }
 .ctrl-section-title {
     font-size: 10px;

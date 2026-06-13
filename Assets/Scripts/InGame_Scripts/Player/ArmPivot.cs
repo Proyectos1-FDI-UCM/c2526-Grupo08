@@ -1,5 +1,7 @@
 //---------------------------------------------------------
-// Script que tiene el brazo de el personaje para permitir rotación
+// Script que controla el brazo del personaje: sigue su posición,
+// rota hacia el cursor y ajusta su visibilidad y orden de dibujado
+// según el estado de animación del jugador.
 // Adriana Fernández Luna
 // No Way Down
 // Proyectos 1 - Curso 2025-26
@@ -7,49 +9,66 @@
 
 using UnityEngine;
 using UnityEngine.InputSystem;
-// Añadir aquí el resto de directivas using
-
 
 /// <summary>
-/// Antes de cada class, descripción de qué es y para qué sirve,
-/// usando todas las líneas que sean necesarias.
+/// Controla el brazo (arma) del jugador: copia el color del sprite
+/// del jugador, posiciona el brazo según la dirección de movimiento,
+/// lo rota para que apunte hacia el cursor y ajusta su sorting order
+/// y visibilidad según el estado del Animator del jugador (dash, pickup).
 /// </summary>
 public class ArmPivot : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Atributos del Inspector (serialized fields)
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // públicos y de inspector se nombren en formato PascalCase
-    // (palabras con primera letra mayúscula, incluida la primera letra)
-    // Ejemplo: MaxHealthPoints
 
+    [Tooltip("SpriteRenderer del brazo, cuyo color y visibilidad se sincronizan con el del jugador.")]
     [SerializeField]
     private SpriteRenderer _armRenderer;
+
+    [Tooltip("SpriteRenderer del jugador, usado como referencia de color y sorting order.")]
     [SerializeField]
     private SpriteRenderer _playerRenderer;
+
+    [Tooltip("Posición del brazo cuando el jugador mira hacia arriba.")]
     [SerializeField]
     private Transform _pivotUp;
+
+    [Tooltip("Posición del brazo cuando el jugador mira hacia abajo.")]
     [SerializeField]
     private Transform _pivotDown;
+
+    [Tooltip("Posición del brazo cuando el jugador está quieto mirando hacia un lado.")]
     [SerializeField]
     private Transform _pivotRight;
+
+    [Tooltip("Posición del brazo cuando el jugador está caminando hacia un lado.")]
     [SerializeField]
     private Transform _pivotRightWalk;
+
+    [Tooltip("Umbral de Speed del Animator por encima del cual se considera que el jugador está caminando " +
+             "(usa _pivotRightWalk en vez de _pivotRight).")]
     [SerializeField]
-    private float _armShowDelay = 0.2f;
+    private float WalkSpeedThreshold = 0.1f;
+
+    [Tooltip("Umbral del valor MoveY del Animator para considerar que el jugador mira arriba/abajo.")]
+    [SerializeField]
+    private float VerticalAimThreshold = 0.9f;
+
+    [Tooltip("Umbral del valor MoveY del Animator para decidir si el brazo se dibuja por delante o por detrás del jugador.")]
+    [SerializeField]
+    private float SortingOrderAimThreshold = 0.5f;
+
+    [Tooltip("Ángulo en grados que se suma a la rotación calculada hacia el cursor, " +
+             "para compensar la orientación del sprite del brazo.")]
+    [SerializeField]
+    private float ArmAngleOffset = 90f;
 
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados (private fields)
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // privados se nombren en formato _camelCase (comienza con _, 
-    // primera palabra en minúsculas y el resto con la 
-    // primera letra en mayúsculas)
-    // Ejemplo: _maxHealthPoints
 
+    /// <summary>Animator del jugador (objeto padre), del que se leen los parámetros de movimiento y estado.</summary>
     private Animator _playerAnimator;
 
     #endregion
@@ -57,27 +76,25 @@ public class ArmPivot : MonoBehaviour
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
-    // Por defecto están los típicos (Update y Start) pero:
-    // - Hay que añadir todos los que sean necesarios
-    // - Hay que borrar los que no se usen 
-
     /// <summary>
-    /// Start is called on the frame when a script is enabled just before 
-    /// any of the Update methods are called the first time.
+    /// Cachea el Animator del jugador, que es el GameObject padre de este brazo.
     /// </summary>
-
+    private void Awake()
+    {
+        _playerAnimator = transform.parent.GetComponent<Animator>();
+    }
 
     /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
+    /// Cada frame, sincroniza el color del brazo con el del jugador, lo oculta
+    /// durante el dash o el pickup, y en caso contrario lo posiciona según la
+    /// dirección de movimiento, lo rota hacia el cursor y ajusta su sorting order.
     /// </summary>
     void Update()
     {
-        //Cambio de color con el personaje 
-
+        // Cambio de color con el personaje
         _armRenderer.color = _playerRenderer.color;
 
-        //Cambio de posición dependiendo de la dirección del personaje
-
+        // Cambio de posición dependiendo de la dirección del personaje
         float moveX = _playerAnimator.GetFloat("MoveX");
         float moveY = _playerAnimator.GetFloat("MoveY");
         float speed = _playerAnimator.GetFloat("Speed");
@@ -92,11 +109,11 @@ public class ArmPivot : MonoBehaviour
         {
             _armRenderer.enabled = true;
 
-            if (moveY > 0.9f)
+            if (moveY > VerticalAimThreshold)
                 transform.position = _pivotUp.position;
-            else if (moveY < -0.9f)
+            else if (moveY < -VerticalAimThreshold)
                 transform.position = _pivotDown.position;
-            else if (speed > 0.1f)
+            else if (speed > WalkSpeedThreshold)
                 transform.position = _pivotRightWalk.position;
             else
                 transform.position = _pivotRight.position;
@@ -107,47 +124,28 @@ public class ArmPivot : MonoBehaviour
             Vector2 dir = worldPos - transform.position;
 
             // Rotación del pivote
-
-            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + 90f;
-
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + ArmAngleOffset;
             transform.rotation = Quaternion.Euler(0, 0, angle);
 
-
             // Sorting order: por debajo cuando apunta arriba, por encima el resto
-
-            if (moveY > 0.5f)
+            if (moveY > SortingOrderAimThreshold)
                 _armRenderer.sortingOrder = _playerRenderer.sortingOrder - 1;
             else
                 _armRenderer.sortingOrder = _playerRenderer.sortingOrder + 1;
         }
     }
 
-    private void Awake()
-    {
-        _playerAnimator = transform.parent.GetComponent<Animator>();
-    }
-
-
     #endregion
 
     // ---- MÉTODOS PÚBLICOS ----
     #region Métodos públicos
-    // Documentar cada método que aparece aquí con ///<summary>
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
-    // Ejemplo: GetPlayerController
-
+    // Esta clase no expone métodos públicos.
     #endregion
 
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
-    // Documentar cada método que aparece aquí
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
-
+    // Esta clase no tiene métodos privados adicionales.
     #endregion
-}
- // class ArmPivot 
-// Adriana Fernández Luna
+
+} // class ArmPivot
+  // Adriana Fernández Luna

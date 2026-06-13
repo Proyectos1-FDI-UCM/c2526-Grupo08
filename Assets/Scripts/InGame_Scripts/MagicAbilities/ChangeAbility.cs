@@ -49,8 +49,13 @@ public class ChangeAbility : MonoBehaviour
     /// <summary>Índice de la habilidad explosiva.</summary>
     private const int ExplosiveIndex = 2;
 
+    /// <summary>Acción de Input System para cambiar de habilidad.</summary>
     private InputAction _changeAbilityAction;
+
+    /// <summary>Índice de la habilidad actualmente equipada.</summary>
     private int _currentIndex = 0;
+
+    /// <summary>Inventory del jugador, usado para comprobar qué habilidades están desbloqueadas.</summary>
     private Inventory _inventory;
 
     #endregion
@@ -58,6 +63,10 @@ public class ChangeAbility : MonoBehaviour
     // ---- MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
+    /// <summary>
+    /// Obtiene la acción de cambio de habilidad, valida los iconos de UI,
+    /// activa el icono de la habilidad inicial y cachea el Inventory.
+    /// </summary>
     private void Start()
     {
         _changeAbilityAction = InputSystem.actions.FindAction("ChangeAbility");
@@ -95,6 +104,10 @@ public class ChangeAbility : MonoBehaviour
         UpdateAbilities();
     }
 
+    /// <summary>
+    /// Cada frame, comprueba si se ha pulsado la acción de cambio de
+    /// habilidad y, si es así, pasa a la siguiente habilidad disponible.
+    /// </summary>
     private void Update()
     {
         if (_changeAbilityAction.WasPressedThisFrame())
@@ -126,6 +139,9 @@ public class ChangeAbility : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Indica si la habilidad del índice dado está desbloqueada para el jugador.
+    /// </summary>
     private bool IsAbilityUnlocked(int index)
     {
         switch (index)
@@ -137,6 +153,7 @@ public class ChangeAbility : MonoBehaviour
         return false;
     }
 
+    /// <summary>Activa solo el script de la habilidad actualmente equipada y actualiza la UI.</summary>
     private void UpdateAbilities()
     {
         if (_chargedattackAbility != null)
@@ -151,6 +168,7 @@ public class ChangeAbility : MonoBehaviour
         UpdateAbilityUI();
     }
 
+    /// <summary>Activa únicamente el icono de UI correspondiente a la habilidad actual.</summary>
     private void UpdateAbilityUI()
     {
         for (int i = 0; i < _abilityImage.Length; i++)

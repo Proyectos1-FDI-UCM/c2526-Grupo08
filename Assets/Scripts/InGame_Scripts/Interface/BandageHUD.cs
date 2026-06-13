@@ -1,30 +1,49 @@
 //---------------------------------------------------------
-// Breve descripción del contenido del archivo
-// Responsable de la creación de este archivo
-// Nombre del juego
+// Muestra en el HUD la cantidad de vendas que tiene el jugador,
+// leyendo el contador desde el Inventory cada frame.
+// Laura Garay Zubiaguirre
+// No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
 using UnityEngine;
 using TMPro;
 
+/// <summary>
+/// Sincroniza el texto del HUD con el número de vendas disponibles
+/// en el inventario del jugador (Inventory.GetBandageCount()).
+/// </summary>
 public class HUDManager : MonoBehaviour
 {
-    [Header("Referencias")]
-    public Inventory playerInventory; // Arrastra al jugador aquí
-    public TextMeshProUGUI bandageText; // Arrastra el texto de la UI aquí
+    // ---- ATRIBUTOS DEL INSPECTOR ----
+    #region Atributos del Inspector
 
-    void Update()
+    [Header("Referencias")]
+    [Tooltip("Inventory del jugador del que se leerá el número de vendas.")]
+    [SerializeField] private Inventory playerInventory;
+
+    [Tooltip("Texto de la UI donde se muestra la cantidad de vendas (formato: \"x N\").")]
+    [SerializeField] private TextMeshProUGUI bandageText;
+
+    #endregion
+
+    // ---- MÉTODOS DE MONOBEHAVIOUR ----
+    #region Métodos de MonoBehaviour
+
+    /// <summary>
+    /// Cada frame, lee el número de vendas del inventario del jugador
+    /// y actualiza el texto del HUD con el formato "x N".
+    /// </summary>
+    private void Update()
     {
         if (playerInventory != null && bandageText != null)
         {
-            // Accedemos al método público que ya creaste
             int count = playerInventory.GetBandageCount();
-
-            // Actualizamos el texto (ejemplo: "x 3")
             bandageText.text = "x " + count.ToString();
         }
     }
 
-} // class BandageHUG 
-// Laura Garay
+    #endregion
+
+} // class HUDManager (BandageHUD.cs)
+  // Laura Garay Zubiaguirre

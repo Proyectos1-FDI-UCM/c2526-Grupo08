@@ -9,14 +9,9 @@ using UnityEngine;
 
 /// <summary>
 /// Componente de vida genérico para jugador y enemigos.
+/// Gestiona daño, curación, inmunidad y la lógica de muerte
+/// (jugador, jefe, enemigo especial o enemigo normal).
 ///
-/// CORRECCIÓN respecto a la versión anterior:
-///   · Die() comprobaba MagicPointsPrefab != null pero luego siempre llamaba
-///     Instantiate(MagicPointsPrefab, EnemyGameObject.transform.position, ...)
-///     → si MagicPointsPrefab O EnemyGameObject eran null, lanzaba
-///     NullReferenceException. Ahora ambos se validan antes de instanciar.
-///   · Si EnemyGameObject es null en la muerte normal, se usa gameObject
-///     como posición del drop de magia (igual que para la destrucción).
 /// </summary>
 public class Health : MonoBehaviour
 {
@@ -64,11 +59,18 @@ public class Health : MonoBehaviour
     private Color _ogColor;
     private float _colorTimer;
 
+    /// <summary>Componente de muerte especial cacheado en Start() (solo si IsSpecialEnemy es true).</summary>
+    private SpecialEnemyDeath _specialEnemyDeath;
+
     #endregion
 
     // ---- MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
+    /// <summary>
+    /// Inicializa la vida actual, cachea el SpriteRenderer y, si procede,
+    /// el componente SpecialEnemyDeath, y configura la barra de vida.
+    /// </summary>
     private void Start()
     {
         _currentHealth = MaxHealth;
@@ -82,8 +84,14 @@ public class Health : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         if (_spriteRenderer != null)
             _ogColor = _spriteRenderer.color;
+
+        if (IsSpecialEnemy)
+            _specialEnemyDeath = GetComponent<SpecialEnemyDeath>();
     }
 
+    /// <summary>
+    /// Controla el temporizador del flash de color tras recibir daño o curación.
+    /// </summary>
     private void Update()
     {
         if (_colorTimer > 0f)
@@ -136,8 +144,13 @@ public class Health : MonoBehaviour
         }
     }
 
+    /// <summary>Activa o desactiva la inmunidad al daño.</summary>
     public void SetImmune(bool immune) => _isImmune = immune;
+
+    /// <summary>Devuelve true si el personaje es actualmente inmune al daño.</summary>
     public bool IsImmune() => _isImmune;
+
+    /// <summary>Devuelve la vida actual del personaje.</summary>
     public int GetCurrentHealth() => _currentHealth;
 
     /// <summary>Restaura la vida al valor del checkpoint. Llamado por LevelManager.</summary>
@@ -153,6 +166,7 @@ public class Health : MonoBehaviour
         }
     }
 
+    /// <summary>Cambia la vida máxima del personaje y restablece la vida actual a ese nuevo máximo.</summary>
     public void SetMaxHealth(int newMax)
     {
         MaxHealth = newMax;
@@ -172,6 +186,10 @@ public class Health : MonoBehaviour
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
 
+    /// <summary>
+    /// Ejecuta la lógica de muerte según el tipo de personaje:
+    /// jugador, jefe, enemigo especial o enemigo normal (con drops opcionales).
+    /// </summary>
     private void Die()
     {
         if (_isDead) { return; }
@@ -202,9 +220,8 @@ public class Health : MonoBehaviour
         // --- Enemigo especial ---
         if (IsSpecialEnemy)
         {
-            SpecialEnemyDeath specialDeath = GetComponent<SpecialEnemyDeath>();
-            if (specialDeath != null)
-                specialDeath.OnDefeated();
+            if (_specialEnemyDeath != null)
+                _specialEnemyDeath.OnDefeated();
             else
                 Debug.LogWarning($"[Health] {gameObject.name} es IsSpecialEnemy pero no tiene SpecialEnemyDeath.");
             return;

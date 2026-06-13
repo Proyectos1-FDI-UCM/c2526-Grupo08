@@ -48,8 +48,6 @@ public class Bullet : MonoBehaviour
     /// <summary>Dirección de movimiento de la bala, asignada al instanciarse.</summary>
     private Vector2 _direction;
 
-    private Health _health;
-
     #endregion
 
 
@@ -63,7 +61,6 @@ public class Bullet : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _health = GetComponent<Health>();
 
         // La bala no debe girar por físicas, solo se mueve en línea recta
         _rb.gravityScale = 0f;
@@ -104,10 +101,10 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        _health = other.GetComponent<Health>();
-        if (_health != null)
+        Health otherHealth = other.GetComponent<Health>();
+        if (otherHealth != null)
         {
-            _health.Damage(_damage);
+            otherHealth.Damage(_damage);
 
             // Esto crea un objeto temporal que suena y se destruye solo
             if (_impactSound != null)
@@ -143,6 +140,9 @@ public class Bullet : MonoBehaviour
         _rb.linearVelocity = _direction * _speed;
     }
 
+    /// <summary>
+    /// Cambia el rango máximo de la bala antes de que se mueva.
+    /// </summary>
     public void SetRange(float newRange)
     {
         _maxRange = newRange;

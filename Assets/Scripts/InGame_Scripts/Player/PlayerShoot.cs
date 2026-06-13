@@ -34,22 +34,39 @@ public class PlayerShoot : MonoBehaviour
     [Tooltip("Tiempo mínimo entre disparos en segundos. (GDD: 0,4 s)")]
     [SerializeField] private float FireRate = 0.4f;
 
+    [Tooltip("Daño que aplica cada bala al impactar. (GDD ataque básico: 20)")]
+    [SerializeField] private int BulletDamage = 20;
+
+    [Header("Umbrales de apuntado")]
+    [Tooltip("Magnitud mínima de la dirección de disparo para considerarla válida.")]
+    [SerializeField] private float MinAimDirectionSqr = 0.01f;
+
+    [Tooltip("Magnitud mínima del stick derecho del mando para usarlo como dirección de apuntado " +
+             "(por debajo de este valor se usa la posición del ratón).")]
+    [SerializeField] private float GamepadAimDeadzone = 0.1f;
+
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados
 
+    /// <summary>Acción de Input System para disparar.</summary>
     private InputAction _attackAction;
+
+    /// <summary>Acción de Input System para apuntar con el stick derecho del mando.</summary>
     private InputAction _aimGamepad;
+
+    /// <summary>Acción de Input System para apuntar con la posición del ratón.</summary>
     private InputAction _aimMouse;
 
     /// <summary>
     /// Acumulador de tiempo desde el último disparo.
     /// Usa deltaTime para ser independiente del timeScale y de Time.time.
-    /// Se inicializa a _fireRate para poder disparar desde el primer frame.
+    /// Se inicializa a FireRate para poder disparar desde el primer frame.
     /// </summary>
     private float _fireCooldownTimer = 0f;
 
+    /// <summary>Cámara principal, usada para convertir la posición del ratón a coordenadas de mundo.</summary>
     private Camera _mainCamera;
 
     #endregion
@@ -57,6 +74,10 @@ public class PlayerShoot : MonoBehaviour
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
+    /// <summary>
+    /// Obtiene las acciones de Input System, valida que el prefab de bala
+    /// esté asignado y deja el arma lista para disparar desde el primer frame.
+    /// </summary>
     private void Start()
     {
         _attackAction = InputSystem.actions.FindAction("Attack");
@@ -103,12 +124,14 @@ public class PlayerShoot : MonoBehaviour
         _fireCooldownTimer = FireRate;
     }
 
+    /// <summary>
+    /// Cada frame, acumula el tiempo desde el último disparo y dispara
+    /// si el botón de ataque está pulsado y el cooldown ha terminado.
+    /// </summary>
     private void Update()
     {
-        // Acumular tiempo transcurrido desde el último disparo
         _fireCooldownTimer += Time.deltaTime;
 
-        // Disparar si el botón está pulsado y el cooldown ha pasado
         if (_attackAction.IsInProgress() && _fireCooldownTimer >= FireRate)
         {
             Shoot();
@@ -118,22 +141,28 @@ public class PlayerShoot : MonoBehaviour
 
     #endregion
 
+    // ---- MÉTODOS PÚBLICOS ----
+    #region Métodos públicos
+    // Esta clase no expone métodos públicos.
+    #endregion
+
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
 
     /// <summary>
-    /// Calcula la dirección de disparo y lanza la bala.
+    /// Calcula la dirección de disparo y, si es válida, instancia la bala
+    /// e inicializa su dirección y daño.
     /// </summary>
     private void Shoot()
     {
         Vector2 shootDirection = GetAimDirection();
-        if (shootDirection.sqrMagnitude < 0.01f) return;
+        if (shootDirection.sqrMagnitude < MinAimDirectionSqr) return;
 
         GameObject bulletObj = Instantiate(BulletPrefab, ShootOrigin.position, Quaternion.identity);
         Bullet bullet = bulletObj.GetComponent<Bullet>();
 
         if (bullet != null)
-            bullet.Init(shootDirection, 20);
+            bullet.Init(shootDirection, BulletDamage);
         else
             Debug.LogWarning("[PlayerShoot] El prefab de bala no tiene el componente Bullet.");
     }
@@ -141,15 +170,14 @@ public class PlayerShoot : MonoBehaviour
     /// <summary>
     /// Devuelve la dirección normalizada de disparo.
     /// Ratón: apunta hacia el cursor en coordenadas de mundo.
-    /// Mando: usa el joystick derecho directamente.
+    /// Mando: usa el joystick derecho directamente si supera la zona muerta.
     /// </summary>
     private Vector2 GetAimDirection()
     {
         Vector2 rawAim = _aimGamepad.ReadValue<Vector2>();
-        
-        if (rawAim.magnitude > 0.1f)
+
+        if (rawAim.magnitude > GamepadAimDeadzone)
         {
-            Debug.Log(rawAim);
             return rawAim.normalized;
         }
         else
@@ -164,3 +192,4 @@ public class PlayerShoot : MonoBehaviour
     #endregion
 
 } // class PlayerShoot
+  // Alexia Pérez Santana — Marián Navarro Santoyo

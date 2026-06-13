@@ -57,8 +57,8 @@
                 <ui:VisualElement class="panel-linea" />
 
                 <ui:VisualElement class="ctrl-tabs">
-                    <ui:Button name="btnTabTecladoM" text="TECLADO + RATON" class="ctrl-tab ctrl-tab--active" />
-                    <ui:Button name="btnTabMandoM"   text="MANDO"           class="ctrl-tab" />
+                    <ui:Button name="btnTabTecladoM" text="TECLADO + RATON" class="ctrl-tab ctrl-tab--active ctrl-tab--first" />
+                    <ui:Button name="btnTabMandoM"   text="MANDO"           class="ctrl-tab ctrl-tab--last" />
                 </ui:VisualElement>
 
                 <ui:VisualElement name="ctrlTecladoM" class="ctrl-grid">
@@ -102,7 +102,7 @@
                             <ui:Label text="Ver mapa" class="ctrl-desc" />
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement class="ctrl-col">
+                    <ui:VisualElement class="ctrl-col ctrl-col--last">
                         <ui:Label text="COMBATE" class="ctrl-section-title" />
                         <ui:VisualElement class="ctrl-row">
                             <ui:Label text="CLIC IZQ" class="key key--wide" />
@@ -153,7 +153,7 @@
                             <ui:Label text="Ver mapa" class="ctrl-desc" />
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement class="ctrl-col">
+                    <ui:VisualElement class="ctrl-col ctrl-col--last">
                         <ui:Label text="COMBATE" class="ctrl-section-title" />
                         <ui:VisualElement class="ctrl-row">
                             <ui:Label text="LT" class="key key--btn" />

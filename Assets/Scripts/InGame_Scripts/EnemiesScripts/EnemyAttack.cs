@@ -20,6 +20,8 @@ using UnityEngine;
 ///   1. Reproduce el AudioClip de ataque (advertencia sonora).
 ///   2. Transcurridos _soundLeadTime s, aplica el daño al jugador.
 ///   3. Espera el resto del intervalo antes de repetir.
+/// El componente Health del jugador se cachea la primera vez que
+/// entra en contacto, evitando GetComponent en ApplyDamage().
 /// </summary>
 [RequireComponent(typeof(EnemyPatrol))]
 [RequireComponent(typeof(AudioSource))]
@@ -43,17 +45,17 @@ public class EnemyMeleeAttack : MonoBehaviour
     [SerializeField] private AudioClip _attackSound;
 
     [Header("Referencias")]
+    [Tooltip("Script de patrulla del mismo enemigo (se obtiene automáticamente en Start).")]
     [SerializeField] private EnemyPatrol _enemyPatrol;
 
     [Header("Referencia al jugador")]
+    [Tooltip("GameObject del jugador, asignado automáticamente cuando entra en el área de ataque.")]
     [SerializeField] private GameObject _player;
 
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados (private fields)
-
-    /// <summary>Referencia al componente EnemyPatrol del mismo GameObject.</summary>
 
     /// <summary>AudioSource del enemigo para reproducir el sonido de ataque.</summary>
     private AudioSource _audioSource;
@@ -71,6 +73,9 @@ public class EnemyMeleeAttack : MonoBehaviour
     /// Indica si el sonido de advertencia ya se reprodujo en el ciclo actual.
     /// </summary>
     private bool _soundPlayed = false;
+
+    /// <summary>Componente Health del jugador, cacheado al detectarlo por primera vez.</summary>
+    private Health _playerHealth;
 
     #endregion
 
@@ -116,7 +121,6 @@ public class EnemyMeleeAttack : MonoBehaviour
         // Fase 1: reproducir sonido de advertencia
         if (!_soundPlayed && _attackTimer >= _attackInterval - _soundLeadTime)
         {
-            
             if (_playerInRange && _attackSound != null)
                 _audioSource.PlayOneShot(_attackSound);
 
@@ -136,15 +140,21 @@ public class EnemyMeleeAttack : MonoBehaviour
     }
 
     /// <summary>
-    /// Detecta cuando el jugador entra en contacto físico con el enemigo.
+    /// Detecta cuando el jugador entra en contacto físico con el enemigo
+    /// y cachea su componente Health la primera vez.
     /// </summary>
     private void OnTriggerEnter2D(Collider2D other)
     {
         // Detecta si lo que entró en el área es el jugador
-        if (other.gameObject.GetComponent<PlayerMovement>() != null)
+        PlayerMovement playerMovement = other.gameObject.GetComponent<PlayerMovement>();
+        if (playerMovement != null)
         {
             _playerInRange = true;
             _player = other.gameObject;
+
+            if (_playerHealth == null)
+                _playerHealth = _player.GetComponent<Health>();
+
             Debug.Log("Jugador entró en el área de ataque.");
         }
     }
@@ -173,22 +183,18 @@ public class EnemyMeleeAttack : MonoBehaviour
     #region Métodos Privados
 
     /// <summary>
-    /// Aplica daño al componente Health del jugador.
+    /// Aplica daño al componente Health del jugador (cacheado previamente).
     /// </summary>
     private void ApplyDamage()
     {
-        if (_player == null) { Debug.Log("Player es null"); return; }
+        if (_playerHealth == null)
+        {
+            Debug.Log("[EnemyMeleeAttack] No hay Health cacheado del jugador.");
+            return;
+        }
 
-        Health health = _player.GetComponent<Health>();
-        if (health != null)
-        {
-            health.Damage((int)_damageAmount);
-            Debug.Log($"[EnemyMeleeAttack] Daño de {(int)_damageAmount} enviado al script Health.");
-        }
-        else
-        {
-            Debug.Log("No se encontró Health");
-        }
+        _playerHealth.Damage((int)_damageAmount);
+        Debug.Log($"[EnemyMeleeAttack] Daño de {(int)_damageAmount} enviado al script Health.");
     }
 
     /// <summary>
@@ -204,3 +210,5 @@ public class EnemyMeleeAttack : MonoBehaviour
     #endregion
 
 }
+// class EnemyMeleeAttack
+// Laura Garay Zubiaguirre

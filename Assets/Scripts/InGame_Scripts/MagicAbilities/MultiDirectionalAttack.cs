@@ -1,25 +1,25 @@
 //---------------------------------------------------------
-// Breve descripción del contenido del archivo
-// Responsable de la creación de este archivo
-// No way down
+// Gestiona el ataque especial "Multidireccional": al pulsar, dispara
+// 4 balas en diagonal (una por cada esquina) si hay magia suficiente,
+// con cooldown gestionado por timer en Update, sin corrutinas.
+// Carlos Mesa Torres
+// No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
-// Añadir aquí el resto de directivas using
-
 
 /// <summary>
-/// Antes de cada class, descripción de qué es y para qué sirve,
-/// usando todas las líneas que sean necesarias.
+/// Controla el ataque especial "Multidireccional" del jugador.
+/// Al pulsar la acción "MultiDir_Explosion", si ha pasado el tiempo de
+/// cooldown (FireRate) y hay magia suficiente, instancia 4 balas en las
+/// direcciones diagonales con el rango y daño configurados.
 /// </summary>
 public class MultiDirectionalAttack : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Atributos del Inspector (serialized fields)
-
 
     [Header("Bullet Setup")]
     [Tooltip("Prefab de la bala. Debe tener el componente Bullet.")]
@@ -29,37 +29,42 @@ public class MultiDirectionalAttack : MonoBehaviour
     [SerializeField] private Transform ShootOrigin;
 
     [Header("MultiDirectionalAttack")]
+    [Tooltip("Tiempo mínimo entre disparos en segundos.")]
     [SerializeField] private float FireRate = 0.4f;
+
+    [Tooltip("Daño que aplica cada bala diagonal al impactar.")]
     [SerializeField] private int Damage = 30;
+
+    [Tooltip("Rango máximo en unidades de cada bala diagonal antes de destruirse.")]
     [SerializeField] private float Range = 8f;
+
+    [Tooltip("Magia que consume cada uso del ataque multidireccional.")]
     [SerializeField] private int MagicCost = 30;
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // públicos y de inspector se nombren en formato PascalCase
-    // (palabras con primera letra mayúscula, incluida la primera letra)
-    // Ejemplo: MaxHealthPoints
 
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados (private fields)
 
+    /// <summary>Acción de Input System para disparar el ataque multidireccional.</summary>
     private InputAction _attackAction;
-    private float _cooldownTimer = 0f;
-    private Magic _magic;
 
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // privados se nombren en formato _camelCase (comienza con _, 
-    // primera palabra en minúsculas y el resto con la 
-    // primera letra en mayúsculas)
-    // Ejemplo: _maxHealthPoints
+    /// <summary>Acumulador de tiempo desde el último disparo.</summary>
+    private float _cooldownTimer = 0f;
+
+    /// <summary>Componente Magic del jugador, usado para comprobar y restar el coste de magia.</summary>
+    private Magic _magic;
 
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
+    /// <summary>
+    /// Obtiene la acción de Input System, valida que el prefab de bala
+    /// esté asignado, cachea el componente Magic y deja el ataque listo
+    /// para usarse desde el primer frame.
+    /// </summary>
     private void Start()
     {
         _attackAction = InputSystem.actions.FindAction("MultiDir_Explosion");
@@ -88,43 +93,35 @@ public class MultiDirectionalAttack : MonoBehaviour
         _cooldownTimer = FireRate;
     }
 
+    /// <summary>
+    /// Cada frame, acumula el tiempo desde el último disparo e intenta
+    /// disparar si se ha pulsado la acción y el cooldown ha terminado.
+    /// </summary>
     private void Update()
     {
         _cooldownTimer += Time.deltaTime;
 
-        //Dispara si se pulsa y no esta con cooldown
+        // Dispara si se pulsa y no está en cooldown
         if (_attackAction.WasPressedThisFrame() && _cooldownTimer >= FireRate)
         {
             TryShoot();
         }
     }
-    // Por defecto están los típicos (Update y Start) pero:
-    // - Hay que añadir todos los que sean necesarios
-    // - Hay que borrar los que no se usen 
 
-    /// <summary>
-    /// Start is called on the frame when a script is enabled just before 
-    /// any of the Update methods are called the first time.
-    /// </summary>
-
-    /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
-    /// </summary>
     #endregion
 
     // ---- MÉTODOS PÚBLICOS ----
     #region Métodos públicos
-    // Documentar cada método que aparece aquí con ///<summary>
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
-    // Ejemplo: GetPlayerController
-
+    // Esta clase no expone métodos públicos.
     #endregion
 
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
 
+    /// <summary>
+    /// Si hay magia suficiente, gasta el coste, dispara las 4 balas
+    /// diagonales y reinicia el cooldown.
+    /// </summary>
     private void TryShoot()
     {
         if (_magic == null)
@@ -140,9 +137,13 @@ public class MultiDirectionalAttack : MonoBehaviour
         _cooldownTimer = 0f;
     }
 
+    /// <summary>
+    /// Instancia una bala en cada una de las 4 direcciones diagonales,
+    /// aplicándoles el rango y el daño configurados.
+    /// </summary>
     private void ShootMulti()
     {
-        //Direcciones en diagonal
+        // Direcciones en diagonal
         Vector2[] directions = new Vector2[]
         {
             new Vector2(1,1).normalized,
@@ -151,9 +152,9 @@ public class MultiDirectionalAttack : MonoBehaviour
             new Vector2(1,-1).normalized
         };
 
-        foreach (Vector2 dir in  directions)
+        foreach (Vector2 dir in directions)
         {
-            GameObject bulletObj = Instantiate(BulletPrefab,ShootOrigin.position, Quaternion.identity);
+            GameObject bulletObj = Instantiate(BulletPrefab, ShootOrigin.position, Quaternion.identity);
             Bullet bullet = bulletObj.GetComponent<Bullet>();
 
             if (bullet != null)
@@ -163,12 +164,8 @@ public class MultiDirectionalAttack : MonoBehaviour
             }
         }
     }
-    // Documentar cada método que aparece aquí
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
 
     #endregion
 
-} // class MultiDirectionalAttack 
-// Carlos Mesa Torres
+} // class MultiDirectionalAttack
+  // Carlos Mesa Torres
