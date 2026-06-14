@@ -2485,7 +2485,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InteractionRadius: 1.2
-  PromptUI: {fileID: 0}
+  PromptUI: {fileID: 1582115116}
   DocumentCanvas: {fileID: 367016475}
   PageText: {fileID: 1885024294}
   PageIndicator: {fileID: 1953417822}
@@ -2507,6 +2507,7 @@ MonoBehaviour:
     en su capa.\""
   PlayerMovementRef: {fileID: 2859081414169848663}
   PostReadDialogue: {fileID: 0}
+  player: {fileID: 0}
 --- !u!58 &1512277363
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4701,6 +4702,8 @@ MonoBehaviour:
   Speed: 1
   DetectionRadius: 3
   ChaseRadius: 4.5
+  _player: {fileID: 0}
+  MinMoveDirectionSqr: 0.01
 --- !u!212 &2125206677
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4810,6 +4813,8 @@ MonoBehaviour:
   FireInterval: 1.5
   SoundLeadTime: 0.3
   ShootSound: {fileID: 0}
+  _player: {fileID: 0}
+  BulletDamage: 20
 --- !u!82 &2125206680
 AudioSource:
   m_ObjectHideFlags: 0

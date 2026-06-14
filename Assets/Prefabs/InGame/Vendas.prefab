@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8943447582659610566}
   - component: {fileID: 2290461167142566847}
   - component: {fileID: 3482084991141676965}
+  - component: {fileID: 115478614947397385}
   m_Layer: 3
   m_Name: Vendas
   m_TagString: Untagged
@@ -261,3 +262,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &115478614947397385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2428699537291792986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce86c9ef93f218144afa8c571dec80d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PromptText: {fileID: 0}
+  OffsetY: 0.6
+  KeyboardText: "F \u2014 recoger"
+  GamepadText: "X \u2014 recoger"

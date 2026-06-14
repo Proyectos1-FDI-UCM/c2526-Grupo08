@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4046607887807504615}
   - component: {fileID: -6963525846495576023}
   - component: {fileID: 470597498609872550}
+  - component: {fileID: -5502983664852741919}
   m_Layer: 3
   m_Name: Fusibles
   m_TagString: Untagged
@@ -261,3 +262,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collectSound: {fileID: 8300000, guid: c686f2c2a34a7a2458d9b0c4f48800bf, type: 3}
   volume: 1
+--- !u!114 &-5502983664852741919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6771870703313319770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce86c9ef93f218144afa8c571dec80d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PromptText: {fileID: 0}
+  OffsetY: 0.6
+  KeyboardText: "F \u2014 recoger"
+  GamepadText: "X \u2014 recoger"

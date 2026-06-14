@@ -161,6 +161,7 @@ public class PickupPrompt : MonoBehaviour
         if (PromptText == null) return;
         ActualizarTextoDispositivo();
         PromptText.gameObject.SetActive(true);
+        Debug.Log("Mostrando texto");
     }
 
     /// <summary>Oculta el prompt.</summary>
