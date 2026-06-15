@@ -316,6 +316,14 @@ PrefabInstance:
       value: Bullet
       objectReference: {fileID: 0}
     - target: {fileID: 6319493914470722067, guid: 11937ea5ec3d5b4498175fed857247e6, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.1590877
+      objectReference: {fileID: 0}
+    - target: {fileID: 6319493914470722067, guid: 11937ea5ec3d5b4498175fed857247e6, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.152495
+      objectReference: {fileID: 0}
+    - target: {fileID: 6319493914470722067, guid: 11937ea5ec3d5b4498175fed857247e6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 46.7993
       objectReference: {fileID: 0}
@@ -1099,6 +1107,7 @@ MonoBehaviour:
   _volumen: 0.275
   _bulletPrefab: {fileID: 1584296411}
   _firePoint: {fileID: 0}
+  _fireRate: 0.2
 --- !u!114 &1246379290 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -6006412518456422939, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
