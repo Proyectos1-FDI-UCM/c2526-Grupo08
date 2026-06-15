@@ -4223,25 +4223,29 @@ PrefabInstance:
       propertyPath: MinDistance
       value: 1.6046638
       objectReference: {fileID: 0}
+    - target: {fileID: 3342202735167012824, guid: 31f267c1f160ce04ea01a37c0926affb, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4662381370268684256, guid: 31f267c1f160ce04ea01a37c0926affb, type: 3}
       propertyPath: m_Size.x
-      value: 3.7024183
+      value: 2.3774526
       objectReference: {fileID: 0}
     - target: {fileID: 4662381370268684256, guid: 31f267c1f160ce04ea01a37c0926affb, type: 3}
       propertyPath: m_Size.y
-      value: 6.0437593
+      value: 3.3152058
       objectReference: {fileID: 0}
     - target: {fileID: 4662381370268684256, guid: 31f267c1f160ce04ea01a37c0926affb, type: 3}
       propertyPath: m_Offset.x
-      value: -0.041319318
+      value: 0.07144425
       objectReference: {fileID: 0}
     - target: {fileID: 4662381370268684256, guid: 31f267c1f160ce04ea01a37c0926affb, type: 3}
       propertyPath: m_Offset.y
-      value: -0.164757
+      value: 0.19680806
       objectReference: {fileID: 0}
     - target: {fileID: 4662381370268684256, guid: 31f267c1f160ce04ea01a37c0926affb, type: 3}
       propertyPath: m_IsTrigger
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4967854758975589744, guid: 31f267c1f160ce04ea01a37c0926affb, type: 3}
       propertyPath: m_AnchorMax.x
@@ -4283,8 +4287,7 @@ PrefabInstance:
       propertyPath: 'PatrolPoints.Array.data[3]'
       value: 
       objectReference: {fileID: 889474941}
-    m_RemovedComponents:
-    - {fileID: 3342202735167012824, guid: 31f267c1f160ce04ea01a37c0926affb, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -6099,6 +6102,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemigoCamara
       objectReference: {fileID: 0}
+    - target: {fileID: 4531694248479771828, guid: 5630911ec2346a24fb8db2c4e7613e50, type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 1349072565}
     - target: {fileID: 7229757840001111713, guid: 5630911ec2346a24fb8db2c4e7613e50, type: 3}
       propertyPath: m_LocalPosition.x
       value: 72

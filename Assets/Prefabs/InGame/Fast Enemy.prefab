@@ -314,7 +314,7 @@ Transform:
   m_GameObject: {fileID: 5964128453782390543}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.3, y: 0.71, z: 0.024138726}
+  m_LocalPosition: {x: -8.3, y: 0.53, z: 0.024138726}
   m_LocalScale: {x: 0.81, y: 0.78, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -382,8 +382,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 3, y: 5.5}
+  m_Offset: {x: -0.00000058868784, y: 0.059102744}
+  m_Size: {x: 2.5983138, y: 2.9589586}
   m_Direction: 0
 --- !u!212 &9167248102506204738
 SpriteRenderer:
@@ -459,9 +459,10 @@ MonoBehaviour:
   - {fileID: 0}
   PointReachedDistance: 0.1
   Speed: 2
-  DetectionRadius: 5
-  ChaseRadius: 6
+  DetectionRadius: 45
+  ChaseRadius: 46
   _player: {fileID: 0}
+  MinMoveDirectionSqr: 0.01
 --- !u!82 &2041718833564584480
 AudioSource:
   m_ObjectHideFlags: 0
@@ -483,7 +484,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 0.9389938
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
