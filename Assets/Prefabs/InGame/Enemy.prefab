@@ -390,6 +390,9 @@ MonoBehaviour:
   Speed: 1
   DetectionRadius: 200
   ChaseRadius: 190
+  ObstacleLayer:
+    serializedVersion: 2
+    m_Bits: 16384
   _player: {fileID: 0}
   MinMoveDirectionSqr: 0.01
 --- !u!82 &8814943539516669448

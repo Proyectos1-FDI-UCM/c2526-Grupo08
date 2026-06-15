@@ -18,6 +18,8 @@ using UnityEngine;
 /// El sprite cambia según la dirección de movimiento usando el mismo
 /// sistema de enum + ChangeSprite que PlayerMovement.
 /// </summary>
+/// 
+
 public class EnemyPatrol : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
@@ -72,9 +74,14 @@ public class EnemyPatrol : MonoBehaviour
 
     /// <summary>
     /// Propiedad pública de solo lectura que indica si la persecución está activa.
-    /// La usa EnemyShoot para saber cuándo debe disparar.
     /// </summary>
     public bool IsChasing => _chaseActivated;
+
+    /// <summary>
+    /// Propiedad pública de solo lectura que la usará EnemyShoot para saber cuándo disparar.
+    /// Garantiza que persigue al jugador Y que no hay paredes en medio.
+    /// </summary>
+    public bool CanShoot => _chaseActivated && HasLineOfSight();
 
     // Animación del enemigo
     private Animator _animator;
@@ -152,8 +159,8 @@ public class EnemyPatrol : MonoBehaviour
 
         if (!_chaseActivated)
         {
-            // Cori entra en el área de detección interna → activar persecución
-            if (distanceToPlayer <= DetectionRadius)
+            // Cori entra en el área de detección interna y hay línea de visión → activar persecución
+            if (distanceToPlayer <= DetectionRadius && HasLineOfSight())
             {
                 _chaseActivated = true;
                 _state = EnemyState.Chase;
@@ -167,6 +174,34 @@ public class EnemyPatrol : MonoBehaviour
                 ResetToNearestPatrolPoint();
             }
         }
+    }
+
+    /// <summary>
+    /// Comprueba de forma automática si hay visión directa con el jugador ignorando capas.
+    /// </summary>
+    private bool HasLineOfSight()
+    {
+        if (_playerTransform == null) return false;
+
+        // Lanza una línea que detecta absolutamente todo entre el enemigo y el jugador
+        RaycastHit2D[] hits = Physics2D.LinecastAll(transform.position, _playerTransform.position);
+
+        foreach (RaycastHit2D hit in hits)
+        {
+            // Ignora el collider del propio enemigo
+            if (hit.collider.gameObject == gameObject) continue;
+
+            // Ignora colliders que no sean sólidos (como áreas de detección o triggers)
+            if (hit.collider.isTrigger) continue;
+
+            // Si el primer objeto sólido que encontramos es el jugador, hay visión
+            if (hit.collider.gameObject == _player) return true;
+
+            // Si encuentra cualquier otro objeto sólido primero (como un muro), bloqueamos la visión
+            return false;
+        }
+
+        return false;
     }
 
     /// <summary>
@@ -304,6 +339,8 @@ public class EnemyPatrol : MonoBehaviour
 
     #endregion
 
-} // class EnemyPatrol
+}
+// class EnemyPatrol
+
 //Adriana Fernández Luna
 //Alexia Perez Santana
