@@ -105,7 +105,7 @@ public class EnemyCamera : MonoBehaviour
     /// </summary>
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (_player != null && _playerHealth != null)
+        if (other.gameObject.GetComponent<PlayerMovement>() != null)
         {
             int vidaActual = _playerHealth.GetCurrentHealth();
             _playerHealth.Damage(vidaActual);
