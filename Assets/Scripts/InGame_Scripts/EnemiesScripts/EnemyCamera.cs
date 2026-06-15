@@ -29,6 +29,9 @@ public class EnemyCamera : MonoBehaviour
     [Tooltip("Velocidad de desplazamiento del enemigo entre waypoints.")]
     [SerializeField] private float Speed = 2f;
 
+    [Header("Referencia al jugador")]
+    [SerializeField] private GameObject _player;
+
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
@@ -56,11 +59,8 @@ public class EnemyCamera : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
 
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
-            _playerHealth = player.GetComponent<Health>();
-        else
-            Debug.LogWarning("[EnemyCamera] No se ha encontrado ningún GameObject con tag 'Player'.");
+        if (_player != null)
+            _playerHealth = _player.GetComponent<Health>();
     }
 
     /// <summary>
@@ -105,7 +105,7 @@ public class EnemyCamera : MonoBehaviour
     /// </summary>
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && _playerHealth != null)
+        if (_player != null && _playerHealth != null)
         {
             int vidaActual = _playerHealth.GetCurrentHealth();
             _playerHealth.Damage(vidaActual);

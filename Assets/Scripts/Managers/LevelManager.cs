@@ -122,7 +122,7 @@ public class LevelManager : MonoBehaviour
             panelDeath.SetActive(true);
         else
             Debug.LogWarning("[LevelManager] panelDeath no asignado en el Inspector.");
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
     }
 
     /// <summary>
