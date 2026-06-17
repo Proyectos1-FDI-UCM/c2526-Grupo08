@@ -6,7 +6,7 @@
 //---------------------------------------------------------
 
 using UnityEngine;
-// Añadir aquí el resto de directivas using
+using UnityEngine.InputSystem;
 
 
 /// <summary>
@@ -46,10 +46,24 @@ public class ShootSound : MonoBehaviour
     /// </summary>
     private float _nextFireTime = 0f;
 
+    /// <summary>Acción de Input System para disparar.</summary>
+    private InputAction _attackAction;
+
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
+
+    private void Start()
+    {
+        _attackAction = InputSystem.actions.FindAction("Attack");
+        if (_attackAction == null)
+        {
+            Debug.LogError("[PlayerShoot] Acción 'Attack' no encontrada.");
+            enabled = false;
+            return;
+        }
+    }
 
     /// <summary>
     /// Update is called every frame, if the MonoBehaviour is enabled.
@@ -58,7 +72,7 @@ public class ShootSound : MonoBehaviour
     {
         // Usamos GetMouseButton(0) para detectar si se MANTIENE pulsado el botón.
         // Además, comprobamos si el tiempo actual del juego es mayor o igual al tiempo del próximo disparo.
-        if (Input.GetMouseButton(0) && Time.time >= _nextFireTime)
+        if (_attackAction.IsInProgress() && Time.time >= _nextFireTime)
         {
             // Calculamos cuándo será el próximo disparo permitido
             _nextFireTime = Time.time + _fireRate;
