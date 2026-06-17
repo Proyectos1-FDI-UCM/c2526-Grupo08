@@ -180,8 +180,8 @@ MonoBehaviour:
   - {fileID: 0}
   PointReachedDistance: 0.1
   Speed: 0.75
-  DetectionRadius: 26
-  ChaseRadius: 27
+  DetectionRadius: 16
+  ChaseRadius: 17
   _player: {fileID: 0}
   MinMoveDirectionSqr: 0.01
 --- !u!82 &7910449065921747100

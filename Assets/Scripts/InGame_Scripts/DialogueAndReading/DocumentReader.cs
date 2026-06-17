@@ -57,10 +57,10 @@ public class DocumentReader : MonoBehaviour
     [SerializeField] private TMP_Text ContinueHint;
 
     [Tooltip("Texto del hint de tecla")]
-    [SerializeField] private string HintText = "F  /  B (mando)  →  siguiente página";
+    [SerializeField] private string HintText = "F  /  X (mando)  ->  siguiente página";
 
     [Tooltip("Texto del hint en la última página")]
-    [SerializeField] private string HintTextLastPage = "F  /  B (mando)  →  cerrar";
+    [SerializeField] private string HintTextLastPage = "F  /  X (mando)  ->  cerrar";
 
     [Header("Contenido del documento")]
     [Tooltip("Texto de cada página del documento. Cada elemento del array es una página.")]

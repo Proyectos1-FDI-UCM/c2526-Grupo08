@@ -116,7 +116,7 @@ public class DialogueSystem : MonoBehaviour
     [SerializeField] private List<DialogueLine> DialogueLines = new List<DialogueLine>();
 
     [Header("Hint")]
-    [SerializeField] private string HintText = "F  /  X (mando)  →  continuar";
+    [SerializeField] private string HintText = "F  /  X (mando)  ->  continuar";
 
     #endregion
 
