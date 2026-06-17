@@ -121,10 +121,10 @@ public class Inventory : MonoBehaviour
     public int GetCardCount() => _card;
 
     /// <summary>True si el jugador tiene desbloqueado el disparo multidireccional.</summary>
-    public bool HasMultiAbility => _hasMultiAbility;
+    public bool HasMultiAbility() => _hasMultiAbility;
 
     /// <summary>True si el jugador tiene desbloqueado el disparo explosivo.</summary>
-    public bool HasExplosiveAbility => _hasExplosiveAbility;
+    public bool HasExplosiveAbility() => _hasExplosiveAbility;
 
     // ---- Llave genérica (puertas comunes) — de Marián ----
 
@@ -190,6 +190,7 @@ public class Inventory : MonoBehaviour
                 break;
             case Objects.ObjectsType.multiAbility:
                 _hasMultiAbility = true;
+                GameManager.Instance.UnlockMultishot();
                 Debug.Log("[Inventory] Habilidad multidireccional desbloqueada");
                 break;
             case Objects.ObjectsType.explosiveAbility:

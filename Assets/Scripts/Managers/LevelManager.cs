@@ -6,6 +6,7 @@
 //---------------------------------------------------------
 
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -79,6 +80,9 @@ public class LevelManager : MonoBehaviour
     [Tooltip("Componente Inventory del jugador, usado para restaurar y guardar vendas y llaves del checkpoint.")]
     [SerializeField] private Inventory playerInventory;
 
+    //Tomamos la acción para deshabilitarla cuando alguno de los dos paneles esté activo
+    private InputAction _openMenuAction;
+
     #endregion
 
     // ---- MONOBEHAVIOUR ----
@@ -92,6 +96,14 @@ public class LevelManager : MonoBehaviour
     {
         if (panelDeath != null) panelDeath.SetActive(false);
         if (panelWin != null) panelWin.SetActive(false);
+
+        _openMenuAction = InputSystem.actions.FindAction("Menu");
+        if (_openMenuAction == null)
+        {
+            Debug.Log("Accion no encontrada");
+            Destroy(this);
+        }
+        _openMenuAction.Enable();
 
         Time.timeScale = 1f;
         RestoreFromCheckpoint();
@@ -119,10 +131,13 @@ public class LevelManager : MonoBehaviour
     public void OnPlayerDeath()
     {
         if (panelDeath != null)
+        {
             panelDeath.SetActive(true);
+            _openMenuAction.Disable();
+        }
         else
             Debug.LogWarning("[LevelManager] panelDeath no asignado en el Inspector.");
-        //Time.timeScale = 0f;
+        Time.timeScale = 0f;
     }
 
     /// <summary>
@@ -131,7 +146,10 @@ public class LevelManager : MonoBehaviour
     public void OnBossDeath()
     {
         if (panelWin != null)
+        {
             panelWin.SetActive(true);
+            _openMenuAction.Disable();
+        }
         else
             Debug.LogWarning("[LevelManager] panelWin no asignado en el Inspector.");
         Time.timeScale = 0f;

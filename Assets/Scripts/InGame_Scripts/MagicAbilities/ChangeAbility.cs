@@ -147,8 +147,8 @@ public class ChangeAbility : MonoBehaviour
         switch (index)
         {
             case ChargedIndex: return true; // cargada siempre disponible
-            case MultiIndex: return _inventory != null && _inventory.HasMultiAbility;
-            case ExplosiveIndex: return _inventory != null && _inventory.HasExplosiveAbility;
+            case MultiIndex: return _inventory != null && _inventory.HasMultiAbility();
+            case ExplosiveIndex: return _inventory != null && _inventory.HasExplosiveAbility();
         }
         return false;
     }
@@ -157,13 +157,13 @@ public class ChangeAbility : MonoBehaviour
     private void UpdateAbilities()
     {
         if (_chargedattackAbility != null)
-            _chargedattackAbility.enabled = (_currentIndex == 0);
+            _chargedattackAbility.enabled = (_currentIndex == ChargedIndex);
 
         if (_multiAbility != null)
-            _multiAbility.enabled = (_currentIndex == 1 && IsAbilityUnlocked(1));
+            _multiAbility.enabled = (_currentIndex == MultiIndex && IsAbilityUnlocked(MultiIndex));
 
         if (_explosiveAbility != null)
-            _explosiveAbility.enabled = (_currentIndex == 2 && IsAbilityUnlocked(2));
+            _explosiveAbility.enabled = (_currentIndex == ExplosiveIndex && IsAbilityUnlocked(ExplosiveIndex));
 
         UpdateAbilityUI();
     }
