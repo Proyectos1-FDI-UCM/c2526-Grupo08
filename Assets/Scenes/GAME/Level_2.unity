@@ -3140,7 +3140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce86c9ef93f218144afa8c571dec80d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PromptText: {fileID: 775422441}
+  PromptText: {fileID: 0}
   OffsetY: 0.6
   KeyboardText: "F \u2014 recoger"
   GamepadText: "X \u2014 recoger"
@@ -3246,6 +3246,7 @@ RectTransform:
   - {fileID: 2146886144}
   - {fileID: 232641948}
   - {fileID: 315045676}
+  - {fileID: 775422440}
   m_Father: {fileID: 1768968353}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -6542,16 +6543,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 775422439}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1103571514}
+  m_Father: {fileID: 383243394}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.7916285, y: 0.7862474}
+  m_AnchorMax: {x: 0.7916285, y: 0.7862474}
+  m_AnchoredPosition: {x: -3.9996948, y: -4.9998474}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &775422441
@@ -9128,7 +9129,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 705245299}
-  - {fileID: 775422440}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -11844,7 +11844,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0062dc93ecb15b84195e282b8f4c53a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InteractionRadius: 1.5
+  InteractionRadius: 2
   PromptOffsetY: 0.8
   ParentCanvas: {fileID: 1103571515}
   PromptUI: {fileID: 775422439}
@@ -439578,11 +439578,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.557991
+      value: -14.8
       objectReference: {fileID: 0}
     - target: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -14.975006
+      value: -1.9
       objectReference: {fileID: 0}
     - target: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_LocalPosition.z
