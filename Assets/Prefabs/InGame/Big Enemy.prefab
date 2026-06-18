@@ -294,7 +294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 250
-  HealthBar: {fileID: 0}
+  HealthBar: {fileID: 3149598870559972045}
   EnemyGameObject: {fileID: 2049559663841269884}
   IsPlayer: 0
   IsBoss: 0
