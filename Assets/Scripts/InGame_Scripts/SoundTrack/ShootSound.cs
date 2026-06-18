@@ -107,7 +107,16 @@ public class ShootSound : MonoBehaviour
         }
     }
 
-    #endregion
+    private void OnDestroy()
+    {
+        // Detener el audio antes de que el objeto sea destruido al cambiar de escena
+        if (_audioSource != null)
+        {
+            _audioSource.Stop();
+        }
 
-} // class ShootSound 
+        #endregion
+
+    }
+}// class ShootSound 
 // namespace
