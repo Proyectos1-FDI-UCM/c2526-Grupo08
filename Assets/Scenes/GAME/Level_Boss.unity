@@ -63766,7 +63766,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 398120f647e7e40da805fa99971f1f17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelDeath: {fileID: 0}
+  panelDeath: {fileID: 1430790630}
   panelWin: {fileID: 1980863446}
   playerHealth: {fileID: 162771816}
   playerInventory: {fileID: 162771817}
@@ -68752,11 +68752,11 @@ PrefabInstance:
       objectReference: {fileID: 1677294244}
     - target: {fileID: 4166956782553929676, guid: 54819649d9e38bf4f904b282db1f353f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -14.37
+      value: -72.6
       objectReference: {fileID: 0}
     - target: {fileID: 4166956782553929676, guid: 54819649d9e38bf4f904b282db1f353f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 26.92
+      value: 28.9
       objectReference: {fileID: 0}
     - target: {fileID: 4166956782553929676, guid: 54819649d9e38bf4f904b282db1f353f, type: 3}
       propertyPath: m_LocalPosition.z
