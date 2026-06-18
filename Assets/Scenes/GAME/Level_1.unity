@@ -273,7 +273,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2047
+    m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -294,7 +294,7 @@ Transform:
   m_GameObject: {fileID: 12775590}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -23.833036, y: 40.76794, z: -9.742417}
+  m_LocalPosition: {x: -68.6, y: 41.2, z: -9.742417}
   m_LocalScale: {x: 1, y: 5.8575, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3519,11 +3519,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9.61
+      value: 24.78
       objectReference: {fileID: 0}
     - target: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -35.76
+      value: -36.64
       objectReference: {fileID: 0}
     - target: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6890,7 +6890,7 @@ GameObject:
   - component: {fileID: 1630592243}
   - component: {fileID: 1630592245}
   - component: {fileID: 1630592244}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: PromptUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6913,8 +6913,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 0.7204, y: -0}
+  m_SizeDelta: {x: 146.6898, y: 27.9076}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1630592244
 MonoBehaviour:
@@ -6938,8 +6938,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 529c436822c23b34a84287e64d3f7e2d, type: 2}
+  m_sharedMaterial: {fileID: 7799267055905085395, guid: 529c436822c23b34a84287e64d3f7e2d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6963,15 +6963,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 0.5
+  m_fontSizeBase: 0.5
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -7109,6 +7109,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1630592243}
   - {fileID: 1761203107}
   - {fileID: 485534269}
   - {fileID: 2091587405}
@@ -7116,7 +7117,6 @@ RectTransform:
   - {fileID: 588353349}
   - {fileID: 1887533800}
   - {fileID: 1509483853}
-  - {fileID: 1630592243}
   m_Father: {fileID: 120716784}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -42051,8 +42051,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2091587405}
-  - component: {fileID: 2091587408}
-  - component: {fileID: 2091587409}
+  - component: {fileID: 2091587407}
+  - component: {fileID: 2091587406}
   m_Layer: 5
   m_Name: 'MagicBar_FillImage '
   m_TagString: Untagged
@@ -42080,7 +42080,7 @@ RectTransform:
   m_AnchoredPosition: {x: 169.2363, y: -91.80159}
   m_SizeDelta: {x: 262.0736, y: 12.837799}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2091587408
+--- !u!114 &2091587406
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42131,7 +42131,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &2091587409
+--- !u!114 &2091587407
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42143,7 +42143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ac3796da0b8d36448913c05bd4fe59f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _slider: {fileID: 2091587408}
+  _slider: {fileID: 2091587406}
 --- !u!1 &2094510922
 GameObject:
   m_ObjectHideFlags: 0
