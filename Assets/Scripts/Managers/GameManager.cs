@@ -113,6 +113,9 @@ public class GameManager : MonoBehaviour
     /// <summary>Si el jugador tiene desbloqueado el disparo multidireccional.</summary>
     private bool _hasMultishot = false;
 
+    /// <summary>Si el jugador tiene desbloqueado el disparo explosivo.</summary>
+    private bool _hasExplosive = false;
+
     #endregion
 
     // ---- AJUSTES DE USUARIO — CÁMARA ----
@@ -182,7 +185,8 @@ public class GameManager : MonoBehaviour
         _savedHealth = health;
         _savedBandages = bandages;
         _savedKeys = keys;
-        Debug.Log($"[GameManager] Checkpoint — Vida: {health}, Vendas: {bandages}, Llaves: {keys}");
+        
+        Debug.Log($"[GameManager] Checkpoint — Vida: {health}, Vendas: {bandages}, Llaves: {keys}, Habilidad1: {_hasMultishot}");
     }
 
     /// <summary>Devuelve la vida guardada en el último checkpoint.</summary>
@@ -206,6 +210,13 @@ public class GameManager : MonoBehaviour
     /// <summary>Desbloquea el disparo multidireccional permanentemente.</summary>
     public void UnlockMultishot() => _hasMultishot = true;
 
+    /// <summary>Devuelve si el explosivo está desbloqueado.</summary>
+    public bool HasExplosive() => _hasExplosive;
+
+    /// <summary>Desbloquea el disparo explosivo permanentemente.</summary>
+    public void UnlockExplosive() => _hasExplosive = true;
+
+
     #endregion
 
     // ---- MÉTODOS PRIVADOS ----
@@ -221,6 +232,7 @@ public class GameManager : MonoBehaviour
         _savedBandages = DefaultBandages;
         _savedKeys = DefaultKeys;
         _hasMultishot = false;
+        _hasExplosive = false;
 
         // Valores por defecto de los ajustes de cámara
         CameraShakeIntensity = DefaultShakeIntensity;

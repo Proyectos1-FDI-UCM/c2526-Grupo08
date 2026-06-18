@@ -30,10 +30,6 @@ public class ChargedAttack : MonoBehaviour
     [Tooltip("Punto desde donde sale la bala. Si es null, sale desde el centro del jugador.")]
     [SerializeField] private Transform _shootOrigin;
 
-    [Header("Shoot Settings")]
-    [Tooltip("Tiempo mínimo entre disparos en segundos. (GDD: 0,4 s)")]
-    [SerializeField] private float _fireRate = 0.4f;
-
     [Header("Charged Attack")]
     [Tooltip("Tiempo en segundos que hay que mantener pulsada la acción para completar la carga.")]
     [SerializeField] private float _chargedTime = 1.5f;

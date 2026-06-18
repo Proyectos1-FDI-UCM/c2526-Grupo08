@@ -87,6 +87,12 @@ public class Inventory : MonoBehaviour
             return;
         }
 
+        if (GameManager.HasInstance())
+        {
+            _hasMultiAbility = GameManager.Instance.HasMultishot();
+            _hasExplosiveAbility = GameManager.Instance.HasExplosive();
+        }
+
         RegisterInput();
     }
 
@@ -195,6 +201,7 @@ public class Inventory : MonoBehaviour
                 break;
             case Objects.ObjectsType.explosiveAbility:
                 _hasExplosiveAbility = true;
+                GameManager.Instance.UnlockExplosive();
                 Debug.Log("[Inventory] Habilidad explosiva desbloqueada");
                 break;
         }
