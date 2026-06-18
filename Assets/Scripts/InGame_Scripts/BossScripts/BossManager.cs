@@ -95,9 +95,7 @@ public class BossManager : MonoBehaviour
     [Tooltip("El Panel negro creado en el Canvas que cubrirá toda la pantalla.")]
     [SerializeField] private GameObject EndOfGameBlackPanel;
 
-    [Header("Pantalla To Be Continued")]
-    [Tooltip("El Panel negro con las letras que tapará todo al final.")]
-    [SerializeField] private GameObject ToBeContinuedPanel;
+    
 
     #endregion
 
@@ -130,7 +128,7 @@ public class BossManager : MonoBehaviour
 
         PlayDialogue(GoodEndingLines, () =>
         {
-            if (ToBeContinuedPanel != null) { ToBeContinuedPanel.SetActive(true); }
+            
 
             Time.timeScale = 1f;
             if (LevelManager.HasInstance())
