@@ -91,6 +91,14 @@ public class BossManager : MonoBehaviour
              "durante los diálogos finales.")]
     [SerializeField] private GameObject BossGameObject;
 
+    [Header("UI de Final (Pantalla Negra)")]
+    [Tooltip("El Panel negro creado en el Canvas que cubrirá toda la pantalla.")]
+    [SerializeField] private GameObject EndOfGameBlackPanel;
+
+    [Header("Pantalla To Be Continued")]
+    [Tooltip("El Panel negro con las letras que tapará todo al final.")]
+    [SerializeField] private GameObject ToBeContinuedPanel;
+
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
@@ -122,6 +130,8 @@ public class BossManager : MonoBehaviour
 
         PlayDialogue(GoodEndingLines, () =>
         {
+            if (ToBeContinuedPanel != null) { ToBeContinuedPanel.SetActive(true); }
+
             Time.timeScale = 1f;
             if (LevelManager.HasInstance())
                 LevelManager.Instance.OnBossDeath();
@@ -142,8 +152,12 @@ public class BossManager : MonoBehaviour
 
         Time.timeScale = 0f;
 
+        // Activar la pantalla en negro inmediatamente al final malo
+        if (EndOfGameBlackPanel != null) { EndOfGameBlackPanel.SetActive(true); }
+       
         PlayDialogue(BadEndingLines, () =>
         {
+
             // El panel de muerte lo muestra LevelManager; Time.timeScale lo gestiona él
             if (LevelManager.HasInstance())
                 LevelManager.Instance.OnPlayerDeath();

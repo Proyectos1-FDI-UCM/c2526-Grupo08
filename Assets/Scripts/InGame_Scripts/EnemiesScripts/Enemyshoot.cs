@@ -96,13 +96,17 @@ public class EnemyShoot : MonoBehaviour
         _enemyPatrol = GetComponent<EnemyPatrol>();
         _audioSource = GetComponent<AudioSource>();
 
-        if (_player != null)
+        // 1. Buscamos al jugador por su Tag. Todo de forma local y privada.
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+
+        if (playerObj != null)
         {
-            _playerTransform = _player.transform;
+            // 2. Asignamos el transform a tu variable privada existente
+            _playerTransform = playerObj.transform;
         }
         else
         {
-            Debug.LogWarning($"[EnemyShoot] {gameObject.name}: no se encontró ningún GameObject 'Player'.");
+            Debug.LogWarning($"[EnemyShoot] {gameObject.name}: no se encontró ningún GameObject con el Tag 'Player'.");
         }
 
         // Validar prefab
@@ -113,14 +117,11 @@ public class EnemyShoot : MonoBehaviour
             return;
         }
 
-        // Si no se asignó punto de origen, usamos el propio transform del enemigo
         if (ShootOrigin == null)
         {
             ShootOrigin = transform;
         }
 
-        // El timer arranca en el punto del ciclo donde se emite el sonido,
-        // así el primer disparo no ocurre instantáneamente al detectar al jugador.
         _shootTimer = FireInterval - SoundLeadTime;
         _soundPlayed = false;
     }
