@@ -6123,7 +6123,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1509483853
 RectTransform:
   m_ObjectHideFlags: 0
@@ -40962,7 +40962,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.23038968, y: 0.4685137}
   m_AnchorMax: {x: 0.7774741, y: 0.73324317}
-  m_AnchoredPosition: {x: -44.5, y: 21}
+  m_AnchoredPosition: {x: -75, y: 29}
   m_SizeDelta: {x: -101.375885, y: -44.9012}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1821356409
@@ -41050,7 +41050,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0.22698975, y: 0, z: -91.016754, w: -40.8925}
+  m_margin: {x: 0.22698975, y: 0, z: -154.46136, w: -40.8925}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

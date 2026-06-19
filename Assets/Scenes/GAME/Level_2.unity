@@ -3921,7 +3921,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 398120f647e7e40da805fa99971f1f17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelDeath: {fileID: 0}
+  panelDeath: {fileID: 315045675}
   panelWin: {fileID: 0}
   playerHealth: {fileID: 1917631968}
   playerInventory: {fileID: 1917631969}
@@ -7293,10 +7293,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 315045676}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.23038968, y: 0.4685137}
-  m_AnchorMax: {x: 0.7774741, y: 0.73324317}
-  m_AnchoredPosition: {x: -44.5, y: 21}
-  m_SizeDelta: {x: -101.375885, y: -44.9012}
+  m_AnchorMin: {x: 0.134, y: 0.43637884}
+  m_AnchorMax: {x: 0.89370596, y: 0.73324317}
+  m_AnchoredPosition: {x: -56, y: 25.5}
+  m_SizeDelta: {x: -204.0291, y: -33.5862}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &879235109
 MonoBehaviour:
@@ -7383,7 +7383,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0.22698975, y: 0, z: -91.016754, w: -40.8925}
+  m_margin: {x: -41.340088, y: 0, z: -154.46143, w: -40.8925}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -11858,6 +11858,7 @@ MonoBehaviour:
   DropSpread: 0.4
   SpecialKeyDropPrefab: {fileID: 4296618808425056567, guid: 28714e20fdc8af9459ae7897a9f6d8a3, type: 3}
   DialogueSystemRef: {fileID: 31857259}
+  _player: {fileID: 561371368}
 --- !u!114 &1489553462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -439578,11 +439579,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -14.8
+      value: -8.2
       objectReference: {fileID: 0}
     - target: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.9
+      value: 68.5
       objectReference: {fileID: 0}
     - target: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -440357,8 +440358,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 1, y: 42}
-  m_SizeDelta: {x: -219.6927, y: 50}
+  m_AnchoredPosition: {x: 7.6945, y: 33.5}
+  m_SizeDelta: {x: -190.6832, y: 67}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1989622983
 MonoBehaviour:
@@ -440407,8 +440408,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 35
+  m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

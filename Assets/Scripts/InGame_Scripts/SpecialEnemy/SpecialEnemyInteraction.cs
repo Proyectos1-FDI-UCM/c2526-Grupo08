@@ -79,6 +79,8 @@ public class SpecialEnemyInteraction : MonoBehaviour
     [Tooltip("Referencia al DialogueSystem de la escena")]
     [SerializeField] private DialogueSystem DialogueSystemRef;
 
+    [Header("Referencia al jugador")]
+    [SerializeField] private GameObject _player;
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
@@ -107,14 +109,13 @@ public class SpecialEnemyInteraction : MonoBehaviour
 
     private void Awake()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
+        if (_player != null)
         {
-            _playerTransform = player.transform;
+            _playerTransform = _player.transform;
         }
         else
         { 
-            Debug.LogWarning("[SpecialEnemyInteraction] No se encontró jugador con tag 'Player'."); 
+            Debug.LogWarning("[SpecialEnemyInteraction] No se asignó Player en el inspector."); 
         }
 
         _interactAction = InputSystem.actions.FindAction("Interact");
