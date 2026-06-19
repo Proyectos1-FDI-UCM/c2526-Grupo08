@@ -80,8 +80,11 @@ public class LevelManager : MonoBehaviour
     [Tooltip("Componente Inventory del jugador, usado para restaurar y guardar vendas y llaves del checkpoint.")]
     [SerializeField] private Inventory playerInventory;
 
+
+    // ---- Variables privadas ----
     //Tomamos la acción para deshabilitarla cuando alguno de los dos paneles esté activo
     private InputAction _openMenuAction;
+
 
     #endregion
 
@@ -134,6 +137,7 @@ public class LevelManager : MonoBehaviour
         {
             panelDeath.SetActive(true);
             _openMenuAction.Disable();
+            GameManager.Instance.SetPlayerHasDied(true);
         }
         else
             Debug.LogWarning("[LevelManager] panelDeath no asignado en el Inspector.");
@@ -169,8 +173,10 @@ public class LevelManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         if (GameManager.HasInstance())
+        {
             GameManager.Instance.RestartCurrentScene();
-        else
+        }
+        else 
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -209,6 +215,7 @@ public class LevelManager : MonoBehaviour
             );
         }
         Time.timeScale = 1f;
+        GameManager.Instance.SetPlayerHasDied(false);
         SceneManager.LoadScene(nextSceneName);
     }
 

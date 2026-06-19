@@ -20,7 +20,7 @@ using TMPro;
 /// Flujo de uso:
 ///   1. (Opcional) dialogueSystem.SetLines(miLista)
 ///   2. dialogueSystem.StartDialogue(miCallback)
-///   3. El jugador pulsa Interact (F / B mando) para avanzar
+///   3. El jugador pulsa Interact (F / X mando) para avanzar
 ///   4. Al terminar llama miCallback y oculta la caja
 ///
 /// SINGLETON: NarratorDialogue puede encontrarlo automáticamente con

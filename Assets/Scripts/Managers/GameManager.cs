@@ -116,6 +116,9 @@ public class GameManager : MonoBehaviour
     /// <summary>Si el jugador tiene desbloqueado el disparo explosivo.</summary>
     private bool _hasExplosive = false;
 
+    /// <summary>Indica si el jugador ha muerto durante la escena.</summary>
+    private bool _playerHasDied = false;
+
     #endregion
 
     // ---- AJUSTES DE USUARIO — CÁMARA ----
@@ -170,6 +173,13 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("Menu");
     }
+
+    public void SetPlayerHasDied(bool value)
+    { 
+        _playerHasDied = value;
+    }
+
+    public bool GetPlayerHasDied() { return _playerHasDied; }
 
     #endregion
 

@@ -2474,7 +2474,6 @@ MonoBehaviour:
       de Raven.\""
   BossGameObject: {fileID: 940375069}
   EndOfGameBlackPanel: {fileID: 873582773}
-  ToBeContinuedPanel: {fileID: 0}
 --- !u!4 &510205887
 Transform:
   m_ObjectHideFlags: 0
@@ -2747,7 +2746,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.23038968, y: 0.4685137}
   m_AnchorMax: {x: 0.7774741, y: 0.73324317}
-  m_AnchoredPosition: {x: -44.5, y: 21}
+  m_AnchoredPosition: {x: -73, y: 23}
   m_SizeDelta: {x: -101.375885, y: -44.9012}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &542954877
@@ -2835,7 +2834,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0.22698975, y: 0, z: -91.016754, w: -40.8925}
+  m_margin: {x: 0.22698975, y: 0, z: -138.4938, w: -40.8925}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -67879,7 +67878,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 825990133}
         m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
         m_MethodName: OnRestartButton
         m_Mode: 1

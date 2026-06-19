@@ -73,6 +73,7 @@ public class NarratorDialogue : MonoBehaviour
 
     private void Start()
     {
+        if (GameManager.Instance != null && GameManager.Instance.GetPlayerHasDied()) { return; }
         if (!AutoStartOnLoad) { return; }
 
         // Resolver referencia
