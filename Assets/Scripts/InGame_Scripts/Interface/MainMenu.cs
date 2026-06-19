@@ -377,21 +377,31 @@ public class MainMenu : MonoBehaviour
 
     /// <summary>
     /// Aumenta o reduce la intensidad del shake de cámara (redondeada a un
-    /// decimal y limitada entre 0 y ShakeMax) y refresca el label.
+    /// decimal y limitada entre 0 y ShakeMax).
+    /// Persiste el valor en GameManager para que CameraController lo lea en partida.
     /// </summary>
     private void CambiarShake(float d)
     {
         _shakeIntensity = Mathf.Clamp(Mathf.Round((_shakeIntensity + d) * RoundingFactor) / RoundingFactor, 0f, ShakeMax);
+
+        if (GameManager.HasInstance())
+            GameManager.Instance.SetShakeIntensity(_shakeIntensity);
+
         RefrescarLabels();
     }
 
     /// <summary>
-    /// Aumenta o reduce el retraso de seguimiento de cámara (redondeado a un
-    /// decimal y limitado entre 0 y DelayMax) y refresca el label.
+    /// Aumenta o reduce el follow delay de cámara (redondeado a un decimal
+    /// y limitado entre 0 y DelayMax).
+    /// Persiste el valor en GameManager para que CameraController lo lea en partida.
     /// </summary>
     private void CambiarDelay(float d)
     {
         _followDelay = Mathf.Clamp(Mathf.Round((_followDelay + d) * RoundingFactor) / RoundingFactor, 0f, DelayMax);
+
+        if (GameManager.HasInstance())
+            GameManager.Instance.SetCameraFollowDelay(_followDelay);
+
         RefrescarLabels();
     }
 

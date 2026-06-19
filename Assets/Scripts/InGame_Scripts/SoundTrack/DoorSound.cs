@@ -1,69 +1,61 @@
 //---------------------------------------------------------
-// Breve descripción del contenido del archivo
-// Marián Navarro
-// Nombre del juego
+// Reproduce un sonido al abrir una puerta.
+// Marián Navarro Santoyo
+// No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
 using UnityEngine;
-// Añadir aquí el resto de directivas using
-
 
 /// <summary>
-/// Antes de cada class, descripción de qué es y para qué sirve,
-/// usando todas las líneas que sean necesarias.
+/// Se adjunta al GameObject de la puerta.
+/// Expone PlayOpenSound() para que Door.cs o SecretDoor.cs lo llamen
+/// al abrir la puerta. El sonido solo se reproduce una vez (flag _hasPlayed).
 /// </summary>
 public class DoorSound : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
-    #region Atributos del Inspector (serialized fields)
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // públicos y de inspector se nombren en formato PascalCase
-    // (palabras con primera letra mayúscula, incluida la primera letra)
-    // Ejemplo: MaxHealthPoints
+    #region Atributos del Inspector
 
     [Header("Configuración de Sonido")]
+    [Tooltip("AudioClip que se reproduce al abrir la puerta.")]
     [SerializeField] private AudioClip doorOpenSound;
-
-    private AudioSource _audioSource;
-    private bool _hasPlayed = false;
 
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
-    #region Atributos Privados (private fields)
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // privados se nombren en formato _camelCase (comienza con _, 
-    // primera palabra en minúsculas y el resto con la 
-    // primera letra en mayúsculas)
-    // Ejemplo: _maxHealthPoints
+    #region Atributos Privados
+
+    /// <summary>AudioSource del GameObject, cacheado en Awake.</summary>
+    private AudioSource _audioSource;
+
+    /// <summary>True si el sonido ya se reprodujo. Evita reproducirlo más de una vez.</summary>
+    private bool _hasPlayed = false;
 
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
-    // Por defecto están los típicos (Update y Start) pero:
-    // - Hay que añadir todos los que sean necesarios
-    // - Hay que borrar los que no se usen 
-
     /// <summary>
-    /// Start is called on the frame when a script is enabled just before 
-    /// any of the Update methods are called the first time.
+    /// Cachea el AudioSource y desactiva su reproducción automática al iniciar.
     /// </summary>
+    private void Awake()
+    {
+        _audioSource = GetComponent<AudioSource>();
+        if (_audioSource != null)
+            _audioSource.playOnAwake = false;
+    }
 
     #endregion
 
     // ---- MÉTODOS PÚBLICOS ----
     #region Métodos públicos
-    // Documentar cada método que aparece aquí con ///<summary>
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
-    // Ejemplo: GetPlayerController
 
+    /// <summary>
+    /// Reproduce el sonido de apertura de puerta una única vez.
+    /// Llamado por Door.cs o SecretDoor.cs al abrir la puerta.
+    /// </summary>
     public void PlayOpenSound()
     {
         if (_hasPlayed || doorOpenSound == null) return;
@@ -74,21 +66,5 @@ public class DoorSound : MonoBehaviour
 
     #endregion
 
-    // ---- MÉTODOS PRIVADOS ----
-    #region Métodos Privados
-    // Documentar cada método que aparece aquí
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
-
-    private void Awake()
-    {
-        _audioSource = GetComponent<AudioSource>();
-        _audioSource.playOnAwake = false;
-    }
-
-
-    #endregion   
-
-} // class DoorSound 
-// namespace
+} // class DoorSound
+  // Marián Navarro Santoyo

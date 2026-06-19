@@ -97,6 +97,7 @@ public class EnemyPatrol : MonoBehaviour
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _rb.interpolation = RigidbodyInterpolation2D.Interpolate;
         _animator = GetComponent<Animator>();
 
         if (PatrolPoints == null || PatrolPoints.Length == 0)
@@ -124,21 +125,25 @@ public class EnemyPatrol : MonoBehaviour
     }
 
     /// <summary>
-    /// Se ejecuta cada frame. Gestiona la máquina de estados y actualiza el sprite.
+    /// Cada frame: solo comprueba la detección del jugador.
+    /// El movimiento va en FixedUpdate para coincidir con el ciclo de física
+    /// y evitar el parpadeo del sprite.
     /// </summary>
     private void Update()
     {
         CheckDetection();
+    }
 
+    /// <summary>
+    /// En cada paso de física: aplica velocidad y actualiza el sprite según
+    /// el estado actual (Patrol o Chase).
+    /// </summary>
+    private void FixedUpdate()
+    {
         switch (_state)
         {
-            case EnemyState.Patrol:
-                Patrol();
-                break;
-
-            case EnemyState.Chase:
-                Chase();
-                break;
+            case EnemyState.Patrol: Patrol(); break;
+            case EnemyState.Chase: Chase(); break;
         }
     }
 

@@ -1,133 +1,123 @@
 //---------------------------------------------------------
-// Breve descripción del contenido del archivo
-// Responsable de la creación de este archivo
-// Nombre del juego
+// Gestiona la música de fondo del juego entre escenas.
+// Singleton persistente (DontDestroyOnLoad) que cambia el clip
+// de audio según la escena activa.
+// Marián Navarro Santoyo
+// No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
-// Añadir aquí el resto de directivas using
-
 
 /// <summary>
-/// Antes de cada class, descripción de qué es y para qué sirve,
-/// usando todas las líneas que sean necesarias.
+/// Singleton persistente que controla la música de fondo.
+/// Detecta la escena activa cada frame y cambia el AudioClip
+/// cuando la escena cambia, sin interrumpir el audio entre escenas
+/// si el clip es el mismo.
 /// </summary>
 public class SoundFondo : MonoBehaviour
 {
+    // ---- SINGLETON ----
+    #region Singleton
+
+    private static SoundFondo _instance;
+
+    /// <summary>Acceso global a la instancia única.</summary>
+    public static SoundFondo Instance => _instance;
+
+    /// <summary>True si hay una instancia activa.</summary>
+    public static bool HasInstance() => _instance != null;
+
+    #endregion
+
     // ---- ATRIBUTOS DEL INSPECTOR ----
-    #region Atributos del Inspector (serialized fields)
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // públicos y de inspector se nombren en formato PascalCase
-    // (palabras con primera letra mayúscula, incluida la primera letra)
-    // Ejemplo: MaxHealthPoints
+    #region Atributos del Inspector
 
-    public static SoundFondo Instance;
-    [SerializeField]
-    private AudioClip clipMenuCreditos;
-    [SerializeField]
-    private AudioClip clipNivel1y2;
-    [SerializeField]
-    private AudioClip clipNivel3;
+    [Header("Clips por escena")]
+    [Tooltip("Música del menú principal y créditos.")]
+    [SerializeField] private AudioClip clipMenuCreditos;
 
-    private AudioSource source;
+    [Tooltip("Música de los niveles 1 y 2.")]
+    [SerializeField] private AudioClip clipNivel1y2;
+
+    [Tooltip("Música del nivel del jefe (Level_Boss).")]
+    [SerializeField] private AudioClip clipNivel3;
+
+    #endregion
+
+    // ---- CONSTANTES ----
+    #region Constantes
+
+    /// <summary>Nombre de la escena del menú principal.</summary>
+    private const string SceneMenu = "Menu";
+
+    /// <summary>Nombre de la escena del nivel 1.</summary>
+    private const string SceneLevel1 = "Level_1";
+
+    /// <summary>Nombre de la escena del nivel 2.</summary>
+    private const string SceneLevel2 = "Level_2";
+
+    /// <summary>Nombre de la escena del jefe.</summary>
+    private const string SceneBoss = "Level_Boss";
 
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
-    #region Atributos Privados (private fields)
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // privados se nombren en formato _camelCase (comienza con _, 
-    // primera palabra en minúsculas y el resto con la 
-    // primera letra en mayúsculas)
-    // Ejemplo: _maxHealthPoints
+    #region Atributos Privados
 
-
+    /// <summary>AudioSource que reproduce la música de fondo.</summary>
+    private AudioSource _source;
 
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
-    // Por defecto están los típicos (Update y Start) pero:
-    // - Hay que añadir todos los que sean necesarios
-    // - Hay que borrar los que no se usen 
-
     /// <summary>
-    /// Start is called on the frame when a script is enabled just before 
-    /// any of the Update methods are called the first time.
+    /// Inicializa el singleton persistente entre escenas y cachea el AudioSource.
+    /// Si ya existe una instancia, destruye este duplicado.
     /// </summary>
-    /// 
-
     void Awake()
     {
-        // Singleton simple para que la música no se detenga al cambiar escena
-        if (Instance == null)
+        if (_instance == null)
         {
-            Instance = this;
+            _instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
+            return;
         }
 
-        source = GetComponent<AudioSource>();
+        _source = GetComponent<AudioSource>();
     }
 
-
     /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
+    /// Cada frame, comprueba si la escena activa ha cambiado y actualiza
+    /// el clip de música si es necesario.
     /// </summary>
     void Update()
     {
         string escenaActual = SceneManager.GetActiveScene().name;
-        AudioClip clipCambiado = null;
+        AudioClip clipDeseado = null;
 
-        // Lógica directa por nombres
-        if (escenaActual == "Menu" )
-        {
-            clipCambiado = clipMenuCreditos;
-        }
-        else if (escenaActual == "Level_1" || escenaActual == "Level_2")
-        {
-            clipCambiado = clipNivel1y2;
-        }
-        else if (escenaActual == "Level_Boss")
-        {
-            clipCambiado = clipNivel3;
-        }
+        if (escenaActual == SceneMenu)
+            clipDeseado = clipMenuCreditos;
+        else if (escenaActual == SceneLevel1 || escenaActual == SceneLevel2)
+            clipDeseado = clipNivel1y2;
+        else if (escenaActual == SceneBoss)
+            clipDeseado = clipNivel3;
 
-        // Si el clip que debería sonar no es el que suena ahora, cámbialo
-        if (clipCambiado != null && source.clip != clipCambiado)
+        if (clipDeseado != null && _source.clip != clipDeseado)
         {
-            source.clip = clipCambiado;
-            source.Play();
+            _source.clip = clipDeseado;
+            _source.Play();
         }
     }
-    #endregion
-
-    // ---- MÉTODOS PÚBLICOS ----
-    #region Métodos públicos
-    // Documentar cada método que aparece aquí con ///<summary>
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
-    // Ejemplo: GetPlayerController
 
     #endregion
-    
-    // ---- MÉTODOS PRIVADOS ----
-    #region Métodos Privados
-    // Documentar cada método que aparece aquí
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
 
-    #endregion   
-
-} // class SoundFondo 
-// namespace
+} // class SoundFondo
+  // Marián Navarro Santoyo

@@ -1,49 +1,44 @@
 //---------------------------------------------------------
-// Breve descripción del contenido del archivo
-// Marián Navarro
-// Nombre del juego
+// Reproduce el sonido de disparo cuando el jugador dispara.
+// Marián Navarro Santoyo
+// No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
 /// <summary>
-/// Antes de cada class, descripción de qué es y para qué sirve,
-/// usando todas las líneas que sean necesarias.
+/// Reproduce el AudioClip de disparo cada vez que el jugador
+/// activa la acción "Attack" y el cooldown lo permite.
+/// El sonido se reproduce con PlayOneShot para que los disparos
+/// rápidos se superpongan de forma natural.
 /// </summary>
 public class ShootSound : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
-    #region Atributos del Inspector (serialized fields)
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // públicos y de inspector se nombren en formato PascalCase
-    // (palabras con primera letra mayúscula, incluida la primera letra)
-    // Ejemplo: MaxHealthPoints
+    #region Atributos del Inspector
 
-    [Header("Audio Settings")]
+    [Header("Audio")]
+    [Tooltip("AudioSource desde el que se reproduce el sonido de disparo.")]
     [SerializeField] private AudioSource _audioSource;
+
+    [Tooltip("AudioClip del sonido de disparo.")]
     [SerializeField] private AudioClip _sfxDisparo;
+
+    [Tooltip("Volumen del sonido de disparo (0 = silencio, 1 = máximo).")]
     [SerializeField, Range(0, 1)] private float _volumen = 0.7f;
 
-    [Header("Bullet Prefab")]
-    [SerializeField] private GameObject _bulletPrefab;
-    [SerializeField] private Transform _firePoint;
-
-    [Header("Shoot Settings")]
-    [Tooltip("Tiempo en segundos que debe pasar entre cada disparo.")]
+    [Header("Cadencia")]
+    [Tooltip("Tiempo mínimo en segundos entre disparos (debe coincidir con PlayerShoot.FireRate).")]
     [SerializeField] private float _fireRate = 0.2f;
 
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
-    #region Atributos Privados (private fields)
+    #region Atributos Privados
 
-    /// <summary>
-    /// Almacena el momento de tiempo exacto en el que podremos volver a disparar.
-    /// </summary>
+    /// <summary>Instante (Time.time) en el que se podrá disparar de nuevo.</summary>
     private float _nextFireTime = 0f;
 
     /// <summary>Acción de Input System para disparar.</summary>
@@ -54,69 +49,54 @@ public class ShootSound : MonoBehaviour
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
+    /// <summary>
+    /// Obtiene la acción "Attack" del Input System.
+    /// </summary>
     private void Start()
     {
         _attackAction = InputSystem.actions.FindAction("Attack");
         if (_attackAction == null)
         {
-            Debug.LogError("[PlayerShoot] Acción 'Attack' no encontrada.");
+            Debug.LogError("[ShootSound] Acción 'Attack' no encontrada.");
             enabled = false;
-            return;
         }
     }
 
     /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
+    /// Cada frame, reproduce el sonido de disparo si la acción está activa
+    /// y ha pasado el tiempo de cadencia.
     /// </summary>
     private void Update()
     {
-        // Usamos GetMouseButton(0) para detectar si se MANTIENE pulsado el botón.
-        // Además, comprobamos si el tiempo actual del juego es mayor o igual al tiempo del próximo disparo.
         if (_attackAction.IsInProgress() && Time.time >= _nextFireTime)
         {
-            // Calculamos cuándo será el próximo disparo permitido
             _nextFireTime = Time.time + _fireRate;
-
-            Shoot();
+            PlayShootSound();
         }
     }
+
+    /// <summary>
+    /// Detiene el AudioSource al destruirse el GameObject (cambio de escena).
+    /// </summary>
+    private void OnDestroy()
+    {
+        if (_audioSource != null)
+            _audioSource.Stop();
+    }
+
     #endregion
 
     // ---- MÉTODOS PRIVADOS ----
     #region Métodos Privados
 
-    private void Shoot()
+    /// <summary>Reproduce el sonido de disparo con PlayOneShot.</summary>
+    private void PlayShootSound()
     {
         if (_audioSource != null && _sfxDisparo != null)
-        {
-            // PlayOneShot es perfecto aquí porque permite que los sonidos
-            // de disparos muy rápidos se superpongan ligeramente de forma natural.
             _audioSource.PlayOneShot(_sfxDisparo, _volumen);
-        }
-
-        if (_bulletPrefab != null && _firePoint != null)
-        {
-            // Instancia la bala y la lanza
-            GameObject bullet = Instantiate(_bulletPrefab, _firePoint.position, _firePoint.rotation);
-
-            // Asumiendo que tu script Bullet tiene el método Init
-            if (bullet.TryGetComponent<Bullet>(out Bullet bulletScript))
-            {
-                bulletScript.Init(_firePoint.right, 20);
-            }
-        }
     }
 
-    private void OnDestroy()
-    {
-        // Detener el audio antes de que el objeto sea destruido al cambiar de escena
-        if (_audioSource != null)
-        {
-            _audioSource.Stop();
-        }
+    #endregion
 
-        #endregion
-
-    }
-}// class ShootSound 
-// namespace
+} // class ShootSound
+  // Marián Navarro Santoyo

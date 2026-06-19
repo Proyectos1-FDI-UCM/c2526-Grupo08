@@ -468,25 +468,31 @@ public class PauseManager : MonoBehaviour
 
     /// <summary>
     /// Incrementa/decrementa la intensidad de shake en pasos de PASO,
-    /// redondeando a un decimal y limitando entre 0 y ShakeMax, y
-    /// refresca el label correspondiente.
+    /// redondeando a un decimal y limitando entre 0 y ShakeMax.
+    /// Persiste el valor en GameManager para que CameraController lo lea.
     /// </summary>
-    /// <param name="d">Incremento a aplicar (positivo o negativo, normalmente ±PASO).</param>
     private void CambiarShake(float d)
     {
         _shakeIntensity = Mathf.Clamp(Mathf.Round((_shakeIntensity + d) * RoundingFactor) / RoundingFactor, 0f, ShakeMax);
+
+        if (GameManager.HasInstance())
+            GameManager.Instance.SetShakeIntensity(_shakeIntensity);
+
         RefrescarLabels();
     }
 
     /// <summary>
-    /// Incrementa/decrementa el follow delay de cámara en pasos de PASO,
-    /// redondeando a un decimal y limitando entre 0 y DelayMax, y
-    /// refresca el label correspondiente.
+    /// Incrementa/decrementa el follow delay en pasos de PASO,
+    /// redondeando a un decimal y limitando entre 0 y DelayMax.
+    /// Persiste el valor en GameManager para que CameraController lo lea.
     /// </summary>
-    /// <param name="d">Incremento a aplicar (positivo o negativo, normalmente ±PASO).</param>
     private void CambiarDelay(float d)
     {
         _followDelay = Mathf.Clamp(Mathf.Round((_followDelay + d) * RoundingFactor) / RoundingFactor, 0f, DelayMax);
+
+        if (GameManager.HasInstance())
+            GameManager.Instance.SetCameraFollowDelay(_followDelay);
+
         RefrescarLabels();
     }
 

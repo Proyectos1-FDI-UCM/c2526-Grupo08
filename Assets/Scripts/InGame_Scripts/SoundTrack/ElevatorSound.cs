@@ -1,108 +1,85 @@
 //---------------------------------------------------------
-// Breve descripción del contenido del archivo
-// Responsable de la creación de este archivo
-// Nombre del juego
+// Reproduce un sonido al activar el ascensor (al descargar la escena).
+// Marián Navarro Santoyo
+// No Way Down
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
-// Añadir aquí el resto de directivas using
-
 
 /// <summary>
-/// Antes de cada class, descripción de qué es y para qué sirve,
-/// usando todas las líneas que sean necesarias.
+/// Se adjunta al GameObject del ascensor.
+/// Persiste entre escenas (DontDestroyOnLoad) y se suscribe al evento
+/// sceneUnloaded: cuando la escena actual se descarga (el jugador sube
+/// al siguiente nivel), reproduce el clip de apertura del ascensor.
+/// El sonido solo se reproduce una vez por instancia.
 /// </summary>
 public class ElevatorSound : MonoBehaviour
 {
     // ---- ATRIBUTOS DEL INSPECTOR ----
-    #region Atributos del Inspector (serialized fields)
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // públicos y de inspector se nombren en formato PascalCase
-    // (palabras con primera letra mayúscula, incluida la primera letra)
-    // Ejemplo: MaxHealthPoints
+    #region Atributos del Inspector
 
     [Header("Configuración")]
+    [Tooltip("AudioClip que se reproduce al activar el ascensor (al cambiar de escena).")]
     [SerializeField] private AudioClip openSound;
-    private AudioSource _audioSource;
-    private bool _hasPlayed = false;
-
 
     #endregion
 
     // ---- ATRIBUTOS PRIVADOS ----
-    #region Atributos Privados (private fields)
-    // Documentar cada atributo que aparece aquí.
-    // El convenio de nombres de Unity recomienda que los atributos
-    // privados se nombren en formato _camelCase (comienza con _, 
-    // primera palabra en minúsculas y el resto con la 
-    // primera letra en mayúsculas)
-    // Ejemplo: _maxHealthPoints
+    #region Atributos Privados
 
-   
+    /// <summary>AudioSource del ascensor, cacheado en Awake.</summary>
+    private AudioSource _audioSource;
+
+    /// <summary>True si el sonido ya se reprodujo. Evita repetirlo.</summary>
+    private bool _hasPlayed = false;
+
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
-    // Por defecto están los típicos (Update y Start) pero:
-    // - Hay que añadir todos los que sean necesarios
-    // - Hay que borrar los que no se usen 
-
     /// <summary>
-    /// Start is called on the frame when a script is enabled just before 
-    /// any of the Update methods are called the first time.
+    /// Cachea el AudioSource y marca el objeto como persistente entre escenas.
     /// </summary>
-
-    #endregion
-
-    // ---- MÉTODOS PÚBLICOS ----
-    #region Métodos públicos
-    // Documentar cada método que aparece aquí con ///<summary>
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
-    // Ejemplo: GetPlayerController
-
-    #endregion
-
-    // ---- MÉTODOS PRIVADOS ----
-    #region Métodos Privados
-    // Documentar cada método que aparece aquí
-    // El convenio de nombres de Unity recomienda que estos métodos
-    // se nombren en formato PascalCase (palabras con primera letra
-    // mayúscula, incluida la primera letra)
-
     private void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
-
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(gameObject);
     }
 
+    /// <summary>Se suscribe al evento de descarga de escena al activarse.</summary>
     private void OnEnable()
     {
-
         SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
+    /// <summary>Se desuscribe del evento al desactivarse.</summary>
     private void OnDisable()
     {
         SceneManager.sceneUnloaded -= OnSceneUnloaded;
     }
 
+    #endregion
+
+    // ---- MÉTODOS PRIVADOS ----
+    #region Métodos Privados
+
+    /// <summary>
+    /// Al descargarse la escena actual, reproduce el sonido de ascensor
+    /// si no se ha reproducido ya.
+    /// </summary>
     private void OnSceneUnloaded(Scene current)
     {
         if (!_hasPlayed && openSound != null)
         {
             _hasPlayed = true;
-
             AudioSource.PlayClipAtPoint(openSound, transform.position);
         }
     }
-    #endregion   
 
-} // class ElevatorSound 
-// namespace
+    #endregion
+
+} // class ElevatorSound
+  // Marián Navarro Santoyo

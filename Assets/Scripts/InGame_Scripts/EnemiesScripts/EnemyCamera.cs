@@ -54,19 +54,27 @@ public class EnemyCamera : MonoBehaviour
     /// <summary>
     /// Cachea el Rigidbody2D propio y el componente Health del jugador
     /// (buscado una sola vez por tag "Player").
+    /// Activa la interpolación
+    /// para evitar el parpadeo del sprite durante el movimiento.
     /// </summary>
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _rb.interpolation = RigidbodyInterpolation2D.Interpolate;
 
         if (_player != null)
             _playerHealth = _player.GetComponent<Health>();
     }
 
+    /// <summary>Cada frame: no hace nada (movimiento en FixedUpdate).</summary>
+    void Update() { }
+
     /// <summary>
-    /// Cada frame, hace avanzar al enemigo hacia su waypoint actual.
+    /// En cada paso de física: mueve el enemigo hacia el waypoint actual.
+    /// FixedUpdate garantiza que la velocidad se aplica en el mismo ciclo
+    /// que el motor de física, eliminando el parpadeo visual.
     /// </summary>
-    void Update()
+    void FixedUpdate()
     {
         Patrol();
     }

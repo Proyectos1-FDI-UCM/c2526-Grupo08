@@ -16,14 +16,12 @@ using UnityEngine.SceneManagement;
 /// Almacena datos que necesitan viajar entre escenas:
 ///   · Vida del jugador en el último checkpoint.
 ///   · Inventario en el último checkpoint (vendas, llaves).
-///   · Desbloqueos permanentes (disparo multidireccional, etc.).
+///   · Desbloqueos permanentes (disparo multidireccional, explosivo).
 ///   · Ajustes de usuario: intensidad de shake y follow delay de cámara.
+///   · Estado de muerte del jugador en la escena actual.
 ///
-/// Navegación entre escenas: los métodos de carga de escena
-/// también viven aquí para centralizar el uso de SceneManager.
-///
-/// CameraController lee CameraShakeIntensity y CameraFollowDelay en cada frame
-/// para reflejar los cambios del menú de ajustes sin reiniciar la escena.
+/// CameraController lee CameraShakeIntensity y CameraFollowDelay en cada
+/// frame para reflejar los cambios del menú de ajustes sin reiniciar la escena.
 ///
 /// Todo lo relacionado con UI de escena (panel de muerte, pausa)
 /// pertenece a LevelManager, que vive solo en su escena.
@@ -110,13 +108,17 @@ public class GameManager : MonoBehaviour
     /// <summary>Llaves en el último checkpoint.</summary>
     private int _savedKeys = DefaultKeys;
 
-    /// <summary>Si el jugador tiene desbloqueado el disparo multidireccional.</summary>
+    /// <summary>True si el jugador tiene desbloqueado el disparo multidireccional.</summary>
     private bool _hasMultishot = false;
 
-    /// <summary>Si el jugador tiene desbloqueado el disparo explosivo.</summary>
+    /// <summary>True si el jugador tiene desbloqueado el disparo explosivo.</summary>
     private bool _hasExplosive = false;
 
-    /// <summary>Indica si el jugador ha muerto durante la escena.</summary>
+    /// <summary>
+    /// Indica si el jugador ha muerto durante la escena actual.
+    /// NarratorDialogue lo consulta para evitar repetir diálogos de intro
+    /// cuando el jugador reaparece tras morir.
+    /// </summary>
     private bool _playerHasDied = false;
 
     #endregion
@@ -174,13 +176,6 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Menu");
     }
 
-    public void SetPlayerHasDied(bool value)
-    { 
-        _playerHasDied = value;
-    }
-
-    public bool GetPlayerHasDied() { return _playerHasDied; }
-
     #endregion
 
     // ---- MÉTODOS PÚBLICOS — CHECKPOINT ----
@@ -195,18 +190,13 @@ public class GameManager : MonoBehaviour
         _savedHealth = health;
         _savedBandages = bandages;
         _savedKeys = keys;
-        
-        Debug.Log($"[GameManager] Checkpoint — Vida: {health}, Vendas: {bandages}, Llaves: {keys}, Habilidad1: {_hasMultishot}");
+
+        Debug.Log($"[GameManager] Checkpoint — Vida: {health}, Vendas: {bandages}, " +
+                  $"Llaves: {keys}, Multishot: {_hasMultishot}, Explosivo: {_hasExplosive}");
     }
 
     /// <summary>Devuelve la vida guardada en el último checkpoint.</summary>
     public int GetSavedHealth() => _savedHealth;
-
-    /// <summary>Devuelve la intensidad de shake de cámara configurada (0-1).</summary>
-    public float GetShakeDelay() => CameraShakeIntensity;
-
-    /// <summary>Devuelve el retraso de seguimiento de cámara configurado, en segundos.</summary>
-    public float GetCameraFollowDelay() => CameraFollowDelay;
 
     /// <summary>Devuelve las vendas guardadas en el último checkpoint.</summary>
     public int GetSavedBandages() => _savedBandages;
@@ -214,18 +204,52 @@ public class GameManager : MonoBehaviour
     /// <summary>Devuelve las llaves guardadas en el último checkpoint.</summary>
     public int GetSavedKeys() => _savedKeys;
 
-    /// <summary>Devuelve si el multidireccional está desbloqueado.</summary>
+    /// <summary>Devuelve si el disparo multidireccional está desbloqueado.</summary>
     public bool HasMultishot() => _hasMultishot;
 
     /// <summary>Desbloquea el disparo multidireccional permanentemente.</summary>
     public void UnlockMultishot() => _hasMultishot = true;
 
-    /// <summary>Devuelve si el explosivo está desbloqueado.</summary>
+    /// <summary>Devuelve si el disparo explosivo está desbloqueado.</summary>
     public bool HasExplosive() => _hasExplosive;
 
     /// <summary>Desbloquea el disparo explosivo permanentemente.</summary>
     public void UnlockExplosive() => _hasExplosive = true;
 
+    /// <summary>
+    /// Marca si el jugador ha muerto en la escena actual.
+    /// Llamado por LevelManager al activar el panel de muerte.
+    /// </summary>
+    public void SetPlayerHasDied(bool value) => _playerHasDied = value;
+
+    /// <summary>
+    /// Devuelve true si el jugador ha muerto durante la escena actual.
+    /// Consultado por NarratorDialogue para omitir diálogos de intro al reaparecer.
+    /// </summary>
+    public bool GetPlayerHasDied() => _playerHasDied;
+
+    #endregion
+
+    // ---- MÉTODOS PÚBLICOS — AJUSTES DE CÁMARA ----
+    #region Métodos públicos — Ajustes de cámara
+
+    /// <summary>Devuelve la intensidad de shake de cámara configurada (0–3).</summary>
+    public float GetShakeDelay() => CameraShakeIntensity;
+
+    /// <summary>Devuelve el retraso de seguimiento de cámara configurado, en segundos.</summary>
+    public float GetCameraFollowDelay() => CameraFollowDelay;
+
+    /// <summary>
+    /// Establece la intensidad de shake de cámara.
+    /// Llamado desde PauseManager y MainMenu al cambiar el ajuste.
+    /// </summary>
+    public void SetShakeIntensity(float value) => CameraShakeIntensity = value;
+
+    /// <summary>
+    /// Establece el retraso de seguimiento de cámara.
+    /// Llamado desde PauseManager y MainMenu al cambiar el ajuste.
+    /// </summary>
+    public void SetCameraFollowDelay(float value) => CameraFollowDelay = value;
 
     #endregion
 
@@ -243,8 +267,8 @@ public class GameManager : MonoBehaviour
         _savedKeys = DefaultKeys;
         _hasMultishot = false;
         _hasExplosive = false;
+        _playerHasDied = false;
 
-        // Valores por defecto de los ajustes de cámara
         CameraShakeIntensity = DefaultShakeIntensity;
         CameraFollowDelay = DefaultFollowDelay;
     }

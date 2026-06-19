@@ -81,7 +81,7 @@ public class Door : MonoBehaviour
     private void OpenDoor(Inventory inventory)
     {
         _isOpen = true;
-        inventory.hasKey = false;
+        inventory.UseKey();
 
         if (sonidoAbrir != null)
         {

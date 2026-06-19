@@ -148,6 +148,17 @@ public class Inventory : MonoBehaviour
         Debug.Log("[Inventory] Llave recogida");
     }
 
+    /// <summary>
+    /// Consume una llave genérica: decrementa el contador y desactiva el flag hasKey.
+    /// Llamado por Door.cs al abrir una puerta.
+    /// </summary>
+    public void UseKey()
+    {
+        _key = Mathf.Max(0, _key - 1);
+        hasKey = _key > 0; // si aún quedan llaves, el flag sigue activo
+        Debug.Log($"[Inventory] Llave usada. Llaves restantes: {_key}");
+    }
+
     // ---- Llave especial (habitación secreta de la planta 2) ----
 
     /// <summary>
