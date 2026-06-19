@@ -439473,6 +439473,10 @@ PrefabInstance:
       propertyPath: EnemyGameObject
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 277821195973449642, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+      propertyPath: DialogueSystem
+      value: 
+      objectReference: {fileID: 31857259}
     - target: {fileID: 590871797006376245, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: _multiAbility
       value: 

@@ -66,6 +66,7 @@ public class NarratorDialogue : MonoBehaviour
     private float _autoStartTimer = 0f;
     private bool _waitingAutoStart = false;
 
+
     #endregion
 
     // ---- MONOBEHAVIOUR ----

@@ -886,6 +886,18 @@ PrefabInstance:
       propertyPath: EnemyGameObject
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 277821195973449642, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 1677294275}
+    - target: {fileID: 277821195973449642, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+      propertyPath: DialogueSystem
+      value: 
+      objectReference: {fileID: 654902004}
+    - target: {fileID: 277821195973449642, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+      propertyPath: NarratorDialogue
+      value: 
+      objectReference: {fileID: 389691504}
     - target: {fileID: 590871797006376245, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: _abilityImage.Array.size
       value: 3
@@ -67075,6 +67087,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetHealth: {fileID: 162771816}
   NewMaxHealthValue: 100000
+--- !u!114 &1677294275 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -6006412518456422939, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
+  m_PrefabInstance: {fileID: 162771815}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677294244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 677bd461783e6834abd8fc3bef46686a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1679391088
 GameObject:
   m_ObjectHideFlags: 0

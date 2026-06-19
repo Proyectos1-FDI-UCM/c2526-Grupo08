@@ -9,6 +9,7 @@
 
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// Controla el brazo (arma) del jugador: copia el color del sprite
@@ -62,6 +63,8 @@ public class ArmPivot : MonoBehaviour
              "para compensar la orientación del sprite del brazo.")]
     [SerializeField]
     private float ArmAngleOffset = 90f;
+
+    [SerializeField] private DialogueSystem DialogueSystem;
 
     #endregion
 
@@ -125,7 +128,7 @@ public class ArmPivot : MonoBehaviour
 
             // Rotación del pivote
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + ArmAngleOffset;
-            transform.rotation = Quaternion.Euler(0, 0, angle);
+            if(!DialogueSystem.IsActive()) transform.rotation = Quaternion.Euler(0, 0, angle);
 
             // Sorting order: por debajo cuando apunta arriba, por encima el resto
             if (moveY > SortingOrderAimThreshold)
