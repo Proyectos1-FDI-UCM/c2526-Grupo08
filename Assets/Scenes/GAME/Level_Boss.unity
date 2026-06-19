@@ -869,7 +869,7 @@ PrefabInstance:
     - target: {fileID: -7367919625473029057, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: MagicBar
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 161627376}
     - target: {fileID: -6006412518456422939, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: Velocidad
       value: 5

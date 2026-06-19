@@ -63,6 +63,11 @@ public class Magic : MonoBehaviour
             MagicBar.SetValue(_currentMagic);
         }
 
+        // DEBUG TEMPORAL — borrar tras solucionar el bug
+        Debug.Log($"[Magic] Escena: {UnityEngine.SceneManagement.SceneManager.GetActiveScene().name} | " +
+                  $"MaxMagic={MaxMagic} | MagicBar={MagicBar} | " +
+                  $"Slider={MagicBar?.GetComponent<UnityEngine.UI.Slider>()}");
+
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _ogColor = _spriteRenderer.color;
     }
@@ -118,6 +123,10 @@ public class Magic : MonoBehaviour
         {
             MagicBar.SetValue(_currentMagic);
         }
+
+        // DEBUG TEMPORAL
+        Debug.Log($"[Magic] TrySpendMagic: gastado={amount} | restante={_currentMagic} | MagicBar null={MagicBar == null}");
+
         return true;
     }
 
