@@ -126,10 +126,11 @@ public class BossManager : MonoBehaviour
         // Pausar el juego durante el diálogo
         Time.timeScale = 0f;
 
+        // Activar la pantalla en negro inmediatamente al final malo
+        if (EndOfGameBlackPanel != null) { EndOfGameBlackPanel.SetActive(true); }
+
         PlayDialogue(GoodEndingLines, () =>
         {
-            
-
             Time.timeScale = 1f;
             if (LevelManager.HasInstance())
                 LevelManager.Instance.OnBossDeath();
