@@ -8,9 +8,10 @@
 // Proyectos 1 - Curso 2025-26
 //---------------------------------------------------------
 
+using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using TMPro;
 
 /// <summary>
 /// Se añade como componente al mismo GameObject que Objects.cs (o cualquier
@@ -39,7 +40,7 @@ public class PickupPrompt : MonoBehaviour
     [SerializeField] private TMP_Text PromptText;
 
     [Tooltip("Desplazamiento vertical del prompt respecto al objeto (en unidades de mundo)")]
-    [SerializeField] private float OffsetY = 0.6f;
+    [SerializeField] private float OffsetY = 1.5f;
 
     [Header("Textos")]
     [Tooltip("Texto mostrado cuando se usa teclado")]
@@ -111,7 +112,8 @@ public class PickupPrompt : MonoBehaviour
         if (_pickedUp || !_playerInRange) return;
 
         // Posicionar el prompt encima del objeto cada frame (sigue al objeto si se mueve)
-        _promptTransform.position = transform.position + new Vector3(0f, OffsetY, 0f);
+        Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
+        _promptTransform.position = pos + new Vector3(0f, OffsetY, 0f);
 
         // Actualizar texto según dispositivo activo en tiempo real
         ActualizarTextoDispositivo();
