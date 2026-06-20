@@ -213,7 +213,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        Movement = MoveAction.ReadValue<Vector2>().normalized;
+        if(!_isPickingUp) Movement = MoveAction.ReadValue<Vector2>().normalized;
 
         if (Movement != Vector2.zero)
         {
@@ -288,6 +288,8 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public void PlayPickup()
     {
+        _isPickingUp = true;
+
         Debug.Log("Pickup activado");
 
         _animator.SetBool("IsPickingUp", true);
