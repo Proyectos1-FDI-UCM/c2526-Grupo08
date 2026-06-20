@@ -66,7 +66,7 @@ public class AbilityBoss1 : MonoBehaviour
     /// Representa un ataque pendiente: la instancia del aviso visual, su
     /// posición de spawn y el tiempo transcurrido desde que se mostró.
     /// </summary>
-    private class ActiveAttack
+    struct ActiveAttack
     {
         public GameObject WarningInstance;
         public Vector3 Position;
@@ -113,12 +113,16 @@ public class AbilityBoss1 : MonoBehaviour
         // Revisamos la lista de ataques pendientes para ver si el aviso ha terminado
         for (int i = _pendingAttacks.Count - 1; i >= 0; i--)
         {
-            ActiveAttack attack = _pendingAttacks[i];
-            attack.Timer += Time.deltaTime;
-
-            if (attack.Timer >= TelegraphDuration)
+            _pendingAttacks[i] = new ActiveAttack
             {
-                ExecuteAttack(attack);
+                WarningInstance = _pendingAttacks[i].WarningInstance,
+                Position = _pendingAttacks[i].Position,
+                Timer = _pendingAttacks[i].Timer + Time.deltaTime
+            };
+
+            if (_pendingAttacks[i].Timer >= TelegraphDuration)
+            {
+                ExecuteAttack(_pendingAttacks[i]);
                 _pendingAttacks.RemoveAt(i);
             }
         }

@@ -461,7 +461,7 @@ GameObject:
   - component: {fileID: 35367014}
   - component: {fileID: 35367013}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115255 (3)"
+  m_Name: BigGrass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -579,7 +579,7 @@ GameObject:
   - component: {fileID: 98181738}
   - component: {fileID: 98181737}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115125 (8)"
+  m_Name: Enredadera3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -666,7 +666,7 @@ GameObject:
   - component: {fileID: 110270178}
   - component: {fileID: 110270177}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620123332 (10)"
+  m_Name: LittleGrassWRocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -941,7 +941,7 @@ GameObject:
   - component: {fileID: 132616949}
   - component: {fileID: 132616948}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115049 (6)"
+  m_Name: Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1028,7 +1028,7 @@ GameObject:
   - component: {fileID: 138673833}
   - component: {fileID: 138673832}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115154"
+  m_Name: Bush
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1115,7 +1115,7 @@ GameObject:
   - component: {fileID: 155259389}
   - component: {fileID: 155259388}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115255 (4)"
+  m_Name: BigGrass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1202,7 +1202,7 @@ GameObject:
   - component: {fileID: 155505504}
   - component: {fileID: 155505503}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115255"
+  m_Name: BigGrass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1501,7 +1501,7 @@ GameObject:
   - component: {fileID: 186522145}
   - component: {fileID: 186522144}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115049 (2)"
+  m_Name: Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1871,7 +1871,7 @@ GameObject:
   - component: {fileID: 255748719}
   - component: {fileID: 255748718}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115049 (13)"
+  m_Name: Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2169,7 +2169,7 @@ GameObject:
   - component: {fileID: 280210176}
   - component: {fileID: 280210175}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115125 (1)"
+  m_Name: Enredadera3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2330,7 +2330,7 @@ GameObject:
   - component: {fileID: 290422797}
   - component: {fileID: 290422796}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115125 (2)"
+  m_Name: Enredadera3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2718,7 +2718,7 @@ GameObject:
   - component: {fileID: 345285231}
   - component: {fileID: 345285230}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115125 (6)"
+  m_Name: Enredadera3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3137,7 +3137,7 @@ GameObject:
   - component: {fileID: 432872363}
   - component: {fileID: 432872362}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620122737 (1)"
+  m_Name: LittleGrassWRocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3361,7 +3361,7 @@ GameObject:
   - component: {fileID: 487383125}
   - component: {fileID: 487383124}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620123332 (9)"
+  m_Name: LittleGrassWRocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3448,7 +3448,7 @@ GameObject:
   - component: {fileID: 508087886}
   - component: {fileID: 508087885}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115049 (10)"
+  m_Name: Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3535,7 +3535,7 @@ GameObject:
   - component: {fileID: 511689003}
   - component: {fileID: 511689002}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620122737 (3)"
+  m_Name: LittleGrassWRocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3787,7 +3787,7 @@ GameObject:
   - component: {fileID: 564358722}
   - component: {fileID: 564358721}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620123332 (3)"
+  m_Name: LittleGrassWRocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4518,7 +4518,7 @@ GameObject:
   - component: {fileID: 636456004}
   - component: {fileID: 636456003}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115125 (3)"
+  m_Name: Enredadera3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4605,7 +4605,7 @@ GameObject:
   - component: {fileID: 645841077}
   - component: {fileID: 645841076}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115049 (5)"
+  m_Name: Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4692,7 +4692,7 @@ GameObject:
   - component: {fileID: 654486713}
   - component: {fileID: 654486712}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620114841 (1)"
+  m_Name: Enredadera1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4810,7 +4810,7 @@ GameObject:
   - component: {fileID: 740714910}
   - component: {fileID: 740714909}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115125 (7)"
+  m_Name: Enredadera3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5033,7 +5033,7 @@ GameObject:
   - component: {fileID: 810474374}
   - component: {fileID: 810474373}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115255 (2)"
+  m_Name: BigGrass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5120,7 +5120,7 @@ GameObject:
   - component: {fileID: 810907374}
   - component: {fileID: 810907373}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115049 (3)"
+  m_Name: Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5207,7 +5207,7 @@ GameObject:
   - component: {fileID: 821570498}
   - component: {fileID: 821570497}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115125"
+  m_Name: Enredadera3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5294,7 +5294,7 @@ GameObject:
   - component: {fileID: 853617558}
   - component: {fileID: 853617557}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115255 (1)"
+  m_Name: BigGrass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5502,7 +5502,7 @@ GameObject:
   - component: {fileID: 861923143}
   - component: {fileID: 861923142}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620122737"
+  m_Name: LittleGrassWRocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5655,7 +5655,7 @@ GameObject:
   - component: {fileID: 904103619}
   - component: {fileID: 904103618}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115125 (11)"
+  m_Name: Enredadera3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5742,7 +5742,7 @@ GameObject:
   - component: {fileID: 955730756}
   - component: {fileID: 955730755}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115255 (5)"
+  m_Name: BigGrass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6171,7 +6171,7 @@ GameObject:
   - component: {fileID: 986504876}
   - component: {fileID: 986504875}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620123332 (6)"
+  m_Name: LittleGrassWRocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6826,7 +6826,7 @@ GameObject:
   - component: {fileID: 1085849562}
   - component: {fileID: 1085849561}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620123332 (5)"
+  m_Name: LittleGrassWRocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7285,7 +7285,7 @@ GameObject:
   - component: {fileID: 1156534209}
   - component: {fileID: 1156534208}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620123332"
+  m_Name: LittleGrassWRocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7574,7 +7574,7 @@ GameObject:
   - component: {fileID: 1201461091}
   - component: {fileID: 1201461090}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115049 (11)"
+  m_Name: Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7661,7 +7661,7 @@ GameObject:
   - component: {fileID: 1204322803}
   - component: {fileID: 1204322802}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115049 (4)"
+  m_Name: Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7823,7 +7823,7 @@ GameObject:
   - component: {fileID: 1216251151}
   - component: {fileID: 1216251150}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620123332 (4)"
+  m_Name: LittleGrassWRocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8267,7 +8267,7 @@ GameObject:
   - component: {fileID: 1299662431}
   - component: {fileID: 1299662430}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620114841"
+  m_Name: Enredadera1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8596,7 +8596,7 @@ GameObject:
   - component: {fileID: 1353391280}
   - component: {fileID: 1353391279}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620123332 (8)"
+  m_Name: LittleGrassWRocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9426,7 +9426,7 @@ GameObject:
   - component: {fileID: 1523989864}
   - component: {fileID: 1523989863}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620114913"
+  m_Name: Enredadera2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9588,7 +9588,7 @@ GameObject:
   - component: {fileID: 1538599065}
   - component: {fileID: 1538599064}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115049 (1)"
+  m_Name: Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9675,7 +9675,7 @@ GameObject:
   - component: {fileID: 1548186982}
   - component: {fileID: 1548186981}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115125 (9)"
+  m_Name: Enredadera3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10165,7 +10165,7 @@ GameObject:
   - component: {fileID: 1602555363}
   - component: {fileID: 1602555362}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115049 (7)"
+  m_Name: Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10606,7 +10606,7 @@ GameObject:
   - component: {fileID: 1651203107}
   - component: {fileID: 1651203106}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115125 (10)"
+  m_Name: Enredadera3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11494,7 +11494,7 @@ GameObject:
   - component: {fileID: 1786077006}
   - component: {fileID: 1786077005}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620122737 (2)"
+  m_Name: LittleGrassWRocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11581,7 +11581,7 @@ GameObject:
   - component: {fileID: 1786803862}
   - component: {fileID: 1786803861}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620123332 (7)"
+  m_Name: LittleGrassWRocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45025,7 +45025,7 @@ GameObject:
   - component: {fileID: 1936349784}
   - component: {fileID: 1936349783}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115049 (9)"
+  m_Name: Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45112,7 +45112,7 @@ GameObject:
   - component: {fileID: 1939802576}
   - component: {fileID: 1939802575}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115125 (5)"
+  m_Name: Enredadera3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45271,7 +45271,7 @@ GameObject:
   - component: {fileID: 1959032720}
   - component: {fileID: 1959032719}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115125 (4)"
+  m_Name: Enredadera3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45358,7 +45358,7 @@ GameObject:
   - component: {fileID: 1973935793}
   - component: {fileID: 1973935792}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115049"
+  m_Name: Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45567,7 +45567,7 @@ GameObject:
   - component: {fileID: 2004508037}
   - component: {fileID: 2004508036}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115049 (12)"
+  m_Name: Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45810,7 +45810,7 @@ GameObject:
   - component: {fileID: 2013657953}
   - component: {fileID: 2013657952}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620123332 (1)"
+  m_Name: LittleGrassWRocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46576,7 +46576,7 @@ GameObject:
   - component: {fileID: 2101792082}
   - component: {fileID: 2101792081}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620123332 (2)"
+  m_Name: LittleGrassWRocks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46663,7 +46663,7 @@ GameObject:
   - component: {fileID: 2114185889}
   - component: {fileID: 2114185888}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115049 (8)"
+  m_Name: Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46750,7 +46750,7 @@ GameObject:
   - component: {fileID: 2115976193}
   - component: {fileID: 2115976192}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620115049 (14)"
+  m_Name: Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46838,7 +46838,7 @@ GameObject:
   - component: {fileID: 2122639374}
   - component: {fileID: 2122639373}
   m_Layer: 0
-  m_Name: "1 sin t\xEDtulo_20260620122539"
+  m_Name: Statue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
