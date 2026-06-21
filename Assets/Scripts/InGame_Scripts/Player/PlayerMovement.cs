@@ -309,6 +309,8 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("END PICKUP EJECUTADO");
 
         _animator.SetBool("IsPickingUp", false);
+
+        _isPickingUp = false;
     }
 
     #endregion

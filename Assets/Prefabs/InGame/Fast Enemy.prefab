@@ -427,7 +427,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 872213591
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: -4950037403236200298, guid: e77b75d229173094ab415b29b536bb6a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -684,7 +684,7 @@ RectTransform:
   m_GameObject: {fileID: 6293787068710208642}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1.8499, z: 1}
+  m_LocalScale: {x: -1, y: 1.8499, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 333879969557514339}
