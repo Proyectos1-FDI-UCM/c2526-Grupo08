@@ -363,6 +363,38 @@ MonoBehaviour:
   _useBounds: 0
   _boundsMin: {x: -9, y: -5}
   _boundsMax: {x: 9, y: 5}
+--- !u!1 &13393917
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 13393918}
+  m_Layer: 0
+  m_Name: PLAYER
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &13393918
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 13393917}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 38.970734, y: -54.833195, z: -0.17408948}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1057206327}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &23703050
 GameObject:
   m_ObjectHideFlags: 0
@@ -695,37 +727,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1920609751}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &55897374
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 55897375}
-  m_Layer: 0
-  m_Name: PatrolPoint_2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &55897375
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 55897374}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 75, z: 0.024138726}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &86986598
 GameObject:
   m_ObjectHideFlags: 0
@@ -737,7 +738,7 @@ GameObject:
   - component: {fileID: 86986600}
   - component: {fileID: 86986599}
   m_Layer: 0
-  m_Name: fjhfjfgjfj (2)
+  m_Name: PupleCrystal2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1920,7 +1921,7 @@ GameObject:
   - component: {fileID: 199718260}
   - component: {fileID: 199718259}
   m_Layer: 0
-  m_Name: ergegegerg (14)
+  m_Name: DarkPinkCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2290,7 +2291,7 @@ GameObject:
   - component: {fileID: 251153884}
   - component: {fileID: 251153883}
   m_Layer: 0
-  m_Name: ergegegerg (18)
+  m_Name: DarkPinkCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2377,7 +2378,7 @@ GameObject:
   - component: {fileID: 252349566}
   - component: {fileID: 252349565}
   m_Layer: 0
-  m_Name: ergegegerg (1)
+  m_Name: DarkPinkCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2762,7 +2763,7 @@ GameObject:
   - component: {fileID: 276472362}
   - component: {fileID: 276472361}
   m_Layer: 0
-  m_Name: sdfsdfsfsdfs (1)
+  m_Name: DarkPinkCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3097,7 +3098,7 @@ GameObject:
   - component: {fileID: 295766867}
   - component: {fileID: 295766866}
   m_Layer: 0
-  m_Name: sdfsdfsfsdfs
+  m_Name: DarkPinkCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3572,7 +3573,7 @@ GameObject:
   - component: {fileID: 364804862}
   - component: {fileID: 364804861}
   m_Layer: 0
-  m_Name: ergegegerg (13)
+  m_Name: DarkPinkCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3901,7 +3902,7 @@ GameObject:
   - component: {fileID: 387017283}
   - component: {fileID: 387017282}
   m_Layer: 0
-  m_Name: ergegegerg (12)
+  m_Name: DarkPinkCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4728,7 +4729,7 @@ GameObject:
   - component: {fileID: 564164626}
   - component: {fileID: 564164625}
   m_Layer: 0
-  m_Name: ergegegerg (4)
+  m_Name: DarkPinkCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5304,7 +5305,7 @@ GameObject:
   - component: {fileID: 596143079}
   - component: {fileID: 596143078}
   m_Layer: 0
-  m_Name: ergegegerg (19)
+  m_Name: DarkPinkCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5602,7 +5603,7 @@ GameObject:
   - component: {fileID: 609193004}
   - component: {fileID: 609193003}
   m_Layer: 0
-  m_Name: ergegegerg (11)
+  m_Name: DarkPinkCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5689,7 +5690,7 @@ GameObject:
   - component: {fileID: 614701746}
   - component: {fileID: 614701745}
   m_Layer: 0
-  m_Name: ergegegerg (10)
+  m_Name: DarkPinkCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5981,7 +5982,7 @@ GameObject:
   - component: {fileID: 647272247}
   - component: {fileID: 647272246}
   m_Layer: 0
-  m_Name: ergegegerg (5)
+  m_Name: DarkPinkCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6144,6 +6145,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1405689487}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90.402}
+--- !u!1 &660434317
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 660434318}
+  m_Layer: 0
+  m_Name: CAMERAS
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &660434318
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 660434317}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.4324055, y: -1.6939467, z: -0.3194658}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1106842088}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &704728236
 GameObject:
   m_ObjectHideFlags: 0
@@ -6273,7 +6306,7 @@ GameObject:
   - component: {fileID: 707778137}
   - component: {fileID: 707778136}
   m_Layer: 0
-  m_Name: khluhlul (3)
+  m_Name: PurpleCrystal3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6844,7 +6877,7 @@ GameObject:
   - component: {fileID: 826571147}
   - component: {fileID: 826571146}
   m_Layer: 0
-  m_Name: ergegegerg (15)
+  m_Name: DarkPinkCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7292,7 +7325,7 @@ GameObject:
   - component: {fileID: 903077965}
   - component: {fileID: 903077964}
   m_Layer: 0
-  m_Name: fjhfjfgjfj (3)
+  m_Name: PupleCrystal2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7466,7 +7499,7 @@ GameObject:
   - component: {fileID: 914570404}
   - component: {fileID: 914570403}
   m_Layer: 0
-  m_Name: khluhlul
+  m_Name: PurpleCrystal3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7553,7 +7586,7 @@ GameObject:
   - component: {fileID: 917905585}
   - component: {fileID: 917905584}
   m_Layer: 0
-  m_Name: ergegegerg (17)
+  m_Name: DarkPinkCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7640,7 +7673,7 @@ GameObject:
   - component: {fileID: 918103966}
   - component: {fileID: 918103965}
   m_Layer: 0
-  m_Name: ergegegerg (9)
+  m_Name: DarkPinkCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7840,7 +7873,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 13393918}
     m_Modifications:
     - target: {fileID: -8370202389003812274, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: BulletPrefab
@@ -7948,15 +7981,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.7
+      value: -51.670734
       objectReference: {fileID: 0}
     - target: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -36.7
+      value: 18.133194
       objectReference: {fileID: 0}
     - target: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.17408948
       objectReference: {fileID: 0}
     - target: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -8328,7 +8361,7 @@ GameObject:
   - component: {fileID: 1035390809}
   - component: {fileID: 1035390808}
   m_Layer: 0
-  m_Name: khluhlul (5)
+  m_Name: PurpleCrystal3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8434,37 +8467,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 244496084}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1040331519
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1040331520}
-  m_Layer: 0
-  m_Name: PatrolPoint_1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1040331520
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1040331519}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 51, z: 0.024138726}
-  m_LocalScale: {x: 0, y: 0, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1052088286
 GameObject:
@@ -8588,6 +8590,7 @@ Transform:
   - {fileID: 7457065070476480305}
   - {fileID: 2016619299}
   - {fileID: 1030905658}
+  - {fileID: 1712434757}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1057206327 stripped
@@ -9072,7 +9075,7 @@ GameObject:
   - component: {fileID: 1095377360}
   - component: {fileID: 1095377359}
   m_Layer: 0
-  m_Name: nhikyuut (2)
+  m_Name: PurpleCrystal1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9297,12 +9300,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1106842086}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 91.8, y: -31.72, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 86.3676, y: -30.026052, z: 0.3194658}
   m_LocalScale: {x: 0.74, y: 0.75, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 660434318}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1107567701 stripped
 MonoBehaviour:
@@ -10330,7 +10333,7 @@ GameObject:
   - component: {fileID: 1229743140}
   - component: {fileID: 1229743139}
   m_Layer: 0
-  m_Name: ergegegerg (7)
+  m_Name: DarkPinkCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10707,7 +10710,7 @@ GameObject:
   - component: {fileID: 1284280885}
   - component: {fileID: 1284280884}
   m_Layer: 0
-  m_Name: khluhlul (2)
+  m_Name: PurpleCrystal3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10869,37 +10872,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1920609751}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1296118604
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1296118605}
-  m_Layer: 0
-  m_Name: PatrolPoint_3
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1296118605
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1296118604}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 50, z: 0.024138726}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1298590116
 GameObject:
@@ -11258,7 +11230,7 @@ GameObject:
   - component: {fileID: 1313232210}
   - component: {fileID: 1313232209}
   m_Layer: 0
-  m_Name: ergegegerg
+  m_Name: DarkPinkCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11432,7 +11404,7 @@ GameObject:
   - component: {fileID: 1336914997}
   - component: {fileID: 1336914996}
   m_Layer: 0
-  m_Name: fjhfjfgjfj
+  m_Name: PupleCrystal2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11519,7 +11491,7 @@ GameObject:
   - component: {fileID: 1342143043}
   - component: {fileID: 1342143042}
   m_Layer: 0
-  m_Name: khluhlul (6)
+  m_Name: PurpleCrystal3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12154,7 +12126,7 @@ GameObject:
   - component: {fileID: 1434773504}
   - component: {fileID: 1434773503}
   m_Layer: 0
-  m_Name: khluhlul (4)
+  m_Name: PurpleCrystal3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12241,7 +12213,7 @@ GameObject:
   - component: {fileID: 1443800559}
   - component: {fileID: 1443800558}
   m_Layer: 0
-  m_Name: ergegegerg (8)
+  m_Name: DarkPinkCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12396,37 +12368,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1487438775}
   m_CullTransparentMesh: 1
---- !u!1 &1496770685
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1496770686}
-  m_Layer: 0
-  m_Name: PatrolPoint_0
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1496770686
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1496770685}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 80, y: 0, z: 0.024138726}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1506373582
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12882,7 +12823,7 @@ GameObject:
   - component: {fileID: 1542734882}
   - component: {fileID: 1542734881}
   m_Layer: 0
-  m_Name: ergegegerg (3)
+  m_Name: DarkPinkCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14183,7 +14124,7 @@ GameObject:
   - component: {fileID: 1671474343}
   - component: {fileID: 1671474342}
   m_Layer: 0
-  m_Name: fjhfjfgjfj (4)
+  m_Name: PupleCrystal2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14418,11 +14359,11 @@ Transform:
   m_GameObject: {fileID: 1712434752}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 37.9, y: -60.3, z: 0}
-  m_LocalScale: {x: 0.335797, y: 0.23975, z: 1}
+  m_LocalPosition: {x: -32.12172, y: -217.96117, z: 0.17968677}
+  m_LocalScale: {x: 1.4192605, y: 1.1638349, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1056134712}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1721264317
 GameObject:
@@ -14896,7 +14837,7 @@ GameObject:
   - component: {fileID: 1769946074}
   - component: {fileID: 1769946073}
   m_Layer: 0
-  m_Name: khluhlul (1)
+  m_Name: PurpleCrystal3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15355,7 +15296,7 @@ GameObject:
   - component: {fileID: 1791918381}
   - component: {fileID: 1791918380}
   m_Layer: 0
-  m_Name: ergegegerg (6)
+  m_Name: DarkPinkCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48645,7 +48586,7 @@ GameObject:
   - component: {fileID: 1840332644}
   - component: {fileID: 1840332643}
   m_Layer: 0
-  m_Name: nhikyuut
+  m_Name: PurpleCrystal1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48852,7 +48793,7 @@ GameObject:
   - component: {fileID: 1847953089}
   - component: {fileID: 1847953088}
   m_Layer: 0
-  m_Name: sdfsdfsfsdfs (3)
+  m_Name: DarkPinkCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48939,7 +48880,7 @@ GameObject:
   - component: {fileID: 1873660093}
   - component: {fileID: 1873660092}
   m_Layer: 0
-  m_Name: ergegegerg (2)
+  m_Name: DarkPinkCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49476,7 +49417,7 @@ GameObject:
   - component: {fileID: 1968404182}
   - component: {fileID: 1968404181}
   m_Layer: 0
-  m_Name: nhikyuut (1)
+  m_Name: PurpleCrystal1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50633,7 +50574,7 @@ GameObject:
   - component: {fileID: 2086635135}
   - component: {fileID: 2086635134}
   m_Layer: 0
-  m_Name: ergegegerg (16)
+  m_Name: DarkPinkCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51042,7 +50983,7 @@ GameObject:
   - component: {fileID: 2115289952}
   - component: {fileID: 2115289951}
   m_Layer: 0
-  m_Name: nhikyuut (3)
+  m_Name: PurpleCrystal1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51216,7 +51157,7 @@ GameObject:
   - component: {fileID: 2121375462}
   - component: {fileID: 2121375461}
   m_Layer: 0
-  m_Name: sdfsdfsfsdfs (2)
+  m_Name: DarkPinkCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51570,7 +51511,7 @@ GameObject:
   - component: {fileID: 2147451380}
   - component: {fileID: 2147451379}
   m_Layer: 0
-  m_Name: fjhfjfgjfj (1)
+  m_Name: PupleCrystal2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51807,22 +51748,17 @@ SceneRoots:
   m_Roots:
   - {fileID: 1985650571}
   - {fileID: 1132275061}
+  - {fileID: 13393918}
   - {fileID: 1843763404}
-  - {fileID: 965242155}
   - {fileID: 899919056}
-  - {fileID: 1496770686}
-  - {fileID: 1040331520}
-  - {fileID: 55897375}
-  - {fileID: 1296118605}
   - {fileID: 2094510923}
   - {fileID: 244496084}
   - {fileID: 1056134712}
   - {fileID: 297423529}
   - {fileID: 120716784}
   - {fileID: 1789515612}
-  - {fileID: 1712434757}
   - {fileID: 204335991}
   - {fileID: 1405689487}
   - {fileID: 1920609751}
   - {fileID: 47435253}
-  - {fileID: 1106842088}
+  - {fileID: 660434318}
