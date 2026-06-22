@@ -44,6 +44,16 @@ public class EnemyMeleeAttack : MonoBehaviour
     [Tooltip("Sonido que se reproduce como advertencia antes de aplicar el daño.")]
     [SerializeField] private AudioClip _attackSound;
 
+    [Header("Feedback Visual")]
+    [Tooltip("El SpriteRenderer secundario que contiene la imagen del Slash.")]
+    [SerializeField] private SpriteRenderer _slashSpriteRenderer;
+
+    [Tooltip("Duración en segundos que la imagen del slash se mantendrá visible.")]
+    [SerializeField] private float _slashDuration = 0.15f;
+
+    [Tooltip("Distancia a la que aparecerá del enemigo")]
+    [SerializeField] private float _slashOffsetDistance = 0.6f;
+
     [Header("Referencias")]
     [Tooltip("Script de patrulla del mismo enemigo (se obtiene automáticamente en Start).")]
     [SerializeField] private EnemyPatrol _enemyPatrol;
@@ -77,6 +87,10 @@ public class EnemyMeleeAttack : MonoBehaviour
     /// <summary>Componente Health del jugador, cacheado al detectarlo por primera vez.</summary>
     private Health _playerHealth;
 
+    /// <summary>Timer interno para controlar la desaparción del slash(efecto visual)</summary>
+
+    private float _slashVisualTimer = 0f;
+
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
@@ -96,6 +110,11 @@ public class EnemyMeleeAttack : MonoBehaviour
             Debug.LogError("¡OJO! No he encontrado el script EnemyPatrol en " + gameObject.name);
         }
 
+        //Nos aseguramos de que el feedback visual este apagado (invisible)
+
+        if (_slashSpriteRenderer != null)
+            _slashSpriteRenderer.enabled = false;
+
         ResetTimer();
     }
 
@@ -110,6 +129,16 @@ public class EnemyMeleeAttack : MonoBehaviour
     /// </summary>
     private void Update()
     {
+        if (_slashSpriteRenderer != null && _slashSpriteRenderer.enabled)
+        {
+            _slashVisualTimer += Time.deltaTime;
+            if (_slashVisualTimer >= _slashDuration)
+            {
+                _slashSpriteRenderer.enabled = false;
+                _slashVisualTimer = 0f;
+            }
+        }
+
         if (!_enemyPatrol.IsChasing)
         {
             ResetTimer();
@@ -127,11 +156,12 @@ public class EnemyMeleeAttack : MonoBehaviour
             _soundPlayed = true;
         }
 
-        // Fase 2: aplicar daño y reiniciar ciclo
+        // Fase 2: aplicar daño, feedback visual y reiniciar ciclo
         if (_attackTimer >= _attackInterval)
         {
             if (_playerInRange)
             {
+                TriggerVisualFeedback();
                 ApplyDamage();
             }
 
@@ -207,8 +237,47 @@ public class EnemyMeleeAttack : MonoBehaviour
         _soundPlayed = false;
     }
 
+
+    /// <summary>
+    /// Calcula la dirección hacia el jugador, rota el sprite del slash (hijo del enemigo) y lo muestra.
+    /// </summary>
+    private void TriggerVisualFeedback()
+    {
+        if (_slashSpriteRenderer == null || _player == null) return;
+
+        // 1. Calcular vector dirección (Posición Jugador - Posición Enemigo)
+        Vector3 directionToPlayer = (_player.transform.position - transform.position).normalized;
+
+        // 2. Calcular el ángulo matemático en base a ese vector
+        float angle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
+
+        Vector3 worldOffset = directionToPlayer * _slashOffsetDistance;
+        
+        // Aplicamos la posición y rotación globales de forma directa
+        _slashSpriteRenderer.transform.position = transform.position + worldOffset;
+        _slashSpriteRenderer.transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        // 4. ¡EL TRUCO ANTIGIRO!: Si el padre tiene escala negativa en X, 
+        // contrarrestamos volteando el sprite del hijo para que no se invierta su matriz.
+        Vector3 currentScale = _slashSpriteRenderer.transform.localScale;
+        currentScale.x = Mathf.Abs(currentScale.x) * Mathf.Sign(transform.lossyScale.x);
+        currentScale.y = Mathf.Abs(currentScale.y) * Mathf.Sign(transform.lossyScale.y);
+        _slashSpriteRenderer.transform.localScale = currentScale;
+
+        // 3. Rotar el GameObject del slash hacia el jugador
+        //_slashSpriteRenderer.transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        // 4. Reposicionar el slash un pelín al frente del enemigo en esa dirección
+        //_slashSpriteRenderer.transform.localPosition = directionToPlayer * _slashOffsetDistance;
+
+        // 5. Encender el Sprite y resetear su timer de apagado
+        _slashSpriteRenderer.enabled = true;
+        _slashVisualTimer = 0f;
+    
+    }
     #endregion
 
 }
 // class EnemyMeleeAttack
 // Laura Garay Zubiaguirre
+//Adriana Ferández Luna
