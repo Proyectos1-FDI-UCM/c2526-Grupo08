@@ -66,9 +66,9 @@ public class FeedbackUI : MonoBehaviour
     [Header("Sprites de objetos (opcionales)")]
     [SerializeField] private Sprite SpriteFusible;
     [SerializeField] private Sprite SpriteLlave;
+    [SerializeField] private Sprite SpriteLlaveEspecial;
     [SerializeField] private Sprite SpriteVenda;
     [SerializeField] private Sprite SpriteTarjeta;
-    [SerializeField] private Sprite SpriteLlaveEspecial;
     [SerializeField] private Sprite SpriteHabilidadMulti;
     [SerializeField] private Sprite SpriteHabilidadExplosiva;
     [SerializeField] private Sprite SpritePuertaBloqueada;
@@ -202,6 +202,7 @@ public class FeedbackUI : MonoBehaviour
             case Objects.ObjectsType.fusible: nombre = "Fusible"; break;
             case Objects.ObjectsType.key: nombre = "Llave"; break;
             case Objects.ObjectsType.bandage: nombre = "Venda"; break;
+            case Objects.ObjectsType.specialKey: nombre = "Llave especial"; break;
             case Objects.ObjectsType.card: nombre = "Tarjeta de acceso"; break;
             case Objects.ObjectsType.multiAbility: nombre = "Habilidad multidireccional"; break;
             case Objects.ObjectsType.explosiveAbility: nombre = "Habilidad explosiva"; break;
@@ -212,6 +213,7 @@ public class FeedbackUI : MonoBehaviour
         {
             Objects.ObjectsType.fusible => SpriteFusible,
             Objects.ObjectsType.key => SpriteLlave,
+            Objects.ObjectsType.specialKey => SpriteLlaveEspecial,
             Objects.ObjectsType.bandage => SpriteVenda,
             Objects.ObjectsType.card => SpriteTarjeta,
             Objects.ObjectsType.multiAbility => SpriteHabilidadMulti,

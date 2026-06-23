@@ -40,6 +40,9 @@ public class Inventory : MonoBehaviour
     /// <summary>Número de llaves genéricas en el inventario.</summary>
     private int _key = 0;
 
+    /// <summary>Número de llaves especiales en el inventario.</summary>
+    private int _specialKey = 0;
+
     /// <summary>Número de fusibles en el inventario.</summary>
     private int _fusible = 0;
 
@@ -120,6 +123,9 @@ public class Inventory : MonoBehaviour
     /// <summary>Devuelve el número de llaves en el inventario.</summary>
     public int GetKeyCount() => _key;
 
+    /// <summary>Devuelve el número de llaves especiales en el inventario.</summary>
+    public int GetSpecialKeyCount() => _specialKey;
+
     /// <summary>Devuelve el número de fusibles en el inventario.</summary>
     public int GetFusibleCount() => _fusible;
 
@@ -196,6 +202,11 @@ public class Inventory : MonoBehaviour
                 _key++;
                 CollectKey(); // sincronizar con el flag de Marián
                 Debug.Log($"[Inventory] Llaves: {_key}");
+                break;
+            case Objects.ObjectsType.specialKey:
+                _specialKey++;
+                CollectSpecialKey(); // sincronizar con el flag de Marián
+                Debug.Log($"[Inventory] Llaves especiales: {_specialKey}");
                 break;
             case Objects.ObjectsType.fusible:
                 _fusible++;

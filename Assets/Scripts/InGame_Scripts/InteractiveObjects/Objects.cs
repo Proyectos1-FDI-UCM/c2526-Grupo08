@@ -23,7 +23,7 @@ public class Objects : MonoBehaviour
     // ---- TIPOS DE OBJETO ----
 
     /// <summary>Tipos de objeto recolectable que puede representar este componente.</summary>
-    public enum ObjectsType { bandage, key, fusible, card, multiAbility, explosiveAbility }
+    public enum ObjectsType { bandage, key, specialKey, fusible, card, multiAbility, explosiveAbility }
 
     // ---- CONSTANTES ----
     #region Constantes
@@ -47,7 +47,7 @@ public class Objects : MonoBehaviour
     // ---- ATRIBUTOS PRIVADOS ----
     #region Atributos Privados
 
-    /// <summary>Acción de input para interactuar (tecla F / botón B en mando).</summary>
+    /// <summary>Acción de input para interactuar (tecla F / botón X en mando).</summary>
     private InputAction _interactAction;
 
     /// <summary>True mientras el jugador está dentro del trigger.</summary>
@@ -141,6 +141,7 @@ public class Objects : MonoBehaviour
         {
             ObjectsType.fusible => _playerInventory.GetFusibleCount(),
             ObjectsType.key => _playerInventory.GetKeyCount(),
+            ObjectsType.specialKey => _playerInventory.GetSpecialKeyCount(),
             ObjectsType.bandage => _playerInventory.GetBandageCount(),
             ObjectsType.card => _playerInventory.GetCardCount(),
             ObjectsType.multiAbility => NoCountSentinel,

@@ -3183,9 +3183,9 @@ MonoBehaviour:
   DoorDuration: 2
   SpriteFusible: {fileID: -1942915522859564246, guid: 9c33b419c6a1d9f48af3a7aadb46d062, type: 3}
   SpriteLlave: {fileID: 3905542462183888473, guid: 52a2b298bb058414291bc1b30cf937b0, type: 3}
+  SpriteLlaveEspecial: {fileID: -8510988036646350222, guid: e919cd55a89b82748b94f3f7ec5b028a, type: 3}
   SpriteVenda: {fileID: 6079100261352513132, guid: d487f4c85045f344586ff2ba27a89c6b, type: 3}
   SpriteTarjeta: {fileID: 746447300835577954, guid: 41d0dc96ec422704f920709d3089c189, type: 3}
-  SpriteLlaveEspecial: {fileID: -8510988036646350222, guid: e919cd55a89b82748b94f3f7ec5b028a, type: 3}
   SpriteHabilidadMulti: {fileID: -8524480863828330132, guid: 529a73d2fb886884bb793a5d5c98f14f, type: 3}
   SpriteHabilidadExplosiva: {fileID: 9048997433866386892, guid: 01de14ccb44fbb344a56405ff17b0623, type: 3}
   SpritePuertaBloqueada: {fileID: -3548610865192063708, guid: e27e3a2a5a51db54ab591a454fc52a05, type: 3}
@@ -439830,11 +439830,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.4
+      value: 45.8
       objectReference: {fileID: 0}
     - target: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -9.9
+      value: 71.2
       objectReference: {fileID: 0}
     - target: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_LocalPosition.z
