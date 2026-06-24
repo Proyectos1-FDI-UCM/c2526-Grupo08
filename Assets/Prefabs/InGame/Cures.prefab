@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3482084991141676965}
   - component: {fileID: 115478614947397385}
   m_Layer: 3
-  m_Name: Vendas
+  m_Name: Cures
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
