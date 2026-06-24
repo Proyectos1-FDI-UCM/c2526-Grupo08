@@ -472325,7 +472325,7 @@ MonoBehaviour:
   MusicaSource: {fileID: 1107412822}
   EfectosSource: {fileID: 1107412822}
   NombreEscenaMenu: Menu
-  MapRenderTexture: {fileID: 0}
+  MapRenderTexture: {fileID: 8400000, guid: d78f871d77728f94394b09bebd2eca30, type: 2}
   PlayerMarker: {fileID: 0}
 --- !u!114 &2134551407
 MonoBehaviour:

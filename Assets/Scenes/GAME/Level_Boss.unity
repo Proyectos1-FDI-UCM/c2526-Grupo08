@@ -673,7 +673,7 @@ GameObject:
   - component: {fileID: 116506920}
   - component: {fileID: 116506921}
   m_Layer: 0
-  m_Name: Crack-Transparent-Background-PNG (6)
+  m_Name: Grieta
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1557,7 +1557,7 @@ GameObject:
   - component: {fileID: 176775249}
   - component: {fileID: 176775250}
   m_Layer: 0
-  m_Name: Crack-Transparent-Background-PNG (1)
+  m_Name: Grieta
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2755,7 +2755,7 @@ GameObject:
   - component: {fileID: 362282046}
   - component: {fileID: 362282047}
   m_Layer: 0
-  m_Name: Crack-Transparent-Background-PNG (6)
+  m_Name: Grieta
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3345,7 +3345,7 @@ GameObject:
   - component: {fileID: 434308667}
   - component: {fileID: 434308666}
   m_Layer: 0
-  m_Name: ffghfghfgh (1)
+  m_Name: Statue1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4166,7 +4166,7 @@ GameObject:
   - component: {fileID: 526392353}
   - component: {fileID: 526392354}
   m_Layer: 0
-  m_Name: Crack-Transparent-Background-PNG (4)
+  m_Name: Grieta
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66063,7 +66063,7 @@ GameObject:
   - component: {fileID: 868181806}
   - component: {fileID: 868181805}
   m_Layer: 0
-  m_Name: ffghfghfgh (3)
+  m_Name: Statue1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66196,7 +66196,7 @@ GameObject:
   - component: {fileID: 871268828}
   - component: {fileID: 871268829}
   m_Layer: 0
-  m_Name: Crack-Transparent-Background-PNG (2)
+  m_Name: Grieta
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68782,7 +68782,7 @@ GameObject:
   - component: {fileID: 1251577794}
   - component: {fileID: 1251577795}
   m_Layer: 0
-  m_Name: Crack-Transparent-Background-PNG (3)
+  m_Name: Grieta
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69774,7 +69774,7 @@ GameObject:
   - component: {fileID: 1438330794}
   - component: {fileID: 1438330793}
   m_Layer: 0
-  m_Name: ffghfghfgh
+  m_Name: Statue1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69995,7 +69995,7 @@ GameObject:
   - component: {fileID: 1479108238}
   - component: {fileID: 1479108237}
   m_Layer: 0
-  m_Name: ffghfghfgh (2)
+  m_Name: Statue1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -71191,7 +71191,7 @@ GameObject:
   - component: {fileID: 1681937504}
   - component: {fileID: 1681937505}
   m_Layer: 0
-  m_Name: Crack-Transparent-Background-PNG
+  m_Name: Grieta
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72167,7 +72167,7 @@ GameObject:
   - component: {fileID: 1871961190}
   - component: {fileID: 1871961191}
   m_Layer: 0
-  m_Name: Crack-Transparent-Background-PNG (5)
+  m_Name: Grieta
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72456,7 +72456,7 @@ GameObject:
   - component: {fileID: 1916828877}
   - component: {fileID: 1916828878}
   m_Layer: 0
-  m_Name: Crack-Transparent-Background-PNG (3)
+  m_Name: Grieta
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73658,7 +73658,7 @@ GameObject:
   - component: {fileID: 2064186273}
   - component: {fileID: 2064186274}
   m_Layer: 0
-  m_Name: Crack-Transparent-Background-PNG (2)
+  m_Name: Grieta
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
