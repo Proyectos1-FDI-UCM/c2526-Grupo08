@@ -1971,6 +1971,10 @@ PrefabInstance:
       propertyPath: PromptText
       value: 
       objectReference: {fileID: 1630592244}
+    - target: {fileID: 771179771204194631, guid: 3ba9b12dcdd68f2469794231f6bf3be8, type: 3}
+      propertyPath: type
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6771870703313319770, guid: 3ba9b12dcdd68f2469794231f6bf3be8, type: 3}
       propertyPath: m_Name
       value: Fusibles (2)
@@ -3808,6 +3812,10 @@ PrefabInstance:
       propertyPath: PromptText
       value: 
       objectReference: {fileID: 1630592244}
+    - target: {fileID: 771179771204194631, guid: 3ba9b12dcdd68f2469794231f6bf3be8, type: 3}
+      propertyPath: type
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6771870703313319770, guid: 3ba9b12dcdd68f2469794231f6bf3be8, type: 3}
       propertyPath: m_Name
       value: Fusibles (1)
@@ -11192,6 +11200,10 @@ PrefabInstance:
       propertyPath: PromptText
       value: 
       objectReference: {fileID: 1630592244}
+    - target: {fileID: 771179771204194631, guid: 3ba9b12dcdd68f2469794231f6bf3be8, type: 3}
+      propertyPath: type
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6771870703313319770, guid: 3ba9b12dcdd68f2469794231f6bf3be8, type: 3}
       propertyPath: m_Name
       value: Fusibles
@@ -17228,7 +17240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8613be0145a35d3459c40b73968feb9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 4
+  type: 5
 --- !u!61 &1712434755
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -53202,6 +53214,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Key (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4712504737297085463, guid: 28714e20fdc8af9459ae7897a9f6d8a3, type: 3}
+      propertyPath: type
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6304388400646895773, guid: 28714e20fdc8af9459ae7897a9f6d8a3, type: 3}
       propertyPath: m_LocalScale.x
       value: 4.0963755
@@ -53257,9 +53273,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4296618808425056567, guid: 28714e20fdc8af9459ae7897a9f6d8a3, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2016619296}
-    - targetCorrespondingSourceObject: {fileID: 4296618808425056567, guid: 28714e20fdc8af9459ae7897a9f6d8a3, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 2016619300}
   m_SourcePrefab: {fileID: 100100000, guid: 28714e20fdc8af9459ae7897a9f6d8a3, type: 3}
 --- !u!1 &2016619295 stripped
@@ -53267,19 +53280,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4296618808425056567, guid: 28714e20fdc8af9459ae7897a9f6d8a3, type: 3}
   m_PrefabInstance: {fileID: 2016619294}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2016619296
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2016619295}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8613be0145a35d3459c40b73968feb9e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 1
 --- !u!4 &2016619299 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6304388400646895773, guid: 28714e20fdc8af9459ae7897a9f6d8a3, type: 3}
