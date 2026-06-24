@@ -64,6 +64,7 @@ public class ArmPivot : MonoBehaviour
     [SerializeField]
     private float ArmAngleOffset = 90f;
 
+    [Tooltip("Referencia al DialogueSystem de la escena, para bloquear la rotación del brazo durante el diálogo.")]
     [SerializeField] private DialogueSystem DialogueSystem;
 
     #endregion
@@ -73,6 +74,9 @@ public class ArmPivot : MonoBehaviour
 
     /// <summary>Animator del jugador (objeto padre), del que se leen los parámetros de movimiento y estado.</summary>
     private Animator _playerAnimator;
+
+    /// <summary>Cámara principal cacheada en Awake para no llamar Camera.main en Update.</summary>
+    private Camera _mainCamera;
 
     #endregion
 
@@ -85,6 +89,8 @@ public class ArmPivot : MonoBehaviour
     private void Awake()
     {
         _playerAnimator = transform.parent.GetComponent<Animator>();
+
+        _mainCamera = Camera.main;
     }
 
     /// <summary>
@@ -123,7 +129,7 @@ public class ArmPivot : MonoBehaviour
 
             // Dirección hacia el cursor
             Vector3 screenPos = Mouse.current.position.ReadValue();
-            Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
+            Vector3 worldPos = _mainCamera.ScreenToWorldPoint(screenPos);
             Vector2 dir = worldPos - transform.position;
 
             // Rotación del pivote

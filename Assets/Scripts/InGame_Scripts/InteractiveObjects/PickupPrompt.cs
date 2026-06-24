@@ -63,6 +63,10 @@ public class PickupPrompt : MonoBehaviour
     /// <summary>Transform del texto para actualizar su posición cada frame.</summary>
     private Transform _promptTransform;
 
+    /// <summary>Cámara principal cacheada en Awake para no llamar Camera.main en Update.</summary>
+    private Camera _mainCamera;
+
+
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
@@ -100,6 +104,8 @@ public class PickupPrompt : MonoBehaviour
                              "El prompt no se activará. Añade un trigger al objeto.");
 
         OcultarPrompt();
+
+        _mainCamera = Camera.main;
     }
 
     /// <summary>
@@ -112,7 +118,7 @@ public class PickupPrompt : MonoBehaviour
         if (_pickedUp || !_playerInRange) return;
 
         // Posicionar el prompt encima del objeto cada frame (sigue al objeto si se mueve)
-        Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
+        Vector3 pos = _mainCamera.WorldToScreenPoint(transform.position);
         _promptTransform.position = pos + new Vector3(0f, OffsetY, 0f);
 
         // Actualizar texto según dispositivo activo en tiempo real

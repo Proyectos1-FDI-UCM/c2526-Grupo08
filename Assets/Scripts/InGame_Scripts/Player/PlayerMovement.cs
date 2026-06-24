@@ -120,6 +120,9 @@ public class PlayerMovement : MonoBehaviour
     /// <summary>Dirección actual del sprite, usada por ChangeSprite (actualmente sin uso activo).</summary>
     private Direction CurrentDirection = Direction.Left;
 
+    /// <summary>Cámara principal cacheada en Awake para no llamar Camera.main en FixedUpdate.</summary>
+    private Camera _mainCamera;
+
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
@@ -153,6 +156,8 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("Accion Dash no encontrada");
         }
+
+        _mainCamera = Camera.main;
     }
 
     /// <summary>
@@ -251,7 +256,7 @@ public class PlayerMovement : MonoBehaviour
         {
             // Transformamos las coordenadas del mouse a la pantalla en la variable Mouse
             Vector3 ScreenPos = Mouse.current.position.ReadValue();
-            Vector3 WorldPos = Camera.main.ScreenToWorldPoint(ScreenPos);
+            Vector3 WorldPos = _mainCamera.ScreenToWorldPoint(ScreenPos);
             dir = WorldPos - transform.position;
         }
 

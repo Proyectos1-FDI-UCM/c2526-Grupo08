@@ -36,7 +36,7 @@
 }
 
 .pause-map-col {
-    width: 320px;
+    width: 380px;
     padding: 28px 24px;
     align-items: center;
     flex-direction: column;
@@ -50,8 +50,8 @@
     -unity-text-align: upper-center;
 }
 .pause-map-image {
-    width: 272px;
-    height: 272px;
+    width: 320px;
+    height: 320px;
     background-color: #0a1415;
     border-color: var(--color-mid);
     border-width: 1px;

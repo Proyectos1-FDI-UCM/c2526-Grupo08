@@ -102,6 +102,9 @@ public class SpecialEnemyInteraction : MonoBehaviour
     /// <summary>RectTransform del PromptUI para actualizar su posición cada frame.</summary>
     private RectTransform _promptRect;
 
+    /// <summary>Cámara principal cacheada en Start para no llamar Camera.main en Update.</summary>
+    private Camera _mainCamera;
+
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
@@ -123,6 +126,8 @@ public class SpecialEnemyInteraction : MonoBehaviour
         { 
             Debug.LogWarning("[SpecialEnemyInteraction] Acción 'Interact' no encontrada en el InputSystem.");
         }
+
+        _mainCamera = Camera.main;
     }
 
     private void Start()
@@ -152,10 +157,10 @@ public class SpecialEnemyInteraction : MonoBehaviour
         if (!_optionsOpen)
         {
             // Actualizar posición del prompt encima del enemigo
-            if (_promptRect != null && Camera.main != null && ParentCanvas != null)
+            if (_promptRect != null && _mainCamera != null && ParentCanvas != null)
             {
                 Vector3 worldPos = transform.position + new Vector3(0f, PromptOffsetY, 0f);
-                Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
+                Vector3 screenPos = _mainCamera.WorldToScreenPoint(worldPos);
 
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(
                     ParentCanvas.GetComponent<RectTransform>(),
