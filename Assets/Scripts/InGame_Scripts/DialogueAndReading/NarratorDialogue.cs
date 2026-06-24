@@ -235,12 +235,7 @@ public class NarratorDialogue : MonoBehaviour
         if (_showingFeedback) { return; }
         _showingFeedback = true;
 
-        var line = new DialogueSystem.DialogueLine
-        {
-            SpeakerName = "",
-            CharacterSprite = FeedbackSprite,
-            Text = FeedbackText
-        };
+        var line = new DialogueSystem.DialogueLine("", FeedbackText, FeedbackSprite);
 
         DialogueSystemRef.SetLines(new List<DialogueSystem.DialogueLine> { line });
         Time.timeScale = 0f;

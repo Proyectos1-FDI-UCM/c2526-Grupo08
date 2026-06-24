@@ -100,7 +100,7 @@ public class DialogueSystem : MonoBehaviour
         [Tooltip("Nombre del personaje que aparece en el cuadro de diálogo. Vacío = narración sin nombre.")]
         [SerializeField] private string _speakerName;
 
-        [Tooltip("Sprite del personaje que aparece junto al texto. Vacío = sin imagen (narración pura).")]
+        [Tooltip("Sprite del personaje que aparece junto al texto. Vacío = sin imagen.")]
         [SerializeField] private Sprite _characterSprite;
 
         [Tooltip("Texto de la línea de diálogo.")]
@@ -115,6 +115,17 @@ public class DialogueSystem : MonoBehaviour
 
         /// <summary>Texto de la línea.</summary>
         public string Text => _text;
+
+        /// <summary>Constructor sin parámetros requerido por Unity para serialización.</summary>
+        public DialogueLine() { }
+
+        /// <summary>Crea una línea de diálogo por código (sin pasar por el Inspector).</summary>
+        public DialogueLine(string speakerName, string text, Sprite characterSprite = null)
+        {
+            _speakerName = speakerName;
+            _characterSprite = characterSprite;
+            _text = text;
+        }
     }
 
     #endregion

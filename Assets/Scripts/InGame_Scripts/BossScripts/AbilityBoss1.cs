@@ -68,9 +68,9 @@ public class AbilityBoss1 : MonoBehaviour
     /// </summary>
     struct ActiveAttack
     {
-        internal GameObject WarningInstance;
-        internal Vector3 Position;
-        internal float Timer;
+        public GameObject WarningInstance;
+        public Vector3 Position;
+        public float Timer;
     }
 
     #endregion
