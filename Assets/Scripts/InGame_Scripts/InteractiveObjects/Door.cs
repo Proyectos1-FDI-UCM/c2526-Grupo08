@@ -104,20 +104,13 @@ public class Door : MonoBehaviour
         if (DialogueSystem.Instance.IsActive()) { return; }
 
         var linea = new System.Collections.Generic.List<DialogueSystem.DialogueLine>
-        {
-            new DialogueSystem.DialogueLine
-            {
-                SpeakerName = "",
-                CharacterSprite = null,
-                Text = MensajeBloqueada
-            }
-        };
+    {
+        new DialogueSystem.DialogueLine("", MensajeBloqueada)
+    };
 
         DialogueSystem.Instance.SetLines(linea);
         Time.timeScale = 0f;
         DialogueSystem.Instance.StartDialogue(() => Time.timeScale = 1f);
-
-        Debug.Log("[Door] Bloqueada: el jugador no tiene llave.");
     }
 
     #endregion
