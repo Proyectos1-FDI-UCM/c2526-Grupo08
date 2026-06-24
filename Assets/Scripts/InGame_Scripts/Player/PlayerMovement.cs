@@ -123,6 +123,10 @@ public class PlayerMovement : MonoBehaviour
     /// <summary>Cámara principal cacheada en Awake para no llamar Camera.main en FixedUpdate.</summary>
     private Camera _mainCamera;
 
+    /// <summary>Timer para la animación de pickup. Cuando llega a 0 llama a PickupEnd.</summary>
+    private float _pickupTimer = 0f;
+
+
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
@@ -193,6 +197,13 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void Update()
     {
+        if (_pickupTimer > 0f)
+        {
+            _pickupTimer -= Time.deltaTime;
+            if (_pickupTimer <= 0f) PickupEnd();
+        }
+
+
         if (_isDashing && Time.time >= _dashEndTime)
         {
             EndDash();
@@ -295,13 +306,11 @@ public class PlayerMovement : MonoBehaviour
     {
         _isPickingUp = true;
 
-        Debug.Log("Pickup activado");
-
         _animator.SetBool("IsPickingUp", true);
 
         _rb.linearVelocity = Vector2.zero;
 
-        Invoke(nameof(PickupEnd), PickupDuration);
+        _pickupTimer = PickupDuration;
     }
 
     /// <summary>
@@ -311,7 +320,6 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public void PickupEnd()
     {
-        Debug.Log("END PICKUP EJECUTADO");
 
         _animator.SetBool("IsPickingUp", false);
 

@@ -196,35 +196,28 @@ public class Inventory : MonoBehaviour
         {
             case Objects.ObjectsType.bandage:
                 _bandage++;
-                Debug.Log($"[Inventory] Vendas: {_bandage}");
                 break;
             case Objects.ObjectsType.key:
                 _key++;
                 CollectKey(); // sincronizar con el flag de Marián
-                Debug.Log($"[Inventory] Llaves: {_key}");
                 break;
             case Objects.ObjectsType.specialKey:
                 _specialKey++;
                 CollectSpecialKey(); // sincronizar con el flag de Marián
-                Debug.Log($"[Inventory] Llaves especiales: {_specialKey}");
                 break;
             case Objects.ObjectsType.fusible:
                 _fusible++;
-                Debug.Log($"[Inventory] Fusibles: {_fusible}");
                 break;
             case Objects.ObjectsType.card:
                 _card++;
-                Debug.Log($"[Inventory] Tarjetas: {_card}");
                 break;
             case Objects.ObjectsType.multiAbility:
                 _hasMultiAbility = true;
                 GameManager.Instance.UnlockMultishot();
-                Debug.Log("[Inventory] Habilidad multidireccional desbloqueada");
                 break;
             case Objects.ObjectsType.explosiveAbility:
                 _hasExplosiveAbility = true;
                 GameManager.Instance.UnlockExplosive();
-                Debug.Log("[Inventory] Habilidad explosiva desbloqueada");
                 break;
         }
     }

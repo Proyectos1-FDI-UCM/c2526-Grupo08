@@ -154,7 +154,6 @@ public class BossFirstShoot : MonoBehaviour
         if (healthComponent != null)
         {
             healthComponent.Damage(damageAmount);
-            Debug.Log($"{gameObject.name} daño a {collision.gameObject.name} quitando {damageAmount} de vida");
         }
     }
 

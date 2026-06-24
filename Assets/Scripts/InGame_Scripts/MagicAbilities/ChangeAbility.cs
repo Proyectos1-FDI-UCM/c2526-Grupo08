@@ -148,10 +148,8 @@ public class ChangeAbility : MonoBehaviour
         {
             case ChargedIndex: return true; // cargada siempre disponible
             case MultiIndex:
-                Debug.Log("[ChangeAbility] Multi desbloqueada: " + _inventory.HasMultiAbility());
                 return _inventory != null && _inventory.HasMultiAbility();
             case ExplosiveIndex:
-                Debug.Log("[ChangeAbility] Explosiva desbloqueada: " + _inventory.HasExplosiveAbility());
                 return _inventory != null && _inventory.HasExplosiveAbility();
         }
         return false;

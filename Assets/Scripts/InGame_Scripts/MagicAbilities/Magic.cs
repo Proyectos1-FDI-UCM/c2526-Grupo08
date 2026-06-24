@@ -99,7 +99,6 @@ public class Magic : MonoBehaviour
         if (MagicBar != null) MagicBar.SetValue(_currentMagic);
         _spriteRenderer.color = Color.cyan;
         _colorTimer = ColorDuration; // Inicio del cronómetro
-        Debug.Log("La magia aumentó");
     }
 
     /// <summary>

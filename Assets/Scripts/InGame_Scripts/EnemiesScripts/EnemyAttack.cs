@@ -184,8 +184,6 @@ public class EnemyMeleeAttack : MonoBehaviour
 
             if (_playerHealth == null)
                 _playerHealth = _player.GetComponent<Health>();
-
-            Debug.Log("Jugador entró en el área de ataque.");
         }
     }
 
@@ -204,7 +202,6 @@ public class EnemyMeleeAttack : MonoBehaviour
         if (other.gameObject.GetComponent<PlayerMovement>() != null)
         {
             _playerInRange = false;
-            Debug.Log("Jugador salió del área de ataque.");
         }
     }
     #endregion

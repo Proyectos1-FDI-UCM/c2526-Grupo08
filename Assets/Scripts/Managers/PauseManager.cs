@@ -233,7 +233,6 @@ public class PauseManager : MonoBehaviour
             _exitMenuAction.Enable();
         }
 
-        Debug.Log($"[PauseManager] Input OK — Menu={_openMenuAction != null} Exit={_exitMenuAction != null}");
     }
 
     /// <summary>Alterna la pausa al pulsar la acción de menú.</summary>
@@ -317,7 +316,6 @@ public class PauseManager : MonoBehaviour
         RefrescarLabels();
         SuscribirEventos(root);
         _uiReady = true;
-        Debug.Log("[PauseManager] UI lista");
     }
 
     /// <summary>
@@ -372,11 +370,9 @@ public class PauseManager : MonoBehaviour
     /// </summary>
     private void Pausar()
     {
-        Debug.Log("[PauseManager] Pausar() ejecutado");
         _isPaused = true;
         Time.timeScale = 0f;
         _overlay.AddToClassList(CSS_OVERLAY);
-        Debug.Log($"[PauseManager] Clases overlay: {string.Join(",", _overlay.GetClasses())}");
         MostrarMain();
         if (PlayerMarker != null) PlayerMarker.SetActive(true);
         if (LevelManager.HasInstance()) LevelManager.Instance.OnGamePaused();

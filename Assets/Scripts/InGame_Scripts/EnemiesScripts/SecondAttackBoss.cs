@@ -74,6 +74,10 @@ public class SecondAttackBoss : MonoBehaviour
     /// <summary>True mientras el aviso está mostrado y el disparo está pendiente (evita solapar ataques).</summary>
     private bool _preparandoAtaque;
 
+
+    /// <summary>Timer del aviso antes de disparar. Cuando llega a 0 ejecuta Disparar().</summary>
+    private float _telegraphTimer = 0f;
+
     #endregion
 
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
@@ -85,6 +89,24 @@ public class SecondAttackBoss : MonoBehaviour
     void Start()
     {
         if (_player != null) _jugador = _player.transform;
+    }
+
+    /// <summary>
+    /// Cada frame, descuenta el timer del aviso visual. Cuando llega a 0
+    /// ejecuta Disparar() y reinicia el estado para permitir el siguiente ataque.
+    /// Solo activo mientras _preparandoAtaque es true.
+    /// </summary>
+    private void Update()
+    {
+        if (_telegraphTimer > 0f)
+        {
+            _telegraphTimer -= Time.deltaTime;
+            if (_telegraphTimer <= 0f)
+            {
+                _telegraphTimer = 0f;
+                Disparar();
+            }
+        }
     }
 
     /// <summary>
@@ -120,7 +142,7 @@ public class SecondAttackBoss : MonoBehaviour
         }
 
         // Esperamos AttackTelegraphDelay segundos antes de disparar
-        Invoke(nameof(Disparar), AttackTelegraphDelay);
+        _telegraphTimer = AttackTelegraphDelay;
     }
 
     /// <summary>

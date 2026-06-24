@@ -17,7 +17,10 @@ public class Hack : MonoBehaviour
     // ---- ATRIBUTOS DEL INSPECTOR ----
     #region Atributos del Inspector (serialized fields)
 
+    [Tooltip("Componente Health al que se le aplicará la vida infinita. Si se deja vacío se busca en este mismo GameObject.")]
     [SerializeField] private Health TargetHealth;
+
+    [Tooltip("Nuevo valor de vida máxima que se establece al activar el truco.")]
     [SerializeField] private int NewMaxHealthValue = 100000;
 
     #endregion
@@ -33,6 +36,7 @@ public class Hack : MonoBehaviour
     // ---- MÉTODOS DE MONOBEHAVIOUR ----
     #region Métodos de MonoBehaviour
 
+    /// <summary>Obtiene la acción Hack del Input System y cachea Health si no está asignado.</summary>
     void Start()
     {
         _hack = InputSystem.actions.FindAction("Hack");
@@ -44,6 +48,7 @@ public class Hack : MonoBehaviour
         _isHealthComponentReady = TargetHealth != null;
     }
 
+     /// <summary>Cada frame comprueba si se ha pulsado la acción Hack para activar la vida infinita.</summary>ç
     void Update()
     {
         // Usamos GetKeyDown para que solo ocurra una vez al pulsar la tecla
