@@ -71,12 +71,6 @@ public class SecondAttackBoss : MonoBehaviour
     /// <summary>Posición del jugador en el momento de iniciar el ataque, hacia la que se dispara.</summary>
     private Vector3 _posicionObjetivo;
 
-    /// <summary>
-    /// Tiempo transcurrido desde que se mostró el aviso (reservado: actualmente
-    /// no se usa para nada más, el disparo se programa con Invoke en ExecuteBladeAttack).
-    /// </summary>
-    private float _timerAviso;
-
     /// <summary>True mientras el aviso está mostrado y el disparo está pendiente (evita solapar ataques).</summary>
     private bool _preparandoAtaque;
 
@@ -117,7 +111,6 @@ public class SecondAttackBoss : MonoBehaviour
         if (_jugador == null || _preparandoAtaque) return;
 
         _preparandoAtaque = true;
-        _timerAviso = 0;
         _posicionObjetivo = _jugador.position;
 
         // Crea el triángulo rojo de aviso

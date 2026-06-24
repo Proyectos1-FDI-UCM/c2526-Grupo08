@@ -34,9 +34,6 @@ public class BossFirstShoot : MonoBehaviour
     [Tooltip("Tiempo máximo de espera considerado al calcular el próximo dash (reservado, ver nota en CalculateNextDash).")]
     [SerializeField] private float maxWaitTime = 15f;
 
-    [Tooltip("Duración prevista del dash en segundos (reservado para una futura limitación de duración).")]
-    [SerializeField] private float dashDuration = 3f;
-
     [Header("Movement Settings")]
     [Tooltip("Fuerza del impulso aplicado al Rigidbody2D al ejecutar el dash.")]
     [SerializeField] private float dashForce = 20f;
