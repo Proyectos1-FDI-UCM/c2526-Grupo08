@@ -737,6 +737,7 @@ GameObject:
   m_Component:
   - component: {fileID: 48591757}
   - component: {fileID: 48591756}
+  - component: {fileID: 48591758}
   m_Layer: 0
   m_Name: OfficeChairBack
   m_TagString: Untagged
@@ -814,6 +815,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1920609751}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &48591758
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48591755}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.050405502, y: 0.019386292}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3.06, y: 1.97}
+    newSize: {x: 3.06, y: 1.97}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 2.27676, y: 1.1712494}
+  m_EdgeRadius: 0
 --- !u!1 &71045405
 GameObject:
   m_ObjectHideFlags: 0
@@ -911,6 +958,7 @@ GameObject:
   m_Component:
   - component: {fileID: 86986600}
   - component: {fileID: 86986599}
+  - component: {fileID: 86986601}
   m_Layer: 0
   m_Name: PupleCrystal2
   m_TagString: Untagged
@@ -988,6 +1036,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &86986601
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 86986598}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.0046081543, y: 0.17975044}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.55, y: 1.5}
+    newSize: {x: 1.55, y: 1.5}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.0798874, y: 1.1404991}
+  m_EdgeRadius: 0
 --- !u!1 &94709896
 GameObject:
   m_ObjectHideFlags: 0
@@ -2047,6 +2141,7 @@ GameObject:
   m_Component:
   - component: {fileID: 173526939}
   - component: {fileID: 173526938}
+  - component: {fileID: 173526940}
   m_Layer: 0
   m_Name: OfficeChairBack
   m_TagString: Untagged
@@ -2124,6 +2219,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1920609751}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &173526940
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 173526937}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.09593451, y: -0.115994096}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.85, y: 2.15}
+    newSize: {x: 1.85, y: 2.15}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.3115292, y: 1.5730088}
+  m_EdgeRadius: 0
 --- !u!1 &180226426
 GameObject:
   m_ObjectHideFlags: 0
@@ -2359,6 +2500,7 @@ GameObject:
   m_Component:
   - component: {fileID: 199718260}
   - component: {fileID: 199718259}
+  - component: {fileID: 199718261}
   m_Layer: 0
   m_Name: DarkPinkCrystal
   m_TagString: Untagged
@@ -2436,6 +2578,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &199718261
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 199718258}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.16944957, y: 0.64396}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 13.94, y: 7.68}
+    newSize: {x: 13.94, y: 7.68}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 3.975576, y: 3.9517975}
+  m_EdgeRadius: 0
 --- !u!1001 &204335991
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2816,6 +3004,7 @@ GameObject:
   m_Component:
   - component: {fileID: 251153884}
   - component: {fileID: 251153883}
+  - component: {fileID: 251153885}
   m_Layer: 0
   m_Name: DarkPinkCrystal
   m_TagString: Untagged
@@ -2893,6 +3082,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &251153885
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 251153882}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.54489803, y: 0.82162476}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 13.94, y: 7.68}
+    newSize: {x: 13.94, y: 7.68}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 4.1998286, y: 3.7563286}
+  m_EdgeRadius: 0
 --- !u!1 &252349564
 GameObject:
   m_ObjectHideFlags: 0
@@ -2903,6 +3138,7 @@ GameObject:
   m_Component:
   - component: {fileID: 252349566}
   - component: {fileID: 252349565}
+  - component: {fileID: 252349567}
   m_Layer: 0
   m_Name: DarkPinkCrystal
   m_TagString: Untagged
@@ -2980,6 +3216,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &252349567
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 252349564}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.23725009, y: 0.4914403}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 13.94, y: 7.68}
+    newSize: {x: 13.94, y: 7.68}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 3.3654885, y: 3.5112}
+  m_EdgeRadius: 0
 --- !u!1 &253712420
 GameObject:
   m_ObjectHideFlags: 0
@@ -3462,6 +3744,7 @@ GameObject:
   m_Component:
   - component: {fileID: 276472362}
   - component: {fileID: 276472361}
+  - component: {fileID: 276472363}
   m_Layer: 0
   m_Name: DarkPinkCrystal
   m_TagString: Untagged
@@ -3539,6 +3822,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &276472363
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 276472360}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.054985046, y: 0.06998062}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.68, y: 1.63}
+    newSize: {x: 1.68, y: 1.63}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.2801132, y: 1.3200912}
+  m_EdgeRadius: 0
 --- !u!1 &276659714
 GameObject:
   m_ObjectHideFlags: 0
@@ -3975,6 +4304,7 @@ GameObject:
   m_Component:
   - component: {fileID: 295766867}
   - component: {fileID: 295766866}
+  - component: {fileID: 295766868}
   m_Layer: 0
   m_Name: DarkPinkCrystal
   m_TagString: Untagged
@@ -4052,6 +4382,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &295766868
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 295766865}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.054984093, y: 0.07247925}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.68, y: 1.63}
+    newSize: {x: 1.68, y: 1.63}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.2701187, y: 1.2950974}
+  m_EdgeRadius: 0
 --- !u!1 &297423526
 GameObject:
   m_ObjectHideFlags: 0
@@ -4711,6 +5087,7 @@ GameObject:
   m_Component:
   - component: {fileID: 364804862}
   - component: {fileID: 364804861}
+  - component: {fileID: 364804863}
   m_Layer: 0
   m_Name: DarkPinkCrystal
   m_TagString: Untagged
@@ -4788,6 +5165,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &364804863
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 364804860}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.2203188, y: 0.47449398}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 13.94, y: 7.68}
+    newSize: {x: 13.94, y: 7.68}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 3.873901, y: 3.6806612}
+  m_EdgeRadius: 0
 --- !u!1 &366867196
 GameObject:
   m_ObjectHideFlags: 0
@@ -5064,7 +5487,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6460544076485711238, guid: fe28f413482703f4ab4c3bf3b2d7cf95, type: 3}
       propertyPath: m_IsTrigger
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6533767266775519271, guid: fe28f413482703f4ab4c3bf3b2d7cf95, type: 3}
       propertyPath: m_Interpolate
@@ -6143,6 +6566,7 @@ GameObject:
   m_Component:
   - component: {fileID: 564164626}
   - component: {fileID: 564164625}
+  - component: {fileID: 564164627}
   m_Layer: 0
   m_Name: DarkPinkCrystal
   m_TagString: Untagged
@@ -6220,6 +6644,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &564164627
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 564164624}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.1864025, y: 0.5592284}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 13.94, y: 7.68}
+    newSize: {x: 13.94, y: 7.68}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 3.331592, y: 3.3756385}
+  m_EdgeRadius: 0
 --- !u!1 &564358720
 GameObject:
   m_ObjectHideFlags: 0
@@ -7017,6 +7487,7 @@ GameObject:
   m_Component:
   - component: {fileID: 609193004}
   - component: {fileID: 609193003}
+  - component: {fileID: 609193005}
   m_Layer: 0
   m_Name: DarkPinkCrystal
   m_TagString: Untagged
@@ -7094,6 +7565,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &609193005
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609193002}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.5108514, y: 0.7210108}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 13.94, y: 7.68}
+    newSize: {x: 13.94, y: 7.68}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 4.3360634, y: 3.689253}
+  m_EdgeRadius: 0
 --- !u!1 &614701744
 GameObject:
   m_ObjectHideFlags: 0
@@ -7104,6 +7621,7 @@ GameObject:
   m_Component:
   - component: {fileID: 614701746}
   - component: {fileID: 614701745}
+  - component: {fileID: 614701747}
   m_Layer: 0
   m_Name: DarkPinkCrystal
   m_TagString: Untagged
@@ -7181,6 +7699,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &614701747
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 614701744}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.52787507, y: 0.9389961}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 13.94, y: 7.68}
+    newSize: {x: 13.94, y: 7.68}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 4.0976667, y: 3.9910707}
+  m_EdgeRadius: 0
 --- !u!1 &629205305
 GameObject:
   m_ObjectHideFlags: 0
@@ -7483,6 +8047,7 @@ GameObject:
   m_Component:
   - component: {fileID: 647272247}
   - component: {fileID: 647272246}
+  - component: {fileID: 647272248}
   m_Layer: 0
   m_Name: DarkPinkCrystal
   m_TagString: Untagged
@@ -7560,6 +8125,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &647272248
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647272245}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.16946596, y: 0.50838983}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 13.94, y: 7.68}
+    newSize: {x: 13.94, y: 7.68}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 3.4332657, y: 3.2061698}
+  m_EdgeRadius: 0
 --- !u!1 &654486711
 GameObject:
   m_ObjectHideFlags: 0
@@ -7807,6 +8418,7 @@ GameObject:
   m_Component:
   - component: {fileID: 706044844}
   - component: {fileID: 706044843}
+  - component: {fileID: 706044845}
   m_Layer: 0
   m_Name: tyujtyjyt
   m_TagString: Untagged
@@ -7884,6 +8496,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1920609751}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &706044845
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 706044842}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.009044647, y: -0.1688981}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.7, y: 2.26}
+    newSize: {x: 1.7, y: 2.26}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.5733261, y: 1.922204}
+  m_EdgeRadius: 0
 --- !u!1 &707778135
 GameObject:
   m_ObjectHideFlags: 0
@@ -7894,6 +8552,7 @@ GameObject:
   m_Component:
   - component: {fileID: 707778137}
   - component: {fileID: 707778136}
+  - component: {fileID: 707778138}
   m_Layer: 0
   m_Name: PurpleCrystal3
   m_TagString: Untagged
@@ -7971,6 +8630,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &707778138
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 707778135}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.0018634796, y: -0.013038635}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.23, y: 1.23}
+    newSize: {x: 1.23, y: 1.23}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.8686409, y: 0.8909874}
+  m_EdgeRadius: 0
 --- !u!1 &740714908
 GameObject:
   m_ObjectHideFlags: 0
@@ -9210,7 +9915,7 @@ Transform:
   m_GameObject: {fileID: 889474940}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 45.41, y: -109.41167, z: 0}
+  m_LocalPosition: {x: 45.6, y: -104.4, z: 0}
   m_LocalScale: {x: 0.81903785, y: 0.7893367, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9261,6 +9966,7 @@ GameObject:
   m_Component:
   - component: {fileID: 903077965}
   - component: {fileID: 903077964}
+  - component: {fileID: 903077966}
   m_Layer: 0
   m_Name: PupleCrystal2
   m_TagString: Untagged
@@ -9338,6 +10044,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &903077966
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903077963}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.0115242, y: 0.14748764}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.55, y: 1.5}
+    newSize: {x: 1.55, y: 1.5}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.0660629, y: 1.0759735}
+  m_EdgeRadius: 0
 --- !u!1 &904103617
 GameObject:
   m_ObjectHideFlags: 0
@@ -9435,6 +10187,7 @@ GameObject:
   m_Component:
   - component: {fileID: 914570404}
   - component: {fileID: 914570403}
+  - component: {fileID: 914570405}
   m_Layer: 0
   m_Name: PurpleCrystal3
   m_TagString: Untagged
@@ -9512,6 +10265,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &914570405
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914570402}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.011176109, y: -0.026078224}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.23, y: 1.23}
+    newSize: {x: 1.23, y: 1.23}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.87981224, y: 0.8425579}
+  m_EdgeRadius: 0
 --- !u!1 &917905583
 GameObject:
   m_ObjectHideFlags: 0
@@ -9522,6 +10321,7 @@ GameObject:
   m_Component:
   - component: {fileID: 917905585}
   - component: {fileID: 917905584}
+  - component: {fileID: 917905586}
   m_Layer: 0
   m_Name: DarkPinkCrystal
   m_TagString: Untagged
@@ -9599,6 +10399,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &917905586
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 917905583}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.49380904, y: 0.82162225}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 13.94, y: 7.68}
+    newSize: {x: 13.94, y: 7.68}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 4.1657553, y: 3.957547}
+  m_EdgeRadius: 0
 --- !u!1 &918103964
 GameObject:
   m_ObjectHideFlags: 0
@@ -9609,6 +10455,7 @@ GameObject:
   m_Component:
   - component: {fileID: 918103966}
   - component: {fileID: 918103965}
+  - component: {fileID: 918103967}
   m_Layer: 0
   m_Name: DarkPinkCrystal
   m_TagString: Untagged
@@ -9686,6 +10533,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &918103967
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 918103964}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.42571712, y: 0.7210121}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 13.94, y: 7.68}
+    newSize: {x: 13.94, y: 7.68}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 4.0295596, y: 3.9575472}
+  m_EdgeRadius: 0
 --- !u!1 &918382688
 GameObject:
   m_ObjectHideFlags: 0
@@ -10387,6 +11280,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1035390809}
   - component: {fileID: 1035390808}
+  - component: {fileID: 1035390810}
   m_Layer: 0
   m_Name: PurpleCrystal3
   m_TagString: Untagged
@@ -10464,6 +11358,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1035390810
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035390807}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.0037269592, y: -0.016763687}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.23, y: 1.23}
+    newSize: {x: 1.23, y: 1.23}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.8649063, y: 0.8909874}
+  m_EdgeRadius: 0
 --- !u!1 &1035998633
 GameObject:
   m_ObjectHideFlags: 0
@@ -10766,6 +11706,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1052088288}
   - component: {fileID: 1052088287}
+  - component: {fileID: 1052088289}
   m_Layer: 0
   m_Name: OfficeChairBack
   m_TagString: Untagged
@@ -10843,6 +11784,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1920609751}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1052088289
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1052088286}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.0697937, y: 0.0891819}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3.06, y: 1.97}
+    newSize: {x: 3.06, y: 1.97}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 2.3000221, y: 1.2643089}
+  m_EdgeRadius: 0
 --- !u!1 &1054896989
 GameObject:
   m_ObjectHideFlags: 0
@@ -12173,6 +13160,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1159219999}
   - component: {fileID: 1159219998}
+  - component: {fileID: 1159220000}
   m_Layer: 0
   m_Name: fghfghfgh
   m_TagString: Untagged
@@ -12250,6 +13238,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1920609751}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1159220000
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1159219997}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.20784187, y: -0.07917595}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.99, y: 2.37}
+    newSize: {x: 1.99, y: 2.37}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.4687462, y: 2.0400963}
+  m_EdgeRadius: 0
 --- !u!1 &1164658877
 GameObject:
   m_ObjectHideFlags: 0
@@ -12798,6 +13832,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1229743140}
   - component: {fileID: 1229743139}
+  - component: {fileID: 1229743141}
   m_Layer: 0
   m_Name: DarkPinkCrystal
   m_TagString: Untagged
@@ -12875,6 +13910,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1229743141
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1229743138}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.20335448, y: 0.3389241}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 13.94, y: 7.68}
+    newSize: {x: 13.94, y: 7.68}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 3.501053, y: 3.2061768}
+  m_EdgeRadius: 0
 --- !u!1 &1244705836
 GameObject:
   m_ObjectHideFlags: 0
@@ -13175,6 +14256,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1284280885}
   - component: {fileID: 1284280884}
+  - component: {fileID: 1284280886}
   m_Layer: 0
   m_Name: PurpleCrystal3
   m_TagString: Untagged
@@ -13252,6 +14334,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1284280886
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284280883}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.0037250519, y: -0.029802322}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.23, y: 1.23}
+    newSize: {x: 1.23, y: 1.23}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.85746384, y: 0.87236404}
+  m_EdgeRadius: 0
 --- !u!1 &1293117231
 GameObject:
   m_ObjectHideFlags: 0
@@ -13262,6 +14390,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1293117233}
   - component: {fileID: 1293117232}
+  - component: {fileID: 1293117234}
   m_Layer: 0
   m_Name: OfficeChairBack
   m_TagString: Untagged
@@ -13339,6 +14468,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1920609751}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1293117234
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1293117231}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.05816269, y: -0.027141571}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3.06, y: 1.97}
+    newSize: {x: 3.06, y: 1.97}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 2.2767563, y: 1.2022705}
+  m_EdgeRadius: 0
 --- !u!1 &1298590116
 GameObject:
   m_ObjectHideFlags: 0
@@ -13695,6 +14870,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1313232210}
   - component: {fileID: 1313232209}
+  - component: {fileID: 1313232211}
   m_Layer: 0
   m_Name: DarkPinkCrystal
   m_TagString: Untagged
@@ -13772,6 +14948,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1313232211
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313232208}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.2372477, y: 0.5422766}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 13.94, y: 7.68}
+    newSize: {x: 13.94, y: 7.68}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 3.9077725, y: 3.816236}
+  m_EdgeRadius: 0
 --- !u!1 &1320324303
 GameObject:
   m_ObjectHideFlags: 0
@@ -13782,6 +15004,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1320324305}
   - component: {fileID: 1320324304}
+  - component: {fileID: 1320324306}
   m_Layer: 0
   m_Name: OfficeChairBack
   m_TagString: Untagged
@@ -13859,6 +15082,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1920609751}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1320324306
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320324303}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.092840314, y: -0.08625284}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.85, y: 2.15}
+    newSize: {x: 1.85, y: 2.15}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.3177164, y: 1.6443875}
+  m_EdgeRadius: 0
 --- !u!1 &1336914995
 GameObject:
   m_ObjectHideFlags: 0
@@ -13869,6 +15138,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1336914997}
   - component: {fileID: 1336914996}
+  - component: {fileID: 1336914998}
   m_Layer: 0
   m_Name: PupleCrystal2
   m_TagString: Untagged
@@ -13946,6 +15216,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1336914998
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1336914995}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.018435717, y: 0.17053032}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.55, y: 1.5}
+    newSize: {x: 1.55, y: 1.5}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.0245771, y: 1.0114479}
+  m_EdgeRadius: 0
 --- !u!1 &1342143041
 GameObject:
   m_ObjectHideFlags: 0
@@ -13956,6 +15272,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1342143043}
   - component: {fileID: 1342143042}
+  - component: {fileID: 1342143044}
   m_Layer: 0
   m_Name: PurpleCrystal3
   m_TagString: Untagged
@@ -14033,6 +15350,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1342143044
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342143041}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.0074501038, y: -0.0055885315}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.23, y: 1.23}
+    newSize: {x: 1.23, y: 1.23}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.8500061, y: 0.8909912}
+  m_EdgeRadius: 0
 --- !u!1 &1349072565 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3713208540947770867, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
@@ -14772,6 +16135,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1434773504}
   - component: {fileID: 1434773503}
+  - component: {fileID: 1434773505}
   m_Layer: 0
   m_Name: PurpleCrystal3
   m_TagString: Untagged
@@ -14849,6 +16213,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1434773505
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1434773502}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.0074510574, y: -0.01676464}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.23, y: 1.23}
+    newSize: {x: 1.23, y: 1.23}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.87981224, y: 0.8984394}
+  m_EdgeRadius: 0
 --- !u!1 &1443800557
 GameObject:
   m_ObjectHideFlags: 0
@@ -14859,6 +16269,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1443800559}
   - component: {fileID: 1443800558}
+  - component: {fileID: 1443800560}
   m_Layer: 0
   m_Name: DarkPinkCrystal
   m_TagString: Untagged
@@ -14936,6 +16347,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1443800560
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443800557}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.49381793, y: 0.7880907}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 13.94, y: 7.68}
+    newSize: {x: 13.94, y: 7.68}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 4.02958, y: 4.024633}
+  m_EdgeRadius: 0
 --- !u!1 &1470013182
 GameObject:
   m_ObjectHideFlags: 0
@@ -15643,6 +17100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1542734882}
   - component: {fileID: 1542734881}
+  - component: {fileID: 1542734883}
   m_Layer: 0
   m_Name: DarkPinkCrystal
   m_TagString: Untagged
@@ -15720,6 +17178,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1542734883
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542734880}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.49382102, y: 0.83838713}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 13.94, y: 7.68}
+    newSize: {x: 13.94, y: 7.68}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 4.233902, y: 3.9240043}
+  m_EdgeRadius: 0
 --- !u!1 &1548186980
 GameObject:
   m_ObjectHideFlags: 0
@@ -15817,6 +17321,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1554770917}
   - component: {fileID: 1554770916}
+  - component: {fileID: 1554770918}
   m_Layer: 0
   m_Name: OfficeChairBack
   m_TagString: Untagged
@@ -15894,6 +17399,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1920609751}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1554770918
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1554770915}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.08355546, y: -0.08624944}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.85, y: 2.15}
+    newSize: {x: 1.85, y: 2.15}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.2743921, y: 1.6681848}
+  m_EdgeRadius: 0
 --- !u!1 &1556638105
 GameObject:
   m_ObjectHideFlags: 0
@@ -17118,6 +18669,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1671474343}
   - component: {fileID: 1671474342}
+  - component: {fileID: 1671474344}
   m_Layer: 0
   m_Name: PupleCrystal2
   m_TagString: Untagged
@@ -17195,6 +18747,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1671474344
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1671474341}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0.14287758}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.55, y: 1.5}
+    newSize: {x: 1.55, y: 1.5}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.0522308, y: 0.91926956}
+  m_EdgeRadius: 0
 --- !u!1 &1708578020
 GameObject:
   m_ObjectHideFlags: 0
@@ -17593,6 +19191,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1742919611}
   - component: {fileID: 1742919610}
+  - component: {fileID: 1742919612}
   m_Layer: 0
   m_Name: OfficeChairBack
   m_TagString: Untagged
@@ -17670,6 +19269,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1920609751}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1742919612
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1742919609}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.061894417, y: -0.05948454}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.85, y: 2.15}
+    newSize: {x: 1.85, y: 2.15}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.3300972, y: 1.757409}
+  m_EdgeRadius: 0
 --- !u!1 &1747418962
 GameObject:
   m_ObjectHideFlags: 0
@@ -17977,6 +19622,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1769946074}
   - component: {fileID: 1769946073}
+  - component: {fileID: 1769946075}
   m_Layer: 0
   m_Name: PurpleCrystal3
   m_TagString: Untagged
@@ -18054,6 +19700,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1769946075
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769946072}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.013038635, y: -0.022352219}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.23, y: 1.23}
+    newSize: {x: 1.23, y: 1.23}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.8686352, y: 0.8723602}
+  m_EdgeRadius: 0
 --- !u!1 &1771401682
 GameObject:
   m_ObjectHideFlags: 0
@@ -18436,6 +20128,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1791918381}
   - component: {fileID: 1791918380}
+  - component: {fileID: 1791918382}
   m_Layer: 0
   m_Name: DarkPinkCrystal
   m_TagString: Untagged
@@ -18513,6 +20206,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1791918382
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1791918379}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.15249747, y: 0.38976383}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 13.94, y: 7.68}
+    newSize: {x: 13.94, y: 7.68}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 3.331604, y: 3.3756251}
+  m_EdgeRadius: 0
 --- !u!1 &1801434712
 GameObject:
   m_ObjectHideFlags: 0
@@ -51933,6 +53672,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1846331082}
   - component: {fileID: 1846331081}
+  - component: {fileID: 1846331083}
   m_Layer: 0
   m_Name: OfficeChairBack
   m_TagString: Untagged
@@ -52010,6 +53750,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1920609751}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1846331083
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1846331080}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.05428505, y: -0.05816269}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3.06, y: 1.97}
+    newSize: {x: 3.06, y: 1.97}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 2.269001, y: 1.1712494}
+  m_EdgeRadius: 0
 --- !u!1 &1847953087
 GameObject:
   m_ObjectHideFlags: 0
@@ -52020,6 +53806,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1847953089}
   - component: {fileID: 1847953088}
+  - component: {fileID: 1847953090}
   m_Layer: 0
   m_Name: DarkPinkCrystal
   m_TagString: Untagged
@@ -52097,6 +53884,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1847953090
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1847953087}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.039985657, y: 0.052484512}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.68, y: 1.63}
+    newSize: {x: 1.68, y: 1.63}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.3001099, y: 1.2751045}
+  m_EdgeRadius: 0
 --- !u!1 &1873660091
 GameObject:
   m_ObjectHideFlags: 0
@@ -53683,34 +55516,27 @@ MonoBehaviour:
   AutoStartOnLoad: 1
   AutoStartDelay: 0.1
   Lines:
-  - SpeakerName: Narrador
-    CharacterSprite: {fileID: 0}
-    Text: " \"Cori perdi\xF3 la cuenta de las veces que su vista hab\xEDa viajado
-      de aquel\r\nedificio abandonado a la direcci\xF3n que sujetaba en su mano.\r\nNochebuena.
-      Hoy de todos los d\xEDas.\""
-  - SpeakerName: Narrador
-    CharacterSprite: {fileID: 0}
-    Text: "\"Con suerte, las familias se reun\xEDan en fechas como esta.\r\nTodo
-      su esfuerzo, todos sus secretos callados hab\xEDan sido \xFAnicamente\r\npara
-      este momento. Entr\xF3 al edificio sin pensarlo dos veces.\""
-  - SpeakerName: Cori
-    CharacterSprite: {fileID: -7301773207540950569, guid: 72037d277700fa24e8c1fc8a447e6b53, type: 3}
-    Text: " \"Inicio de la operaci\xF3n: ya estoy en el edificio.\""
-  - SpeakerName: Control
-    CharacterSprite: {fileID: 4408675507112254870, guid: f821db50f785c314e93658507600d5f3, type: 3}
-    Text: "\"Entendido. Si no encuentras a su l\xEDder antes de las seis,\r\nregresa
-      tal y como acordamos. \xBFEntendido?\""
-  - SpeakerName: Cori
-    CharacterSprite: {fileID: -4992821509900215011, guid: 868eaecb20a63a640845b42f480089da, type: 3}
-    Text: "\"S\xED, se\xF1or.\""
-  - SpeakerName: Control
-    CharacterSprite: {fileID: 4408675507112254870, guid: f821db50f785c314e93658507600d5f3, type: 3}
-    Text: "\"Cori\u2026 espero tanto como t\xFA que tu hermana realmente est\xE9\r\nentre
-      los rehenes.\""
-  - SpeakerName: Narrador
-    CharacterSprite: {fileID: 0}
-    Text: "\"Cori cort\xF3 la transmisi\xF3n. No quer\xEDa pensar en la posibilidad\r\nde
-      que ella no estuviera all\xED.\""
+  - _speakerName: 
+    _characterSprite: {fileID: 0}
+    _text: 
+  - _speakerName: 
+    _characterSprite: {fileID: 0}
+    _text: 
+  - _speakerName: 
+    _characterSprite: {fileID: 0}
+    _text: 
+  - _speakerName: 
+    _characterSprite: {fileID: 0}
+    _text: 
+  - _speakerName: 
+    _characterSprite: {fileID: 0}
+    _text: 
+  - _speakerName: 
+    _characterSprite: {fileID: 0}
+    _text: 
+  - _speakerName: 
+    _characterSprite: {fileID: 0}
+    _text: 
   RequireItem: 0
   RequiredAmount: 0
   FeedbackText: "Necesitas m\xE1s objetos para continuar."
@@ -54372,6 +56198,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2121375462}
   - component: {fileID: 2121375461}
+  - component: {fileID: 2121375463}
   m_Layer: 0
   m_Name: DarkPinkCrystal
   m_TagString: Untagged
@@ -54449,6 +56276,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &2121375463
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2121375460}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.034992218, y: 0.05248642}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.68, y: 1.63}
+    newSize: {x: 1.68, y: 1.63}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.2601242, y: 1.2950974}
+  m_EdgeRadius: 0
 --- !u!1 &2122639372
 GameObject:
   m_ObjectHideFlags: 0
@@ -54813,6 +56686,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2147451380}
   - component: {fileID: 2147451379}
+  - component: {fileID: 2147451381}
   m_Layer: 0
   m_Name: PupleCrystal2
   m_TagString: Untagged
@@ -54890,6 +56764,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 47435253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &2147451381
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2147451378}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.01382637, y: 0.1313572}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.55, y: 1.5}
+    newSize: {x: 1.55, y: 1.5}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.061451, y: 1.0437126}
+  m_EdgeRadius: 0
 --- !u!1001 &7457065070476480302
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55007,17 +56927,15 @@ MonoBehaviour:
   AutoStartOnLoad: 0
   AutoStartDelay: 0.1
   Lines:
-  - SpeakerName: Narrador
-    CharacterSprite: {fileID: 0}
-    Text: "\"El ascensor cruji\xF3 al ponerse en marcha.\r\nCori cont\xF3 los segundos
-      en silencio mientras las paredes\r\nde metal oxidado ascend\xEDan a su alrededor.\""
-  - SpeakerName: Narrador
-    CharacterSprite: {fileID: 0}
-    Text: "\"Segunda planta. El edificio empeoraba con cada piso:\r\ntechos desmoronados,
-      cables a la vista, y m\xE1s guardias.\""
-  - SpeakerName: Cori
-    CharacterSprite: {fileID: -4992821509900215011, guid: 868eaecb20a63a640845b42f480089da, type: 3}
-    Text: "\"Aqu\xED arriba hay m\xE1s movimiento. Tienen algo que proteger.\""
+  - _speakerName: 
+    _characterSprite: {fileID: 0}
+    _text: 
+  - _speakerName: 
+    _characterSprite: {fileID: 0}
+    _text: 
+  - _speakerName: 
+    _characterSprite: {fileID: 0}
+    _text: 
   RequireItem: 1
   RequiredAmount: 3
   FeedbackText: '"Necesitas los 3 fusibles para activar el ascensor."'
