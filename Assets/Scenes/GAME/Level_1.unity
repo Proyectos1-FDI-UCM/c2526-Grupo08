@@ -55516,27 +55516,34 @@ MonoBehaviour:
   AutoStartOnLoad: 1
   AutoStartDelay: 0.1
   Lines:
-  - _speakerName: 
+  - _speakerName: Narrador
     _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
+    _text: " \"Cori perdi\xF3 la cuenta de las veces que su vista hab\xEDa viajado
+      de aquel\r\n  edificio abandonado a la direcci\xF3n que sujetaba en su mano.\r\n 
+      Nochebuena. Hoy de todos los d\xEDas.\""
+  - _speakerName: Narrador
     _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
+    _text: "\"Con suerte, las familias se reun\xEDan en fechas como esta.\r\n Todo
+      su esfuerzo, todos sus secretos callados hab\xEDan sido \xFAnicamente\r\n para
+      este momento. Entr\xF3 al edificio sin pensarlo dos veces.\""
+  - _speakerName: Kori
+    _characterSprite: {fileID: -4992821509900215011, guid: 868eaecb20a63a640845b42f480089da, type: 3}
+    _text: " \"Inicio de la operaci\xF3n: ya estoy en el edificio.\""
+  - _speakerName: Control
+    _characterSprite: {fileID: 4408675507112254870, guid: f821db50f785c314e93658507600d5f3, type: 3}
+    _text: " \"Entendido. Si no encuentras a su l\xEDder antes de las seis,\r\n 
+      regresa tal y como acordamos. \xBFEntendido?\""
+  - _speakerName: Kori
+    _characterSprite: {fileID: -7301773207540950569, guid: 72037d277700fa24e8c1fc8a447e6b53, type: 3}
+    _text: " \"S\xED, se\xF1or.\""
+  - _speakerName: Control
+    _characterSprite: {fileID: 4408675507112254870, guid: f821db50f785c314e93658507600d5f3, type: 3}
+    _text: "  \"Cori\u2026 espero tanto como t\xFA que tu hermana realmente est\xE9\r\n  
+      entre los rehenes.\""
+  - _speakerName: Narrador
     _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
-    _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
-    _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
-    _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
-    _characterSprite: {fileID: 0}
-    _text: 
+    _text: " \"Cori cort\xF3 la transmisi\xF3n. No quer\xEDa pensar en la posibilidad\r\n 
+      de que ella no estuviera all\xED.\""
   RequireItem: 0
   RequiredAmount: 0
   FeedbackText: "Necesitas m\xE1s objetos para continuar."
@@ -56927,15 +56934,18 @@ MonoBehaviour:
   AutoStartOnLoad: 0
   AutoStartDelay: 0.1
   Lines:
-  - _speakerName: 
+  - _speakerName: Narrador
     _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
+    _text: " \"El ascensor cruji\xF3 al ponerse en marcha.\r\n  Kori cont\xF3 los
+      segundos en silencio mientras las paredes\r\n  de metal oxidado ascend\xEDan
+      a su alrededor.\""
+  - _speakerName: Narrador
     _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
-    _characterSprite: {fileID: 0}
-    _text: 
+    _text: " \"Segunda planta. El edificio empeoraba con cada piso:\r\n  techos desmoronados,
+      cables a la vista, y m\xE1s guardias.\""
+  - _speakerName: Kori
+    _characterSprite: {fileID: -4992821509900215011, guid: 868eaecb20a63a640845b42f480089da, type: 3}
+    _text: " \"Aqu\xED arriba hay m\xE1s movimiento. Tienen algo que proteger.\""
   RequireItem: 1
   RequiredAmount: 3
   FeedbackText: '"Necesitas los 3 fusibles para activar el ascensor."'

@@ -3276,15 +3276,16 @@ MonoBehaviour:
   AutoStartOnLoad: 1
   AutoStartDelay: 0.2
   Lines:
-  - _speakerName: 
+  - _speakerName: Narrador
     _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
+    _text: " \"Al otro lado de esa puerta estaba la persona que hab\xEDa dado\r\n 
+      \xF3rdenes a todos los que Cori hab\xEDa derrotado esta noche.\""
+  - _speakerName: Narrador
     _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
-    _characterSprite: {fileID: 0}
-    _text: 
+    _text: " \"La persona por la que hab\xEDa entrado a este mugriento edificio.\""
+  - _speakerName: Kori
+    _characterSprite: {fileID: -7229776202695200124, guid: d89aefe5019a022458e52d1b1f18f551, type: 3}
+    _text: "  \"Raven\u2026 \xBFqu\xE9 te ha pasado?\""
   RequireItem: 0
   RequiredAmount: 0
   FeedbackText: "Necesitas m\xE1s objetos para continuar."
@@ -3983,37 +3984,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DialogueSystemRef: {fileID: 654902004}
   GoodEndingLines:
-  - _speakerName: 
+  - _speakerName: Kori
+    _characterSprite: {fileID: -7229776202695200124, guid: d89aefe5019a022458e52d1b1f18f551, type: 3}
+    _text: " \"\xBFR-Raven\u2026? \xBFDe verdad eres t\xFA?\""
+  - _speakerName: Raven
+    _characterSprite: {fileID: 2869468747568150148, guid: d550d20a71fbb2843a1658f06bd69afc, type: 3}
+    _text: " \"\xBFTe parece que tengo cara de alguien m\xE1s?\""
+  - _speakerName: Kori
+    _characterSprite: {fileID: -6089904925381806283, guid: 6dc2f1c67f5f90446a8047409feaf950, type: 3}
+    _text: "  \"No\u2026 Pero vi\xE9ndote es como si no te conociera en absoluto.\"\r"
+  - _speakerName: Raven
+    _characterSprite: {fileID: -4144735810061387554, guid: 13c4394623a32a940932b6de36bcfd30, type: 3}
+    _text: " \"\xBFTe has acobardado? Acaba conmigo si eres tan valiente. \xA1Ven
+      aqu\xED!\""
+  - _speakerName: Kori
+    _characterSprite: {fileID: -7654643618546397851, guid: 30f7201a1b9347b4ab4686554de81298, type: 3}
+    _text: " \"\xA1Basta! Entr\xE9 a este mugriento edificio con el \xFAnico objetivo\r\n 
+      de traerte de vuelta, y me niego a salir de \xE9l sin cumplirlo.\""
+  - _speakerName: Raven
+    _characterSprite: {fileID: -9015753366133277478, guid: 4337840b056276548a23543c937500a0, type: 3}
+    _text: " \"Veo que tu terquedad tan solo ha aumentado desde que saliste\r\n 
+      de la polic\xEDa\u2026\""
+  - _speakerName: Narrador
     _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
-    _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
-    _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
-    _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
-    _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
-    _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
-    _characterSprite: {fileID: 0}
-    _text: 
+    _text: "  \"Sin l\xEDder, la organizaci\xF3n de Raven fue desmantelada a lo largo\r\n  
+      de esa madrugada. Los rehenes fueron liberados.\r\n   Raven y Kori ahora trabajan
+      juntas, y planean hacerlo durante\r\n   mucho m\xE1s tiempo.\""
   BadEndingLines:
-  - _speakerName: 
+  - _speakerName: Narrador
     _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
+    _text: " \"El resto de la noche transcurri\xF3 de forma silenciosa.\r\n  Ante
+      el cuerpo inerte de Kori, Raven no pudo m\xE1s que observar.\""
+  - _speakerName: Narrador
     _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
+    _text: "\"Tir\xF3 sus armas y cay\xF3 de rodillas.\r\n Raven era consciente de
+      que su hermana podr\xEDa llegar hasta ella,\r\n y pens\xF3 que estaba dispuesta
+      a acabar con ella si se cruzaba en su camino.\""
+  - _speakerName: Narrador
     _characterSprite: {fileID: 0}
-    _text: 
+    _text: " \"Y ahora que se hab\xEDa hecho realidad, el mundo perdi\xF3 su color\r\n 
+      antes de que ella pudiera darse cuenta.\r\n  Nadie supo nada m\xE1s de la organizaci\xF3n
+      de Raven.\""
   BossGameObject: {fileID: 940375069}
   EndOfGameBlackPanel: {fileID: 873582773}
 --- !u!4 &510205887

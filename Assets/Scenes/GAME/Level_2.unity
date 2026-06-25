@@ -667,36 +667,34 @@ MonoBehaviour:
   DialogueText: {fileID: 1115419592}
   ContinueHint: {fileID: 1550542861}
   DialogueLines:
-  - _speakerName: 
-    _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
-    _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
-    _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
-    _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
-    _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
-    _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
-    _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
-    _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
-    _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
-    _characterSprite: {fileID: 0}
-    _text: 
+  - _speakerName: Kori
+    _characterSprite: {fileID: 1027435269764664986, guid: d934b63d131c7124db8582d01f09497c, type: 3}
+    _text: " \"\xBFQu\xE9 te cre\xEDas, que no te iba a ver?\r\n  Tienes que ser
+      primerizo para hacer algo tan imb\xE9cil.\r\n  Dime qu\xE9 hac\xEDas. Ahora.\""
+  - _speakerName: Soldado
+    _characterSprite: {fileID: 3060729919885303140, guid: 03dec06982dc9a74381ecff426be9dd6, type: 3}
+    _text: " \"\xA1La jefa\u2026! Hablaba con la jefa.\""
+  - _speakerName: Kori
+    _characterSprite: {fileID: -2645759636355516012, guid: a1a25fa1f46f3f44db865326beafdefa, type: 3}
+    _text: " \"\xBFCon que la jefa, eh? Yo tambi\xE9n quiero 'hablar' con ella.\r\n 
+      Tiene un bot\xEDn que me interesa.\""
+  - _speakerName: Soldado
+    _characterSprite: {fileID: 3697559366838435654, guid: 1e0da763a9664e64da0363069d0a79af, type: 3}
+    _text: " \"Me niego. Si digo algo que no debo, estoy muerto.\"\r"
+  - _speakerName: Kori
+    _characterSprite: {fileID: -4992821509900215011, guid: 868eaecb20a63a640845b42f480089da, type: 3}
+    _text: "\"\xBFY? Ya lo est\xE1s de todas formas. Esta es tu \xFAltima oportunidad.\""
+  - _speakerName: Soldado
+    _characterSprite: {fileID: -5895514099515216418, guid: 7bcfeaefa10580543a4212e6aae22f21, type: 3}
+    _text: " \"Ese tono que tanto odio\u2026 Me recuerdas a mi jefa.\""
+  - _speakerName: Soldado
+    _characterSprite: {fileID: 3697559366838435654, guid: 1e0da763a9664e64da0363069d0a79af, type: 3}
+    _text: "\r \"Mira, no puedo decirte d\xF3nde est\xE1. Pero en la sala de reuniones\r\n 
+      del final a la izquierda estuvo esta ma\xF1ana y anot\xF3 algunas cosas.\""
+  - _speakerName: Kori
+    _characterSprite: {fileID: -2645759636355516012, guid: a1a25fa1f46f3f44db865326beafdefa, type: 3}
+    _text: "\"No s\xE9 de qui\xE9n se est\xE1 burlando este cretino.\r\n Si de su
+      jefa, o de m\xED.\""
   HintText: 'F  /  X (mando) :  continuar'
 --- !u!4 &31857260
 Transform:
@@ -464637,15 +464635,16 @@ MonoBehaviour:
   AutoStartOnLoad: 0
   AutoStartDelay: 0.1
   Lines:
-  - _speakerName: 
+  - _speakerName: Narrador
     _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
+    _text: " \"Tercera planta. El ascensor se detuvo con un golpe seco.\r\n  Desde
+      aqu\xED Kori pod\xEDa o\xEDr algo\u2026 \xBFrespiraci\xF3n? \xBFPasos?\""
+  - _speakerName: Narrador
     _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
-    _characterSprite: {fileID: 0}
-    _text: 
+    _text: "\"Los rehenes estaban cerca. Y tambi\xE9n lo estaba quien los reten\xEDa.\"\r"
+  - _speakerName: Kori
+    _characterSprite: {fileID: -4992821509900215011, guid: 868eaecb20a63a640845b42f480089da, type: 3}
+    _text: '"Ya casi. Aguanta."'
   RequireItem: 2
   RequiredAmount: 2
   FeedbackText: "Necesitas m\xE1s objetos para continuar."
@@ -464878,12 +464877,14 @@ MonoBehaviour:
   AutoStartOnLoad: 0
   AutoStartDelay: 0.1
   Lines:
-  - _speakerName: 
-    _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
-    _characterSprite: {fileID: 0}
-    _text: 
+  - _speakerName: Kori
+    _characterSprite: {fileID: -4992821509900215011, guid: 868eaecb20a63a640845b42f480089da, type: 3}
+    _text: " \"Consegu\xED informaci\xF3n sobre experimentos con el mineral.\r\n 
+      Quer\xEDan dominar a todas las organizaciones con estas armas.\""
+  - _speakerName: Control
+    _characterSprite: {fileID: 4408675507112254870, guid: f821db50f785c314e93658507600d5f3, type: 3}
+    _text: "\"Buen trabajo, Kori. Sigue inspeccionando hasta encontrar\r\n a los
+      rehenes. No pierdas el objetivo principal de vista.\""
   RequireItem: 0
   RequiredAmount: 0
   FeedbackText: "Necesitas m\xE1s objetos para continuar."
@@ -472592,12 +472593,14 @@ MonoBehaviour:
   AutoStartOnLoad: 1
   AutoStartDelay: 0.2
   Lines:
-  - _speakerName: 
+  - _speakerName: narrador
     _characterSprite: {fileID: 0}
-    _text: 
-  - _speakerName: 
-    _characterSprite: {fileID: 0}
-    _text: 
+    _text: " \"La segunda planta era un caos. Trozos de techo ca\xEDdos,\r\n  cables
+      a la vista. Alguien hab\xEDa luchado aqu\xED antes que ella.\""
+  - _speakerName: Kori
+    _characterSprite: {fileID: -2645759636355516012, guid: a1a25fa1f46f3f44db865326beafdefa, type: 3}
+    _text: " \"Necesito la tarjeta de acceso para llegar a la zona confidencial.\r\n 
+      Aqu\xED tiene que haber algo.\""
   RequireItem: 0
   RequiredAmount: 0
   FeedbackText: "Necesitas m\xE1s objetos para continuar."
