@@ -1548,7 +1548,6 @@ Transform:
   m_Children:
   - {fileID: 1660457989}
   - {fileID: 2047608628}
-  - {fileID: 1194569115}
   - {fileID: 1771401684}
   - {fileID: 593305358}
   - {fileID: 1186694660}
@@ -10898,11 +10897,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -51.670734
+      value: -49.34
       objectReference: {fileID: 0}
     - target: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 18.133194
+      value: 18.51
       objectReference: {fileID: 0}
     - target: {fileID: 5780791531641562959, guid: 69487e79c0d07f14da71d3f784b4815c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -13416,7 +13415,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1487438776}
-  m_Father: {fileID: 120716784}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -13710,7 +13709,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.44073334, g: 0.62825835, b: 0.97735846, a: 1}
+  m_Color: {r: 0.59607846, g: 0.654902, b: 0.99215686, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -16781,7 +16780,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1509483853
 RectTransform:
   m_ObjectHideFlags: 0
@@ -56987,6 +56986,7 @@ SceneRoots:
   - {fileID: 1056134712}
   - {fileID: 297423529}
   - {fileID: 120716784}
+  - {fileID: 1194569115}
   - {fileID: 1789515612}
   - {fileID: 204335991}
   - {fileID: 1405689487}
