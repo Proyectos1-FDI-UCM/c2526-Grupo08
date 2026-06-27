@@ -2871,7 +2871,7 @@ Transform:
   m_GameObject: {fileID: 147093010}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -11.23, y: 64.93, z: 0.024138726}
+  m_LocalPosition: {x: -11.23, y: 65.35, z: 0.024138726}
   m_LocalScale: {x: 1.2489046, y: 1.1439213, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -17380,6 +17380,67 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &822609641
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 460957932396676512, guid: c2a9944762fb47c4c919e10f23918566, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 19.592916
+      objectReference: {fileID: 0}
+    - target: {fileID: 460957932396676512, guid: c2a9944762fb47c4c919e10f23918566, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 58.6686
+      objectReference: {fileID: 0}
+    - target: {fileID: 460957932396676512, guid: c2a9944762fb47c4c919e10f23918566, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.09173365
+      objectReference: {fileID: 0}
+    - target: {fileID: 460957932396676512, guid: c2a9944762fb47c4c919e10f23918566, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 460957932396676512, guid: c2a9944762fb47c4c919e10f23918566, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 460957932396676512, guid: c2a9944762fb47c4c919e10f23918566, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 460957932396676512, guid: c2a9944762fb47c4c919e10f23918566, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 460957932396676512, guid: c2a9944762fb47c4c919e10f23918566, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 460957932396676512, guid: c2a9944762fb47c4c919e10f23918566, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 460957932396676512, guid: c2a9944762fb47c4c919e10f23918566, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6150218219404588830, guid: c2a9944762fb47c4c919e10f23918566, type: 3}
+      propertyPath: m_Name
+      value: Musica
+      objectReference: {fileID: 0}
+    - target: {fileID: 6150218219404588830, guid: c2a9944762fb47c4c919e10f23918566, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c2a9944762fb47c4c919e10f23918566, type: 3}
 --- !u!1 &824165048
 GameObject:
   m_ObjectHideFlags: 0
@@ -17405,7 +17466,7 @@ Transform:
   m_GameObject: {fileID: 824165048}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -111.0133, y: 74.7087, z: 0}
+  m_LocalPosition: {x: -106.2, y: 68.2, z: 0}
   m_LocalScale: {x: 6.969199, y: 4.8831997, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -20697,11 +20758,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 685176425577108201, guid: 5630911ec2346a24fb8db2c4e7613e50, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13.2
+      value: 17.4
       objectReference: {fileID: 0}
     - target: {fileID: 685176425577108201, guid: 5630911ec2346a24fb8db2c4e7613e50, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 235.7
+      value: 245.2
       objectReference: {fileID: 0}
     - target: {fileID: 685176425577108201, guid: 5630911ec2346a24fb8db2c4e7613e50, type: 3}
       propertyPath: m_LocalPosition.z
@@ -28367,7 +28428,7 @@ Transform:
   m_GameObject: {fileID: 1262439518}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -148.29851, y: 62.403038, z: 0}
+  m_LocalPosition: {x: -148.29851, y: 68.5, z: 0}
   m_LocalScale: {x: 6.969199, y: 4.8831997, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -33234,7 +33295,7 @@ Transform:
   m_GameObject: {fileID: 1489553460}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.48, y: 64.92, z: 0.024138726}
+  m_LocalPosition: {x: 4.02, y: 64.92, z: 0.024138726}
   m_LocalScale: {x: 1.2489046, y: 1.1439213, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -35576,6 +35637,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1560196637}
   - component: {fileID: 1560196636}
+  - component: {fileID: 1560196638}
   m_Layer: 0
   m_Name: OfficeChairBack
   m_TagString: Untagged
@@ -35653,6 +35715,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1063236287}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1560196638
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1560196635}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.85, y: 2.15}
+    newSize: {x: 1.85, y: 2.15}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.85, y: 2.15}
+  m_EdgeRadius: 0
 --- !u!1 &1566379099
 GameObject:
   m_ObjectHideFlags: 0
@@ -463396,7 +463504,7 @@ Transform:
   m_GameObject: {fileID: 1741734661}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.37, y: 64.57, z: 0.024138726}
+  m_LocalPosition: {x: 13.34, y: 66.22, z: 0.024138726}
   m_LocalScale: {x: 1.2489046, y: 1.1439213, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -467948,6 +468056,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1872962315}
   - component: {fileID: 1872962314}
+  - component: {fileID: 1872962316}
   m_Layer: 0
   m_Name: ChairLotsCrystals
   m_TagString: Untagged
@@ -468025,6 +468134,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1063236287}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1872962316
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872962313}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.67, y: 2.36}
+    newSize: {x: 1.67, y: 2.36}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.67, y: 2.36}
+  m_EdgeRadius: 0
 --- !u!1 &1887808176
 GameObject:
   m_ObjectHideFlags: 0
@@ -475522,3 +475677,4 @@ SceneRoots:
   - {fileID: 1555313756}
   - {fileID: 1762946088}
   - {fileID: 1599001598}
+  - {fileID: 822609641}
