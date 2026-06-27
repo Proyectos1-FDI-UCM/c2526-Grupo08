@@ -221,7 +221,6 @@ public class EnemyMeleeAttack : MonoBehaviour
         }
 
         _playerHealth.Damage((int)_damageAmount);
-        Debug.Log($"[EnemyMeleeAttack] Daño de {(int)_damageAmount} enviado al script Health.");
     }
 
     /// <summary>
@@ -254,7 +253,7 @@ public class EnemyMeleeAttack : MonoBehaviour
         _slashSpriteRenderer.transform.position = transform.position + worldOffset;
         _slashSpriteRenderer.transform.rotation = Quaternion.Euler(0, 0, angle);
 
-        // 4. ¡EL TRUCO ANTIGIRO!: Si el padre tiene escala negativa en X, 
+        // Si el padre tiene escala negativa en X, 
         // contrarrestamos volteando el sprite del hijo para que no se invierta su matriz.
         Vector3 currentScale = _slashSpriteRenderer.transform.localScale;
         currentScale.x = Mathf.Abs(currentScale.x) * Mathf.Sign(transform.lossyScale.x);
